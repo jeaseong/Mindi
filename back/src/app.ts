@@ -1,18 +1,21 @@
-import cors from "cors";
-import morgan from "morgan";
+import 'reflect-metadata';
+import config from "./config";
+import loader from "./loaders";
 import express from "express";
-
 import { Request, Response, NextFunction } from "express";
 
-const app: express.Application = express();
+async function appStart() {
+  const app: express.Application = express();
 
-app.use(cors());
-app.use(morgan("tiny"));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+  await loader({ expressApp: app });
 
-app.get("/", (req: Request, res: Response, next: NextFunction) => {
-  res.send("Hello, world!");
-});
+  app.listen(config.port, () => {
+    console.log(`정상적으로 서버를 시작하였습니다.  http://localhost:${config.port}`);
+  });
 
-export { app };
+  app.get("/", (req: Request, res: Response, next: NextFunction) => {
+    res.send("Hello, world!");
+  });
+}
+
+appStart();

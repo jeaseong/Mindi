@@ -1,0 +1,9 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Mindi_API
+  description: Mindi의 API 명세서
+servers:
+  - url: 'http://localhost:5001/'
+paths:
+  $ref: './paths/_index.yaml'

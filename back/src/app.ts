@@ -2,16 +2,15 @@ import cors from "cors";
 import morgan from "morgan";
 import express from "express";
 import swaggerUi from "swagger-ui-express";
-// import yaml from 'js-yaml';
 import YAML from 'yamljs'
 import path from "path";
-
+import connectDB from "./loaders/mongoose";
 
 import { Request, Response, NextFunction } from "express";
 
 const app: express.Application = express();
-
 const swaggerSpec = YAML.load(path.join(__dirname, './modules/swagger.yaml'))
+connectDB()
 
 app.use(cors());
 app.use(morgan("tiny"));

@@ -1,25 +1,29 @@
-import cors from 'cors';
-import morgan from 'morgan';
-import express from 'express';
+import 'reflect-metadata';
+import config from "./config";
+import loader from "./loaders";
 import swaggerUi from 'swagger-ui-express';
 import yaml from 'js-yaml';
 import path from 'path';
-import connectDB from './loaders/mongoose';
+import express from "express";
+import { Request, Response, NextFunction } from "express";
 
-import { Request, Response, NextFunction } from 'express';
+async function appStart() {
+  const app: express.Application = express();
 
-const app: express.Application = express();
-const swaggerSpec: any = yaml.load(path.join(__dirname, './modules/swagger.yaml'));
-connectDB();
+  const swaggerSpec: any = yaml.load(path.join(__dirname, './modules/swagger.yaml'));
+  connectDB();
 
-app.use(cors());
-app.use(morgan('tiny'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, { explorer: true }));
+  await loader({ expressApp: app });
 
-app.get('/', (req: Request, res: Response, next: NextFunction) => {
-  res.send('Hello, world!');
-});
+  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, { explorer: true }));
 
-export { app };
+  app.listen(config.port, () => {
+    console.log(`정상적으로 서버를 시작하였습니다.  http://localhost:${config.port}`);
+  });
+
+  app.get("/", (req: Request, res: Response, next: NextFunction) => {
+    res.send("Hello, world!");
+  });
+}
+
+appStart();

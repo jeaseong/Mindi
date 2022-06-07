@@ -1,6 +1,48 @@
-import { DefaultTheme, createGlobalStyle } from 'styled-components';
+import { DefaultTheme, createGlobalStyle, css } from 'styled-components';
+import { Sizes, BackQuoteArgs, Media } from './global.style';
+
+const sizes: Sizes = {
+  mobile: 320,
+  tablet: 786,
+  desktop: 1024,
+};
+
+const media: Media = {
+  mobile: (...args: BackQuoteArgs) => undefined,
+  tablet: (...args: BackQuoteArgs) => undefined,
+  desktop: (...args: BackQuoteArgs) => undefined,
+};
+
+Object.keys(sizes).reduce((acc, label) => {
+  switch (label) {
+    case 'mobile':
+      acc.mobile = (...args) => css`
+        @media screen and (min-width: ${sizes.mobile}px) {
+          ${args}
+        }
+      `;
+      break;
+    case 'tablet':
+      acc.tablet = (...args) => css`
+        @media screen and (min-width: ${sizes.tablet}px) {
+          ${args}
+        }
+      `;
+      break;
+    case 'desktop':
+      acc.desktop = (...args) => css`
+        @media screen and (min-width: ${sizes.desktop}px) {
+          ${args}
+        }
+      `;
+      break;
+  }
+  return acc;
+}, media);
 
 export const theme: DefaultTheme = {
+  sizes,
+  media,
   colors: {
     basic: '#000000',
     bgColor: '#F7F5E8',

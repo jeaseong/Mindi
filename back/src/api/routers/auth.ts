@@ -18,7 +18,11 @@ export default (app: Router) => {
 
         const body = {
           success: true,
-          user: newUser,
+          user: {
+            _id: newUser._id,
+            email: newUser.email,
+            name: newUser.name
+          },
         };
 
         res.status(201).json(body);
@@ -26,6 +30,32 @@ export default (app: Router) => {
         next(error);
       }
     });
+  //
+  // authRouter.post(
+  //   "/local/sign-in",
+  //   async (req: Request, res: Response, next: NextFunction) => {
+  //     try {
+  //       const { email, password } = req.body;
+  //
+  //       const authService = Container.get(AuthService);
+  //       const user = await authService.localSignIn(email, password);
+  //
+  //       const body = {
+  //         success: true,
+  //         user: {
+  //           _id: user._id,
+  //           email: user.email,
+  //           name: user.name,
+  //           token: user.token,
+  //           expiresIn: user.expiresIn
+  //         },
+  //       };
+  //
+  //       res.status(201).json(body);
+  //     } catch (error) {
+  //       next(error);
+  //     }
+  //   });
 
   authRouter.get(
     "/",

@@ -18,7 +18,7 @@ function TestPage() {
   return (
     <section>
       <header>
-        <h1>Emotional Intelligence</h1>
+        <h1>Emotional Intelligence Test</h1>
       </header>
 
       {TestList.map((item, index) => {

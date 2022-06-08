@@ -11,7 +11,6 @@ async function appStart() {
   const app: express.Application = express();
 
   const swaggerSpec: any = yaml.load(path.join(__dirname, './modules/swagger.yaml'));
-  connectDB();
 
   await loader({ expressApp: app });
 

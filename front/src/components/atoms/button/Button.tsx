@@ -1,7 +1,7 @@
 import React from 'react';
 import { Btn } from './Button.style';
-import { BtnType } from 'components/types/atoms';
+import { BtnProps } from 'components/types/button';
 
-export default function Button({ text }: BtnType) {
-  return <Btn>{text}</Btn>;
+export default function Button({ children, style }: BtnProps) {
+  return <Btn style={style}>{children}</Btn>;
 }

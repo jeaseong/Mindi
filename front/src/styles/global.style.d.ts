@@ -21,6 +21,8 @@ declare module 'styled-components' {
     colors: {
       basic: string;
       bgColor: string;
+      btnColor: string;
+      btnColorHover: string;
     };
   }
 }

@@ -46,6 +46,8 @@ export const theme: DefaultTheme = {
   colors: {
     basic: '#000000',
     bgColor: '#F7F5E8',
+    btnColor: '#F4EEE7',
+    btnColorHover: '#eaebee',
   },
 };
 

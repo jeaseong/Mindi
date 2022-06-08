@@ -1,0 +1,45 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Mindi_API
+  description: Mindi의 API 명세서
+servers:
+  - url: 'http://localhost:5001/'
+paths:
+  /diaries:
+    post:
+      summary: Returns a new diary
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Diary'
+      responses:
+        '201':
+          description: A diary object.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  userId:
+                    type: string
+                    example: 1234
+                  diary:
+                    type: string
+                    example: Jessica Smith
+                  feeling:
+                    type: string
+                    example: I'm feeling bad
+components:
+  schemas:
+    Diary:
+      type: object
+      properties:
+        userId:
+          type: string
+        diary:
+          type: string
+        feeling:
+          type: string

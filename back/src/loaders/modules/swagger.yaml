@@ -7,3 +7,6 @@ servers:
   - url: 'http://localhost:5001/'
 paths:
   $ref: './paths/_index.yaml'
+components:
+  schemas:
+    $ref: './components/_index.yaml'

@@ -11,7 +11,7 @@ import fs from 'fs';
 
 export default ({ app }: { app: express.Application }) => {
   const swaggerSpec: any = yaml.load(
-    fs.readFileSync(path.join(__dirname, './modules/swagger.yaml'), 'utf8'),
+    fs.readFileSync(path.join(__dirname, '../../build/openapi.yaml'), 'utf8'),
   );
 
   app.use(cors());

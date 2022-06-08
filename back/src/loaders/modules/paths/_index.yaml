@@ -1,0 +1,4 @@
+/diaries:
+  $ref: './diary.yaml#/Create'
+
+

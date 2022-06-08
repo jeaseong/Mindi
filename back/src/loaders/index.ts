@@ -1,12 +1,9 @@
 import expressLoader from "./express";
 import mongooseLoader from "./mongoose";
-import { Container } from "typedi";
-import { UserModel } from "../models/user";
+import dependencyLoader from "./dependencies";
 
 export default async ({ expressApp } : { expressApp : any }) => {
   await mongooseLoader();
-
-  Container.set("userModel", UserModel);
-
+  await dependencyLoader();
   await expressLoader({ app: expressApp });
 }

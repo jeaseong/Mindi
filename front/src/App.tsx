@@ -1,7 +1,15 @@
 import React from 'react';
+import TestPage from 'pages/Test/TestPage';
 
-function App() {
-  return <div className='App'>front</div>;
-}
+const App: React.FC = () => {
+  return (
+    <>
+      <TestPage />
+      {/*  {['Alice', 'Bob'].map((element) => (
+        <div key={element}>{element}</div>
+      ))} */}
+    </>
+  );
+};
 
 export default App;

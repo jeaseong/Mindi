@@ -7,9 +7,12 @@ import config from '../config';
 import swaggerUi from 'swagger-ui-express';
 import yaml from 'js-yaml';
 import path from 'path';
+import fs from 'fs';
 
 export default ({ app }: { app: express.Application }) => {
-  const swaggerSpec: any = yaml.load(path.join(__dirname, './modules/swagger.yaml'));
+  const swaggerSpec: any = yaml.load(
+    fs.readFileSync(path.join(__dirname, './modules/swagger.yaml'), 'utf8'),
+  );
 
   app.use(cors());
   app.use(morgan('tiny'));

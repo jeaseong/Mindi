@@ -3,4 +3,5 @@ export type InputProps = {
   type: string;
   placeholder: string;
   onChange?: (event: React.HTMLInputEvent) => void;
+  required?: boolean;
 };

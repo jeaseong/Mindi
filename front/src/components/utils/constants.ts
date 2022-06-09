@@ -3,9 +3,13 @@ export const LABEL = {
     label: '로그인',
     value: 'signIn',
   },
-  SINGUP: {
+  SIGNUP: {
     label: '회원가입',
     value: 'signUp',
+  },
+  NAME: {
+    label: 'name',
+    value: 'name',
   },
   EMAIL: {
     label: 'email',
@@ -14,5 +18,9 @@ export const LABEL = {
   PASSWORD: {
     label: 'password',
     value: 'password',
+  },
+  CONFIRM: {
+    label: 'confirm',
+    value: 'confirm',
   },
 };

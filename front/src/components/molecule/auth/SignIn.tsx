@@ -1,9 +1,8 @@
 import React, { useState, useCallback } from 'react';
 import Input from 'components/atoms/input/Input';
 import Button from 'components/atoms/button/Button';
-import Heading from 'components/atoms/heading/Heading';
 import { LABEL } from 'components/utils/constants';
-import { SignInContainer } from './SignIn.style';
+import { AuthContainer } from './Auth.style';
 
 function SignIn() {
   const [inputData, setInputData] = useState({
@@ -31,7 +30,7 @@ function SignIn() {
     console.log('onSubmit');
   };
   return (
-    <SignInContainer onSubmit={onSubmit}>
+    <AuthContainer onSubmit={onSubmit}>
       <Input
         onChange={onChange}
         name={`${LABEL.EMAIL.label}`}
@@ -45,7 +44,7 @@ function SignIn() {
         placeholder='password'
       />
       <Button onClick={onClick}>{LABEL.SIGNIN.label}</Button>
-    </SignInContainer>
+    </AuthContainer>
   );
 }
 export default React.memo(SignIn);

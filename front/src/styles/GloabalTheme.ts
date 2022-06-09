@@ -52,7 +52,9 @@ export const theme: DefaultTheme = {
 };
 
 export const GlobalStyles = createGlobalStyle`
-
+* {
+  box-sizing: border-box;
+}
 html {
   line-height: 1.15; /* 1 */
   -webkit-text-size-adjust: 100%; /* 2 */

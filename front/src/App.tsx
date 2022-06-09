@@ -1,12 +1,11 @@
 import React from 'react';
-import Button from 'components/atoms/button/Button';
-import Input from 'components/atoms/input/Input';
+import './App.css';
+import SignInTemplate from 'components/templates/auth/AuthTemplate';
 
 function App() {
   return (
     <div className='App'>
-      <Button>확인</Button>
-      <Input placeholder='email' />
+      <SignInTemplate />
     </div>
   );
 }

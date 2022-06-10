@@ -1,13 +1,16 @@
 import { Router, Request, Response, NextFunction } from 'express';
+import { body, validationResult } from 'express-validator';
 import DiaryService from '../../services/diary';
 import { BaseDiary, Diary, MongoDiaryModel } from '../../interfaces/IDiary';
 
 export default (app: Router) => {
   const diaryRouter = Router();
-  const diaryService = new DiaryService(new MongoDiaryModel());
+  const diaryModel = new MongoDiaryModel();
+  const diaryService = new DiaryService(diaryModel);
 
   app.use('/diaries', diaryRouter);
 
+  // TODO: express-validator 사용
   // TODO: 사진까지 첨부 가능하도록 하기: multer or AWS 사용
   diaryRouter.post('/', async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -46,12 +49,11 @@ export default (app: Router) => {
     }
   });
 
-  // TODO: 쿼리로 날짜 받기 => 날짜로 다큐먼트 찾기??!
-  diaryRouter.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
+  diaryRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const id: string = req.params.id;
+      const date: string = String(req.query.date); // 가정: "2022. 6. 10."
 
-      const diary: Diary = await diaryService.findByDate(id);
+      const diary: Diary[] = await diaryService.findByDate(date);
 
       res.status(200).json(diary);
     } catch (error) {

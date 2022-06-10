@@ -1,8 +1,10 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import Input from 'components/atoms/input/Input';
 import Button from 'components/atoms/button/Button';
-import { LABEL } from 'components/utils/constants';
-import { AuthContainer } from './Auth.style';
+import Text from 'components/atoms/text/Text';
+import { signUpValidation } from 'components/utils/validation';
+import { LABEL, SIGNIN_GUIDE } from 'components/utils/constants';
+import { AuthContainer, InputBox } from './Auth.style';
 
 function SignUp() {
   const [inputData, setInputData] = useState({
@@ -11,7 +13,17 @@ function SignUp() {
     password: '',
     confirmPassword: '',
   });
-
+  const { name, email, password, confirmPassword } = inputData;
+  const { isCheckName, isCheckEmail, isPassRule, isSamePassword } =
+    signUpValidation(inputData);
+  const isCheck = isCheckName && isCheckEmail && isPassRule && isSamePassword;
+  const checkInfo = {
+    name: !isCheckName && name.length > 0,
+    email: !isCheckEmail && email.length > 0,
+    password: !isPassRule && password.length > 0,
+    confirmPassword: !isSamePassword && confirmPassword.length > 0,
+  };
+  console.log(checkInfo);
   const onClick = () => {
     console.log('클릭하면 뭐다?');
   };
@@ -33,30 +45,44 @@ function SignUp() {
   };
   return (
     <AuthContainer onSubmit={onSubmit}>
-      <Input
-        onChange={onChange}
-        name={`${LABEL.EMAIL.label}`}
-        type='text'
-        placeholder='name'
-      />
-      <Input
-        onChange={onChange}
-        name={`${LABEL.EMAIL.label}`}
-        type='text'
-        placeholder='email'
-      />
-      <Input
-        onChange={onChange}
-        name={`${LABEL.PASSWORD.label}`}
-        type='password'
-        placeholder='password'
-      />
-      <Input
-        onChange={onChange}
-        name={`${LABEL.CONFIRM.label}`}
-        type='password'
-        placeholder='password confirm'
-      />
+      <InputBox>
+        <Input
+          onChange={onChange}
+          name={`${LABEL.NAME.label}`}
+          type='text'
+          placeholder='name'
+        />
+        {checkInfo.name && <Text>{SIGNIN_GUIDE.NAME.label}</Text>}
+      </InputBox>
+      <InputBox>
+        <Input
+          onChange={onChange}
+          name={`${LABEL.EMAIL.label}`}
+          type='text'
+          placeholder='email'
+        />
+        {checkInfo.email && <Text>{SIGNIN_GUIDE.EMAIL.label}</Text>}
+      </InputBox>
+      <InputBox>
+        <Input
+          onChange={onChange}
+          name={`${LABEL.PASSWORD.label}`}
+          type='password'
+          placeholder='password'
+        />
+        {checkInfo.password && <Text>{SIGNIN_GUIDE.PASSWORD.label}</Text>}
+      </InputBox>
+      <InputBox>
+        <Input
+          onChange={onChange}
+          name={`${LABEL.CONFIRM.label}`}
+          type='password'
+          placeholder='password confirm'
+        />
+        {checkInfo.confirmPassword && (
+          <Text>{SIGNIN_GUIDE.CONFIRM_PASSWORD.label}</Text>
+        )}
+      </InputBox>
       <Button onClick={onClick}>{LABEL.SIGNUP.label}</Button>
     </AuthContainer>
   );

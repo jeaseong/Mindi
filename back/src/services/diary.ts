@@ -6,9 +6,10 @@ export default class DiaryService {
 
   public async create(newDiary: BaseDiary) {
     // 일기 작성 날짜 생성
+    const KR_TIME_DIFF = 9 * 60 * 60 * 1000;
     const now = new Date();
-    const utc = now.getTime() - now.getTimezoneOffset() * 60 * 1000;
-    const now_KR = new Date(utc);
+    const utc = now.getTime() + now.getTimezoneOffset() * 60 * 1000;
+    const now_KR = new Date(utc + KR_TIME_DIFF);
     const createdDate =
       now_KR.getFullYear() + '-' + (now_KR.getMonth() + 1) + '-' + now_KR.getDate();
     newDiary = { ...newDiary, createdDate };

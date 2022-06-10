@@ -3,6 +3,8 @@ import { expect } from 'chai';
 import DiaryService from '../src/services/diary';
 import { BaseDiary, Diary } from '../src/interfaces/IDiary';
 
+// 현재 날짜 기준으로 테스트 실행
+
 describe('Sample Test', () => {
   const newDiary = {
     userId: '1234',

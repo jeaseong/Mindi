@@ -3,11 +3,11 @@ import { UserModel } from "../models/user";
 import { Service } from "typedi";
 
 export interface IUserModel {
-  create: (email: string, name: string, password: string) => Promise<IUser>;
-  update: (filter: Object, fieldToUpdate: Object) => Promise<IUser>;
+  create: (email: string, name: string, password: string) => Promise<Partial<IUser>>;
+  update: (filter: Object, fieldToUpdate: Object) => Promise<Partial<IUser>|null>;
   delete: (userId: string) => Promise<void>;
-  findOne: (filter: Object) => Promise<IUser>;
-  findMany: (filter: Object) => Promise<Array<IUser>>;
+  findOne: (filter: Object) => Promise<Partial<IUser>|null>;
+  findMany: (filter: Object) => Promise<Array<Partial<IUser>>|null>;
   exists: (filter: Object) => Promise<Boolean>;
 }
 
@@ -15,53 +15,27 @@ export interface IUserModel {
 export class MongoUserModel implements IUserModel {
   async create(email: string, name: string, password: string) {
     const user = await UserModel.create({email, name, password});
-
-    return user.toJSON();
+    return user.toObject();
   };
-
   async update(filter: Object, fieldToUpdate: Object) {
-    const user = await UserModel.findOneAndUpdate(
+    return UserModel.findOneAndUpdate(
       filter,
       { $set: fieldToUpdate },
       { returnOriginal: false, timestamps: false }
     ).lean();
-
-    return {
-      _id: "asdf1234dfasdf",
-      ...fieldToUpdate
-    };
   };
-
   async delete(userId: string) {
-    return;
+    await UserModel.deleteOne({ _id: userId });
   }
-
   async findOne(filter: Object) {
-    return {
-      _id: "asdf1234dfasdf",
-      email: "acorn12345@elice.co.kr",
-      name: "acorn"
-    };
+    return UserModel.findOne(filter).lean();
   }
-
   async findMany(filter: Object) {
-    return [
-      {
-        _id: "asdf1234dfasdf",
-        email: "acorn12345@elice.co.kr",
-        name: "acorn"
-      },
-      {
-        _id: "asdf1234dfaasdf34",
-        email: "apple12345@elice.co.kr",
-        name: "apple"
-      }
-    ];
+    return UserModel.find(filter).lean();
   }
-
   async exists(filter: Object) {
-    const itExists = await UserModel.exists(filter) as unknown as Boolean;
-    return itExists;
+    const res = await UserModel.exists(filter);
+    return !!res;
   };
 }
 

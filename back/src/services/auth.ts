@@ -1,12 +1,10 @@
-import { Service, Inject } from "typedi";
-import { UserModel } from "../models/user";
+import { Service } from "typedi";
 import { StatusError } from "../utils/error";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import dayjs from "dayjs";
-import { IUser } from "../interfaces/IUser";
 import config from "../config";
-import { IUserModel, MongoUserModel, TestUserModel } from "../interfaces/IUserModel";
+import { MongoUserModel, TestUserModel } from "../interfaces/IUserModel";
 
 @Service()
 export default class AuthService {
@@ -29,55 +27,53 @@ export default class AuthService {
     // 비밀번호 해시화
     const hashedPassword: string = await bcrypt.hash(password, 10);
 
-    const newUser: IUser = await this.userModel.create(
+    return this.userModel.create(
       email,
       name,
-      password = hashedPassword
+      hashedPassword
+    );
+  }
+
+  public async localSignIn(email: string, password: string) {
+    const emailExists = await this.userModel.exists({ email: email });
+
+    if (!emailExists) {
+      throw new StatusError(
+        400,
+        "이메일 혹은 비밀번호가 일치하지 않습니다."
+      );
+    }
+
+    const user = await this.userModel.findOne({ email: email });
+
+    const correctPasswordHash = user!.password;
+    const isPasswordCorrect = await bcrypt.compare(
+      password,
+      correctPasswordHash
     );
 
-    return newUser;
+    if (!isPasswordCorrect) {
+      throw new StatusError(
+        400,
+        "이메일 혹은 비밀번호가 일치하지 않습니다."
+      );
+    }
+
+    const date: string = dayjs().toISOString();
+
+    await this.userModel.update(
+      { _id: user!._id },
+      { recentLogin: date },
+    );
+
+    const jwt = this.issueJWT(user);
+
+    return {
+      ...user,
+      token: jwt.token,
+      expiresIn: jwt.expires
+    };
   }
-  //
-  // public async localSignIn(email: string, password: string) {
-  //   const emailExists = await this.userModel.exists({ email: email });
-  //
-  //   if (!emailExists) {
-  //     throw new StatusError(
-  //       404,
-  //       "이메일 혹은 비밀번호가 일치하지 않습니다."
-  //     );
-  //   }
-  //
-  //   const user = await this.userModel.findOne({ email: email });
-  //
-  //   const correctPasswordHash = user!.password;
-  //   const isPasswordCorrect = await bcrypt.compare(
-  //     password,
-  //     correctPasswordHash
-  //   );
-  //
-  //   if (!isPasswordCorrect) {
-  //     throw new StatusError(
-  //       404,
-  //       "이메일 혹은 비밀번호가 일치하지 않습니다."
-  //     );
-  //   }
-  //
-  //   const date: string = dayjs().toISOString();
-  //
-  //   await this.userModel.update(
-  //     { _id: user!._id },
-  //     { recentLogin: date },
-  //   );
-  //
-  //   const jwt = this.issueJWT(user);
-  //
-  //   return {
-  //     ...user,
-  //     token: jwt.token,
-  //     expiresIn: jwt.expires
-  //   };
-  // }
 
   public async googleSignIn() {
     // TODO
@@ -86,7 +82,7 @@ export default class AuthService {
 
   public issueJWT(user: any) {
     const _id = user._id;
-    const expiresIn: string = "1d";
+    const expiresIn: string = config.jwtExpirationDate;
     const date: number = dayjs().unix();
 
     const payload = {

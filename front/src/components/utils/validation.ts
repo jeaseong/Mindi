@@ -1,6 +1,7 @@
 import {
   PasswordVType,
-  UserInfoVType,
+  SignUpVType,
+  SignInVType,
   PasswordReturnType,
 } from 'components/types/validation';
 
@@ -24,29 +25,27 @@ const emailValidate = (email: string) => {
 }
  */
 
-const passwordValidate = (
-  type: string,
-  passwordInfo: PasswordVType,
-): PasswordReturnType => {
+const passwordValidate = (passwordInfo: PasswordVType): PasswordReturnType => {
   const passwordRule = /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,25}$/;
-  const { password, confirmPassword = null } = passwordInfo;
+  const { password, confirmPassword } = passwordInfo;
 
   const isPassRule = passwordRule.test(password);
   const isSamePassword = password === confirmPassword;
 
   return { isPassRule, isSamePassword };
 };
+// 분리해서 사용하는 게 좋은 방법
 
 const passwordLoginValidate = (password: string) => {
   const passwordRule = /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,25}$/;
   return passwordRule.test(password);
 };
 
-const signUpValidation = (type: string, info: UserInfoVType) => {
+export const signUpValidation = (info: SignUpVType) => {
   const { name, email, password, confirmPassword } = info;
   const isCheckName = name.length >= 2;
   const isCheckEmail = emailValidate(email);
-  const { isPassRule, isSamePassword } = passwordValidate(type, {
+  const { isPassRule, isSamePassword } = passwordValidate({
     password,
     confirmPassword,
   });
@@ -58,17 +57,7 @@ const signUpValidation = (type: string, info: UserInfoVType) => {
   };
 };
 
-const signInValidation = (info: UserInfoVType) => {
+export const signInValidation = (info: SignInVType) => {
   const { email, password } = info;
   return emailValidate(email) && passwordLoginValidate(password);
-};
-
-export const validation = (type: string, info: UserInfoVType) => {
-  switch (type) {
-    case 'signUp':
-      return signUpValidation(type, info);
-    case 'signIn':
-      return signInValidation(info);
-    default:
-  }
 };

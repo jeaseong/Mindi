@@ -1,5 +1,6 @@
 import { Router, Request, Response, NextFunction } from 'express';
-import { body, validationResult } from 'express-validator';
+import { body, param, query, validationResult } from 'express-validator';
+import { StatusError } from '../../utils/error';
 import DiaryService from '../../services/diary';
 import { BaseDiary, Diary, MongoDiaryModel } from '../../interfaces/IDiary';
 
@@ -10,32 +11,51 @@ export default (app: Router) => {
 
   app.use('/diaries', diaryRouter);
 
-  // TODO: express-validator 사용
   // TODO: 사진까지 첨부 가능하도록 하기: multer or AWS 사용
-  diaryRouter.post('/', async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const Diary: BaseDiary = req.body;
+  diaryRouter.post(
+    '/',
+    body('diary').notEmpty().withMessage('일기 내용이 비어 있습니다.'),
+    body('feeling').notEmpty().withMessage('감정 내용이 비어 있습니다.'),
+    async (req: Request, res: Response, next: NextFunction) => {
+      try {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+          throw new StatusError(400, errors.array()[0].msg);
+        }
 
-      const newDiary: Diary = await diaryService.create(Diary);
+        const Diary: BaseDiary = req.body;
 
-      res.status(201).json(newDiary);
-    } catch (error) {
-      next(error);
-    }
-  });
+        const newDiary: Diary = await diaryService.create(Diary);
 
-  diaryRouter.put('/:id', async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const id: string = req.params.id;
-      const toUpdate: BaseDiary = req.body;
+        res.status(201).json(newDiary);
+      } catch (error) {
+        next(error);
+      }
+    },
+  );
 
-      const result = await diaryService.updateOne(id, toUpdate);
+  diaryRouter.put(
+    '/:id',
+    body('diary').notEmpty().withMessage('일기 내용이 비어 있습니다.'),
+    body('feeling').notEmpty().withMessage('감정 내용이 비어 있습니다.'),
+    async (req: Request, res: Response, next: NextFunction) => {
+      try {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+          throw new StatusError(400, errors.array()[0].msg);
+        }
 
-      res.status(200).json(result);
-    } catch (error) {
-      next(error);
-    }
-  });
+        const id: string = req.params.id;
+        const toUpdate: BaseDiary = req.body;
+
+        const result = await diaryService.updateOne(id, toUpdate);
+
+        res.status(200).json(result);
+      } catch (error) {
+        next(error);
+      }
+    },
+  );
 
   diaryRouter.delete('/:id', async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -43,21 +63,30 @@ export default (app: Router) => {
       await diaryService.deleteOne(id);
 
       // res.status(200).send(result);
-      res.sendStatus(204);
+      res.sendStatus(204); // No Content
     } catch (error) {
       next(error);
     }
   });
 
-  diaryRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const date: string = String(req.query.date); // 가정: "2022. 6. 10."
+  diaryRouter.get(
+    '/',
+    query('date').notEmpty(),
+    async (req: Request, res: Response, next: NextFunction) => {
+      try {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+          throw new StatusError(400, '요청 정보가 비어 있습니다.');
+        }
 
-      const diary: Diary[] = await diaryService.findByDate(date);
+        const date: string = String(req.query.date); // 가정: "2022-6-10"
 
-      res.status(200).json(diary);
-    } catch (error) {
-      next(error);
-    }
-  });
+        const diary: Diary[] = await diaryService.findByDate(date);
+
+        res.status(200).json(diary);
+      } catch (error) {
+        next(error);
+      }
+    },
+  );
 };

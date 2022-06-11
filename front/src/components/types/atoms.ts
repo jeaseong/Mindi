@@ -1,9 +1,7 @@
-type Btn = 'button' | 'submit' | 'reset';
-
 export interface BtnProps {
   children?: React.ReactNode;
   size?: string;
-  type?: Btn;
+  type?: 'button' | 'submit' | 'reset';
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 

@@ -1,9 +1,12 @@
-import mongoose from 'mongoose';
-import { Diary } from '../interfaces/IDiary';
+import { Schema, model } from 'mongoose';
+import { BaseDiary, deleteResult, IDiary, IDiaryModel } from '../interfaces/IDiary';
+import fs from 'fs';
 
-const DiarySchema = new mongoose.Schema(
+const DiarySchema = new Schema(
   {
     userId: {
+      // type: Schema.Types.ObjectId,
+      // ref: 'User',
       type: String,
       required: true,
     },
@@ -15,6 +18,14 @@ const DiarySchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    imageFileName: {
+      type: String,
+      required: false,
+    },
+    imageFilePath: {
+      type: String,
+      required: false,
+    },
     createdDate: {
       type: String,
       required: true,
@@ -23,4 +34,32 @@ const DiarySchema = new mongoose.Schema(
   { timestamps: true },
 );
 
-export const DiaryModel = mongoose.model<Diary>('Diary', DiarySchema);
+const DiaryModel = model<IDiary>('Diary', DiarySchema);
+
+export class MongoDiaryModel implements IDiaryModel {
+  async create(newDiary: BaseDiary): Promise<IDiary> {
+    const newDoc = await DiaryModel.create(newDiary);
+    return newDoc.toObject();
+  }
+
+  async updateOne(filter: object, toUpdate: BaseDiary): Promise<IDiary> {
+    const option = { returnOriginal: false };
+    return DiaryModel.findOneAndUpdate(filter, toUpdate, option).lean();
+  }
+
+  async deleteOne(id: string): Promise<deleteResult> {
+    const result = await DiaryModel.deleteOne({ _id: id });
+    if (result.deletedCount !== 1) {
+      return { status: 'Fail' };
+    }
+    return { status: 'Succeess' };
+  }
+
+  async findById(id: string): Promise<IDiary> {
+    return DiaryModel.findOne({ _id: id }).lean();
+  }
+
+  async findByDate(date: string): Promise<IDiary[]> {
+    return DiaryModel.find({ createdDate: date }).lean();
+  }
+}

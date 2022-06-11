@@ -19,6 +19,7 @@ export default ({ app }: { app: express.Application }) => {
   app.use(express.json());
   app.use(express.urlencoded({ extended: false }));
   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, { explorer: true }));
+  app.use('/images', express.static('images'));
   app.use(config.api.prefix, routers());
 
   app.use(errorHandler);

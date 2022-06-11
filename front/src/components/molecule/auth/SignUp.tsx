@@ -14,13 +14,14 @@ function SignUp() {
     confirmPassword: '',
   });
   const { name, email, password, confirmPassword } = inputData;
-  const { isCheckName, isCheckEmail, isPassRule, isSamePassword } =
+  const { isCheckName, isCheckEmail, isCheckPassword, isSamePassword } =
     signUpValidation(inputData);
-  const isCheck = isCheckName && isCheckEmail && isPassRule && isSamePassword;
+  const isCheck =
+    isCheckName && isCheckEmail && isCheckPassword && isSamePassword;
   const checkInfo = {
     name: !isCheckName && name.length > 0,
     email: !isCheckEmail && email.length > 0,
-    password: !isPassRule && password.length > 0,
+    password: !isCheckPassword && password.length > 0,
     confirmPassword: !isSamePassword && confirmPassword.length > 0,
   };
   console.log(checkInfo);

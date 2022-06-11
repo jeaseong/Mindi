@@ -1,6 +1,6 @@
 import React from 'react';
 import { Img } from './Image.style';
-import { ImgProps } from 'components/types/image';
+import { ImgProps } from 'components/types/atoms';
 function Image({ src, alt }: ImgProps) {
   return <Img src={src} alt={alt} />;
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import { InputBox } from './Input.style';
-import { InputProps } from 'components/types/input';
+import { InputProps } from 'components/types/atoms';
 
 function Input({
   name,

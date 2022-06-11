@@ -1,7 +1,7 @@
 import React from 'react';
 import { Head } from './Heading.style';
-import { HeadingProps } from 'components/types/heading';
-function Heading({ children }: HeadingProps) {
+import { TextProps } from 'components/types/atoms';
+function Heading({ children }: TextProps) {
   return <Head>{children}</Head>;
 }
 

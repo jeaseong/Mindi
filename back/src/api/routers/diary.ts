@@ -33,7 +33,12 @@ export default (app: Router) => {
 
         const newDiary: IDiary = await diaryService.create(Diary);
 
-        res.status(201).json(newDiary);
+        const body = {
+          success: true,
+          diary: newDiary,
+        };
+
+        res.status(201).json(body);
       } catch (error) {
         next(error);
       }
@@ -57,7 +62,12 @@ export default (app: Router) => {
 
         const updatedDiary = await diaryService.updateOne(id, toUpdate);
 
-        res.status(200).json(updatedDiary);
+        const body = {
+          success: true,
+          diary: updatedDiary,
+        };
+
+        res.status(200).json(body);
       } catch (error) {
         next(error);
       }
@@ -85,7 +95,12 @@ export default (app: Router) => {
 
         const diaries: IDiary[] = await diaryService.findByDate(date);
 
-        res.status(200).json(diaries);
+        const body = {
+          success: true,
+          diaries: diaries,
+        };
+
+        res.status(200).json(body);
       } catch (error) {
         next(error);
       }

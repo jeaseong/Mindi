@@ -2,6 +2,7 @@ export interface BtnProps {
   children?: React.ReactNode;
   size?: string;
   type?: 'button' | 'submit' | 'reset';
+  disabled?: boolean;
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 

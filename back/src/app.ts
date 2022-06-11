@@ -4,9 +4,9 @@ import loader from './loaders';
 import express from 'express';
 import { Request, Response, NextFunction } from 'express';
 
-async function appStart() {
-  const app: express.Application = express();
+const app: express.Application = express();
 
+async function appStart(app: express.Application) {
   await loader({ expressApp: app });
 
   app.listen(config.port, () => {
@@ -18,4 +18,6 @@ async function appStart() {
   });
 }
 
-appStart();
+appStart(app);
+
+export default app; // for mocha test

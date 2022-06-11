@@ -1,5 +1,6 @@
 import React, { memo } from 'react';
 import { StyledRadioButton, RadioButtonProps } from './RadioButton.style';
+import cn from 'classnames';
 
 const RadioButton = ({
   children,
@@ -19,7 +20,7 @@ const RadioButton = ({
   };
 
   const RealRadioButton = (
-    <StyledRadioButton {...commonProps} className={classCandidate} onClick={onClick}>
+    <StyledRadioButton {...commonProps} className={cn(classCandidate)} onClick={onClick}>
       {children}
     </StyledRadioButton>
   );

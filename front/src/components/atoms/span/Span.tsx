@@ -1,5 +1,6 @@
 import React, { memo } from 'react';
 import { SpanProps, StyledSpan } from './Span.style';
+import cn from 'classnames';
 
 const Span = ({
   children,
@@ -20,7 +21,7 @@ const Span = ({
   const classCandiate = [className, size];
 
   return (
-    <StyledSpan {...needProps} className={classCandiate} onClick={onClick}>
+    <StyledSpan {...needProps} className={cn(classCandiate)} onClick={onClick}>
       {children}
     </StyledSpan>
   );

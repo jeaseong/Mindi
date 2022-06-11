@@ -20,44 +20,36 @@ const emailValidate = (email: string) => {
 /**
  * @param type
  * @param password {string}
- * @param confirmPassword {string}
- * @returns { isPassRule: boolean , isSamePassword: boolean} ;
-}
+ * @returns boolean ;
+ * 비밀번호는 문자 + 숫자 + 8자리
  */
-
-const passwordValidate = (passwordInfo: PasswordVType): PasswordReturnType => {
-  const passwordRule = /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,25}$/;
-  const { password, confirmPassword } = passwordInfo;
-
-  const isPassRule = passwordRule.test(password);
-  const isSamePassword = password === confirmPassword;
-
-  return { isPassRule, isSamePassword };
-};
-// 분리해서 사용하는 게 좋은 방법
-
-const passwordLoginValidate = (password: string) => {
+const passwordValidate = (password: string): boolean => {
   const passwordRule = /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,25}$/;
   return passwordRule.test(password);
+};
+
+const isSamePasswordValidate = (
+  password: string,
+  passwordConfirm: string,
+): boolean => {
+  return password === passwordConfirm;
 };
 
 export const signUpValidation = (info: SignUpVType) => {
   const { name, email, password, confirmPassword } = info;
   const isCheckName = name.length >= 2;
   const isCheckEmail = emailValidate(email);
-  const { isPassRule, isSamePassword } = passwordValidate({
-    password,
-    confirmPassword,
-  });
+  const isCheckPassword = passwordValidate(password);
+  const isSamePassword = isSamePasswordValidate(password, confirmPassword);
   return {
     isCheckName,
     isCheckEmail,
-    isPassRule,
+    isCheckPassword,
     isSamePassword,
   };
 };
 
 export const signInValidation = (info: SignInVType) => {
   const { email, password } = info;
-  return emailValidate(email) && passwordLoginValidate(password);
+  return emailValidate(email) && passwordValidate(password);
 };

@@ -85,7 +85,9 @@ function SignUp() {
           <Text>{SIGNIN_GUIDE.CONFIRM_PASSWORD.label}</Text>
         )}
       </InputBox>
-      <Button onClick={onClick}>{LABEL.SIGNUP.label}</Button>
+      <Button type='submit' onClick={onClick}>
+        {LABEL.SIGNUP.label}
+      </Button>
     </AuthContainer>
   );
 }

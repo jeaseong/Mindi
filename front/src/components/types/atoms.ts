@@ -1,8 +1,11 @@
-export type BtnProps = {
+type Btn = 'button' | 'submit' | 'reset';
+
+export interface BtnProps {
   children?: React.ReactNode;
   size?: string;
+  type?: Btn;
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
-};
+}
 
 export type TextProps = {
   children: React.ReactNode;

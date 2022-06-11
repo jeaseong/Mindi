@@ -1,9 +1,0 @@
-Diary:
-  type: object
-  properties:
-    userId:
-      type: string
-    diary:
-      type: string
-    feeling:
-      type: string

@@ -47,7 +47,9 @@ function SignIn() {
           type='password'
           placeholder='password'
         />
-        <Button onClick={onClick}>{LABEL.SIGNIN.label}</Button>
+        <Button disabled={!isCheck} type='submit'>
+          {LABEL.SIGNIN.label}
+        </Button>
         <Link to='/sign-in'>로그인하러 가기</Link>
       </AuthContainer>
     </>

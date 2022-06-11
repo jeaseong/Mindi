@@ -17,18 +17,17 @@ function SignUp() {
   const { name, email, password, confirmPassword } = inputData;
   const { isCheckName, isCheckEmail, isCheckPassword, isSamePassword } =
     signUpValidation(inputData);
+
   const isCheck =
     isCheckName && isCheckEmail && isCheckPassword && isSamePassword;
+
   const checkInfo = {
     name: !isCheckName && name.length > 0,
     email: !isCheckEmail && email.length > 0,
     password: !isCheckPassword && password.length > 0,
     confirmPassword: !isSamePassword && confirmPassword.length > 0,
   };
-  console.log(checkInfo);
-  const onClick = () => {
-    console.log('클릭하면 뭐다?');
-  };
+
   const onChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const { name, value } = e.target;
@@ -85,7 +84,7 @@ function SignUp() {
           <Text>{SIGNIN_GUIDE.CONFIRM_PASSWORD.label}</Text>
         )}
       </InputBox>
-      <Button type='submit' onClick={onClick}>
+      <Button disabled={!isCheck} type='submit'>
         {LABEL.SIGNUP.label}
       </Button>
     </AuthContainer>

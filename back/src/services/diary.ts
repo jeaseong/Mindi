@@ -37,7 +37,7 @@ export default class DiaryService {
   }
 
   public async findByDate(date: string) {
-    const docInfo = await this.diaryModel.findByDate(date);
-    return docInfo;
+    const docList = await this.diaryModel.findByDate(date);
+    return docList;
   }
 }

@@ -2,6 +2,7 @@ import React, { useState, useCallback, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import Input from 'components/atoms/input/Input';
 import Button from 'components/atoms/button/Button';
+import { signInPost } from 'api/api';
 import { signInValidation } from 'components/utils/validation';
 import { LABEL } from 'components/utils/constants';
 import { AuthContainer } from './Auth.style';
@@ -12,10 +13,6 @@ function SignIn() {
     password: '',
   });
   const isCheck = useMemo(() => signInValidation(inputData), [inputData]);
-
-  const onClick = () => {
-    console.log('클릭하면 뭐다?');
-  };
   const onChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const { name, value } = e.target;
@@ -30,7 +27,6 @@ function SignIn() {
   );
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log('onSubmit');
   };
   return (
     <>

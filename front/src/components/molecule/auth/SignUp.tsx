@@ -40,9 +40,9 @@ function SignUp() {
     },
     [inputData],
   );
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    signUpPost(inputData);
+    await signUpPost(inputData);
   };
   return (
     <AuthContainer onSubmit={onSubmit}>

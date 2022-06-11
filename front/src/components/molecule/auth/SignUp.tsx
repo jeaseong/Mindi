@@ -1,7 +1,8 @@
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState, useCallback } from 'react';
 import Input from 'components/atoms/input/Input';
 import Button from 'components/atoms/button/Button';
 import Text from 'components/atoms/text/Text';
+import { signUpPost } from 'api/api';
 import { signUpValidation } from 'components/utils/validation';
 import { LABEL, SIGNIN_GUIDE } from 'components/utils/constants';
 import { AuthContainer, InputBox } from './Auth.style';
@@ -42,7 +43,7 @@ function SignUp() {
   );
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log('onSubmit');
+    signUpPost(inputData);
   };
   return (
     <AuthContainer onSubmit={onSubmit}>

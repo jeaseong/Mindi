@@ -1,8 +1,7 @@
 import React, { useState, useCallback, useMemo } from 'react';
-import { Link } from 'react-router-dom';
 import Input from 'components/atoms/input/Input';
 import Button from 'components/atoms/button/Button';
-import { signInPost } from 'api/api';
+import { useSignInHandler } from 'components/hooks/userQuery';
 import { signInValidation } from 'components/utils/validation';
 import { LABEL } from 'components/utils/constants';
 import { AuthContainer } from './Auth.style';
@@ -12,6 +11,7 @@ function SignIn() {
     email: '',
     password: '',
   });
+  const logInMutation = useSignInHandler();
   const isCheck = useMemo(() => signInValidation(inputData), [inputData]);
   const onChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -27,6 +27,7 @@ function SignIn() {
   );
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    logInMutation.mutate(inputData);
   };
   return (
     <>
@@ -46,7 +47,6 @@ function SignIn() {
         <Button disabled={!isCheck} type='submit'>
           {LABEL.SIGNIN.label}
         </Button>
-        <Link to='/sign-in'>로그인하러 가기</Link>
       </AuthContainer>
     </>
   );

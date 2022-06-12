@@ -12,7 +12,6 @@ interface RadioButtonListProps {
 
 interface RadioButtonData {
   id: number;
-  description: string;
 }
 
 const StyledRadioButtonList = styled.div`
@@ -22,7 +21,7 @@ const StyledRadioButtonList = styled.div`
 
 const ButtonList = ({ children, data = [], className }: RadioButtonListProps) => {
   const classCandidate = [className];
-  const buttons = data.map((v) => <RadioButton key={v.id}>{v.description}</RadioButton>);
+  const buttons = data.map((v) => <RadioButton key={v.id}></RadioButton>);
 
   return (
     <StyledRadioButtonList className={cn(classCandidate)}>

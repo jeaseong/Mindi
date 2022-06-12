@@ -24,3 +24,9 @@ export type InputProps = {
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   required?: boolean;
 };
+
+export interface SnackBarProps {
+  children: React.ReactNode;
+  position?: 'topRight' | 'bottomRight';
+  type?: 'sucessAlert' | 'errorAlert';
+}

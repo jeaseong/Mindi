@@ -1,5 +1,5 @@
 import { Router, Request, Response, NextFunction } from "express";
-import { body, matchedData } from "express-validator";
+import { matchedData } from "express-validator";
 import AuthService from "../../services/auth";
 import { Container } from "typedi";
 import validationErrorChecker from "../middlewares/validationErrorChecker";

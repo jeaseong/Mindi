@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import TestList from './TestData.json';
+
+import Title from 'components/atoms/span/title/Title';
+
 import { StyledTemplate } from './TestTemplate.style';
 
 function TestTemplate() {
@@ -26,7 +29,7 @@ function TestTemplate() {
         return (
           <div key={item.id}>
             <section className='questions'>
-              <h4>{item.question}</h4>
+              <Title>{item.question}</Title>
             </section>
 
             <form className='answers'>

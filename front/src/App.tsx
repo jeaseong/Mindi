@@ -3,8 +3,9 @@ import './App.css';
 import SignIn from 'pages/User/Auth/SignIn';
 import SignUp from 'pages/User/Auth/SignUp';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import TestPage from 'pages/Test/TestPage';
 
-function App() {
+const App: React.FC = () => {
   return (
     <div className='App'>
       <Router>
@@ -15,6 +16,6 @@ function App() {
       </Router>
     </div>
   );
-}
+};
 
 export default App;

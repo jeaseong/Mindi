@@ -23,6 +23,8 @@ declare module 'styled-components' {
       bgColor: string;
       btnColor: string;
       btnColorHover: string;
+      sucessAlert: string;
+      errorAlert: string;
     };
   }
 }

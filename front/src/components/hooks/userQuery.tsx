@@ -14,7 +14,7 @@ export const useCurUser = () => {
     {
       staleTime: Infinity,
       onError: (error) => {
-        console.log('에러 경우에 따라 다른 슨낵바를 보여줘야겠다.', error);
+        console.log('에러 경우에 따라 다른 스낵바를 보여줘야겠다.', error);
       },
     },
   );
@@ -26,7 +26,7 @@ export const useSignInHandler = () => {
     async (loginData: SignInInfo) => await signInPost(loginData),
     {
       onSuccess: (res) => {
-        const JWT_TOKEN = res.data.token;
+        const JWT_TOKEN = res.user.token;
         localStorage.setItem('userToken', JWT_TOKEN);
         queryClient.invalidateQueries('userState');
       },

@@ -14,7 +14,7 @@ export const StyledRadioButton = styled.button<RadioButtonProps>`
   flex: ${(props: RadioButtonProps) => props.flex};
   display: flex;
   justify-content: center;
-  align-items: stretch;
+  align-items: center;
   border: ${(props: RadioButtonProps) =>
     props.outline === 'none' ? 'none' : `0.7px solid ${props.outline}`};
   background: ${(props: RadioButtonProps) => (props.transparent ? 'transparent' : props.bgColor)};

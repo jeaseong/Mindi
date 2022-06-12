@@ -54,6 +54,8 @@ export const theme: DefaultTheme = {
 export const GlobalStyles = createGlobalStyle`
 * {
   box-sizing: border-box;
+  padding: 0;
+  margin: 0;
 }
 html {
   line-height: 1.15; /* 1 */

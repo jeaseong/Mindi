@@ -19,7 +19,8 @@ declare module 'styled-components' {
     sizes: Sizes;
     media: Media;
     colors: {
-      basic: string;
+      basicBlack: string;
+      basicWhite: string;
       bgColor: string;
       btnColor: string;
       btnColorHover: string;

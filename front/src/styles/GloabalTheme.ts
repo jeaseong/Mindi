@@ -44,7 +44,8 @@ export const theme: DefaultTheme = {
   sizes,
   media,
   colors: {
-    basic: '#000000',
+    basicBlack: '#272729',
+    basicWhite: '#fafafa',
     bgColor: '#F7F5E8',
     btnColor: '#F4EEE7',
     btnColorHover: '#eaebee',

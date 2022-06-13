@@ -29,4 +29,5 @@ export interface SnackBarProps {
   children: React.ReactNode;
   position?: 'topRight' | 'bottomRight';
   type?: 'sucessAlert' | 'errorAlert';
+  isActive: boolean;
 }

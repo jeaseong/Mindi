@@ -6,6 +6,7 @@ import { Request, Response, NextFunction } from 'express';
 import { StatusError } from '../../utils/error';
 
 // TODO: 배포시 오류가 발생할 경우를 대비해 사진 저장 서버 연결
+// TODO: 이미지 업로드/삭제 성공 후 데이터 업데이트 과정에서 실패할 경우는 어떻게 처리해야 하는가?
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -19,7 +20,7 @@ const storage = multer.diskStorage({
 const imageUpload = multer({ storage: storage }); // storage에 저장
 
 function imageDelete(req: Request, res: Response, next: NextFunction) {
-  if (req.body.imageFileName) {
+  if (req.body.imageFileName !== 'default') {
     const filePath = 'images/' + req.body.imageFileName;
 
     if (fs.existsSync(filePath) === false) {

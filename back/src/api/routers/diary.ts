@@ -20,7 +20,7 @@ export default (app: Router) => {
     validationErrorChecker,
     async (req: Request, res: Response, next: NextFunction) => {
       try {
-        const imageFileName = req.file?.filename; // 저장된 파일명​
+        const imageFileName = req.file?.filename ?? 'default'; // 저장된 파일명​
         const imageFilePath = `http://localhost:5001/images/${imageFileName}`;
 
         let Diary: BaseDiary = req.body;
@@ -74,16 +74,22 @@ export default (app: Router) => {
     },
   );
 
-  diaryRouter.delete('/', imageDelete, async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const id: string = req.body._id;
-      await diaryService.deleteOne(id);
+  diaryRouter.delete(
+    '/',
+    imageDelete,
+    diaryValidator.userIdEmpty,
+    validationErrorChecker,
+    async (req: Request, res: Response, next: NextFunction) => {
+      try {
+        const id: string = req.body._id;
+        await diaryService.deleteOne(id);
 
-      res.sendStatus(204); // No Content
-    } catch (error) {
-      next(error);
-    }
-  });
+        res.sendStatus(204); // No Content
+      } catch (error) {
+        next(error);
+      }
+    },
+  );
 
   diaryRouter.get(
     '/',

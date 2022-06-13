@@ -43,8 +43,23 @@ export class MongoPostModel implements IPostModel {
   async findOne(filter: Object) {
     return PostModel.findOne(filter).lean();
   };
-  async findMany(filter: Object) {
-    return PostModel.find(filter).lean();
+  async findMany(filter: Object | null, query: { page: number, limit: number }) {
+    if (filter === null) {
+      return PostModel
+        .find()
+        .sort({createdAt: -1})
+        .limit(query.limit)
+        .skip((query.page - 1) * query.limit)
+        .lean();
+    }
+    else {
+      return PostModel
+        .find(filter)
+        .sort({createdAt: -1})
+        .limit(query.limit)
+        .skip((query.page - 1) * query.limit)
+        .lean();
+    }
   };
   async exists(filter: Object) {
     const res = PostModel.exists(filter).lean();

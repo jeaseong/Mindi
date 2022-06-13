@@ -5,49 +5,54 @@ import { MongoPostModel } from "../models/post";
 @Service()
 export default class PostService {
   constructor(
-    private postModel: MongoPostModel
+    private postModel: MongoPostModel,
+    @Inject("logger") private logger: any
   ) {
   }
   public async makeNewPost(title: string, content: string, author: string) {
     return this.postModel.create(title, content, author);
   }
 
-  public async getPostInfo(postId: string, page: number, limit: number) {
-    const userExists = await this.userModel.exists({ _id: userId });
-
-    if (!userExists) {
-      throw new StatusError(
-        400,
-        "사용자가 존재하지 않습니다."
-      );
-    }
-
-    return this.userModel.findOne({ _id: userId });
+  public async getPostsWithFilter(filter: Object | null, page: number, limit: number) {
+    return this.postModel.findMany(filter, { page, limit });
   }
 
-  public async updateUserInfo(userId: string, fieldToUpdate: Object) {
-    const userExists = await this.userModel.exists({ _id: userId });
+  public async getOnePostByPostId(postId: string) {
+    const postExists = await this.postModel.exists({ _id: postId });
 
-    if (!userExists) {
+    if (!postExists) {
       throw new StatusError(
         400,
-        "사용자가 존재하지 않습니다."
+        "게시글이 존재하지 않습니다."
       );
     }
 
-    return this.userModel.update({ _id: userId }, fieldToUpdate);
+    return this.postModel.findOne({ _id: postId });
   }
 
-  public async deleteUser(userId: string) {
-    const userExists = await this.userModel.exists({ _id: userId });
+  public async updatePostInfo(postId: string, fieldToUpdate: Object) {
+    const postExists = await this.postModel.exists({ _id: postId });
 
-    if (!userExists) {
+    if (!postExists) {
       throw new StatusError(
         400,
-        "사용자가 존재하지 않습니다."
+        "게시글이 존재하지 않습니다."
       );
     }
 
-    return this.userModel.delete(userId);
+    return this.postModel.update({ _id: postId }, fieldToUpdate);
+  }
+
+  public async deletePost(postId: string) {
+    const postExists = await this.postModel.exists({ _id: postId });
+
+    if (!postExists) {
+      throw new StatusError(
+        400,
+        "게시글이 존재하지 않습니다."
+      );
+    }
+
+    return this.postModel.delete(postId);
   }
 }

@@ -103,7 +103,8 @@
 
   "include": [
     "./src/**/*",
-    "tests/**/*"
+    "tests/**/*", 
+    "jest.config.ts"
   ],
 
   "exclude": [

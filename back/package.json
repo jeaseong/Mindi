@@ -4,7 +4,7 @@
   "description": "",
   "main": "./src/app.ts",
   "scripts": {
-    "test": "jest",
+    "test": "jest --forceExit",
     "api-docs": "swagger-cli bundle ./src/loaders/modules/swagger.yaml --outfile build/openapi.yaml --type yaml",
     "start": "nodemon --exec \"ts-node\" ./src/app.ts"
   },
@@ -41,7 +41,9 @@
   "devDependencies": {
     "@faker-js/faker": "^7.2.0",
     "@types/jest": "^28.1.1",
+    "@types/supertest": "^2.0.12",
     "jest": "^28.1.1",
+    "supertest": "^6.2.3",
     "ts-jest": "^28.0.4",
     "ts-node": "^10.8.1"
   }

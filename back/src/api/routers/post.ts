@@ -1,25 +1,38 @@
 import { Router, Request, Response, NextFunction } from "express";
-import { body, matchedData } from "express-validator";
+import { matchedData } from "express-validator";
 import { userValidator } from "../middlewares/express-validator";
-import UserService from "../../services/user";
+import PostService from "../../services/post";
 import { Container } from "typedi";
 import { loginRequired } from "../middlewares/loginRequired";
+import validationErrorChecker from "../middlewares/validationErrorChecker";
 
 export default (app: Router) => {
   const postRouter = Router();
 
   app.use(postRouter);
 
-
-  // TODO 게시글 업로드
   postRouter.post(
     "/posts",
     loginRequired,
+    validationErrorChecker,
     async (req: Request, res: Response, next: NextFunction) => {
       try {
+        const { title, content, author } = matchedData(req);
+
+        const postService = Container.get(PostService);
+
+        const post = await postService.makeNewPost(title, content, author);
+
         const body = {
           success: true,
-          post: null
+          post: {
+            _id: post._id,
+            title: post.title,
+            content: post.content,
+            author: post.author,
+            comments: post.comments,
+            createdAt: post.createdAt
+          }
         };
 
         res.status(200).json(body);
@@ -34,6 +47,13 @@ export default (app: Router) => {
     loginRequired,
     async (req: Request, res: Response, next: NextFunction) => {
       try {
+        const page = req.query.page as unknown as number || 1;
+        const limit = req.query.limit || 5;
+
+        const postService = Container.get(PostService);
+
+        const posts = await postService.getPostsWithFilter(null, page, limit);
+
         const body = {
           success: true,
           posts: null
@@ -45,15 +65,27 @@ export default (app: Router) => {
       }
     });
 
-  // TODO id에 해당하는 게시글 정보 취득
   postRouter.get(
     "/posts/:postId",
     loginRequired,
     async (req: Request, res: Response, next: NextFunction) => {
       try {
+        const { postId } = req.params;
+
+        const postService = Container.get(PostService);
+
+        const post = await postService.getOnePostByPostId(postId);
+
         const body = {
           success: true,
-          posts: null
+          post: {
+            _id: post!._id,
+            title: post!.title,
+            content: post!.content,
+            author: post!.author,
+            comments: post!.comments,
+            createdAt: post!.createdAt
+          }
         };
 
         res.status(200).json(body);

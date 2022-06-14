@@ -44,13 +44,22 @@ export const theme: DefaultTheme = {
   sizes,
   media,
   colors: {
-    basic: '#000000',
+    basicBlack: '#272729',
+    basicWhite: '#fafafa',
     bgColor: '#F7F5E8',
+    btnColor: '#F4EEE7',
+    btnColorHover: '#eaebee',
+    sucessAlert: '#509a52',
+    errorAlert: '#d94a48',
   },
 };
 
 export const GlobalStyles = createGlobalStyle`
-
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
 html {
   line-height: 1.15; /* 1 */
   -webkit-text-size-adjust: 100%; /* 2 */

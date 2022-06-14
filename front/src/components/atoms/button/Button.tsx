@@ -1,7 +1,12 @@
 import React from 'react';
 import { Btn } from './Button.style';
-import { BtnProps } from 'components/types/button';
+import { BtnProps } from 'components/types/atoms';
 
-export default function Button({ children, style }: BtnProps) {
-  return <Btn style={style}>{children}</Btn>;
+function Button({ children, size, type, disabled = false, onClick }: BtnProps) {
+  return (
+    <Btn disabled={disabled} type={type} onClick={onClick} size={size}>
+      {children}
+    </Btn>
+  );
 }
+export default Button;

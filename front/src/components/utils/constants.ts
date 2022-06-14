@@ -58,3 +58,22 @@ export const ALERT_MESSAGE = {
     label: '왜 실패한지는 서버에서 에러처리가 필요함.',
   },
 };
+
+export const HEADER_LINK = {
+  DIARY: {
+    label: '일기장',
+    link: 'diary',
+  },
+  STATIC: {
+    label: '감정통계',
+    link: 'static',
+  },
+  NOTICE_BOARD: {
+    label: '대나무숲',
+    link: 'notice-board',
+  },
+  INTRODUCTION: {
+    label: '서비스 소개',
+    link: 'introduction',
+  },
+};

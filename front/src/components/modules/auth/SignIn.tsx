@@ -1,7 +1,9 @@
 import React, { useState, useCallback, useMemo } from 'react';
 import Input from 'components/atoms/input/Input';
 import Button from 'components/atoms/button/Button';
+import SnackBar from 'components/atoms/snackBar/SnackBar';
 import { useSignInHandler } from 'components/hooks/userQuery';
+import { useSnackBar } from 'components/hooks/useSnackBar';
 import { signInValidation } from 'components/utils/validation';
 import { LABEL } from 'components/utils/constants';
 import { AuthContainer } from './Auth.style';
@@ -11,7 +13,8 @@ function SignIn() {
     email: '',
     password: '',
   });
-  const logInMutation = useSignInHandler();
+  const { message, isShowing, openSnackBar } = useSnackBar();
+  const logInMutation = useSignInHandler(openSnackBar);
   const isCheck = useMemo(() => signInValidation(inputData), [inputData]);
   const onChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -48,6 +51,7 @@ function SignIn() {
           {LABEL.SIGNIN.label}
         </Button>
       </AuthContainer>
+      <SnackBar message={message} isActive={isShowing} />
     </>
   );
 }

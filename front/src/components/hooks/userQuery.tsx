@@ -20,7 +20,7 @@ export const useCurUser = () => {
   );
 };
 
-export const useSignInHandler = () => {
+export const useSignInHandler = (openSnackBar: (msg: string) => void) => {
   const queryClient = useQueryClient();
   return useMutation(
     async (loginData: SignInInfo) => await signInPost(loginData),
@@ -30,7 +30,7 @@ export const useSignInHandler = () => {
         localStorage.setItem('userToken', JWT_TOKEN);
         queryClient.invalidateQueries('userState');
       },
-      onError: () => console.log('스낵바 넣자'),
+      onError: () => openSnackBar('에러를 출력해야햇!'),
     },
   );
 };

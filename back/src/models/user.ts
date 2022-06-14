@@ -33,6 +33,8 @@ export const User = new mongoose.Schema(
   { timestamps: true },
 );
 
+export const UserModel = mongoose.model<IUser>("User", User);
+
 @Service()
 export class MongoUserModel implements IUserModel {
   async create(email: string, name: string, password: string) {
@@ -60,5 +62,3 @@ export class MongoUserModel implements IUserModel {
     return !!res;
   };
 }
-
-export const UserModel = mongoose.model<IUser>("User", User);

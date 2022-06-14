@@ -4,10 +4,10 @@ import { SnackBarContainer } from './SnackBar.style';
 import { MdTaskAlt, MdInfoOutline } from 'react-icons/md';
 
 function SnackBar({
-  children,
   position = 'bottomRight',
   type,
   isActive = false,
+  message,
 }: SnackBarProps) {
   return (
     <SnackBarContainer isActive={isActive} type={type} position={position}>
@@ -16,7 +16,7 @@ function SnackBar({
       ) : (
         <MdTaskAlt size='16' />
       )}
-      {children}
+      {message}
     </SnackBarContainer>
   );
 }

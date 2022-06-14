@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 
 export const useSnackBar = () => {
   const [isShowing, setIsShowing] = useState(false);
+  const [message, setMs] = useState('');
   useEffect(() => {
     if (isShowing) {
       setTimeout(() => {
@@ -10,9 +11,10 @@ export const useSnackBar = () => {
     }
   }, [isShowing]);
 
-  const openSnackBar = () => {
+  const openSnackBar = (msg: string) => {
     setIsShowing(true);
+    setMs(msg);
   };
 
-  return { isShowing, openSnackBar };
+  return { message, isShowing, openSnackBar };
 };

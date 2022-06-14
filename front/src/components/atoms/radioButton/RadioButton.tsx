@@ -2,20 +2,24 @@ import React, { memo } from 'react';
 import { RadioWrapper, Mark, Input, Label } from './RadioButton.style';
 
 type RadioProps = {
-  children: React.ReactNode;
   name: string;
   color: string;
-  value: any;
-  checked: any;
-  onChange: any;
+  value: string;
+  checked: boolean;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-const RadioButton = ({ name, children, color, value, checked, onChange }: RadioProps) => (
+const RadioButton = ({ name, color, value, checked, onChange }: RadioProps) => (
   <RadioWrapper>
     <Label>
-      <Input name={name} type='radio' value={value} checked={checked} onChange={onChange} />
+      <Input
+        name={name}
+        type='radio'
+        value={value}
+        checked={checked}
+        onChange={onChange}
+      />
       <Mark color={color} />
-      {children}
     </Label>
   </RadioWrapper>
 );

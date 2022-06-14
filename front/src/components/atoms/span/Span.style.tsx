@@ -34,7 +34,7 @@ export const StyledSpan = styled.span<SpanProps>`
   }
   &.title {
     padding: 1.3em 1.84em;
-    font-size: 2.5rem;
+    font-size: 2rem;
     font-weight: bold;
   }
 `;

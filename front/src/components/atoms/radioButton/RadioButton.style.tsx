@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 
 export const RadioWrapper = styled.div`
-  display: inline-block;
+  display: inline-flexbox;
+  flex-wrap: wrap;
 `;
 
 export const Mark = styled.span`
@@ -46,7 +47,7 @@ export const Input = styled.input`
       height: 33px;
       opacity: 1;
       left: 9%;
-      top: 9%;
+      top: 8%;
     }
   }
 `;

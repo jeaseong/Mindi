@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import TestList from './TestData.json';
+import styled from 'styled-components';
 
 import Title from 'components/atoms/span/title/Title';
+import Big from 'components/atoms/span/big/Big';
 
 import { StyledTemplate } from './TestTemplate.style';
+import RadioButton from '../../atoms/radioButton/RadioButton';
 
 function TestTemplate() {
   const [loading, setLoading] = useState(false);
@@ -22,51 +25,55 @@ function TestTemplate() {
   return (
     <StyledTemplate>
       <header>
-        <h1>Emotional Intelligence Test</h1>
+        <Title>Emotional Intelligence Test</Title>
       </header>
 
       {TestList.map((item, index) => {
         return (
           <div key={item.id}>
             <section className='questions'>
-              <Title>{item.question}</Title>
+              <Big>{item.question}</Big>
             </section>
 
-            <form className='answers'>
+            <StyledForm className='answers'>
               <span>Disagree</span>
-              <input
+              <RadioButton
                 type='radio'
+                color='#2ecc71'
                 name='answer'
                 value={item.answers[0]}
                 checked={selections[index] === 1}
                 onChange={() => handleChange(1, index)}
               />
 
-              <input
+              <RadioButton
                 type='radio'
+                color='#3498db'
                 name='answer'
                 value={item.answers[1]}
                 checked={selections[index] === 2}
                 onChange={() => handleChange(2, index)}
               />
 
-              <input
+              <RadioButton
                 type='radio'
+                color='#f1c40f'
                 name='answer'
                 value={item.answers[2]}
                 checked={selections[index] === 3}
                 onChange={() => handleChange(3, index)}
               />
 
-              <input
+              <RadioButton
                 type='radio'
+                color='#e74c3c'
                 name='answer'
                 value={item.answers[3]}
                 checked={selections[index] === 4}
                 onChange={() => handleChange(4, index)}
               />
               <span>Agree</span>
-            </form>
+            </StyledForm>
           </div>
         );
       })}
@@ -79,3 +86,9 @@ function TestTemplate() {
   );
 }
 export default TestTemplate;
+
+const StyledForm = styled.form`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;

@@ -8,12 +8,13 @@ import TestPage from 'pages/Test/TestPage';
 const App: React.FC = () => {
   return (
     <div className='App'>
-      <Router>
+      <TestPage />
+      {/* <Router>
         <Routes>
           <Route path='/sign-in' element={<SignIn />} />
           <Route path='/sign-up' element={<SignUp />} />
         </Routes>
-      </Router>
+      </Router> */}
     </div>
   );
 };

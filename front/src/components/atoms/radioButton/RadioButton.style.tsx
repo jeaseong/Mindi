@@ -46,8 +46,8 @@ export const Input = styled.input`
       width: 33px;
       height: 33px;
       opacity: 1;
-      left: 9%;
-      top: 8%;
+      left: 5%;
+      top: 5%;
     }
   }
 `;

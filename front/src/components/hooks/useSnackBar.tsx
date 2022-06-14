@@ -7,7 +7,7 @@ export const useSnackBar = () => {
     if (isShowing) {
       setTimeout(() => {
         setIsShowing(false);
-      }, 250);
+      }, 3000);
     }
   }, [isShowing]);
 

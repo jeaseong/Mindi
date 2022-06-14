@@ -11,7 +11,8 @@ export const SnackBarContainer = styled.div<SnackBarProps>`
   padding: 0 7px;
   font-size: 0.7rem;
   text-align: center;
-  position: absolute;
+  position: fixed;
+  z-index: 9999;
   right: 0;
   top: ${(props) => {
     if (props.position === 'topRight') return '20px';

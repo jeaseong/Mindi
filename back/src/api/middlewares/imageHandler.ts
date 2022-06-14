@@ -19,8 +19,8 @@ const storage = multer.diskStorage({
 
 const imageUpload = multer({ storage: storage }); // storage에 저장
 
-function imageDelete(req: Request, res: Response, next: NextFunction) {
-  if (req.body.imageFileName !== 'default') {
+async function imageDelete(req: Request, res: Response, next: NextFunction) {
+  if (req.body.imageFileName) {
     const filePath = 'images/' + req.body.imageFileName;
 
     if (fs.existsSync(filePath) === false) {

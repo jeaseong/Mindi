@@ -34,8 +34,6 @@ const toDelete = {
   userId: mockUserId,
   diary: mockDiary,
   feeling: mockFeeling,
-  imageFileName: 'default',
-  imageFilePath: 'http://localhost:5001/images/default',
   createdDate: today,
 };
 
@@ -49,10 +47,32 @@ const toDeleteWithImage = {
   createdDate: today,
 };
 
-describe('Go Fit Server API TEST', () => {
+describe('Diary with no image', () => {
   it.skip('should test that true === true', async () => {
     expect(true).toBe(true);
   });
+  it('Create a new diary without image', async () => {
+    const response = await request(server).post('/api/diaries').send(newDiary);
+    expect(response.status).toEqual(201);
+    let mockObjectId = response.body.diary._id;
+    toUpdate._id = mockObjectId;
+    toDelete._id = mockObjectId;
+  });
+  it('Get a diary list', async () => {
+    const response = await request(server).get(`/api/diaries?date=${today}`).send();
+    expect(response.status).toEqual(200);
+  });
+  it('Update a diary without image', async () => {
+    const response = await request(server).put('/api/diaries').send(toUpdate);
+    expect(response.status).toEqual(200);
+  });
+  it('Delete a diary without image', async () => {
+    const response = await request(server).delete('/api/diaries').send(toDelete);
+    expect(response.status).toEqual(204);
+  });
+});
+
+describe('Diary with an image', () => {
   it('Create a new diary with an image', async () => {
     const response = await request(server)
       .post('/api/diaries')
@@ -64,26 +84,21 @@ describe('Go Fit Server API TEST', () => {
     expect(response.status).toEqual(201);
     toDeleteWithImage._id = response.body.diary._id;
     toDeleteWithImage.imageFileName = response.body.diary.imageFileName;
+  });
+  it('Update a diary with an image', async () => {
+    const response = await request(server)
+      .put('/api/diaries')
+      .type('multipart/form-data')
+      .field('_id', toDeleteWithImage._id)
+      .field('userId', mockUserId)
+      .field('diary', mockDiary)
+      .field('feeling', faker.lorem.sentence())
+      .field('imageFileName', toDeleteWithImage.imageFileName)
+      .field('createdDate', today)
+      .attach('background', 'tests/test2.jpg');
+    expect(response.status).toEqual(200);
+    toDeleteWithImage.imageFileName = response.body.diary.imageFileName;
     toDeleteWithImage.imageFilePath = response.body.diary.imageFilePath;
-  });
-  it('Create a new diary without an image', async () => {
-    const response = await request(server).post('/api/diaries').send(newDiary);
-    expect(response.status).toEqual(201);
-    const mockObjectId = response.body.diary._id;
-    toUpdate._id = mockObjectId;
-    toDelete._id = mockObjectId;
-  });
-  it('Get a diary list', async () => {
-    const response = await request(server).get(`/api/diaries?date=${today}`).send();
-    expect(response.status).toEqual(200);
-  });
-  it('Update a diary', async () => {
-    const response = await request(server).put('/api/diaries').send(toUpdate);
-    expect(response.status).toEqual(200);
-  });
-  it('Delete a diary with default image', async () => {
-    const response = await request(server).delete('/api/diaries').send(toDelete);
-    expect(response.status).toEqual(204);
   });
   it('Delete a diary with an image', async () => {
     const response = await request(server).delete('/api/diaries').send(toDeleteWithImage);

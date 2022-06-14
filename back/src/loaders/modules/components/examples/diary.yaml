@@ -1,0 +1,71 @@
+createWithImage:
+  value:
+    {
+      'success': true,
+      'diary':
+        {
+          'userId': '3e37d05b9fc9d01c9cdf5ac3',
+          'diary': 'example',
+          'feeling': 'example',
+          'imageFileName': 'background_1655172367029_test.jpg',
+          'imageFilePath': 'http://localhost:5001/images/background_1655172367029_test.jpg',
+          'createdDate': '2022-6-14',
+          '_id': '62a7ed0f291754e07d151aac',
+          'createdAt': '2022-06-14T02:06:07.080Z',
+          'updatedAt': '2022-06-14T02:06:07.080Z',
+          '__v': 0,
+        },
+    }
+createWithoutImage:
+  value:
+    {
+      'success': true,
+      'diary':
+        {
+          'userId': '3e37d05b9fc9d01c9cdf5ac3',
+          'diary': 'example',
+          'feeling': 'example',
+          'createdDate': '2022-6-14',
+          '_id': '62a7ed0f291754e07d151aac',
+          'createdAt': '2022-06-14T02:06:07.080Z',
+          'updatedAt': '2022-06-14T02:06:07.080Z',
+          '__v': 0,
+        },
+    }
+diaryToRemove:
+  value:
+    {
+      '_id': '62a7ed0f291754e07d151aac',
+      'imageFileName': 'background_1655172367029_test.jpg',
+      'imageFilePath': 'http://localhost:5001/images/background_1655172367029_test.jpg',
+    }
+diaryWithNoImage:
+  value: { '_id': '62a7ed0f291754e07d151aac' }
+diaryList:
+  value:
+    {
+      success: true,
+      diaries:
+        [
+          {
+            _id: '62a8526e52c9ccc7e30e07d4',
+            userId: '9d3cbc7bbd31ec6105ad2f87',
+            diary: 'example',
+            feeling: 'example',
+            createdDate: '2022-6-14',
+            createdAt: '2022-06-14T09:18:38.956Z',
+            updatedAt: '2022-06-14T09:18:38.956Z',
+            __v: 0,
+          },
+          {
+            _id: '62a8526e52c9ccc7e30e07d4',
+            userId: '9d3cbc7bbd31ec6105ad2f87',
+            diary: 'example',
+            feeling: 'example',
+            createdDate: '2022-6-14',
+            createdAt: '2022-06-14T09:18:38.956Z',
+            updatedAt: '2022-06-14T09:18:38.956Z',
+            __v: 0,
+          },
+        ],
+    }

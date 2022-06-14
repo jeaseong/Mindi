@@ -1,0 +1,19 @@
+type: object
+required:
+  - userId
+  - diary
+  - feeling
+  - createdDate
+properties:
+  userId:
+    type: string
+  diary:
+    type: string
+  feeling:
+    type: string
+  imageFileName:
+    type: string
+  imageFilePath:
+    type: string
+  createdDate:
+    type: string

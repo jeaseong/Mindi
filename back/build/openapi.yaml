@@ -5,6 +5,265 @@ info:
   description: Mindi의 API 명세서
 servers:
   - url: 'http://localhost:5001/'
-paths: null
+paths:
+  /diaries:
+    post:
+      tags:
+        - diary
+      summary: Returns a new diary
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - userId
+                - diary
+                - feeling
+              properties:
+                userId:
+                  type: string
+                  description: 유저의 object ID가 들어갑니다.
+                diary:
+                  type: string
+                  description: 일기 내용이 들어갑니다.
+                feeling:
+                  type: string
+                  description: 감정 내용이 들어갑니다.
+                background:
+                  type: file
+                  format: binary
+                  description: (Optinal)사진을 첨부할 수 있습니다.
+      responses:
+        '201':
+          description: A result object.
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1diaries/put/responses/200/content/application~1json/schema'
+              examples:
+                newDiaryWithImage:
+                  value:
+                    success: true
+                    diary:
+                      userId: 3e37d05b9fc9d01c9cdf5ac3
+                      diary: example
+                      feeling: example
+                      imageFileName: background_1655172367029_test.jpg
+                      imageFilePath: 'http://localhost:5001/images/background_1655172367029_test.jpg'
+                      createdDate: 2022-6-14
+                      _id: 62a7ed0f291754e07d151aac
+                      createdAt: '2022-06-14T02:06:07.080Z'
+                      updatedAt: '2022-06-14T02:06:07.080Z'
+                      __v: 0
+                newDiaryWithoutImage:
+                  value:
+                    success: true
+                    diary:
+                      userId: 3e37d05b9fc9d01c9cdf5ac3
+                      diary: example
+                      feeling: example
+                      createdDate: 2022-6-14
+                      _id: 62a7ed0f291754e07d151aac
+                      createdAt: '2022-06-14T02:06:07.080Z'
+                      updatedAt: '2022-06-14T02:06:07.080Z'
+                      __v: 0
+    put:
+      tags:
+        - diary
+      summary: Returns an updated diary
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - _id
+                - userId
+                - diary
+                - feeling
+                - createdDate
+              properties:
+                _id:
+                  type: string
+                  description: 다이어리의 object ID가 들어갑니다. 수정이 불가능한 속성입니다.
+                userId:
+                  type: string
+                  description: 유저의 object ID가 들어갑니다.
+                diary:
+                  type: string
+                  description: 일기 내용이 들어갑니다.
+                feeling:
+                  type: string
+                  description: 감정 내용이 들어갑니다.
+                createdDate:
+                  type: string
+                  description: 일기 작성 날짜가 들어갑니다. 수정이 불가능한 속성입니다.
+                imageFileName:
+                  type: string
+                  description: (Optional)사진이 있는 일기라면 사진 정보도 필요합니다.
+                background:
+                  type: file
+                  format: binary
+                  description: (Optinal)사진을 첨부할 수 있습니다.
+      responses:
+        '200':
+          description: A result object.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  diary:
+                    type: object
+                    required:
+                      - _id
+                      - userId
+                      - diary
+                      - feeling
+                      - createdDate
+                    properties:
+                      _id:
+                        type: string
+                      userId:
+                        type: string
+                      diary:
+                        type: string
+                      feeling:
+                        type: string
+                      imageFileName:
+                        type: string
+                      imageFilePath:
+                        type: string
+                      createdDate:
+                        type: string
+                        description: 오늘(일기 작성) 날짜가 "년도-월-일" 형식으로 저장됩니다.
+              examples:
+                updatedDiaryWithImage:
+                  $ref: '#/paths/~1diaries/post/responses/201/content/application~1json/examples/newDiaryWithImage'
+                updatedDiaryWithoutImage:
+                  $ref: '#/paths/~1diaries/post/responses/201/content/application~1json/examples/newDiaryWithoutImage'
+    delete:
+      tags:
+        - diary
+      summary: Remove a diary
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - _id
+              properties:
+                _id:
+                  type: string
+                  description: 다이어리의 object ID가 들어갑니다. 수정이 불가능한 속성입니다.
+                imageFileName:
+                  type: string
+                  description: (Optional)사진이 있는 일기라면 사진 정보도 필요합니다.
+            examples:
+              diaryToRemove:
+                value:
+                  _id: 62a7ed0f291754e07d151aac
+                  imageFileName: background_1655172367029_test.jpg
+                  imageFilePath: 'http://localhost:5001/images/background_1655172367029_test.jpg'
+              diaryWithNoImage:
+                value:
+                  _id: 62a7ed0f291754e07d151aac
+      responses:
+        '204':
+          description: No content
+  '/diaries?date={date}':
+    get:
+      tags:
+        - diary
+      summary: Returns a diary list with a specific date
+      parameters:
+        - in: query
+          name: date
+          schema:
+            type: string
+            example: 2022-6-14
+      responses:
+        '200':
+          description: A result object.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  diaries:
+                    type: array
+                    items:
+                      types: object
+                      required:
+                        - _id
+                        - userId
+                        - diary
+                        - feeling
+                        - createdDate
+                      properties:
+                        _id:
+                          type: string
+                        userId:
+                          type: string
+                        diary:
+                          type: string
+                        feeling:
+                          type: string
+                        imageFileName:
+                          type: string
+                        imageFilePath:
+                          type: string
+                        createdDate:
+                          type: string
+              examples:
+                diaryList:
+                  value:
+                    success: true
+                    diaries:
+                      - _id: 62a8526e52c9ccc7e30e07d4
+                        userId: 9d3cbc7bbd31ec6105ad2f87
+                        diary: example
+                        feeling: example
+                        createdDate: 2022-6-14
+                        createdAt: '2022-06-14T09:18:38.956Z'
+                        updatedAt: '2022-06-14T09:18:38.956Z'
+                        __v: 0
+                      - _id: 62a8526e52c9ccc7e30e07d4
+                        userId: 9d3cbc7bbd31ec6105ad2f87
+                        diary: example
+                        feeling: example
+                        createdDate: 2022-6-14
+                        createdAt: '2022-06-14T09:18:38.956Z'
+                        updatedAt: '2022-06-14T09:18:38.956Z'
+                        __v: 0
 components:
-  schemas: null
+  schemas:
+    diary:
+      type: object
+      required:
+        - userId
+        - diary
+        - feeling
+        - createdDate
+      properties:
+        userId:
+          type: string
+        diary:
+          type: string
+        feeling:
+          type: string
+        imageFileName:
+          type: string
+        imageFilePath:
+          type: string
+        createdDate:
+          type: string

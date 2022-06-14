@@ -1,0 +1,85 @@
+Post:
+  tags:
+    - diary
+  summary: Returns a new diary
+  requestBody:
+    required: true
+    content:
+      multipart/form-data:
+        schema:
+          $ref: '../components/requestBody/diary.yaml#/post'
+  responses:
+    '201':
+      description: A result object.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/responses/diary.yaml#/post'
+          examples:
+            newDiaryWithImage:
+              $ref: '../components/examples/diary.yaml#/createWithImage'
+            newDiaryWithoutImage:
+              $ref: '../components/examples/diary.yaml#/createWithoutImage'
+
+Update:
+  tags:
+    - diary
+  summary: Returns an updated diary
+  requestBody:
+    required: true
+    content:
+      multipart/form-data:
+        schema:
+          $ref: '../components/requestBody/diary.yaml#/update'
+  responses:
+    '200':
+      description: A result object.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/responses/diary.yaml#/post'
+          examples:
+            updatedDiaryWithImage:
+              $ref: '../components/examples/diary.yaml#/createWithImage'
+            updatedDiaryWithoutImage:
+              $ref: '../components/examples/diary.yaml#/createWithoutImage'
+
+Delete:
+  tags:
+    - diary
+  summary: Remove a diary
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../components/requestBody/diary.yaml#/delete'
+        examples:
+          diaryToRemove:
+            $ref: '../components/examples/diary.yaml#/diaryToRemove'
+          diaryWithNoImage:
+            $ref: '../components/examples/diary.yaml#/diaryWithNoImage'
+  responses:
+    '204':
+      description: No content
+
+GetAList:
+  tags:
+    - diary
+  summary: Returns a diary list with a specific date
+  parameters:
+    - in: query
+      name: date
+      schema:
+        type: string
+        example: '2022-6-14'
+  responses:
+    '200':
+      description: A result object.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/responses/diary.yaml#/getAList'
+          examples:
+            diaryList:
+              $ref: '../components/examples/diary.yaml#/diaryList'

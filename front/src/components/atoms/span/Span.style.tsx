@@ -29,7 +29,7 @@ export const StyledSpan = styled.span<SpanProps>`
   }
   &.big {
     padding: 1em 0.9em;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     font-weight: bold;
   }
   &.title {

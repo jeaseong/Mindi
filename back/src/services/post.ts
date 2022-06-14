@@ -53,6 +53,6 @@ export default class PostService {
       );
     }
 
-    return this.postModel.delete(postId);
+    await this.postModel.delete(postId);
   }
 }

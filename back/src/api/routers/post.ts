@@ -1,10 +1,11 @@
 import { Router, Request, Response, NextFunction } from "express";
 import { matchedData } from "express-validator";
-import { userValidator } from "../middlewares/express-validator";
 import PostService from "../../services/post";
 import { Container } from "typedi";
 import { loginRequired } from "../middlewares/loginRequired";
+import { postValidator } from "../middlewares/express-validator";
 import validationErrorChecker from "../middlewares/validationErrorChecker";
+import { StatusError } from "../../utils/error";
 
 export default (app: Router) => {
   const postRouter = Router();
@@ -14,25 +15,21 @@ export default (app: Router) => {
   postRouter.post(
     "/posts",
     loginRequired,
+    postValidator.uploadBody,
     validationErrorChecker,
     async (req: Request, res: Response, next: NextFunction) => {
       try {
-        const { title, content, author } = matchedData(req);
+        const { title, content } = matchedData(req);
+        const author = req.user!._id;
 
         const postService = Container.get(PostService);
 
         const post = await postService.makeNewPost(title, content, author);
+        const { updatedAt, ...rest } = post;
 
         const body = {
           success: true,
-          post: {
-            _id: post._id,
-            title: post.title,
-            content: post.content,
-            author: post.author,
-            comments: post.comments,
-            createdAt: post.createdAt
-          }
+          post: rest
         };
 
         res.status(200).json(body);
@@ -41,22 +38,25 @@ export default (app: Router) => {
       }
     });
 
-  // TODO 게시글 목록 표시(쿼리 필요)
   postRouter.get(
     "/posts",
     loginRequired,
     async (req: Request, res: Response, next: NextFunction) => {
       try {
         const page = req.query.page as unknown as number || 1;
-        const limit = req.query.limit || 5;
+        const limit = req.query.limit as unknown as number || 5;
 
         const postService = Container.get(PostService);
 
         const posts = await postService.getPostsWithFilter(null, page, limit);
+        const reducedPosts = posts.map((post) => {
+          const { updatedAt, ...rest } = post;
+          return rest;
+        });
 
         const body = {
           success: true,
-          posts: null
+          posts: reducedPosts
         };
 
         res.status(200).json(body);
@@ -75,17 +75,11 @@ export default (app: Router) => {
         const postService = Container.get(PostService);
 
         const post = await postService.getOnePostByPostId(postId);
+        const { updatedAt, ...rest } = post!;
 
         const body = {
           success: true,
-          post: {
-            _id: post!._id,
-            title: post!.title,
-            content: post!.content,
-            author: post!.author,
-            comments: post!.comments,
-            createdAt: post!.createdAt
-          }
+          post: rest
         };
 
         res.status(200).json(body);
@@ -94,15 +88,26 @@ export default (app: Router) => {
       }
     });
 
-  // TODO 로그인한 본인의 게시글 목록 취득
   postRouter.get(
     "/users/posts",
     loginRequired,
     async (req: Request, res: Response, next: NextFunction) => {
       try {
+        const page = req.query.page as unknown as number || 1;
+        const limit = req.query.limit as unknown as number || 5;
+        const userId = req.user!._id;
+
+        const postService = Container.get(PostService);
+
+        const posts = await postService.getPostsWithFilter({ author: userId }, page, limit);
+        const reducedPosts = posts.map((post) => {
+          const { updatedAt, ...rest } = post;
+          return rest;
+        });
+
         const body = {
           success: true,
-          posts: null
+          posts: reducedPosts
         };
 
         res.status(200).json(body);
@@ -111,15 +116,27 @@ export default (app: Router) => {
       }
     });
 
-  // TODO id에 해당하는 유저의 게시글 목록 취득
   postRouter.get(
     "/users/posts/:userId",
     loginRequired,
     async (req: Request, res: Response, next: NextFunction) => {
       try {
+        const { userId } = req.params;
+
+        const page = req.query.page as unknown as number || 1;
+        const limit = req.query.limit as unknown as number || 5;
+
+        const postService = Container.get(PostService);
+
+        const posts = await postService.getPostsWithFilter({ author: userId }, page, limit);
+        const reducedPosts = posts.map((post) => {
+          const { updatedAt, ...rest } = post;
+          return rest;
+        });
+
         const body = {
           success: true,
-          posts: null
+          posts: reducedPosts
         };
 
         res.status(200).json(body);
@@ -128,15 +145,28 @@ export default (app: Router) => {
       }
     });
 
-  // TODO id에 해당하는 게시글 수정
   postRouter.put(
     "/posts/:postId",
     loginRequired,
+    postValidator.modifyingBody,
     async (req: Request, res: Response, next: NextFunction) => {
       try {
+        const { postId } = req.params;
+        const userId = req.user!._id;
+        const fieldToUpdate = matchedData(req);
+
+        const postService = Container.get(PostService);
+
+        const post = await postService.getOnePostByPostId(postId);
+
+        if (post!.author.toString() !== userId.toString())
+          throw new StatusError(401, "수정 권한이 없습니다.");
+
+        const updatedPost = await postService.updatePostInfo(postId, fieldToUpdate);
+
         const body = {
           success: true,
-          posts: null
+          posts: updatedPost
         };
 
         res.status(200).json(body);
@@ -145,12 +175,23 @@ export default (app: Router) => {
       }
     });
 
-  // TODO id에 해당하는 게시글 삭제
   postRouter.delete(
     "/posts/:postId",
     loginRequired,
     async (req: Request, res: Response, next: NextFunction) => {
       try {
+        const { postId } = req.params;
+        const userId = req.user!._id;
+
+        const postService = Container.get(PostService);
+
+        const post = await postService.getOnePostByPostId(postId);
+
+        if (post!.author.toString() !== userId.toString())
+          throw new StatusError(401, "삭제 권한이 없습니다.");
+
+        await postService.deletePost(postId);
+
         const body = {
           success: true,
           message: "성공적으로 삭제되었습니다."

@@ -1,6 +1,5 @@
 import { Schema, model } from 'mongoose';
 import { BaseDiary, deleteResult, IDiary, IDiaryModel } from '../interfaces/IDiary';
-import fs from 'fs';
 
 const DiarySchema = new Schema(
   {
@@ -49,10 +48,10 @@ export class MongoDiaryModel implements IDiaryModel {
 
   async deleteOne(id: string): Promise<deleteResult> {
     const result = await DiaryModel.deleteOne({ _id: id });
-    if (result.deletedCount !== 1) {
-      return { status: 'Fail' };
+    if (result.deletedCount === 1) {
+      return { status: 'Succeess' };
     }
-    return { status: 'Succeess' };
+    return { status: 'Fail' };
   }
 
   async findById(id: string): Promise<IDiary> {

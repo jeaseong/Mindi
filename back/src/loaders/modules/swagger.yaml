@@ -1,4 +1,5 @@
 # npm run api-docs
+# "prestart": "npm run api-docs",
 openapi: 3.0.0
 info:
   version: 1.0.0
@@ -7,5 +8,17 @@ info:
 servers:
   - url: 'http://localhost:5001/'
 paths:
+  /diaries:
+    post:
+      $ref: './paths/diary.yaml#/Post'
+    put:
+      $ref: './paths/diary.yaml#/Update'
+    delete:
+      $ref: './paths/diary.yaml#/Delete'
+  /diaries?date={date}:
+    get:
+      $ref: './paths/diary.yaml#/GetAList'
 components:
   schemas:
+    diary:
+      $ref: './components/schemas/diary.yaml'

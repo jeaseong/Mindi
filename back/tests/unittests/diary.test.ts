@@ -1,5 +1,5 @@
-import DiaryService from '../src/services/diary';
-import { BaseDiary, IDiary } from '../src/interfaces/IDiary';
+import DiaryService from '../../src/services/diary';
+import { BaseDiary, IDiary } from '../../src/interfaces/IDiary';
 import { faker } from '@faker-js/faker';
 
 describe('Diary Service Test', () => {
@@ -44,7 +44,7 @@ describe('Diary Service Test', () => {
     },
 
     deleteOne: async (id: string) => {
-      return { status: 'Ok' };
+      return { status: 'Success' };
     },
 
     findById: async (id: string) => {

@@ -25,11 +25,13 @@ export default (app: Router) => {
 
         let Diary: BaseDiary = req.body;
 
-        Diary = {
-          ...Diary,
-          imageFileName,
-          imageFilePath,
-        };
+        Diary = req.file
+          ? {
+              ...Diary,
+              imageFileName,
+              imageFilePath,
+            }
+          : Diary;
 
         const newDiary: IDiary = await diaryService.create(Diary);
 
@@ -47,18 +49,27 @@ export default (app: Router) => {
 
   diaryRouter.put(
     '/',
+    imageUpload.single('background'),
+    imageDelete,
     diaryValidator.diaryBody,
     validationErrorChecker,
     async (req: Request, res: Response, next: NextFunction) => {
       try {
+        const imageFileName = req.file?.filename; // 저장된 파일명​
+        const imageFilePath = `http://localhost:5001/images/${imageFileName}`;
+
         const { _id, userId, diary, feeling, createdDate } = req.body;
         const id: string = _id;
-        const toUpdate: BaseDiary = {
-          userId,
-          diary,
-          feeling,
-          createdDate,
-        };
+        const toUpdate: BaseDiary = req.file
+          ? {
+              userId,
+              diary,
+              feeling,
+              createdDate,
+              imageFileName,
+              imageFilePath,
+            }
+          : { userId, diary, feeling, createdDate };
 
         const updatedDiary = await diaryService.updateOne(id, toUpdate);
 
@@ -74,16 +85,22 @@ export default (app: Router) => {
     },
   );
 
-  diaryRouter.delete('/', imageDelete, async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const id: string = req.body._id;
-      await diaryService.deleteOne(id);
+  diaryRouter.delete(
+    '/',
+    imageDelete,
+    diaryValidator.userIdEmpty,
+    validationErrorChecker,
+    async (req: Request, res: Response, next: NextFunction) => {
+      try {
+        const id: string = req.body._id;
+        await diaryService.deleteOne(id);
 
-      res.sendStatus(204); // No Content
-    } catch (error) {
-      next(error);
-    }
-  });
+        res.sendStatus(204); // No Content
+      } catch (error) {
+        next(error);
+      }
+    },
+  );
 
   diaryRouter.get(
     '/',

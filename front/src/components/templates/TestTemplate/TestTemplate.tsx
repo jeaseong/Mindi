@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import TestList from './TestData.json';
+import TestList from '../../utils/TestData.json';
 import styled from 'styled-components';
 
 import Title from 'components/atoms/span/title/Title';

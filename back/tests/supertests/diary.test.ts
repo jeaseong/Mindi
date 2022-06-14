@@ -1,8 +1,9 @@
 // "jest --detectOpenHandles --forceExit"
 import request from 'supertest';
-import { server } from '../../src/app';
+import appStart from '../../src/app';
 import { faker } from '@faker-js/faker';
 import mongoose from 'mongoose';
+import config from '../../src/config';
 
 const KR_TIME_DIFF = 9 * 60 * 60 * 1000;
 const now = new Date();
@@ -11,7 +12,6 @@ const now_KR = new Date(utc + KR_TIME_DIFF);
 const today = now_KR.getFullYear() + '-' + (now_KR.getMonth() + 1) + '-' + now_KR.getDate();
 
 const mockUserId = faker.database.mongodbObjectId();
-// const mockObjectId = faker.database.mongodbObjectId();
 const mockDiary = faker.lorem.paragraph();
 const mockFeeling = faker.lorem.sentence();
 
@@ -43,24 +43,23 @@ const toDeleteWithImage = {
   diary: mockDiary,
   feeling: mockFeeling,
   imageFileName: 'default',
-  imageFilePath: 'http://localhost:5001/images/default',
+  imageFilePath: `http://localhost:${config.port}/images/default`,
   createdDate: today,
 };
 
+beforeAll(async () => {
+  await appStart;
+});
+
+const server = `http://localhost:${config.port}`;
+
 describe('Diary with no image', () => {
-  it.skip('should test that true === true', async () => {
-    expect(true).toBe(true);
-  });
   it('Create a new diary without image', async () => {
     const response = await request(server).post('/api/diaries').send(newDiary);
     expect(response.status).toEqual(201);
     let mockObjectId = response.body.diary._id;
     toUpdate._id = mockObjectId;
     toDelete._id = mockObjectId;
-  });
-  it('Get a diary list', async () => {
-    const response = await request(server).get(`/api/diaries?date=${today}`).send();
-    expect(response.status).toEqual(200);
   });
   it('Update a diary without image', async () => {
     const response = await request(server).put('/api/diaries').send(toUpdate);
@@ -106,7 +105,15 @@ describe('Diary with an image', () => {
   });
 });
 
+describe('Get a diary list with a specific date', () => {
+  it('Get a diary list', async () => {
+    const response = await request(server).get(`/api/diaries?date=${today}`).send();
+    expect(response.status).toEqual(200);
+  });
+});
+
 afterAll(async () => {
-  await mongoose.connection.close(); // 왜 안 될까...
-  await server.close();
+  await mongoose.connection.close().then(() => {
+    console.log('mongodb is disconnected');
+  }); // 왜 안 될까...
 });

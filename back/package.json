@@ -4,7 +4,7 @@
   "description": "",
   "main": "./src/app.ts",
   "scripts": {
-    "test": "jest --forceExit",
+    "test": "jest --detectOpenHandles --forceExit",
     "api-docs": "swagger-cli bundle ./src/loaders/modules/swagger.yaml --outfile build/openapi.yaml --type yaml",
     "start": "nodemon --exec \"ts-node\" ./src/app.ts"
   },

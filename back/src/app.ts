@@ -12,9 +12,9 @@ async function appStart() {
 
   app.listen(config.port, () => {
     logger.info(`
-    Mindi API Server
-    is running on: http://localhost:${config.port}
-    `);
+            Mindi API Server
+            is running on: http://localhost:${config.port}
+            `);
   });
 
   app.get('/', (req: Request, res: Response, next: NextFunction) => {
@@ -22,4 +22,4 @@ async function appStart() {
   });
 }
 
-appStart();
+export = appStart();

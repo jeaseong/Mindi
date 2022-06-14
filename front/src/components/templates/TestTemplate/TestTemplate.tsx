@@ -10,14 +10,17 @@ import RadioButton from '../../atoms/radioButton/RadioButton';
 
 function TestTemplate() {
   const [loading, setLoading] = useState(false);
-  const [selections, setSelections] = useState([Object.keys(TestList).map((x) => [])]);
+  const [selections, setSelections] = useState<any>([
+    Object.keys(TestList).map((x) => []),
+  ]);
 
   const submitHandler = () => {
     console.log(selections);
   };
 
-  const handleChange = (selection, index) => {
-    let tempState = { ...selections };
+  const handleChange = (selection: number, index: number) => {
+    const tempState = { ...selections };
+    console.log(tempState);
     tempState[index] = selection;
     setSelections(tempState);
   };
@@ -28,17 +31,15 @@ function TestTemplate() {
         <Title>Emotional Intelligence Test</Title>
       </header>
 
-      {TestList.map((item, index) => {
+      {TestList.map((item: any, index: any) => {
         return (
           <div key={item.id}>
-            <section className='questions'>
+            <StyledQuestion className='questions'>
               <Big>{item.question}</Big>
-            </section>
-
-            <StyledForm className='answers'>
+            </StyledQuestion>
+            <StyledAnswer className='answers'>
               <span>Disagree</span>
               <RadioButton
-                type='radio'
                 color='#2ecc71'
                 name='answer'
                 value={item.answers[0]}
@@ -47,7 +48,6 @@ function TestTemplate() {
               />
 
               <RadioButton
-                type='radio'
                 color='#3498db'
                 name='answer'
                 value={item.answers[1]}
@@ -56,7 +56,6 @@ function TestTemplate() {
               />
 
               <RadioButton
-                type='radio'
                 color='#f1c40f'
                 name='answer'
                 value={item.answers[2]}
@@ -65,7 +64,6 @@ function TestTemplate() {
               />
 
               <RadioButton
-                type='radio'
                 color='#e74c3c'
                 name='answer'
                 value={item.answers[3]}
@@ -73,7 +71,7 @@ function TestTemplate() {
                 onChange={() => handleChange(4, index)}
               />
               <span>Agree</span>
-            </StyledForm>
+            </StyledAnswer>
           </div>
         );
       })}
@@ -87,14 +85,21 @@ function TestTemplate() {
 }
 export default TestTemplate;
 
-const StyledForm = styled.form`
+const StyledAnswer = styled.form`
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-bottom: 4em;
 `;
 
 const StyledButtonDiv = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-top: 1em;
+  margin-bottom: 7em;
+`;
+
+const StyledQuestion = styled.section`
+  margin-bottom: 1.5em;
 `;

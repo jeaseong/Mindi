@@ -77,17 +77,23 @@ function TestTemplate() {
           </div>
         );
       })}
-      <div className='button_container'>
-        <button className='btn' onClick={submitHandler}>
+      <StyledButtonDiv>
+        <button className='submit-button' onClick={submitHandler}>
           <span>Submit</span>
         </button>
-      </div>
+      </StyledButtonDiv>
     </StyledTemplate>
   );
 }
 export default TestTemplate;
 
 const StyledForm = styled.form`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const StyledButtonDiv = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;

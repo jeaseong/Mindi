@@ -1,5 +1,5 @@
 import React from 'react';
-import SignUp from 'components/molecule/auth/SignUp';
+import SignUp from 'components/modules/auth/SignUp';
 import Image from 'components/atoms/image/Image';
 import { Template } from './AuthTemplate.style';
 import { IMAGE } from 'components/utils/image';

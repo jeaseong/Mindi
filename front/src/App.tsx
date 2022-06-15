@@ -9,13 +9,13 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 const App: React.FC = () => {
   return (
     <div className='App'>
-      <EITestPage />
-      {/* <Router>
+      <Router>
         <Routes>
           <Route path='/sign-in' element={<SignIn />} />
           <Route path='/sign-up' element={<SignUp />} />
+          <Route path='/ei-test' element={<EITestPage />} />
         </Routes>
-      </Router> */}
+      </Router>
     </div>
   );
 };

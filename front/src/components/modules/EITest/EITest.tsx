@@ -5,8 +5,12 @@ import Big from 'components/atoms/span/big/Big';
 import { StyledQuestion, StyledAnswer, StyledButtonDiv } from './EITest.style';
 import RadioButton from '../../atoms/radioButton/RadioButton';
 
+import Button from 'components/atoms/button/Button';
+import { isDisabled } from '@testing-library/user-event/dist/utils';
+
 function EITest() {
   const [loading, setLoading] = useState(false);
+  const [selectCheck, setSelectCheck] = useState(false);
   const [selections, setSelections] = useState<any>([
     Object.keys(TestList).map((x) => []),
   ]);
@@ -21,6 +25,8 @@ function EITest() {
     tempState[index] = selection;
     setSelections(tempState);
   };
+
+  const isNumberValid = Object.keys(selections).length === 25;
 
   return (
     <>
@@ -69,9 +75,9 @@ function EITest() {
         );
       })}
       <StyledButtonDiv>
-        <button className='submit-button' onClick={submitHandler}>
-          <span>Submit</span>
-        </button>
+        <Button type='submit' onClick={submitHandler} disabled={!isNumberValid}>
+          결과 보기
+        </Button>
       </StyledButtonDiv>
     </>
   );

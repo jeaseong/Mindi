@@ -1,17 +1,17 @@
 import { BaseDiary, IDiaryModel } from '../interfaces/IDiary';
 import { StatusError } from '../utils/error';
+import { Service, Inject } from 'typedi';
+import { MongoDiaryModel } from '../models/diary';
+import dayjs from 'dayjs';
+import 'dayjs/locale/ko';
 
+@Service()
 export default class DiaryService {
-  constructor(private diaryModel: IDiaryModel) {}
+  constructor(private diaryModel: MongoDiaryModel, @Inject('logger') private logger: any) {}
 
   public async create(newDiary: BaseDiary) {
     // 일기 작성 날짜 생성
-    const KR_TIME_DIFF = 9 * 60 * 60 * 1000;
-    const now = new Date();
-    const utc = now.getTime() + now.getTimezoneOffset() * 60 * 1000;
-    const now_KR = new Date(utc + KR_TIME_DIFF);
-    const createdDate =
-      now_KR.getFullYear() + '-' + (now_KR.getMonth() + 1) + '-' + now_KR.getDate();
+    const createdDate = dayjs().locale('ko').format('YYYY-MM-DD');
     newDiary = { ...newDiary, createdDate };
 
     const createdNewDoc = await this.diaryModel.create(newDiary);
@@ -19,12 +19,12 @@ export default class DiaryService {
   }
 
   public async updateOne(id: string, toUpdate: BaseDiary) {
-    const docInfo = await this.diaryModel.findById(id);
+    const filter = { _id: id };
+    const docInfo = await this.diaryModel.exists(filter);
     if (!docInfo) {
       throw new StatusError(400, '해당 아이디를 가진 일기를 찾을 수 없습니다.');
     }
 
-    const filter = { _id: id };
     const updatedDoc = await this.diaryModel.updateOne(filter, toUpdate);
     return updatedDoc;
   }

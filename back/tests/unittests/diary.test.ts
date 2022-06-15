@@ -1,14 +1,12 @@
 import DiaryService from '../../src/services/diary';
 import { BaseDiary, IDiary } from '../../src/interfaces/IDiary';
 import { faker } from '@faker-js/faker';
+import dayjs from 'dayjs';
+import 'dayjs/locale/ko';
+import logger from '../../src/loaders/winston';
 
 describe('Diary Service Test', () => {
-  const KR_TIME_DIFF = 9 * 60 * 60 * 1000;
-  const now = new Date();
-  const utc = now.getTime() + now.getTimezoneOffset() * 60 * 1000;
-  const now_KR = new Date(utc + KR_TIME_DIFF);
-  const today = now_KR.getFullYear() + '-' + (now_KR.getMonth() + 1) + '-' + now_KR.getDate();
-
+  const today = dayjs().locale('ko').format('YYYY-MM-DD');
   const mockUserId = faker.database.mongodbObjectId();
   const mockObjectId = faker.database.mongodbObjectId();
 
@@ -35,10 +33,9 @@ describe('Diary Service Test', () => {
     },
 
     updateOne: async (filter: object, toUpdate: BaseDiary) => {
-      const filterCheck = { _id: mockObjectId }; // filter 객체로 들어와야 하는 값
-      if (filter !== filterCheck) void {};
+      const filterCopy = { _id: mockObjectId }; // filter 객체로 들어와야 하는 값
       return {
-        ...filterCheck,
+        ...filterCopy,
         ...toUpdate,
       };
     },
@@ -63,9 +60,17 @@ describe('Diary Service Test', () => {
         },
       ];
     },
+
+    exists: async (filter: Object) => {
+      if (filter) {
+        return true;
+      } else {
+        return false;
+      }
+    },
   };
 
-  const diaryService = new DiaryService(testDiaryModel);
+  const diaryService = new DiaryService(testDiaryModel, logger);
 
   it('create new diary', async () => {
     expect(await diaryService.create(newDiary)).toEqual({

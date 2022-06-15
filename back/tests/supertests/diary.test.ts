@@ -4,13 +4,10 @@ import appStart from '../../src/app';
 import { faker } from '@faker-js/faker';
 import mongoose from 'mongoose';
 import config from '../../src/config';
+import dayjs from 'dayjs';
+import 'dayjs/locale/ko';
 
-const KR_TIME_DIFF = 9 * 60 * 60 * 1000;
-const now = new Date();
-const utc = now.getTime() + now.getTimezoneOffset() * 60 * 1000;
-const now_KR = new Date(utc + KR_TIME_DIFF);
-const today = now_KR.getFullYear() + '-' + (now_KR.getMonth() + 1) + '-' + now_KR.getDate();
-
+const today = dayjs().locale('ko').format('YYYY-MM-DD');
 const mockUserId = faker.database.mongodbObjectId();
 const mockDiary = faker.lorem.paragraph();
 const mockFeeling = faker.lorem.sentence();

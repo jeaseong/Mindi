@@ -4,12 +4,11 @@ import { BaseDiary, IDiary } from '../../interfaces/IDiary';
 import { imageUpload, imageDelete } from '../middlewares/imageHandler';
 import validationErrorChecker from '../middlewares/validationErrorChecker';
 import { diaryValidator } from '../middlewares/express-validator';
-import { MongoDiaryModel } from '../../models/diary';
+import { Container } from 'typedi';
 
 export default (app: Router) => {
   const diaryRouter = Router();
-  const diaryModel = new MongoDiaryModel();
-  const diaryService = new DiaryService(diaryModel);
+  const diaryService = Container.get(DiaryService);
 
   app.use('/diaries', diaryRouter);
 

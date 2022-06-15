@@ -1,4 +1,5 @@
 import { Schema, model } from 'mongoose';
+import { Service } from 'typedi';
 import { BaseDiary, deleteResult, IDiary, IDiaryModel } from '../interfaces/IDiary';
 
 const DiarySchema = new Schema(
@@ -35,6 +36,7 @@ const DiarySchema = new Schema(
 
 const DiaryModel = model<IDiary>('Diary', DiarySchema);
 
+@Service()
 export class MongoDiaryModel implements IDiaryModel {
   async create(newDiary: BaseDiary): Promise<IDiary> {
     const newDoc = await DiaryModel.create(newDiary);
@@ -60,5 +62,9 @@ export class MongoDiaryModel implements IDiaryModel {
 
   async findByDate(date: string): Promise<IDiary[]> {
     return DiaryModel.find({ createdDate: date }).lean();
+  }
+
+  async exists(filter: Object): Promise<Boolean> {
+    return DiaryModel.exists(filter).lean();
   }
 }

@@ -9,4 +9,4 @@ function Button({ children, size, type, disabled = false, onClick }: BtnProps) {
     </Btn>
   );
 }
-export default Button;
+export default React.memo(Button);

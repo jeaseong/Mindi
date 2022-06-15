@@ -18,6 +18,9 @@ paths:
   /diaries?date={date}:
     get:
       $ref: './paths/diary.yaml#/GetAList'
+  /diaries/{id}:
+    get:
+      $ref: './paths/diary.yaml#/GetADiary'
 components:
   schemas:
     diary:

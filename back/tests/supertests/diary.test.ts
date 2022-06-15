@@ -58,10 +58,22 @@ describe('Diary with no image', () => {
     toUpdate._id = mockObjectId;
     toDelete._id = mockObjectId;
   });
+
   it('Update a diary without image', async () => {
     const response = await request(server).put('/api/diaries').send(toUpdate);
     expect(response.status).toEqual(200);
   });
+
+  it('Get a diary list', async () => {
+    const response = await request(server).get(`/api/diaries?date=${today}`);
+    expect(response.status).toEqual(200);
+  });
+
+  it('Get a diary', async () => {
+    const response = await request(server).get(`/api/diaries/${toUpdate._id}`);
+    expect(response.status).toEqual(200);
+  });
+
   it('Delete a diary without image', async () => {
     const response = await request(server).delete('/api/diaries').send(toDelete);
     expect(response.status).toEqual(204);
@@ -81,6 +93,7 @@ describe('Diary with an image', () => {
     toDeleteWithImage._id = response.body.diary._id;
     toDeleteWithImage.imageFileName = response.body.diary.imageFileName;
   });
+
   it('Update a diary with an image', async () => {
     const response = await request(server)
       .put('/api/diaries')
@@ -96,16 +109,10 @@ describe('Diary with an image', () => {
     toDeleteWithImage.imageFileName = response.body.diary.imageFileName;
     toDeleteWithImage.imageFilePath = response.body.diary.imageFilePath;
   });
+
   it('Delete a diary with an image', async () => {
     const response = await request(server).delete('/api/diaries').send(toDeleteWithImage);
     expect(response.status).toEqual(204);
-  });
-});
-
-describe('Get a diary list with a specific date', () => {
-  it('Get a diary list', async () => {
-    const response = await request(server).get(`/api/diaries?date=${today}`).send();
-    expect(response.status).toEqual(200);
   });
 });
 

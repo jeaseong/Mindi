@@ -1,7 +1,7 @@
 Post:
   tags:
     - diary
-  summary: Returns a new diary
+  summary: 다이어리를 생성합니다.
   requestBody:
     required: true
     content:
@@ -24,7 +24,7 @@ Post:
 Update:
   tags:
     - diary
-  summary: Returns an updated diary
+  summary: 다이어리를 업데이트 합니다.
   requestBody:
     required: true
     content:
@@ -47,7 +47,7 @@ Update:
 Delete:
   tags:
     - diary
-  summary: Remove a diary
+  summary: 다이어리를 삭제합니다.
   requestBody:
     required: true
     content:
@@ -66,7 +66,7 @@ Delete:
 GetAList:
   tags:
     - diary
-  summary: Returns a diary list with a specific date
+  summary: 특정 날짜의 다이어리 리스트를 반환합니다.
   parameters:
     - in: query
       name: date
@@ -83,3 +83,25 @@ GetAList:
           examples:
             diaryList:
               $ref: '../components/examples/diary.yaml#/diaryList'
+
+GetADiary:
+  tags:
+    - diary
+  summary: 특정 아이디의 다이어리 정보를 반환합니다.
+  parameters:
+    - in: path
+      name: id
+      schema:
+        type: string
+        example: 3e37d05b9fc9d01c9cdf5ac3
+      description: The diary ID
+  responses:
+    '200':
+      description: A result object.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/responses/diary.yaml#/post'
+          examples:
+            diary:
+              $ref: '../components/examples/diary.yaml#/createWithImage'

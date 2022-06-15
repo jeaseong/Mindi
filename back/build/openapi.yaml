@@ -10,7 +10,7 @@ paths:
     post:
       tags:
         - diary
-      summary: Returns a new diary
+      summary: 다이어리를 생성합니다.
       requestBody:
         required: true
         content:
@@ -44,19 +44,7 @@ paths:
                 $ref: '#/paths/~1diaries/put/responses/200/content/application~1json/schema'
               examples:
                 newDiaryWithImage:
-                  value:
-                    success: true
-                    diary:
-                      userId: 3e37d05b9fc9d01c9cdf5ac3
-                      diary: example
-                      feeling: example
-                      imageFileName: background_1655172367029_test.jpg
-                      imageFilePath: 'http://localhost:5001/images/background_1655172367029_test.jpg'
-                      createdDate: 2022-6-14
-                      _id: 62a7ed0f291754e07d151aac
-                      createdAt: '2022-06-14T02:06:07.080Z'
-                      updatedAt: '2022-06-14T02:06:07.080Z'
-                      __v: 0
+                  $ref: '#/paths/~1diaries~1%7Bid%7D/get/responses/200/content/application~1json/examples/diary'
                 newDiaryWithoutImage:
                   value:
                     success: true
@@ -72,7 +60,7 @@ paths:
     put:
       tags:
         - diary
-      summary: Returns an updated diary
+      summary: 다이어리를 업데이트 합니다.
       requestBody:
         required: true
         content:
@@ -144,13 +132,13 @@ paths:
                         description: 오늘(일기 작성) 날짜가 "년도-월-일" 형식으로 저장됩니다.
               examples:
                 updatedDiaryWithImage:
-                  $ref: '#/paths/~1diaries/post/responses/201/content/application~1json/examples/newDiaryWithImage'
+                  $ref: '#/paths/~1diaries~1%7Bid%7D/get/responses/200/content/application~1json/examples/diary'
                 updatedDiaryWithoutImage:
                   $ref: '#/paths/~1diaries/post/responses/201/content/application~1json/examples/newDiaryWithoutImage'
     delete:
       tags:
         - diary
-      summary: Remove a diary
+      summary: 다이어리를 삭제합니다.
       requestBody:
         required: true
         content:
@@ -182,7 +170,7 @@ paths:
     get:
       tags:
         - diary
-      summary: Returns a diary list with a specific date
+      summary: 특정 날짜의 다이어리 리스트를 반환합니다.
       parameters:
         - in: query
           name: date
@@ -245,6 +233,40 @@ paths:
                         createdAt: '2022-06-14T09:18:38.956Z'
                         updatedAt: '2022-06-14T09:18:38.956Z'
                         __v: 0
+  '/diaries/{id}':
+    get:
+      tags:
+        - diary
+      summary: 특정 아이디의 다이어리 정보를 반환합니다.
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+            example: 3e37d05b9fc9d01c9cdf5ac3
+          description: The diary ID
+      responses:
+        '200':
+          description: A result object.
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1diaries/put/responses/200/content/application~1json/schema'
+              examples:
+                diary:
+                  value:
+                    success: true
+                    diary:
+                      userId: 3e37d05b9fc9d01c9cdf5ac3
+                      diary: example
+                      feeling: example
+                      imageFileName: background_1655172367029_test.jpg
+                      imageFilePath: 'http://localhost:5001/images/background_1655172367029_test.jpg'
+                      createdDate: 2022-6-14
+                      _id: 62a7ed0f291754e07d151aac
+                      createdAt: '2022-06-14T02:06:07.080Z'
+                      updatedAt: '2022-06-14T02:06:07.080Z'
+                      __v: 0
 components:
   schemas:
     diary:

@@ -1,10 +1,10 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import DiaryService from '../../services/diary';
 import { BaseDiary, IDiary } from '../../interfaces/IDiary';
-import { imageUpload, imageDelete } from '../middlewares/imageHandler';
 import validationErrorChecker from '../middlewares/validationErrorChecker';
 import { diaryValidator } from '../middlewares/express-validator';
 import { Container } from 'typedi';
+import { imageDelete, imageUpload } from '../middlewares/imageHandler';
 
 export default (app: Router) => {
   const diaryRouter = Router();
@@ -19,16 +19,13 @@ export default (app: Router) => {
     validationErrorChecker,
     async (req: Request, res: Response, next: NextFunction) => {
       try {
-        const imageFileName = req.file?.filename; // 저장된 파일명​
-        const imageFilePath = `http://localhost:5001/images/${imageFileName}`;
-
+        const imgInfo = Object(req.file);
         let Diary: BaseDiary = req.body;
-
-        Diary = req.file
+        Diary = imgInfo
           ? {
               ...Diary,
-              imageFileName,
-              imageFilePath,
+              imageFileName: imgInfo.key,
+              imageFilePath: imgInfo.location,
             }
           : Diary;
 
@@ -54,9 +51,7 @@ export default (app: Router) => {
     validationErrorChecker,
     async (req: Request, res: Response, next: NextFunction) => {
       try {
-        const imageFileName = req.file?.filename; // 저장된 파일명​
-        const imageFilePath = `http://localhost:5001/images/${imageFileName}`;
-
+        const imgInfo = Object(req.file);
         const { _id, userId, diary, feeling, createdDate } = req.body;
         const id: string = _id;
         const toUpdate: BaseDiary = req.file
@@ -65,8 +60,8 @@ export default (app: Router) => {
               diary,
               feeling,
               createdDate,
-              imageFileName,
-              imageFilePath,
+              imageFileName: imgInfo.key,
+              imageFilePath: imgInfo.location,
             }
           : { userId, diary, feeling, createdDate };
 
@@ -84,22 +79,16 @@ export default (app: Router) => {
     },
   );
 
-  diaryRouter.delete(
-    '/',
-    imageDelete,
-    diaryValidator.userIdEmpty,
-    validationErrorChecker,
-    async (req: Request, res: Response, next: NextFunction) => {
-      try {
-        const id: string = req.body._id;
-        await diaryService.deleteOne(id);
+  diaryRouter.delete('/', imageDelete, async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const id: string = req.body._id;
+      await diaryService.deleteOne(id);
 
-        res.sendStatus(204); // No Content
-      } catch (error) {
-        next(error);
-      }
-    },
-  );
+      res.sendStatus(204); // No Content
+    } catch (error) {
+      next(error);
+    }
+  });
 
   diaryRouter.get(
     '/',
@@ -122,4 +111,21 @@ export default (app: Router) => {
       }
     },
   );
+
+  diaryRouter.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const id: string = req.params.id;
+
+      const diary: IDiary = await diaryService.findById(id);
+
+      const body = {
+        success: true,
+        diaries: diary,
+      };
+
+      res.status(200).json(body);
+    } catch (error) {
+      next(error);
+    }
+  });
 };

@@ -6,13 +6,11 @@ import { StyledTemplate } from './EITestTemplate.style';
 function EITestTemplate() {
   return (
     <StyledTemplate>
-      {/* <header> */}
       <PageTitle>EI Test</PageTitle>
       <Lines>
         <LineTop />
         <LineBottom />
       </Lines>
-      {/* </header> */}
       <EITest />
     </StyledTemplate>
   );

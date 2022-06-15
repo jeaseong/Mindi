@@ -19,44 +19,44 @@ Get:
 Put:
   tags:
     - "users"
-    summary: 입력받은 값으로 유저 정보를 업데이트합니다.
-    security:
-      - BearerAuth: [ ]
-    description: |
-      # 유저 정보 수정 API
-      입력받은 값들로 유저 정보를 업데이트합니다.
-      사용할 수 있는 정보는 유저 이름, 비밀번호, 상태 메시지입니다.
-    requestBody:
+  summary: 입력받은 값으로 유저 정보를 업데이트합니다.
+  security:
+    - BearerAuth: [ ]
+  description: |
+    # 유저 정보 수정 API
+    입력받은 값들로 유저 정보를 업데이트합니다.
+    사용할 수 있는 정보는 유저 이름, 비밀번호, 상태 메시지입니다.
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: '../components/requestBody/user.yaml#/put'
+        example:
+          $ref: '../components/examples/user.yaml#/putRequest'
+  responses:
+    '200':
+      description: 정상적으로 수정되었습니다.
       content:
         application/json:
           schema:
-            $ref: '../components/requestBody/user.yaml#/put'
+            $ref: '../components/responses/user.yaml#/put'
           example:
-            $ref: '../components/examples/user.yaml#/putRequest'
-    responses:
-      '200':
-        description: 정상적으로 수정되었습니다.
-        content:
-          application/json:
-            schema:
-              $ref: '../components/responses/user.yaml#/put'
-            example:
-              $ref: '../components/examples/user.yaml#/putResponse'
+            $ref: '../components/examples/user.yaml#/putResponse'
 Delete:
   tags:
     - users
-    summary: 현재 로그인한 유저 계정을 삭제합니다.
-    security:
-      - BearerAuth: [ ]
-    description: |
-      # 회원탈퇴 API
-      현재 로그인한 유저의 계정 정보를 삭제합니다.
-    responses:
-      '200':
-        description: 정상적으로 삭제되었습니다.
-        content:
-          application/json:
-            schema:
-              $ref: '../components/responses/user.yaml#/delete'
-            example:
-              $ref: '../components/examples/user.yaml#/delete'
+  summary: 현재 로그인한 유저 계정을 삭제합니다.
+  security:
+    - BearerAuth: [ ]
+  description: |
+    # 회원탈퇴 API
+    현재 로그인한 유저의 계정 정보를 삭제합니다.
+  responses:
+    '200':
+      description: 정상적으로 삭제되었습니다.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/responses/user.yaml#/delete'
+          example:
+            $ref: '../components/examples/user.yaml#/delete'

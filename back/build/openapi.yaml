@@ -2,9 +2,21 @@ openapi: 3.0.0
 info:
   version: 1.0.0
   title: Mindi_API
-  description: Mindi의 API 명세서
+  description: |
+    # Mindi의 API 명세서
 servers:
   - url: 'http://localhost:5001/'
+tags:
+  - name: diaries
+    description: '일기 작성, 조회, 수정, 삭제 등'
+  - name: auth
+    description: '유저 로그인, 회원가입 등'
+  - name: users
+    description: '회원 탈퇴, 정보 조회, 정보 수정 등'
+  - name: posts
+    description: '게시글 작성, 조회, 수정, 삭제 등'
+  - name: comments
+    description: '댓글 작성, 조회, 수정, 삭제 등'
 paths:
   /diaries:
     post:
@@ -245,6 +257,128 @@ paths:
                         createdAt: '2022-06-14T09:18:38.956Z'
                         updatedAt: '2022-06-14T09:18:38.956Z'
                         __v: 0
+  /users:
+    get:
+      tags:
+        - users
+      summary: 로그인한 유저 정보를 반환합니다.
+      security:
+        - BearerAuth: []
+      description: |
+        # 로그인 유저 정보 API
+        현재 로그인한 유저의 정보를 반환합니다.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  user:
+                    type: object
+                    properties:
+                      success:
+                        type: boolean
+                        description: 요청이 성공했는지를 나타냅니다.
+                      user:
+                        type: object
+                        properties:
+                          _id:
+                            type: string
+                            description: userId
+                          email:
+                            type: string
+                            description: 유저가 가입에 사용한 이메일 주소
+                          name:
+                            type: string
+                            description: 유저가 설정한 이름
+                          recentLogin:
+                            type: string
+                            format: date
+                            description: 마지막으로 로그인한 시각
+              examples:
+                success: true
+                user:
+                  _id: 62a0c9fe574953ef39d5c9e8
+                  name: mindi
+                  email: mindi@elice.com
+                  recentLogin: 2022-06-27T16:26:08.844Z
+    put:
+      tags:
+        - users
+      summary: 입력받은 값으로 유저 정보를 업데이트합니다.
+      security:
+        - BearerAuth: []
+      description: |
+        # 유저 정보 수정 API
+        입력받은 값들로 유저 정보를 업데이트합니다.
+        사용할 수 있는 정보는 유저 이름, 비밀번호, 상태 메시지입니다.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                password:
+                  type: string
+                description:
+                  type: string
+            example:
+              name: acorn
+              password: 1q2w3e4r5t!
+      responses:
+        '200':
+          description: 정상적으로 수정되었습니다.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    description: 요청이 성공했는지를 나타냅니다.
+                  user:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                        description: 유저가 설정한 이름
+              example:
+                success: true
+                user:
+                  email: mindi@elice.com
+                  name: acorn
+    delete:
+      tags:
+        - users
+      summary: 현재 로그인한 유저 계정을 삭제합니다.
+      security:
+        - BearerAuth: []
+      description: |
+        # 회원탈퇴 API
+        현재 로그인한 유저의 계정 정보를 삭제합니다.
+      responses:
+        '200':
+          description: 정상적으로 삭제되었습니다.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    description: 요청이 성공했는지를 나타냅니다.
+                  message:
+                    type: string
+                    description: 삭제 성공 메시지
+              example:
+                success: true
+                message: 성공적으로 삭제되었습니다.
 components:
   schemas:
     diary:
@@ -267,3 +401,7 @@ components:
           type: string
         createdDate:
           type: string
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer

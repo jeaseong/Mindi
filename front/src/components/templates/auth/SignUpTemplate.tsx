@@ -6,7 +6,7 @@ import { IMAGE } from 'components/utils/image';
 function SignInTemplate() {
   return (
     <Template>
-      <Image src={IMAGE.AUTH_LOGO.url} alt={IMAGE.AUTH_LOGO.alt} />
+      <Image width='40%' src={IMAGE.AUTH_LOGO.url} alt={IMAGE.AUTH_LOGO.alt} />
       <SignUp />
     </Template>
   );

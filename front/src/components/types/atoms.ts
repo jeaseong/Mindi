@@ -11,8 +11,7 @@ export type TextProps = {
 };
 
 export type ImgProps = {
-  width?: number;
-  height?: number;
+  width: string;
   src: string;
   alt: string;
 };

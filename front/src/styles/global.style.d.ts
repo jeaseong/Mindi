@@ -22,6 +22,7 @@ declare module 'styled-components' {
       basicBlack: string;
       basicWhite: string;
       bgColor: string;
+      headerBgColor: string;
       btnColor: string;
       btnColorHover: string;
       sucessAlert: string;

@@ -47,6 +47,7 @@ export const theme: DefaultTheme = {
     basicBlack: '#272729',
     basicWhite: '#fafafa',
     bgColor: '#F7F5E8',
+    headerBgColor: 'F4EEE7',
     btnColor: '#F4EEE7',
     btnColorHover: '#eaebee',
     sucessAlert: '#509a52',
@@ -85,6 +86,8 @@ pre {
 }
 a {
   background-color: transparent;
+  text-decoration: none;
+  color: inherit;
 }
 abbr[title] {
   border-bottom: none; /* 1 */

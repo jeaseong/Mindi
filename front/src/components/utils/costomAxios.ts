@@ -1,7 +1,6 @@
 import axios, { AxiosInstance } from 'axios';
 
-const PORT = '5001';
-const serverURL = `http://${window.location.hostname}:${PORT}/`;
+const serverURL = `${process.env.REACT_APP_API_SERVER}`;
 export const customAxios: AxiosInstance = axios.create({
   baseURL: `${serverURL}`, // 기본 서버 주소 입력
   headers: {

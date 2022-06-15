@@ -1,6 +1,6 @@
 Get:
   tags:
-    - users
+    - 'users'
   summary: 로그인한 유저 정보를 반환합니다.
   security:
     - BearerAuth: [ ]
@@ -18,7 +18,7 @@ Get:
             $ref: '../components/examples/user.yaml#/get'
 Put:
   tags:
-    - "users"
+    - 'users'
   summary: 입력받은 값으로 유저 정보를 업데이트합니다.
   security:
     - BearerAuth: [ ]
@@ -44,7 +44,7 @@ Put:
             $ref: '../components/examples/user.yaml#/putResponse'
 Delete:
   tags:
-    - users
+    - 'users'
   summary: 현재 로그인한 유저 계정을 삭제합니다.
   security:
     - BearerAuth: [ ]

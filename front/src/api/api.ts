@@ -18,7 +18,7 @@ export const getCurUser = async () => {
   return data;
 };
 
-export const postDiaryPosting = async (diaryData: DiaryInfo) => {
+export const postDiaryPosting = async (diaryData: any) => {
   const apiUrl = `api/diaries`;
   await customAxiosFileUpload.post(apiUrl, diaryData);
 };

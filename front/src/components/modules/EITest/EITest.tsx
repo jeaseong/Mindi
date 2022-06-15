@@ -1,18 +1,11 @@
 import React, { useState } from 'react';
 import TestList from '../../utils/TestData.json';
 
-import Title from 'components/atoms/span/title/Title';
 import Big from 'components/atoms/span/big/Big';
-
-import {
-  StyledTemplate,
-  StyledQuestion,
-  StyledAnswer,
-  StyledButtonDiv,
-} from './TestTemplate.style';
+import { StyledQuestion, StyledAnswer, StyledButtonDiv } from './EITest.style';
 import RadioButton from '../../atoms/radioButton/RadioButton';
 
-function TestTemplate() {
+function EITest() {
   const [loading, setLoading] = useState(false);
   const [selections, setSelections] = useState<any>([
     Object.keys(TestList).map((x) => []),
@@ -30,11 +23,7 @@ function TestTemplate() {
   };
 
   return (
-    <StyledTemplate>
-      <header>
-        <Title>Emotional Intelligence Test</Title>
-      </header>
-
+    <>
       {TestList.map((item: any, index: any) => {
         return (
           <div key={item.id}>
@@ -84,7 +73,7 @@ function TestTemplate() {
           <span>Submit</span>
         </button>
       </StyledButtonDiv>
-    </StyledTemplate>
+    </>
   );
 }
-export default TestTemplate;
+export default EITest;

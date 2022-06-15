@@ -1,11 +1,5 @@
 import styled from 'styled-components';
 
-export const StyledTemplate = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-content: center;
-`;
-
 export const StyledAnswer = styled.form`
   display: flex;
   justify-content: center;

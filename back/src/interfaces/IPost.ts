@@ -3,7 +3,7 @@ export interface IPost {
   title: string;
   content: string;
   author: string;
-  comments: Array<string>;
+  comments: number;
   createdAt: string;
   updatedAt: string;
 }

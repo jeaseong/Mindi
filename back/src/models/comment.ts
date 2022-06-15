@@ -15,6 +15,15 @@ export const Comment = new mongoose.Schema({
   author: {
     type: mongoose.Schema.Types.ObjectId,
     required: true
+  },
+  parent: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: false
+  },
+  depth: {
+    type: Number,
+    required: true,
+    default: 0
   }
 }, { timestamps: true });
 
@@ -22,16 +31,18 @@ export const CommentModel = mongoose.model<IComment>("Comment", Comment);
 
 @Service()
 export class MongoCommentModel implements ICommentModel {
-  async create(post: string, content: string, author: string) {
-    const comment = await CommentModel.create({ post, content, author });
+  async create(body: Partial<IComment>) {
+    const comment = await CommentModel.create(body);
     return comment.toObject();
   };
   async update(filter: Object, fieldToUpdate: Object) {
-    return CommentModel.findOneAndUpdate(
-      filter,
-      { $set: fieldToUpdate },
-      { returnOriginal: false }
-    );
+    return CommentModel
+      .findOneAndUpdate(
+        filter,
+        { $set: fieldToUpdate },
+        { returnOriginal: false }
+      )
+      .lean();
   };
   async delete(commentId: string) {
     await CommentModel.deleteOne({ _id: commentId });
@@ -43,7 +54,7 @@ export class MongoCommentModel implements ICommentModel {
     if (filter === null) {
       return CommentModel
         .find()
-        .sort({ createdAt: -1 })
+        .sort({ createdAt: 1 })
         .limit(query.limit)
         .skip((query.page - 1) * query.limit)
         .lean();
@@ -51,7 +62,7 @@ export class MongoCommentModel implements ICommentModel {
     else {
       return CommentModel
         .find(filter)
-        .sort({ createdAt: -1 })
+        .sort({ createdAt: 1 })
         .limit(query.limit)
         .skip((query.page - 1) * query.limit)
         .lean();

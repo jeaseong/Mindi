@@ -1,6 +1,7 @@
 import { Service, Inject } from "typedi";
 import { StatusError } from "../utils/error";
 import { MongoCommentModel } from "../models/comment";
+import {IComment} from "../interfaces/IComment";
 
 @Service()
 export default class CommentService {
@@ -9,8 +10,8 @@ export default class CommentService {
     @Inject("logger") private logger: any
   ) {
   }
-  public async makeNewComment(post: string, content: string, author: string) {
-    return this.commentModel.create(post, content, author);
+  public async makeNewComment(body: Partial<IComment>) {
+    return this.commentModel.create(body);
   }
 
   public async getCommentsWithFilter(filter: Object | null, page: number, limit: number) {

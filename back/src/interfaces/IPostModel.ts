@@ -1,7 +1,7 @@
 import { IPost } from "./IPost";
 
 export interface IPostModel {
-  create: (title: string, content: string, author: string) => Promise<Partial<IPost>>;
+  create: (body: Partial<IPost>) => Promise<Partial<IPost>>;
   update: (filter: Object, fieldToUpdate: Object) => Promise<Partial<IPost>|null>;
   delete: (postId: string) => Promise<void>;
   findOne: (filter: Object) => Promise<Partial<IPost>|null>;

@@ -24,7 +24,7 @@ export default (app: Router) => {
 
         const postService = Container.get(PostService);
 
-        const post = await postService.makeNewPost(title, content, author);
+        const post = await postService.makeNewPost({ title, content, author });
         const { updatedAt, ...rest } = post;
 
         const body = {
@@ -163,10 +163,11 @@ export default (app: Router) => {
           throw new StatusError(401, "수정 권한이 없습니다.");
 
         const updatedPost = await postService.updatePostInfo(postId, fieldToUpdate);
+        const { updatedAt, ...rest } = updatedPost!;
 
         const body = {
           success: true,
-          posts: updatedPost
+          post: rest
         };
 
         res.status(200).json(body);

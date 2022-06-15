@@ -17,8 +17,9 @@ export const Post = new mongoose.Schema({
     required: true
   },
   comments: {
-    type: mongoose.Schema.Types.ObjectId,
-    required: false
+    type: Number,
+    required: true,
+    default: 0
   }
 }, { timestamps: true });
 
@@ -26,16 +27,18 @@ export const PostModel = mongoose.model<IPost>("Post", Post);
 
 @Service()
 export class MongoPostModel implements IPostModel {
-  async create(title: string, content: string, author: string) {
-    const post = await PostModel.create({ title, content, author });
+  async create(body: Partial<IPost>) {
+    const post = await PostModel.create(body);
     return post.toObject();
   };
   async update(filter: Object, fieldToUpdate: Object) {
-    return PostModel.findOneAndUpdate(
-      filter,
-      { $set: fieldToUpdate },
-      { returnOriginal: false }
-    );
+    return PostModel
+      .findOneAndUpdate(
+        filter,
+        { $set: fieldToUpdate },
+        { returnOriginal: false }
+      )
+      .lean();
   };
   async delete(postId: string) {
     await PostModel.deleteOne({ _id: postId });

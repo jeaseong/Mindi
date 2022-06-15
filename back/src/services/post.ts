@@ -1,6 +1,7 @@
 import { Service, Inject } from "typedi";
 import { StatusError } from "../utils/error";
 import { MongoPostModel } from "../models/post";
+import { IPost } from "../interfaces/IPost";
 
 @Service()
 export default class PostService {
@@ -9,8 +10,8 @@ export default class PostService {
     @Inject("logger") private logger: any
   ) {
   }
-  public async makeNewPost(title: string, content: string, author: string) {
-    return this.postModel.create(title, content, author);
+  public async makeNewPost(body: Partial<IPost>) {
+    return this.postModel.create(body);
   }
 
   public async getPostsWithFilter(filter: Object | null, page: number, limit: number) {

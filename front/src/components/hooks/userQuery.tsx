@@ -3,13 +3,11 @@ import { signInPost, getCurUser } from 'api/api';
 import { SignInInfo } from 'components/types/apiType';
 
 export const useCurUser = () => {
-  const queryClient = useQueryClient();
-
   return useQuery(
     'userState',
     async () => {
       const data = await getCurUser();
-      return { usertState: data.user, isLogin: data.user };
+      return { userState: data.user, isLogin: data.user };
     },
     {
       staleTime: Infinity,

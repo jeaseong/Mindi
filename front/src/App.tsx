@@ -3,8 +3,9 @@ import './App.css';
 import SignIn from 'pages/User/SignIn';
 import SignUp from 'pages/User/SignUp';
 import Header from 'components/modules/header/Header';
-import EITestPage from 'pages/EITest/EITestPage';
+import EITest from 'pages/EITest/EITest';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import EITestResult from 'components/modules/EITest/EITestResult';
 
 const App: React.FC = () => {
   return (
@@ -13,7 +14,8 @@ const App: React.FC = () => {
         <Routes>
           <Route path='/sign-in' element={<SignIn />} />
           <Route path='/sign-up' element={<SignUp />} />
-          <Route path='/ei-test' element={<EITestPage />} />
+          <Route path='/ei-test' element={<EITest />} />
+          <Route path='/ei-test/result' element={<EITestResult />} />
         </Routes>
       </Router>
     </div>

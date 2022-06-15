@@ -1,8 +1,8 @@
 import React from 'react';
 import EITestTemplate from 'components/templates/EITest/EITestTemplate';
 
-const EITestPage = () => {
+const EITest = () => {
   return <EITestTemplate />;
 };
 
-export default EITestPage;
+export default EITest;

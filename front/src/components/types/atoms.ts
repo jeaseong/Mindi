@@ -10,8 +10,14 @@ export type TextProps = {
   children: React.ReactNode;
 };
 
+export type TextAreaProps = {
+  bgColor?: 'green' | 'red';
+  onChange?: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
+};
+
 export type ImgProps = {
   width: string;
+  height?: string;
   src: string;
   alt: string;
 };

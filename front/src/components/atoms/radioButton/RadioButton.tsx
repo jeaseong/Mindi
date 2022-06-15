@@ -1,13 +1,6 @@
 import React, { memo } from 'react';
 import { RadioWrapper, Mark, Input, Label } from './RadioButton.style';
-
-type RadioProps = {
-  name: string;
-  color: string;
-  value: string;
-  checked: boolean;
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-};
+import { RadioProps } from 'components/types/atoms';
 
 const RadioButton = ({ name, color, value, checked, onChange }: RadioProps) => (
   <RadioWrapper>

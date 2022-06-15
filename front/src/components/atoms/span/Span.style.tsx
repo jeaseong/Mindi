@@ -1,16 +1,5 @@
 import styled from 'styled-components';
-
-export interface SpanProps {
-  children?: React.ReactNode;
-  color?: string;
-  textAlign?: 'left' | 'right' | 'center';
-  width?: string;
-  size?: 'small' | 'normal' | 'big' | 'title';
-  blockWidth?: boolean;
-  className?: string;
-  [prop: string]: any;
-  onClick?: (e: React.MouseEvent<HTMLSpanElement>) => void;
-}
+import { SpanProps } from 'components/types/atoms';
 
 export const StyledSpan = styled.span<SpanProps>`
   color: ${(props: SpanProps) => props.color || 'black'};

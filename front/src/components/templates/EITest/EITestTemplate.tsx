@@ -6,9 +6,9 @@ import { StyledTemplate } from './EITestTemplate.style';
 function EITestTemplate() {
   return (
     <StyledTemplate>
-      <header>
-        <Title>Emotional Intelligence Test</Title>
-      </header>
+      {/* <header> */}
+      <Title>Emotional Intelligence Test</Title>
+      {/* </header> */}
       <EITest />
     </StyledTemplate>
   );

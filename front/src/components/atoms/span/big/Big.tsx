@@ -3,13 +3,7 @@ import cn from 'classnames';
 
 import Span from '../Span';
 import { StyledBig } from './Big.style';
-
-interface BigProps {
-  children?: React.ReactNode;
-  color?: string;
-  fontSize?: string;
-  className?: string;
-}
+import { BigProps } from 'components/types/atoms';
 
 const Big = ({ children, color = 'inherit', className }: BigProps) => {
   const needProps = {

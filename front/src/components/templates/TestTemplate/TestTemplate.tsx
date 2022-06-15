@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
 import TestList from '../../utils/TestData.json';
-import styled from 'styled-components';
 
 import Title from 'components/atoms/span/title/Title';
 import Big from 'components/atoms/span/big/Big';
 
-import { StyledTemplate } from './TestTemplate.style';
+import {
+  StyledTemplate,
+  StyledQuestion,
+  StyledAnswer,
+  StyledButtonDiv,
+} from './TestTemplate.style';
 import RadioButton from '../../atoms/radioButton/RadioButton';
 
 function TestTemplate() {
@@ -84,22 +88,3 @@ function TestTemplate() {
   );
 }
 export default TestTemplate;
-
-const StyledAnswer = styled.form`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 4em;
-`;
-
-const StyledButtonDiv = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 1em;
-  margin-bottom: 7em;
-`;
-
-const StyledQuestion = styled.section`
-  margin-bottom: 1.5em;
-`;

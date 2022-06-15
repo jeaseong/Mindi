@@ -61,7 +61,7 @@ export class MongoDiaryModel implements IDiaryModel {
   }
 
   async findByDate(date: string): Promise<IDiary[]> {
-    return DiaryModel.find({ createdDate: date }).lean();
+    return DiaryModel.find({ createdDate: date }).sort({ createdAt: -1 }).lean();
   }
 
   async exists(filter: Object): Promise<Boolean> {

@@ -52,6 +52,8 @@ export const theme: DefaultTheme = {
     btnColorHover: '#eaebee',
     sucessAlert: '#509a52',
     errorAlert: '#d94a48',
+    postingGreen: '#f1ffde',
+    postingRed: '#FFDBDB',
   },
 };
 

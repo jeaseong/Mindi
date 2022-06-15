@@ -27,6 +27,8 @@ declare module 'styled-components' {
       btnColorHover: string;
       sucessAlert: string;
       errorAlert: string;
+      postingGreen: string;
+      postingRed: string;
     };
   }
 }

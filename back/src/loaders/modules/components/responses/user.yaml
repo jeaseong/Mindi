@@ -1,0 +1,56 @@
+get:
+  type: object
+  properties:
+    success:
+      type: boolean
+    user:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: 요청이 성공했는지를 나타냅니다.
+        user:
+          type: object
+          properties:
+            _id:
+              type: string
+              description: userId
+            email:
+              type: string
+              description: 유저가 가입에 사용한 이메일 주소
+            name:
+              type: string
+              description: 유저가 설정한 이름
+            recentLogin:
+              type: string
+              format: date
+              description: 마지막으로 로그인한 시각
+put:
+  schema:
+    type: object
+      properties:
+        success:
+          type: boolean
+          description: 요청이 성공했는지를 나타냅니다.
+        user:
+          type: object
+          properties:
+            name:
+              type: string
+              description: 유저가 설정한 이름
+            email:
+              type: string
+              description: 유저가 가입에 사용한 이메일 주소
+            description:
+              type: string
+              description: 상태 메시지
+delete:
+  schema:
+    type: object
+      properties:
+        success:
+          type: boolean
+          description: 요청이 성공했는지를 나타냅니다.
+        message:
+          type: string
+          description: 삭제 성공 메시지

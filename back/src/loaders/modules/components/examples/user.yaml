@@ -1,0 +1,22 @@
+get:
+  example:
+    success: true
+    user:
+      _id: 62a0c9fe574953ef39d5c9e8
+      name: mindi
+      email: mindi@elice.com
+      recentLogin: 2022-06-27T16:26:08.844Z
+putRequest:
+  example:
+    name: acorn
+    password: 1q2w3e4r5t!
+putResponse:
+  example:
+    success: true
+    user:
+      email: mindi@elice.com
+      name: acorn
+delete:
+  example:
+    success: true
+    message: 성공적으로 삭제되었습니다.

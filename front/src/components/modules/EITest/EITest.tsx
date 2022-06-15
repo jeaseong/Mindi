@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import TestList from '../../utils/TestData.json';
 
 import Big from 'components/atoms/span/big/Big';
@@ -6,14 +7,15 @@ import { StyledQuestion, StyledAnswer, StyledButtonDiv } from './EITest.style';
 import RadioButton from '../../atoms/radioButton/RadioButton';
 
 import Button from 'components/atoms/button/Button';
-import { isDisabled } from '@testing-library/user-event/dist/utils';
 
 function EITest() {
   const [loading, setLoading] = useState(false);
-  const [selectCheck, setSelectCheck] = useState(false);
   const [selections, setSelections] = useState<any>([
     Object.keys(TestList).map((x) => []),
   ]);
+
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const submitHandler = () => {
     console.log(selections);
@@ -26,7 +28,19 @@ function EITest() {
     setSelections(tempState);
   };
 
-  const isNumberValid = Object.keys(selections).length === 25;
+  const isSelectionValid = Object.keys(selections).length === 25;
+
+  const goConclusionPage = () => {
+    if (!isSelectionValid) {
+      alert('아직 체크하지 않은 문항이 있어요!');
+    } else {
+      navigate('ei-test/result', {
+        state: {
+          selections: selections,
+        },
+      });
+    }
+  };
 
   return (
     <>
@@ -75,8 +89,15 @@ function EITest() {
         );
       })}
       <StyledButtonDiv>
-        <Button type='submit' onClick={submitHandler} disabled={!isNumberValid}>
-          결과 보기
+        <Button
+          type='submit'
+          onClick={() => {
+            submitHandler();
+            goConclusionPage();
+          }}
+          // disabled={!isSelectionValid}
+        >
+          제출
         </Button>
       </StyledButtonDiv>
     </>

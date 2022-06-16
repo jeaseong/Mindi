@@ -6,7 +6,7 @@ info:
   title: Mindi_API
   description: Mindi의 API 명세서
 servers:
-  - url: 'http://localhost:5001/'
+  - url: 'http://localhost:5001/api/'
 paths:
   /diaries:
     post:

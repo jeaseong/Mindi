@@ -4,7 +4,7 @@ info:
   title: Mindi_API
   description: Mindi의 API 명세서
 servers:
-  - url: 'http://localhost:5001/'
+  - url: 'http://localhost:5001/api/'
 paths:
   /diaries:
     post:
@@ -79,7 +79,7 @@ paths:
                   description: 다이어리의 object ID가 들어갑니다. 수정이 불가능한 속성입니다.
                 userId:
                   type: string
-                  description: 유저의 object ID가 들어갑니다.
+                  description: 유저의 object ID가 들어갑니다. 수정이 불가능한 속성입니다.
                 diary:
                   type: string
                   description: 일기 내용이 들어갑니다.

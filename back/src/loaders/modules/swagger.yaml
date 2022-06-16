@@ -15,7 +15,7 @@ paths:
       $ref: './paths/diary.yaml#/Update'
     delete:
       $ref: './paths/diary.yaml#/Delete'
-  /diaries?date={date}:
+  /diaries?userId={userId}&date={createdDate}:
     get:
       $ref: './paths/diary.yaml#/GetAList'
   /diaries/{id}:

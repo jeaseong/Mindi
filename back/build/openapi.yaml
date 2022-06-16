@@ -166,17 +166,22 @@ paths:
       responses:
         '204':
           description: No content
-  '/diaries?date={date}':
+  '/diaries?userId={userId}&date={createdDate}':
     get:
       tags:
         - diary
       summary: 특정 날짜의 다이어리 리스트를 반환합니다.
       parameters:
         - in: query
+          name: userId
+          schema:
+            type: string
+            example: 62a76c45f0ed80e0f9e765fc
+        - in: query
           name: date
           schema:
             type: string
-            example: 2022-6-14
+            example: '2022-06-16'
       responses:
         '200':
           description: A result object.
@@ -217,21 +222,21 @@ paths:
                   value:
                     success: true
                     diaries:
-                      - _id: 62a8526e52c9ccc7e30e07d4
-                        userId: 9d3cbc7bbd31ec6105ad2f87
-                        diary: example
-                        feeling: example
-                        createdDate: 2022-6-14
-                        createdAt: '2022-06-14T09:18:38.956Z'
-                        updatedAt: '2022-06-14T09:18:38.956Z'
+                      - _id: 62aaf383abc6f9d6325f06e4
+                        userId: 62a76c45f0ed80e0f9e765fc
+                        diary: Consequuntur praesentium nesciunt sit maiores. Et eos eum adipisci et quis nam repudiandae soluta. Ut provident natus maiores quasi.
+                        feeling: Minus nostrum soluta ratione sed saepe dolorum corrupti.
+                        createdDate: '2022-06-16'
+                        createdAt: '2022-06-16T09:10:27.553Z'
+                        updatedAt: '2022-06-16T09:10:27.706Z'
                         __v: 0
-                      - _id: 62a8526e52c9ccc7e30e07d4
-                        userId: 9d3cbc7bbd31ec6105ad2f87
-                        diary: example
-                        feeling: example
-                        createdDate: 2022-6-14
-                        createdAt: '2022-06-14T09:18:38.956Z'
-                        updatedAt: '2022-06-14T09:18:38.956Z'
+                      - _id: 62aaec9597623ebf98269f97
+                        userId: 62a76c45f0ed80e0f9e765fc
+                        diary: Dolor nihil magnam distinctio dolores molestias quidem harum et. Voluptatem sapiente totam. A animi asperiores aut deleniti cumque odit neque ipsum labore. Adipisci vel doloremque. Amet unde repellendus dicta voluptas provident similique at suscipit.
+                        feeling: Ab fugiat tempora.
+                        createdDate: '2022-06-16'
+                        createdAt: '2022-06-16T08:40:53.671Z'
+                        updatedAt: '2022-06-16T08:40:53.671Z'
                         __v: 0
   '/diaries/{id}':
     get:

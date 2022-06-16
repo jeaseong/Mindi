@@ -69,10 +69,15 @@ GetAList:
   summary: 특정 날짜의 다이어리 리스트를 반환합니다.
   parameters:
     - in: query
+      name: userId
+      schema:
+        type: string
+        example: '62a76c45f0ed80e0f9e765fc'
+    - in: query
       name: date
       schema:
         type: string
-        example: '2022-6-14'
+        example: '2022-06-16'
   responses:
     '200':
       description: A result object.

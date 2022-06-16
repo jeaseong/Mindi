@@ -7,7 +7,7 @@ export const useCurUser = () => {
     'userState',
     async () => {
       const data = await getCurUser();
-      return { userState: data.user, isLogin: data.user };
+      return { userState: data.user, isLogin: !!data.user };
     },
     {
       staleTime: Infinity,

@@ -13,7 +13,7 @@ export const signInPost = async (userInfo: SignInInfo) => {
 };
 
 export const getCurUser = async () => {
-  const apiUrl = `api/auth`;
+  const apiUrl = `api/users`;
   const { data } = await customAxios.get(apiUrl);
   return data;
 };

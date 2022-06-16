@@ -3,7 +3,7 @@ import Image from 'components/atoms/image/Image';
 import { UploadFile, UploadFileLabel } from './FileUpload.style';
 import { IMAGE } from 'components/utils/image';
 
-function FileUpload({ editImg, setEditImg, imgUrl, setImgUrl, formData }: any) {
+function FileUpload({ editImg, setEditImg }: any) {
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
     const img = {
@@ -12,16 +12,11 @@ function FileUpload({ editImg, setEditImg, imgUrl, setImgUrl, formData }: any) {
     };
     setEditImg(img);
   };
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    formData.append('file', editImg.data);
-    setImgUrl(editImg.preview);
-  };
   return (
-    <form onSubmit={onSubmit}>
+    <>
       <UploadFileLabel htmlFor='uploadFile'>
         <Image
-          src={imgUrl}
+          src={editImg.preview}
           alt={IMAGE.IMG_UPLOAD_BASIC.alt}
           width='100%'
           height='200px'
@@ -33,8 +28,8 @@ function FileUpload({ editImg, setEditImg, imgUrl, setImgUrl, formData }: any) {
         accept='image/*'
         onChange={onChange}
       />
-    </form>
+    </>
   );
 }
 
-export default FileUpload;
+export default React.memo(FileUpload);

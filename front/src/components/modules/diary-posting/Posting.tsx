@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useCurUser } from 'components/hooks/userQuery';
 import { postDiaryPosting } from 'api/api';
 import FileUpload from 'components/modules/fileUpload/FileUpload';
@@ -9,13 +10,16 @@ import { IMAGE } from 'components/utils/image';
 import { PostingContainer, Area, SubTitle, AlignRight } from './Posting.style';
 
 function Posting() {
+  const navigate = useNavigate();
   const [simpleDiary, setSimpleDiary] = useState('');
   const [mindDiary, setMindDiary] = useState('');
-  const [imgUrl, setImgUrl] = useState(`${IMAGE.IMG_UPLOAD_BASIC.url}`);
-  const [editImg, setEditImg] = useState({ preview: '', data: '' });
+  const [editImg, setEditImg] = useState({
+    preview: `${IMAGE.IMG_UPLOAD_BASIC.url}`,
+    data: '',
+  });
   const formData = useMemo(() => new FormData(), [editImg]);
 
-  const { data } = useCurUser();
+  // const { data } = useCurUser();
 
   const onChangeSimple = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setSimpleDiary((cur) => e.target.value);
@@ -26,20 +30,21 @@ function Posting() {
   };
   const onSubmit = () => {
     const diaryData = {
-      userId: data?.userState._id,
+      userId: '',
       diary: simpleDiary,
       feeling: mindDiary,
     };
-    formData.append('diaryData', JSON.stringify(diaryData));
+    formData.append('background', editImg.data);
+    Object.entries(diaryData).forEach((val) =>
+      formData.append(val[0], JSON.stringify(val[1])),
+    );
     postDiaryPosting(formData);
   };
 
   const fileuploadPros = {
     editImg,
-    imgUrl,
     formData,
     setEditImg,
-    setImgUrl,
   };
 
   return (

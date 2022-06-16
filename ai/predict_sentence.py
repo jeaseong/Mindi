@@ -31,7 +31,8 @@ def convert_input_data(sent):
 def predict_sentiment(sent):
     label_dict = {0: 'fear', 1: 'surprised', 2: 'anger', 3: 'sadness', 4: 'neutrality', 5: 'happiness', 6: 'aversion'}
 
-    input_ids, attention_mask = convert_input_data(sent)
+    # batch로 묶어서 한번에 하듯이 sent_list 한번에 나오도록 변경해보기
+    input_ids, attention_mask = convert_input_data(sent) 
     y_pred = model(input_ids.unsqueeze(0).to(device), attention_mask=attention_mask.unsqueeze(0).to(device))[0]
     _, predicted = torch.max(y_pred, 1)
     sentiment = label_dict[predicted.item()]

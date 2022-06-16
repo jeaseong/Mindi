@@ -59,7 +59,7 @@ class LoadDataset(Dataset):
         sent, 
         return_tensors='pt',
         truncation=True,
-        max_length=128,
+        max_length=256,
         padding='max_length',
         add_special_tokens=True
         )
@@ -84,9 +84,10 @@ model = ElectraForSequenceClassification.from_pretrained("monologg/koelectra-bas
 
 # 5. Train model
 # model save  function
-def saveModel(epoch, date, accuracy): 
-    acc = np.round(accuracy.cpu().numpy(), 4)
-    path = f"./model/model_{date}_epoch{epoch}_acc{acc}.pt" 
+def saveModel(epoch, date, train_accuracy, valid_accuravy): 
+    train_acc = np.round(train_accuracy.cpu().numpy(), 4)
+    valid_acc = np.round(valid_accuracy.cpu().numpy(), 4)
+    path = f"./model/model_{date}_epoch{epoch}_train{train_acc}_valid{valid_acc}.pt" 
     model.save_pretrained(path)
 
 # hyperparameter
@@ -140,8 +141,9 @@ def train_model():
                 print("Batch Loss:", total_loss, "Accuracy:", correct.float() / total)
     
         losses.append(total_loss)
-        accuracies.append(correct.float() / total)
-        print("Train Loss:", total_loss, "Train Accuracy:", correct.float() / total)
+        train_accuracy = correct.float() / total
+        accuracies.append(train_accuracy)
+        print("Train Loss:", total_loss, "Train Accuracy:", train_accuracy)
 
         model.eval()
         with torch.no_grad():
@@ -159,9 +161,10 @@ def train_model():
         valid_accuracy = valid_correct.float() / valid_total
         valid_accuracies.append(valid_accuracy)
 
-        if valid_accuracy > best_accuracy:
-            saveModel(i, date, valid_accuracy)
-            best_accuracy = valid_accuracy
+        # if valid_accuracy > best_accuracy:
+        #     saveModel(i, date, valid_accuracy)
+        #     best_accuracy = valid_accuracy
+        saveModel(epoch, date, train_accuracy, valid_accuracy)
         print("epoch:", i, "Validation Loss:", valid_loss, "Validation Accuracy:", valid_accuracy)
     return losses, accuracies, valid_losses, valid_accuracies
 

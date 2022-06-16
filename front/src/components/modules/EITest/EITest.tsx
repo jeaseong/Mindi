@@ -52,7 +52,7 @@ function EITest() {
             <StyledAnswer className='answers'>
               <span>Disagree</span>
               <RadioButton
-                color='#2ecc71'
+                color='#e74c3c'
                 name='answer'
                 value={item.answers[0]}
                 checked={selections[index] === 1}
@@ -76,7 +76,7 @@ function EITest() {
               />
 
               <RadioButton
-                color='#e74c3c'
+                color='#2ecc71'
                 name='answer'
                 value={item.answers[3]}
                 checked={selections[index] === 4}

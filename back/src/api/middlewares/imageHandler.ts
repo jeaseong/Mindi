@@ -16,7 +16,7 @@ let s3bucket = new S3({
 const storage = multerS3({
   s3: s3bucket,
   bucket: config.bucketName as string,
-  acl: 'public-read',
+  acl: 'public-read-write',
   contentType: multerS3.AUTO_CONTENT_TYPE,
   key: (req, file, callback) => {
     callback(null, `${file.fieldname}_` + Date.now() + `_${file.originalname}`);

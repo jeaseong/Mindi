@@ -1,31 +1,20 @@
 import React, { memo } from 'react';
-import { StyledRadioButton, RadioButtonProps } from './RadioButton.style';
-import cn from 'classnames';
+import { RadioWrapper, Mark, Input, Label } from './RadioButton.style';
+import { RadioProps } from 'components/types/atoms';
 
-const RadioButton = ({
-  children,
-  flex = 'auto',
-  outline = 'black',
-  bgColor = 'black',
-  size = 'small',
-  className,
-  onClick,
-}: RadioButtonProps) => {
-  const classCandidate = [size, className];
-  const commonProps = {
-    flex,
-    size,
-    outline,
-    bgColor,
-  };
+const RadioButton = ({ name, color, value, checked, onChange }: RadioProps) => (
+  <RadioWrapper>
+    <Label>
+      <Input
+        name={name}
+        type='radio'
+        value={value}
+        checked={checked}
+        onChange={onChange}
+      />
+      <Mark color={color} />
+    </Label>
+  </RadioWrapper>
+);
 
-  const RealRadioButton = (
-    <StyledRadioButton {...commonProps} className={cn(classCandidate)} onClick={onClick}>
-      {children}
-    </StyledRadioButton>
-  );
-
-  return RealRadioButton;
-};
-
-export default memo(RadioButton);
+export default RadioButton;

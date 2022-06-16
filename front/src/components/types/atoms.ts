@@ -36,3 +36,30 @@ export interface SnackBarProps {
   isActive: boolean;
   message?: string;
 }
+
+export interface SpanProps {
+  children?: React.ReactNode;
+  color?: string;
+  textAlign?: 'left' | 'right' | 'center';
+  width?: string;
+  size?: 'small' | 'normal' | 'big' | 'title';
+  blockWidth?: boolean;
+  className?: string;
+  [prop: string]: any;
+  onClick?: (e: React.MouseEvent<HTMLSpanElement>) => void;
+}
+
+export interface BigProps {
+  children?: React.ReactNode;
+  color?: string;
+  fontSize?: string;
+  className?: string;
+}
+
+export interface RadioProps {
+  name: string;
+  color: string;
+  value: string;
+  checked: boolean;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+}

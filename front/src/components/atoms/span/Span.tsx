@@ -1,5 +1,6 @@
 import React, { memo } from 'react';
-import { SpanProps, StyledSpan } from './Span.style';
+import { StyledSpan } from './Span.style';
+import { SpanProps } from 'components/types/atoms';
 import cn from 'classnames';
 
 const Span = ({

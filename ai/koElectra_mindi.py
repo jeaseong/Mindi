@@ -85,7 +85,7 @@ model = ElectraForSequenceClassification.from_pretrained("monologg/koelectra-bas
 # 5. Train model
 # model save  function
 def saveModel(epoch, date, accuracy): 
-    acc = np.round(accuracy.cpu().numpy(), 2)
+    acc = np.round(accuracy.cpu().numpy(), 4)
     path = f"./model/model_{date}_epoch{epoch}_acc{acc}.pt" 
     model.save_pretrained(path)
 

@@ -28,7 +28,7 @@ def convert_input_data(sent):
     return input_ids, attention_mask
 
 def predict_sentiment(sent):
-    label_dict = {0: '공포', 1: '놀람', 2: '분노', 3: '슬픔', 4: '중립', 5: '행복', 6: '혐오'}
+    label_dict = {0: 'fear', 1: 'surprised', 2: 'anger', 3: 'sadness', 4: 'neutrality', 5: 'happiness', 6: 'aversion'}
     model.eval()
 
     input_ids, attention_mask = convert_input_data(sent)
@@ -39,9 +39,13 @@ def predict_sentiment(sent):
 
 def predict_sentiment_list(diary):
     sent_list = split_diary(diary)
+    sentiment_dict = {'fear': 0, 'surprised': 0, 'anger': 0, 'sadness': 0, 'happiness': 0, 'aversion': 0}
     for sent in sent_list:
         sentiment = predict_sentiment(sent)
-        print(sentiment)
+        if sentiment != "neutrality":
+            sentiment_dict[sentiment] += 1
+    return sentiment_dict
 
 if __name__ == '__main__':
-    predict_sentiment_list(sys.argv[1])
+    result = predict_sentiment_list("정해진 시간을 지키지 못해서 속상했다.\n나는 왜 이럴까 매번.\n\n 정신을 차리자 제발. 영화는 재밌었다.")
+    print(result)

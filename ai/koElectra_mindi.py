@@ -70,7 +70,7 @@ class LoadDataset(Dataset):
     return input_ids, attention_mask, label
 
 # 3. split dataset into train, validation, test
-dataset = LoadDataset("./conversation_all.csv")
+dataset = LoadDataset("./dataset/conversation_all.csv")
 dataset_size = len(dataset)
 train_size = int(dataset_size * 0.8)
 validation_size = int(dataset_size * 0.1)
@@ -84,13 +84,14 @@ model = ElectraForSequenceClassification.from_pretrained("monologg/koelectra-bas
 
 # 5. Train model
 # model save  function
-def saveModel(date, epoch, accuracy): 
-    path = f"./model/model_{date}_epoch{epoch}_acc{accuracy}.pt" 
+def saveModel(epoch, date, accuracy): 
+    acc = np.round(accuracy.cpu().numpy(), 2)
+    path = f"./model/model_{date}_epoch{epoch}_acc{acc}.pt" 
     model.save_pretrained(path)
 
 # hyperparameter
 date = datetime.datetime.now().date()
-epochs = 1
+epochs = 15
 batch_size = 32
 optimizer = AdamW(model.parameters(), lr=5e-5)
 
@@ -98,11 +99,6 @@ optimizer = AdamW(model.parameters(), lr=5e-5)
 train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True, drop_last=True)
 validation_loader = DataLoader(validation_dataset, batch_size=batch_size, shuffle=True, drop_last=True)
 test_loader = DataLoader(test_dataset, batch_size=batch_size , shuffle=True, drop_last=True)
-
-# weight
-# weights = torch.tensor([0.059, 0.114, 0.099, 0.077, 0.516, 0.075, 0.060], dtype=torch.float32).to(device)
-# weights = 1.0 / weights
-# weights = weights / weights.sum()
 
 # train model
 def train_model():
@@ -130,7 +126,6 @@ def train_model():
             y_batch = y_batch.to(device)
             y_pred = model(input_ids_batch.to(device), attention_mask=attention_masks_batch.to(device))[0]
             loss = F.cross_entropy(y_pred, y_batch.long())
-            # loss = F.cross_entropy(y_pred, y_batch.long(), weights)
             loss.backward()
             optimizer.step()
 
@@ -165,7 +160,7 @@ def train_model():
         valid_accuracies.append(valid_accuracy)
 
         if valid_accuracy > best_accuracy:
-            saveModel(date, i, valid_accuracy)
+            saveModel(i, date, valid_accuracy)
             best_accuracy = valid_accuracy
         print("epoch:", i, "Validation Loss:", valid_loss, "Validation Accuracy:", valid_accuracy)
     return losses, accuracies, valid_losses, valid_accuracies
@@ -207,7 +202,7 @@ def test_model():
                         columns = [i for i in classes])
     plt.figure(figsize = (12,7))
     sn.heatmap(df_cm, annot=True)
-    plt.savefig(f"output_{date}.png")
+    plt.savefig(f"./image/output_{date}.png")
 
 test_model()
 

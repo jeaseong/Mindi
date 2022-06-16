@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from 'components/atoms/image/Image';
-import { useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { IMAGE } from 'components/utils/image';
 import Button from 'components/atoms/button/Button';
 import {
@@ -20,6 +20,7 @@ function EITestResult() {
     [key: string]: number;
   }
 
+  const navigate = useNavigate();
   const location = useLocation();
   const state = location.state as CustomizedState;
 
@@ -68,7 +69,7 @@ function EITestResult() {
         </Description>
       </DescriptionWrapper>
       <StyledButtonDiv>
-        <Button>가입하기</Button>
+        <Button onClick={() => navigate('/sign-in')}>가입하기</Button>
       </StyledButtonDiv>
     </EIResultTemplate>
   );

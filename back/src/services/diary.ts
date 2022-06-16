@@ -2,14 +2,25 @@ import { BaseDiary } from '../interfaces/IDiary';
 import { StatusError } from '../utils/error';
 import { Service, Inject } from 'typedi';
 import { MongoDiaryModel } from '../models/diary';
+import { MongoUserModel } from '../models/user';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
 
 @Service()
 export default class DiaryService {
-  constructor(private diaryModel: MongoDiaryModel, @Inject('logger') private logger: any) {}
+  constructor(
+    private diaryModel: MongoDiaryModel,
+    private userModel: MongoUserModel,
+    @Inject('logger') private logger: any,
+  ) {}
 
   public async create(newDiary: BaseDiary) {
+    const userExists = await this.userModel.exists({ _id: newDiary.userId });
+
+    if (!userExists) {
+      throw new StatusError(400, '사용자가 존재하지 않습니다.');
+    }
+
     // 일기 작성 날짜 생성
     const createdDate = dayjs().locale('ko').format('YYYY-MM-DD');
     newDiary = { ...newDiary, createdDate };
@@ -19,6 +30,12 @@ export default class DiaryService {
   }
 
   public async updateOne(id: string, toUpdate: BaseDiary) {
+    const userExists = await this.userModel.exists({ _id: toUpdate.userId });
+
+    if (!userExists) {
+      throw new StatusError(400, '사용자가 존재하지 않습니다.');
+    }
+
     const filter = { _id: id };
     const doc = await this.diaryModel.exists(filter);
     if (!doc) {
@@ -36,8 +53,8 @@ export default class DiaryService {
     }
   }
 
-  public async findByDate(date: string) {
-    const docList = await this.diaryModel.findByDate(date);
+  public async findByDate(userId: string, date: string) {
+    const docList = await this.diaryModel.findByDate(userId, date);
     return docList;
   }
 

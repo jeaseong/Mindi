@@ -11,16 +11,17 @@ const today = dayjs().locale('ko').format('YYYY-MM-DD');
 const mockUserId = faker.database.mongodbObjectId();
 const mockDiary = faker.lorem.paragraph();
 const mockFeeling = faker.lorem.sentence();
+const tempUserId = '62a76c45f0ed80e0f9e765fc';
 
 const newDiary = {
-  userId: mockUserId,
+  userId: tempUserId,
   diary: faker.lorem.paragraph(),
   feeling: faker.lorem.sentence(),
 };
 
 let toUpdate = {
   _id: 'mockObjectId',
-  userId: mockUserId,
+  userId: tempUserId,
   diary: mockDiary,
   feeling: mockFeeling,
   createdDate: today,
@@ -65,7 +66,7 @@ describe('Diary with no image', () => {
   });
 
   it('Get a diary list', async () => {
-    const response = await request(server).get(`/api/diaries?date=${today}`);
+    const response = await request(server).get(`/api/diaries?userId=${tempUserId}&date=${today}`);
     expect(response.status).toEqual(200);
   });
 
@@ -85,7 +86,7 @@ describe('Diary with an image', () => {
     const response = await request(server)
       .post('/api/diaries')
       .type('multipart/form-data')
-      .field('userId', mockUserId)
+      .field('userId', tempUserId)
       .field('diary', mockDiary)
       .field('feeling', mockFeeling)
       .attach('background', 'tests/test.jpg');
@@ -99,7 +100,7 @@ describe('Diary with an image', () => {
       .put('/api/diaries')
       .type('multipart/form-data')
       .field('_id', toDeleteWithImage._id)
-      .field('userId', mockUserId)
+      .field('userId', tempUserId)
       .field('diary', mockDiary)
       .field('feeling', faker.lorem.sentence())
       .field('imageFileName', toDeleteWithImage.imageFileName)

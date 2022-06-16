@@ -1,14 +1,13 @@
 import { Schema, model } from 'mongoose';
 import { Service } from 'typedi';
-import { BaseDiary, deleteResult, IDiary, IDiaryModel } from '../interfaces/IDiary';
+import { BaseDiary, deleteResult, IDiary } from '../interfaces/IDiary';
+import { IDiaryModel } from '../interfaces/IDiaryModel';
 
 const DiarySchema = new Schema(
   {
     userId: {
-      // type: Schema.Types.ObjectId,
-      // ref: 'User',
-      type: String,
-      required: true,
+      type: Schema.Types.ObjectId,
+      ref: 'User',
     },
     diary: {
       type: String,
@@ -60,8 +59,10 @@ export class MongoDiaryModel implements IDiaryModel {
     return DiaryModel.findOne({ _id: id }).lean();
   }
 
-  async findByDate(date: string): Promise<IDiary[]> {
-    return DiaryModel.find({ createdDate: date }).sort({ createdAt: -1 }).lean();
+  async findByDate(userId: string, date: string): Promise<IDiary[]> {
+    return DiaryModel.find({ $and: [{ userId }, { createdDate: date }] })
+      .sort({ createdAt: -1 })
+      .lean();
   }
 
   async exists(filter: Object): Promise<Boolean> {

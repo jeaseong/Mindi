@@ -15,7 +15,6 @@ function EITest() {
   ]);
 
   const navigate = useNavigate();
-  const location = useLocation();
 
   const submitHandler = () => {
     console.log(selections);
@@ -34,7 +33,7 @@ function EITest() {
     if (!isSelectionValid) {
       alert('아직 체크하지 않은 문항이 있어요!');
     } else {
-      navigate('ei-test/result', {
+      navigate('result', {
         state: {
           selections: selections,
         },

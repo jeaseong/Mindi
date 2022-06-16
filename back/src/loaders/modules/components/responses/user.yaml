@@ -3,6 +3,7 @@ get:
   properties:
     success:
       type: boolean
+      description: 요청이 성공했는지를 나타냅니다.
     user:
       type: object
       properties:

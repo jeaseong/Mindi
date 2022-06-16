@@ -1,6 +1,6 @@
 # npm run api-docs
 # "prestart": "npm run api-docs",
-openapi: 3.0.0
+openapi: '3.0.0'
 info:
   version: 1.0.0
   title: Mindi_API

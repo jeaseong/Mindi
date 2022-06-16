@@ -15,7 +15,7 @@ Get:
           schema:
             $ref: '../components/responses/user.yaml#/get'
           examples:
-            $ref: '../components/examples/user.yaml#/get'
+            $ref: '../components/examples/user.yaml#/getResponse'
 Put:
   tags:
     - 'users'

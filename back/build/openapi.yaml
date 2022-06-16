@@ -277,6 +277,7 @@ paths:
                 properties:
                   success:
                     type: boolean
+                    description: 요청이 성공했는지를 나타냅니다.
                   user:
                     type: object
                     properties:
@@ -294,12 +295,13 @@ paths:
                         format: date
                         description: 마지막으로 로그인한 시각
               examples:
-                success: true
-                user:
-                  _id: 62a0c9fe574953ef39d5c9e8
-                  name: mindi
-                  email: mindi@elice.com
-                  recentLogin: 2022-06-27T16:26:08.844Z
+                value:
+                  success: true
+                  user:
+                    _id: 62a0c9fe574953ef39d5c9e8
+                    name: mindi
+                    email: mindi@elice.com
+                    recentLogin: 2022-06-27T16:26:08.844Z
     put:
       tags:
         - users
@@ -319,8 +321,6 @@ paths:
                 name:
                   type: string
                 password:
-                  type: string
-                description:
                   type: string
             example:
               name: acorn

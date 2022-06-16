@@ -26,7 +26,7 @@ const storage = multerS3({
   // },
 });
 
-const imageUpload = multer({ storage }); // storage에 저장
+const imageUpload = multer({ storage, limits: { fileSize: 5 * 1024 * 1024 } }); // storage에 저장, 5MB로 제한
 
 async function imageDelete(req: Request, res: Response, next: NextFunction) {
   if (req.body.imageFileName) {

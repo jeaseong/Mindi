@@ -6,18 +6,12 @@ export const EIResultTemplate = styled.section`
   width: 100vw;
   margin: 0 auto;
   height: 100vh;
+
   ${({ theme }) => theme.media.tablet`
     max-width: 1024px;
     flex-direction: row;
 
   `}
-`;
-
-export const DescriptionWrapper = styled.div`
-  /* margin: 0 auto; */
-  display: flex;
-  align-items: center;
-  justify-content: center;
 `;
 
 export const ImageWrapper = styled.div`
@@ -37,6 +31,13 @@ export const ScoreTitle = styled.span``;
 export const Score = styled.span`
   display: block;
   font-size: 5.5em;
+`;
+
+export const DescriptionWrapper = styled.div`
+  margin: 0 auto 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 export const Description = styled.p`

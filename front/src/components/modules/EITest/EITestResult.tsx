@@ -13,7 +13,6 @@ import {
   Description,
 } from './EITestResult.style';
 import { StyledButtonDiv } from './EITest.style';
-import { CustomizedLocate } from 'components/types/atoms';
 
 function EITestResult() {
   interface CustomizedState {

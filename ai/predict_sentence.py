@@ -4,14 +4,15 @@ from transformers import ElectraTokenizer, ElectraForSequenceClassification
 
 device = torch.device('cuda')
 model = ElectraForSequenceClassification.from_pretrained('./model/model_2022-06-14_acc0.67.pt').to(device)
+tokenizer = ElectraTokenizer.from_pretrained("monologg/koelectra-base-v3-discriminator")
+model.eval()
 
 def split_diary(diary):
     diary.replace("\n", "")
     sent_list = [sent.strip() for sent in diary.split(".") if sent]
     return sent_list
 
-def convert_input_data(sent):
-    tokenizer = ElectraTokenizer.from_pretrained("monologg/koelectra-base-v3-discriminator")
+def convert_input_data(sent):    
 
     inputs = tokenizer(
         sent, 
@@ -29,7 +30,6 @@ def convert_input_data(sent):
 
 def predict_sentiment(sent):
     label_dict = {0: 'fear', 1: 'surprised', 2: 'anger', 3: 'sadness', 4: 'neutrality', 5: 'happiness', 6: 'aversion'}
-    model.eval()
 
     input_ids, attention_mask = convert_input_data(sent)
     y_pred = model(input_ids.unsqueeze(0).to(device), attention_mask=attention_mask.unsqueeze(0).to(device))[0]

@@ -1,4 +1,8 @@
-import { customAxios, customAxiosFileUpload } from 'api/costomAxios';
+import {
+  customAxios,
+  customAxiosGet,
+  customAxiosFileUpload,
+} from 'api/costomAxios';
 import { SignUpInfo, SignInInfo, DiaryInfo } from 'components/types/apiType';
 
 export const signUpPost = async (userInfo: SignUpInfo) => {
@@ -14,7 +18,7 @@ export const signInPost = async (userInfo: SignInInfo) => {
 
 export const getCurUser = async () => {
   const apiUrl = `api/users`;
-  const { data } = await customAxios.get(apiUrl);
+  const { data } = await customAxiosGet.get(apiUrl);
   return data;
 };
 

@@ -1,12 +1,24 @@
 # npm run api-docs
 # "prestart": "npm run api-docs",
-openapi: 3.0.0
+openapi: '3.0.0'
 info:
   version: 1.0.0
   title: Mindi_API
-  description: Mindi의 API 명세서
+  description: |
+    # Mindi의 API 명세서
 servers:
   - url: 'http://localhost:5001/api/'
+tags:
+  - name: diaries
+    description: 일기 작성, 조회, 수정, 삭제 등
+  - name: auth
+    description: 유저 로그인, 회원가입 등
+  - name: users
+    description: 회원 탈퇴, 정보 조회, 정보 수정 등
+  - name: posts
+    description: 게시글 작성, 조회, 수정, 삭제 등
+  - name: comments
+    description: 댓글 작성, 조회, 수정, 삭제 등
 paths:
   /diaries:
     post:
@@ -21,7 +33,18 @@ paths:
   /diaries/{id}:
     get:
       $ref: './paths/diary.yaml#/GetADiary'
+  /users:
+    get:
+      $ref: './paths/user.yaml#/Get'
+    put:
+      $ref: './paths/user.yaml#/Put'
+    delete:
+      $ref: './paths/user.yaml#/Delete'
 components:
   schemas:
     diary:
       $ref: './components/schemas/diary.yaml'
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer

@@ -19,7 +19,7 @@ function Posting() {
   });
   const formData = useMemo(() => new FormData(), [editImg]);
 
-  // const { data } = useCurUser();
+  const { data } = useCurUser();
 
   const onChangeSimple = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setSimpleDiary((cur) => e.target.value);
@@ -28,16 +28,17 @@ function Posting() {
   const onChangeMind = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setMindDiary((cur) => e.target.value);
   };
-  const onSubmit = () => {
+  const onSubmit = (e: any) => {
+    e.preventDefault();
     const diaryData = {
-      userId: '',
+      userId: data?.userState._Id,
       diary: simpleDiary,
       feeling: mindDiary,
     };
     formData.append('background', editImg.data);
-    Object.entries(diaryData).forEach((val) =>
-      formData.append(val[0], JSON.stringify(val[1])),
-    );
+    Object.entries(diaryData).forEach((val) => {
+      formData.append(val[0], JSON.stringify(val[1]));
+    });
     postDiaryPosting(formData);
     navigate('/result');
   };

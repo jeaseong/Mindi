@@ -8,7 +8,7 @@ export interface BaseDiary {
 }
 
 export interface IDiary extends BaseDiary {
-  _id: string;
+  readonly _id: string;
 }
 
 export interface deleteResult {

@@ -39,6 +39,7 @@ function Posting() {
       formData.append(val[0], JSON.stringify(val[1])),
     );
     postDiaryPosting(formData);
+    navigate('/result');
   };
 
   const fileuploadPros = {

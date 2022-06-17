@@ -1,6 +1,6 @@
 import React from 'react';
 import { TextEdit } from './TextArea.style';
-import { TextAreaProps } from 'components/types/atoms';
+import { TextAreaProps } from 'types/atoms';
 
 function TextArea({ bgColor = 'green', onChange }: TextAreaProps) {
   return <TextEdit onChange={onChange} bgColor={bgColor}></TextEdit>;

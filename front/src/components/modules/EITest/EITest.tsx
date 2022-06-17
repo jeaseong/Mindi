@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import TestList from '../../utils/TestData.json';
+import TestList from '../../../utils/TestData.json';
 
 import Big from 'components/atoms/span/big/Big';
 import { StyledQuestion, StyledAnswer, StyledButtonDiv } from './EITest.style';

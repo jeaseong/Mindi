@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { SnackBarProps } from 'components/types/atoms';
+import { SnackBarProps } from 'types/atoms';
 
 export const SnackBarContainer = styled.div<SnackBarProps>`
   display: flex;

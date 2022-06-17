@@ -3,10 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import Input from 'components/atoms/input/Input';
 import Button from 'components/atoms/button/Button';
 import Text from 'components/atoms/text/Text';
-import { useSnackbarContext } from 'components/contexts/SnackbarContext';
+import { useSnackbarContext } from 'contexts/SnackbarContext';
 import { signUpPost } from 'api/api';
-import { signUpValidation } from 'components/utils/validation';
-import { LABEL, SIGNIN_GUIDE, ALERT_MESSAGE } from 'components/utils/constants';
+import { signUpValidation } from 'utils/validation';
+import { LABEL, SIGNIN_GUIDE, ALERT_MESSAGE } from 'utils/constants';
 import { AuthContainer, InputBox } from './Auth.style';
 
 function SignUp() {

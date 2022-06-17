@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { TextAreaProps } from 'components/types/atoms';
+import { TextAreaProps } from 'types/atoms';
 export const TextEdit = styled.textarea<TextAreaProps>`
   width: 100%;
   min-height: 300px;

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { SpanProps } from 'components/types/atoms';
+import { SpanProps } from 'types/atoms';
 
 export const StyledSpan = styled.span<SpanProps>`
   color: ${(props: SpanProps) => props.color || 'black'};

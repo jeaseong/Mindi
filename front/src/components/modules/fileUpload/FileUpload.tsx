@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Image from 'components/atoms/image/Image';
 import { UploadFile, UploadFileLabel } from './FileUpload.style';
-import { IMAGE } from 'components/utils/image';
+import { IMAGE } from 'utils/image';
 
 function FileUpload({ editImg, setEditImg }: any) {
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {

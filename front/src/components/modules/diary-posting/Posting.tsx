@@ -1,12 +1,12 @@
 import React, { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useSnackbarContext } from 'components/contexts/SnackbarContext';
+import { useSnackbarContext } from 'contexts/SnackbarContext';
 import { postDiaryPosting } from 'api/api';
 import FileUpload from 'components/modules/fileUpload/FileUpload';
 import MainTitle from 'components/atoms/text/MainTitle';
 import TextArea from 'components/atoms/textArea/TextArea';
 import Button from 'components/atoms/button/Button';
-import { IMAGE } from 'components/utils/image';
+import { IMAGE } from 'utils/image';
 import { PostingContainer, Area, SubTitle, AlignRight } from './Posting.style';
 
 function Posting() {

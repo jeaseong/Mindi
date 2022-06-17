@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import { signInPost, getCurUser } from 'api/api';
-import { SignInInfo } from 'components/types/apiType';
+import { SignInInfo } from 'types/apiType';
 
 export const useCurUser = () => {
   const queryClient = useQueryClient();

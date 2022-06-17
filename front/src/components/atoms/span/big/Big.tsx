@@ -3,7 +3,7 @@ import cn from 'classnames';
 
 import Span from '../Span';
 import { StyledBig } from './Big.style';
-import { BigProps } from 'components/types/atoms';
+import { BigProps } from 'types/atoms';
 
 const Big = ({ children, color = 'inherit', className }: BigProps) => {
   const needProps = {

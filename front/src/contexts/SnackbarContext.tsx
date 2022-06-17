@@ -5,7 +5,7 @@ import React, {
   useEffect,
   useContext,
 } from 'react';
-import { Snackbar, SnackbarType } from 'components/types/atoms';
+import { Snackbar, SnackbarType } from 'types/atoms';
 
 export const SnackbarContext = createContext<Snackbar | null>(null);
 

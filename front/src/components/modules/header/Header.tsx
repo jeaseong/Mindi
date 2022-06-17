@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Image from 'components/atoms/image/Image';
-import { IMAGE } from 'components/utils/image';
-import { HEADER_LINK } from 'components/utils/constants';
+import { IMAGE } from 'utils/image';
+import { HEADER_LINK } from 'utils/constants';
 import { HeaderContainer, Nav, NavItem } from './Header.style';
 
 function Header() {

@@ -1,7 +1,7 @@
 import React from 'react';
 import Image from 'components/atoms/image/Image';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { IMAGE } from 'components/utils/image';
+import { IMAGE } from 'utils/image';
 import Button from 'components/atoms/button/Button';
 import {
   EIResultTemplate,

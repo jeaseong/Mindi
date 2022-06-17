@@ -1,5 +1,5 @@
 import { customAxios, customAxiosFileUpload } from 'api/costomAxios';
-import { SignUpInfo, SignInInfo, DiaryInfo } from 'components/types/apiType';
+import { SignUpInfo, SignInInfo, DiaryInfo } from 'types/apiType';
 
 export const signUpPost = async (userInfo: SignUpInfo) => {
   const apiUrl = `api/auth/local/sign-up`;

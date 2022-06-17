@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { BtnProps } from 'components/types/atoms';
+import { BtnProps } from 'types/atoms';
 
 export const Btn = styled.button<BtnProps>`
   background-color: ${(props) => props.theme.colors.btnColor};

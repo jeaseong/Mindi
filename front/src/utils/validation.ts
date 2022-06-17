@@ -1,4 +1,4 @@
-import { SignUpVType, SignInVType } from 'components/types/validation';
+import { SignUpVType, SignInVType } from 'types/validation';
 
 /**
  * 이메일 형식을 정규식으로 검사

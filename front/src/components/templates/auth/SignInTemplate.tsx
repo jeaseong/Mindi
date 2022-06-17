@@ -2,7 +2,7 @@ import React from 'react';
 import SignIn from 'components/modules/auth/SignIn';
 import Image from 'components/atoms/image/Image';
 import { Template } from './AuthTemplate.style';
-import { IMAGE } from 'components/utils/image';
+import { IMAGE } from 'utils/image';
 function SignInTemplate() {
   return (
     <Template>

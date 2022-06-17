@@ -1,6 +1,6 @@
 import React from 'react';
 import { Btn } from './Button.style';
-import { BtnProps } from 'components/types/atoms';
+import { BtnProps } from 'types/atoms';
 
 function Button({ children, size, type, disabled = false, onClick }: BtnProps) {
   return (

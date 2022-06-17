@@ -1,5 +1,5 @@
 import React from 'react';
-import { SnackBarProps } from 'components/types/atoms';
+import { SnackBarProps } from 'types/atoms';
 import { SnackBarContainer } from './SnackBar.style';
 import { MdTaskAlt, MdInfoOutline } from 'react-icons/md';
 

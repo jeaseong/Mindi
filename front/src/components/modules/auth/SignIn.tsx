@@ -1,10 +1,10 @@
 import React, { useState, useCallback, useMemo } from 'react';
 import Input from 'components/atoms/input/Input';
 import Button from 'components/atoms/button/Button';
-import { useSnackbarContext } from 'components/contexts/SnackbarContext';
-import { useSignInHandler } from 'components/hooks/userQuery';
-import { signInValidation } from 'components/utils/validation';
-import { LABEL } from 'components/utils/constants';
+import { useSnackbarContext } from 'contexts/SnackbarContext';
+import { useSignInHandler } from 'hooks/userQuery';
+import { signInValidation } from 'utils/validation';
+import { LABEL } from 'utils/constants';
 import { AuthContainer } from './Auth.style';
 
 function SignIn() {

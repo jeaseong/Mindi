@@ -6,7 +6,7 @@ post:
   value:
     success: true
     post:
-      id: 62a0c9fe574953ef39d5c9e8
+      _id: 62a0c9fe574953ef39d5c9e8
       title: 게시글 제목
       content: 게시글 내용
       author: 62a0c1234jk4953ef39d5c9e9

@@ -58,6 +58,27 @@ paths:
   /users/posts/{userId}:
     get:
       $ref: './paths/post.yaml#/GetUsersPostsByUserId'
+  /comments/{commentId}:
+    post:
+      $ref: './paths/comment.yaml#/PostDaughterComment'
+    get:
+      $ref: './paths/comment.yaml#/Get'
+    put:
+      $ref: './paths/comment.yaml#/Put'
+    delete:
+      $ref: './paths/comment.yaml#/Delete'
+  /posts/comments/{postId}:
+    post:
+      $ref: './paths/comment.yaml#/Post'
+    get:
+      $ref: './paths/comment.yaml#/GetPostComments'
+  /comments/children/{commentId}:
+    get:
+      $ref: './paths/comment.yaml#/GetChildren'
+  /users/comments/{userId}:
+    get:
+      $ref: './paths/comment.yaml#/GetUserComments'
+
 
 components:
   schemas:

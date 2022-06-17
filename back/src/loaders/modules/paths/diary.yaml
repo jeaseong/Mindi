@@ -1,6 +1,6 @@
 Post:
   tags:
-    - diary
+    - diaries
   summary: 다이어리를 생성합니다.
   requestBody:
     required: true
@@ -23,7 +23,7 @@ Post:
 
 Update:
   tags:
-    - diary
+    - diaries
   summary: 다이어리를 업데이트 합니다.
   requestBody:
     required: true
@@ -46,7 +46,7 @@ Update:
 
 Delete:
   tags:
-    - diary
+    - diaries
   summary: 다이어리를 삭제합니다.
   requestBody:
     required: true
@@ -65,7 +65,7 @@ Delete:
 
 GetAList:
   tags:
-    - diary
+    - diaries
   summary: 특정 날짜의 다이어리 리스트를 반환합니다.
   parameters:
     - in: query
@@ -86,7 +86,7 @@ GetAList:
 
 GetADiary:
   tags:
-    - diary
+    - diaries
   summary: 특정 아이디의 다이어리 정보를 반환합니다.
   parameters:
     - in: path

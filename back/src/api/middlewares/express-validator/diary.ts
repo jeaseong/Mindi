@@ -14,8 +14,5 @@ export default {
       .bail()
       .isString(),
   ],
-  getList: [
-    query('date').notEmpty().withMessage('날짜 정보가 비어 있습니다.').bail(),
-    query('userId').notEmpty().withMessage('유저 아이디 정보가 비어 있습니다.'),
-  ],
+  getList: [query('date').notEmpty().withMessage('날짜 정보가 비어 있습니다.').bail()],
 };

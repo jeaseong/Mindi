@@ -5,6 +5,7 @@ import validationErrorChecker from '../middlewares/validationErrorChecker';
 import { diaryValidator } from '../middlewares/express-validator';
 import { Container } from 'typedi';
 import { imageDelete, imageUpload } from '../middlewares/imageHandler';
+import { loginRequired } from '../middlewares/loginRequired';
 
 export default (app: Router) => {
   const diaryRouter = Router();
@@ -15,15 +16,18 @@ export default (app: Router) => {
   diaryRouter.post(
     '/',
     imageUpload.single('background'), // field name
+    loginRequired,
     diaryValidator.diaryBody,
     validationErrorChecker,
     async (req: Request, res: Response, next: NextFunction) => {
       try {
+        const userId = req.user!._id;
         const imgInfo = Object(req.file);
         let Diary: BaseDiary = req.body;
         Diary = imgInfo
           ? {
               ...Diary,
+              userId,
               imageFileName: imgInfo.key,
               imageFilePath: imgInfo.location,
             }
@@ -46,13 +50,15 @@ export default (app: Router) => {
   diaryRouter.put(
     '/',
     imageUpload.single('background'),
+    loginRequired,
     imageDelete,
     diaryValidator.diaryBody,
     validationErrorChecker,
     async (req: Request, res: Response, next: NextFunction) => {
       try {
+        const userId = req.user!._id;
         const imgInfo = Object(req.file);
-        const { _id, userId, diary, feeling, createdDate } = req.body;
+        const { _id, diary, feeling, createdDate } = req.body;
         const id: string = _id;
         const toUpdate: BaseDiary = req.file
           ? {
@@ -92,11 +98,12 @@ export default (app: Router) => {
 
   diaryRouter.get(
     '/',
+    loginRequired,
     diaryValidator.getList,
     validationErrorChecker,
     async (req: Request, res: Response, next: NextFunction) => {
       try {
-        const userId: string = String(req.query.userId);
+        const userId = req.user!._id;
         const date: string = String(req.query.date); // 가정: "2022-6-10"
 
         const diaries: IDiary[] = await diaryService.findByDate(userId, date);

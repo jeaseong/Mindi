@@ -18,13 +18,9 @@ paths:
             schema:
               type: object
               required:
-                - userId
                 - diary
                 - feeling
               properties:
-                userId:
-                  type: string
-                  description: 유저의 object ID가 들어갑니다.
                 diary:
                   type: string
                   description: 일기 내용이 들어갑니다.
@@ -69,7 +65,6 @@ paths:
               type: object
               required:
                 - _id
-                - userId
                 - diary
                 - feeling
                 - createdDate
@@ -77,9 +72,6 @@ paths:
                 _id:
                   type: string
                   description: 다이어리의 object ID가 들어갑니다. 수정이 불가능한 속성입니다.
-                userId:
-                  type: string
-                  description: 유저의 object ID가 들어갑니다. 수정이 불가능한 속성입니다.
                 diary:
                   type: string
                   description: 일기 내용이 들어갑니다.
@@ -166,17 +158,12 @@ paths:
       responses:
         '204':
           description: No content
-  '/diaries?userId={userId}&date={createdDate}':
+  '/diaries?date={createdDate}':
     get:
       tags:
         - diary
       summary: 특정 날짜의 다이어리 리스트를 반환합니다.
       parameters:
-        - in: query
-          name: userId
-          schema:
-            type: string
-            example: 62a76c45f0ed80e0f9e765fc
         - in: query
           name: date
           schema:

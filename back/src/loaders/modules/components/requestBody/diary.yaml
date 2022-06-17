@@ -1,13 +1,9 @@
 post:
   type: object
   required:
-    - userId
     - diary
     - feeling
   properties:
-    userId:
-      type: string
-      description: '유저의 object ID가 들어갑니다.'
     diary:
       type: string
       description: '일기 내용이 들어갑니다.'
@@ -23,7 +19,6 @@ update:
   type: object
   required:
     - _id
-    - userId
     - diary
     - feeling
     - createdDate
@@ -31,9 +26,6 @@ update:
     _id:
       type: string
       description: '다이어리의 object ID가 들어갑니다. 수정이 불가능한 속성입니다.'
-    userId:
-      type: string
-      description: '유저의 object ID가 들어갑니다. 수정이 불가능한 속성입니다.'
     diary:
       type: string
       description: '일기 내용이 들어갑니다.'

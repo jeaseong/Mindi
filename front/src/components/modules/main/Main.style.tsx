@@ -14,7 +14,7 @@ export const MainButton = styled(motion.button)`
   margin-top: 3.5em;
   font-family: 'Courier New', Courier, monospace;
   font-size: 2em;
-  color: Red;
+  color: black;
   background-color: transparent;
   border: none;
   cursor: pointer;

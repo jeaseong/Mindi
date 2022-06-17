@@ -9,7 +9,7 @@ function Main1() {
   const navigate = useNavigate();
   return (
     <MainTemplate
-      initial={{ y: 50, rotateZ: 180, scale: 0.2 }}
+      initial={{ y: 50, rotateZ: 180, opacity: 0.5, scale: 0.2 }}
       animate={{ y: 0, rotateZ: 0, opacity: 1, scale: 1 }}
       transition={{ duration: 0.6, type: 'spring' }}
     >
@@ -20,7 +20,11 @@ function Main1() {
         }}
         initial={{ scale: 0 }}
         animate={{ scale: 1 }}
-        transition={{ delay: 0.5 }}
+        transition={{ delay: 0.3, type: 'spring', stiffness: 400 }}
+        whileHover={{
+          scale: 1.2,
+          color: 'red',
+        }}
       >
         CLICK!
       </MainButton>

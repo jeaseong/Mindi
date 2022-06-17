@@ -37,7 +37,8 @@ function Posting() {
       formData.append(`${val[0]}`, JSON.stringify(val[1]));
     });
     try {
-      await postDiaryPosting(formData);
+      const res = await postDiaryPosting(formData);
+      // await post(res + formData)
       navigate('/result');
     } catch (e) {
       openSnackBar(false, '작성을 안 했어요..!!');

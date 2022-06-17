@@ -5,7 +5,7 @@ import React, {
   useEffect,
   useContext,
 } from 'react';
-import { Snackbar } from 'components/types/atoms';
+import { Snackbar, SnackbarType } from 'components/types/atoms';
 
 export const SnackbarContext = createContext<Snackbar | null>(null);
 
@@ -16,6 +16,7 @@ export const SnackbarProvider = ({
 }) => {
   const [isShowing, setIsShowing] = useState(false);
   const [message, setMs] = useState('');
+  const [type, setType] = useState<SnackbarType>('sucessAlert');
   useEffect(() => {
     if (isShowing) {
       setTimeout(() => {
@@ -24,15 +25,17 @@ export const SnackbarProvider = ({
     }
   }, [isShowing]);
 
-  const openSnackBar = (msg: string) => {
+  const openSnackBar = (sucessAlert: boolean, msg: string) => {
     setIsShowing(true);
     setMs(msg);
+    setType(sucessAlert ? 'sucessAlert' : 'errorAlert');
   };
   const store: Snackbar = useMemo(
     () => ({
       message,
       isShowing,
       openSnackBar,
+      type,
     }),
     [message, isShowing],
   );

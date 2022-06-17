@@ -24,7 +24,9 @@ export const useCurUser = () => {
   );
 };
 
-export const useSignInHandler = (openSnackBar: (msg: string) => void) => {
+export const useSignInHandler = (
+  openSnackBar: (sucessAlert: boolean, msg: string) => void,
+) => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   return useMutation(
@@ -34,9 +36,10 @@ export const useSignInHandler = (openSnackBar: (msg: string) => void) => {
         const JWT_TOKEN = res.user.token;
         localStorage.setItem('userToken', JWT_TOKEN);
         queryClient.invalidateQueries('userState');
+        openSnackBar(true, '에러를 출력해야햇!');
         navigate('/main');
       },
-      onError: () => openSnackBar('에러를 출력해야햇!'),
+      onError: () => openSnackBar(false, '에러를 출력해야햇!'),
     },
   );
 };

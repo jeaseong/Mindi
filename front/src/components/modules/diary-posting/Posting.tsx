@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useSnackbarContext } from 'components/contexts/SnackbarContext';
 import { postDiaryPosting } from 'api/api';
 import FileUpload from 'components/modules/fileUpload/FileUpload';
 import MainTitle from 'components/atoms/text/MainTitle';
@@ -10,6 +11,7 @@ import { PostingContainer, Area, SubTitle, AlignRight } from './Posting.style';
 
 function Posting() {
   const navigate = useNavigate();
+  const { openSnackBar } = useSnackbarContext();
   const [simpleDiary, setSimpleDiary] = useState('');
   const [mindDiary, setMindDiary] = useState('');
   const [editImg, setEditImg] = useState({
@@ -25,7 +27,7 @@ function Posting() {
   const onChangeMind = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setMindDiary((cur) => e.target.value);
   };
-  const onSubmit = () => {
+  const onSubmit = async () => {
     const diaryData = {
       diary: simpleDiary,
       feeling: mindDiary,
@@ -34,8 +36,12 @@ function Posting() {
     Object.entries(diaryData).forEach((val) => {
       formData.append(`${val[0]}`, JSON.stringify(val[1]));
     });
-    postDiaryPosting(formData);
-    navigate('/result');
+    try {
+      await postDiaryPosting(formData);
+      navigate('/result');
+    } catch (e) {
+      openSnackBar(false, '작성을 안 했어요..!!');
+    }
   };
 
   const fileuploadPros = {

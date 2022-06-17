@@ -30,16 +30,20 @@ export type InputProps = {
   required?: boolean;
 };
 
+export type SnackbarType = 'sucessAlert' | 'errorAlert';
+
 export interface SnackBarProps {
   position?: 'topRight' | 'bottomRight';
-  type?: 'sucessAlert' | 'errorAlert';
+  type: SnackbarType;
   isActive: boolean;
   message?: string;
 }
+type openSnackBarType = (sucessAlert: boolean, msg: string) => void;
 export interface Snackbar {
+  type: SnackbarType;
   message: string;
   isShowing: boolean;
-  openSnackBar: (msg: string) => void;
+  openSnackBar: openSnackBarType;
 }
 export interface SpanProps {
   children?: React.ReactNode;

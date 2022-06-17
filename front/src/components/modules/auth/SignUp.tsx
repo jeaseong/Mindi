@@ -1,13 +1,17 @@
 import React, { useState, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Input from 'components/atoms/input/Input';
 import Button from 'components/atoms/button/Button';
 import Text from 'components/atoms/text/Text';
+import { useSnackbarContext } from 'components/contexts/SnackbarContext';
 import { signUpPost } from 'api/api';
 import { signUpValidation } from 'components/utils/validation';
-import { LABEL, SIGNIN_GUIDE } from 'components/utils/constants';
+import { LABEL, SIGNIN_GUIDE, ALERT_MESSAGE } from 'components/utils/constants';
 import { AuthContainer, InputBox } from './Auth.style';
 
 function SignUp() {
+  const navigate = useNavigate();
+  const { openSnackBar } = useSnackbarContext();
   const [inputData, setInputData] = useState({
     name: '',
     email: '',
@@ -42,7 +46,13 @@ function SignUp() {
   );
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    await signUpPost({ name, email, password });
+    try {
+      await signUpPost({ name, email, password });
+      openSnackBar(true, ALERT_MESSAGE.SUCCESS_SIGNUP.label);
+      navigate('/sign-in');
+    } catch (e) {
+      openSnackBar(true, ALERT_MESSAGE.ERROR_SIGNUP.label);
+    }
   };
   return (
     <AuthContainer onSubmit={onSubmit}>

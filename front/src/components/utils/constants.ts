@@ -55,7 +55,7 @@ export const ALERT_MESSAGE = {
     label: '왜 실패한지는 서버에서 에러처리가 필요함.',
   },
   ERROR_SIGNUP: {
-    label: '왜 실패한지는 서버에서 에러처리가 필요함.',
+    label: '이미 존재하는 메일입니다.',
   },
 };
 

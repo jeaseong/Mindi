@@ -40,6 +40,25 @@ paths:
       $ref: './paths/user.yaml#/Put'
     delete:
       $ref: './paths/user.yaml#/Delete'
+  /posts:
+    post:
+      $ref: './paths/post.yaml#/Post'
+    get:
+      $ref: './paths/post.yaml#/Get'
+  /posts/{postId}:
+    get:
+      $ref: './paths/post.yaml#/GetByPostId'
+    put:
+      $ref: './paths/post.yaml#/Put'
+    delete:
+      $ref: './paths/post.yaml#/Delete'
+  /users/posts:
+    get:
+      $ref: './paths/post.yaml#/GetUsersPosts'
+  /users/posts/{userId}:
+    get:
+      $ref: './paths/post.yaml#/GetUsersPostsByUserId'
+
 components:
   schemas:
     diary:

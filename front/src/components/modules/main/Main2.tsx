@@ -1,7 +1,12 @@
 import React from 'react';
 import Image from 'components/atoms/image/Image';
 import { IMAGE } from 'components/utils/image';
-import { MainTemplate, ImageWrapper } from './Main.style';
+import {
+  MainTemplate,
+  ImageWrapper,
+  EITestButton,
+  ToEITest,
+} from './Main.style';
 import { MainButton } from './Main.style';
 import { useNavigate } from 'react-router-dom';
 
@@ -19,13 +24,22 @@ function Main2() {
           LOGIN!
         </MainButton>
       </MainTemplate>
-      <ImageWrapper>
-        <Image
-          width='20%'
-          src={IMAGE.MAIN_DOODLE.url}
-          alt={IMAGE.MAIN_DOODLE.alt}
-        />
-      </ImageWrapper>
+      <ToEITest>
+        <ImageWrapper>
+          <Image
+            width='25%'
+            src={IMAGE.MAIN_DOODLE.url}
+            alt={IMAGE.MAIN_DOODLE.alt}
+          />
+          <EITestButton
+            onClick={() => {
+              navigate('/EI-test');
+            }}
+          >
+            감성 지수 테스트
+          </EITestButton>
+        </ImageWrapper>
+      </ToEITest>
     </>
   );
 }

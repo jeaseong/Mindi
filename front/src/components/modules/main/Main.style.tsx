@@ -25,3 +25,24 @@ export const ImageWrapper = styled.div`
 
   margin: 0 2em;
 `;
+
+export const EITestButton = styled.button`
+  position: absolute;
+  top: 4em;
+  right: 4em;
+  font-size: 1em;
+  color: black;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+`;
+
+export const ToEITest = styled.div`
+  bottom: 2em;
+  right: -2em;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 2em;
+`;

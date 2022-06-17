@@ -1,19 +1,38 @@
 import { IUserModel } from '../../src/interfaces/IUserModel';
+import { faker } from "@faker-js/faker";
+import dayjs from "dayjs";
+import UserService from "../../src/services/user";
+
+const mockObjectId = faker.database.mongodbObjectId();
+const dayString = dayjs().toISOString();
+const mockEmail = faker.internet.email();
+const mockName = faker.name.findName();
+const role = "user";
+const mockPassword = faker.internet.password();
+
+const userObject = {
+  _id: mockObjectId,
+  name: mockName,
+  email: mockEmail,
+  password: mockPassword,
+  role: role,
+  recentLogin: dayString,
+  createdAt: dayString,
+  updatedAt: dayString
+};
+
+const fieldToUpdateUser = {
+  name: mockName,
+  password: mockPassword,
+};
 
 export class TestUserModel implements IUserModel {
   async create(email: string, name: string, password: string) {
-    return {
-      _id: 'asdf1234dfasdf',
-      email,
-      name,
-    };
+    return userObject;
   }
 
-  async update(filter: Object, fieldToUpdate: Object) {
-    return {
-      _id: 'asdf1234dfasdf',
-      ...fieldToUpdate,
-    };
+  async update(filter: Object, fieldToUpdateUser: Object) {
+    return userObject;
   }
 
   async delete(userId: string) {
@@ -21,28 +40,13 @@ export class TestUserModel implements IUserModel {
   }
 
   async findOne(filter: Object) {
-    return {
-      _id: 'asdf1234dfasdf',
-      email: 'acorn12345@elice.co.kr',
-      name: 'acorn',
-      password: 'asdf1234',
-    };
+    return userObject;
   }
 
   async findMany(filter: Object) {
     return [
-      {
-        _id: 'asdf1234dfasdf',
-        email: 'acorn12345@elice.co.kr',
-        name: 'acorn',
-        password: 'asdf1234',
-      },
-      {
-        _id: 'asdf1234dfaasdf34',
-        email: 'apple12345@elice.co.kr',
-        name: 'apple',
-        password: 'asdf1234',
-      },
+      userObject,
+      userObject,
     ];
   }
 
@@ -50,3 +54,17 @@ export class TestUserModel implements IUserModel {
     return true;
   }
 }
+
+describe("User Service Test", () => {
+  const userService = new UserService(new TestUserModel);
+
+  test("should return UserInfo.", async () => {
+    expect(await userService.getUserInfo(mockObjectId)).toEqual(userObject);
+  });
+  test("should update UserInfo", async () => {
+    expect(await userService.updateUserInfo(mockObjectId, fieldToUpdateUser)).toEqual(userObject);
+  });
+  test("should delete User", async () => {
+    expect(await userService.deleteUser(mockObjectId)).toBe(undefined);
+  });
+});

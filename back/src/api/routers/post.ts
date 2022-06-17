@@ -6,6 +6,8 @@ import { loginRequired } from "../middlewares/loginRequired";
 import { postValidator } from "../middlewares/express-validator";
 import validationErrorChecker from "../middlewares/validationErrorChecker";
 import { StatusError } from "../../utils/error";
+import { IResponse } from "../../interfaces/IResponse";
+import { IPost } from "../../interfaces/IPost";
 
 export default (app: Router) => {
   const postRouter = Router();
@@ -27,12 +29,12 @@ export default (app: Router) => {
         const post = await postService.makeNewPost({ title, content, author });
         const { updatedAt, ...rest } = post;
 
-        const body = {
+        const response: IResponse<Partial<IPost>> = {
           success: true,
-          post: rest
+          result: rest
         };
 
-        res.status(200).json(body);
+        res.status(200).json(response);
       } catch (error) {
         next(error);
       }
@@ -54,12 +56,12 @@ export default (app: Router) => {
           return rest;
         });
 
-        const body = {
+        const response: IResponse<Partial<IPost>[]> = {
           success: true,
-          posts: reducedPosts
+          result: reducedPosts
         };
 
-        res.status(200).json(body);
+        res.status(200).json(response);
       } catch (error) {
         next(error);
       }
@@ -77,12 +79,12 @@ export default (app: Router) => {
         const post = await postService.getOnePostByPostId(postId);
         const { updatedAt, ...rest } = post!;
 
-        const body = {
+        const response: IResponse<Partial<IPost>> = {
           success: true,
-          post: rest
+          result: rest
         };
 
-        res.status(200).json(body);
+        res.status(200).json(response);
       } catch (error) {
         next(error);
       }
@@ -105,12 +107,12 @@ export default (app: Router) => {
           return rest;
         });
 
-        const body = {
+        const response: IResponse<Partial<IPost>[]> = {
           success: true,
-          posts: reducedPosts
+          result: reducedPosts
         };
 
-        res.status(200).json(body);
+        res.status(200).json(response);
       } catch (error) {
         next(error);
       }
@@ -134,12 +136,12 @@ export default (app: Router) => {
           return rest;
         });
 
-        const body = {
+        const response: IResponse<Partial<IPost>[]> = {
           success: true,
-          posts: reducedPosts
+          result: reducedPosts
         };
 
-        res.status(200).json(body);
+        res.status(200).json(response);
       } catch (error) {
         next(error);
       }
@@ -165,12 +167,12 @@ export default (app: Router) => {
         const updatedPost = await postService.updatePostInfo(postId, fieldToUpdate);
         const { updatedAt, ...rest } = updatedPost!;
 
-        const body = {
+        const response: IResponse<Partial<IPost>> = {
           success: true,
-          post: rest
+          result: rest
         };
 
-        res.status(200).json(body);
+        res.status(200).json(response);
       } catch (error) {
         next(error);
       }
@@ -193,12 +195,12 @@ export default (app: Router) => {
 
         await postService.deletePost(postId);
 
-        const body = {
+        const response: IResponse<string> = {
           success: true,
-          message: "성공적으로 삭제되었습니다."
+          result: "성공적으로 삭제되었습니다."
         };
 
-        res.status(200).json(body);
+        res.status(200).json(response);
       } catch (error) {
         next(error);
       }

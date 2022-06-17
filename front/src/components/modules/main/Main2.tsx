@@ -12,9 +12,34 @@ import { useNavigate } from 'react-router-dom';
 
 function Main2() {
   const navigate = useNavigate();
+
+  const commonVariants = {
+    hidden: {
+      opacity: 0,
+    },
+    visible: {
+      opacity: 1,
+      transition: { duration: 1 },
+    },
+  };
+
+  const imageVariants = {
+    hidden: {
+      opacity: 0,
+    },
+    visible: {
+      opacity: 1,
+      transition: { duration: 1, yoyo: Infinity },
+    },
+  };
+
   return (
     <>
-      <MainTemplate>
+      <MainTemplate
+        variants={commonVariants}
+        initial='hidden'
+        animate='visible'
+      >
         <Image width='30%' src={IMAGE.NEW_LOGO.url} alt={IMAGE.NEW_LOGO.alt} />
         <MainButton
           onClick={() => {
@@ -25,7 +50,11 @@ function Main2() {
         </MainButton>
       </MainTemplate>
       <ToEITest>
-        <ImageWrapper>
+        <ImageWrapper
+          variants={imageVariants}
+          initial='hidden'
+          animate='visible'
+        >
           <Image
             width='25%'
             src={IMAGE.MAIN_DOODLE.url}

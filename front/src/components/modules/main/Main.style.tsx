@@ -10,11 +10,18 @@ export const MainTemplate = styled.div`
 
 export const MainButton = styled.button`
   position: absolute;
-  margin-top: 4em;
+  margin-top: 3.5em;
   font-family: 'Courier New', Courier, monospace;
   font-size: 2em;
   color: Red;
   background-color: transparent;
   border: none;
   cursor: pointer;
+`;
+
+export const ImageWrapper = styled.div`
+  display: flex;
+  justify-content: right;
+
+  margin: 0 2em;
 `;

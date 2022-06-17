@@ -45,6 +45,7 @@ export const SnackbarProvider = ({
 
 export const useSnackbarContext = () => {
   const store = useContext(SnackbarContext);
+  // null check를 하지 않으면 type이 Snackbar | null이 되기 때문임.
   if (!store) throw new Error('Cannot find SnackbarProvider');
   return store;
 };

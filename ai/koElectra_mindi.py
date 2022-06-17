@@ -20,7 +20,7 @@ if torch.cuda.is_available():
   gpu_tensor = cpu_tensor.to(device)
   print(gpu_tensor)
 else:
-    print("gpu사용이 가능한지 확인해주세요")
+    print('gpu사용이 가능한지 확인해주세요')
 
 # 2. Load Dataset
 class LoadDataset(Dataset):
@@ -34,16 +34,16 @@ class LoadDataset(Dataset):
     
     # Sentence 전처리
     # 여러가지 키보드상 특수문자 제거
-    self.dataset['Sentence'] = self.dataset['Sentence'].str.replace("[\{\}\[\]\/?.,;:|\)*~`·!^\-_+<>@\#$%&\\\=\(\'\"]", " ", regex = True)
+    self.dataset['Sentence'] = self.dataset['Sentence'].str.replace('[\{\}\[\]\/?.,;:|\)*~`·!^\-_+<>@\#$%&\\\=\(\'\"]', ' ', regex = True)
     # 공백 제거
     self.dataset['Sentence'] = self.dataset['Sentence'].str.strip()
 
     # label 정수로 변경
     label_dict = {'공포': 0, '놀람':1, '분노':2, '슬픔':3, '중립':4, '행복':5, '혐오':6}
-    self.dataset["Label"] = self.dataset["Emotion"].map(label_dict)
+    self.dataset['Label'] = self.dataset['Emotion'].map(label_dict)
 
     # tokenizer 설정
-    self.tokenizer = ElectraTokenizer.from_pretrained("monologg/koelectra-base-v3-discriminator")
+    self.tokenizer = ElectraTokenizer.from_pretrained('monologg/koelectra-base-v3-discriminator')
 
     print(self.dataset.describe())
   
@@ -59,7 +59,7 @@ class LoadDataset(Dataset):
         sent, 
         return_tensors='pt',
         truncation=True,
-        max_length=256,
+        max_length=300,
         padding='max_length',
         add_special_tokens=True
         )
@@ -70,7 +70,7 @@ class LoadDataset(Dataset):
     return input_ids, attention_mask, label
 
 # 3. split dataset into train, validation, test
-dataset = LoadDataset("./dataset/conversation_all.csv")
+dataset = LoadDataset('./dataset/conversation_all.csv')
 dataset_size = len(dataset)
 train_size = int(dataset_size * 0.8)
 validation_size = int(dataset_size * 0.1)
@@ -80,14 +80,14 @@ train_dataset, validation_dataset, test_dataset = random_split(dataset, [train_s
 
 # 4. Import KoElcetra model
 num_labels = 7
-model = ElectraForSequenceClassification.from_pretrained("monologg/koelectra-base-v3-discriminator", num_labels=num_labels, problem_type="multi_label_classification").to(device)
+model = ElectraForSequenceClassification.from_pretrained('monologg/koelectra-base-v3-discriminator', num_labels=num_labels, problem_type='multi_label_classification').to(device)
 
 # 5. Train model
 # model save  function
-def saveModel(epoch, date, train_accuracy, valid_accuravy): 
+def saveModel(epoch, date, train_accuracy, valid_accuracy): 
     train_acc = np.round(train_accuracy.cpu().numpy(), 4)
     valid_acc = np.round(valid_accuracy.cpu().numpy(), 4)
-    path = f"./model/model_{date}_epoch{epoch}_train{train_acc}_valid{valid_acc}.pt" 
+    path = f'./model/model_{date}_epoch{epoch}_train{train_acc}_valid{valid_acc}.pt' 
     model.save_pretrained(path)
 
 # hyperparameter
@@ -138,12 +138,12 @@ def train_model():
 
             batches += 1
             if batches % 100 == 0:
-                print("Batch Loss:", total_loss, "Accuracy:", correct.float() / total)
+                print('Batch Loss:', total_loss, 'Accuracy:', correct.float() / total)
     
         losses.append(total_loss)
         train_accuracy = correct.float() / total
         accuracies.append(train_accuracy)
-        print("Train Loss:", total_loss, "Train Accuracy:", train_accuracy)
+        print('Train Loss:', total_loss, 'Train Accuracy:', train_accuracy)
 
         model.eval()
         with torch.no_grad():
@@ -164,8 +164,8 @@ def train_model():
         # if valid_accuracy > best_accuracy:
         #     saveModel(i, date, valid_accuracy)
         #     best_accuracy = valid_accuracy
-        saveModel(epoch, date, train_accuracy, valid_accuracy)
-        print("epoch:", i, "Validation Loss:", valid_loss, "Validation Accuracy:", valid_accuracy)
+        saveModel(i, date, train_accuracy, valid_accuracy)
+        print('epoch:', i, 'Validation Loss:', valid_loss, 'Validation Accuracy:', valid_accuracy)
     return losses, accuracies, valid_losses, valid_accuracies
 
 losses, accuracies, valid_losses, valid_accuracies = train_model()
@@ -194,7 +194,7 @@ def test_model():
         y_predicted.extend(predicted.cpu().numpy()) # Save Prediction        
         y_true.extend(y_batch.cpu().numpy()) # Save Truth
 
-    print("Test Accuracy:", test_correct.float() / test_total)
+    print('Test Accuracy:', test_correct.float() / test_total)
 
     # constant for classes
     classes = (0, 1, 2, 3, 4, 5, 6)
@@ -205,19 +205,19 @@ def test_model():
                         columns = [i for i in classes])
     plt.figure(figsize = (12,7))
     sn.heatmap(df_cm, annot=True)
-    plt.savefig(f"./image/output_{date}.png")
+    plt.savefig(f'./image/output_{date}.png')
 
 test_model()
 
 # 7. Predict Sentence
 def convert_input_data(sent):
-    tokenizer = ElectraTokenizer.from_pretrained("monologg/koelectra-base-v3-discriminator")
+    tokenizer = ElectraTokenizer.from_pretrained('monologg/koelectra-base-v3-discriminator')
 
     inputs = tokenizer(
         sent, 
         return_tensors='pt',
         truncation=True,
-        max_length=128,
+        max_length=300,
         padding='max_length',
         add_special_tokens=True
         )
@@ -237,4 +237,4 @@ def predict_setiment(sent):
     setiment = label_dict[predicted.item()]
     return setiment
 
-print(predict_setiment("정해진 시간을 지키지 못해서 속상했다"))
+print(predict_setiment('정해진 시간을 지키지 못해서 속상했다'))

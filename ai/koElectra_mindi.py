@@ -85,8 +85,8 @@ model = ElectraForSequenceClassification.from_pretrained('monologg/koelectra-bas
 # 5. Train model
 # model save  function
 def saveModel(epoch, date, train_accuracy, valid_accuracy): 
-    train_acc = np.round(train_accuracy.cpu().numpy(), 4)
-    valid_acc = np.round(valid_accuracy.cpu().numpy(), 4)
+    train_acc = np.round(train_accuracy.item(), 4)
+    valid_acc = np.round(valid_accuracy.item(), 4)
     path = f'./model/model_{date}_epoch{epoch}_train{train_acc}_valid{valid_acc}.pt' 
     model.save_pretrained(path)
 
@@ -94,7 +94,7 @@ def saveModel(epoch, date, train_accuracy, valid_accuracy):
 date = datetime.datetime.now().date()
 epochs = 15
 batch_size = 32
-optimizer = AdamW(model.parameters(), lr=5e-5)
+optimizer = AdamW(model.parameters(), lr=5e-6)
 
 # dataloader
 train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True, drop_last=True)

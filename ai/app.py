@@ -1,9 +1,6 @@
-import json
-from bson.json_util import dumps
-from flask import Flask, request, jsonify
+from flask import Flask, request
 from flask_pymongo import pymongo
-from predict_sentence import predict_sentiment_list
-from predict_sentence2 import predict_sentiment
+from predict_sentence import predict_sentiment
 
 app = Flask(__name__)
 app.config['JSON_SORT_KEYS'] = False
@@ -15,7 +12,7 @@ def main():
 @app.route('/diaries/sentiment', methods=['POST'] )
 def sentiment_list():
     diary = request.get_json()['diary']
-    sentiment_dict = predict_sentiment_list(diary)
+    sentiment_dict = predict_sentiment(diary)
     print(sentiment_dict)
     return_data = {
         'success': 'true',

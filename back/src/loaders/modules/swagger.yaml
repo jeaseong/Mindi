@@ -40,6 +40,46 @@ paths:
       $ref: './paths/user.yaml#/Put'
     delete:
       $ref: './paths/user.yaml#/Delete'
+  /posts:
+    post:
+      $ref: './paths/post.yaml#/Post'
+    get:
+      $ref: './paths/post.yaml#/Get'
+  /posts/{postId}:
+    get:
+      $ref: './paths/post.yaml#/GetByPostId'
+    put:
+      $ref: './paths/post.yaml#/Put'
+    delete:
+      $ref: './paths/post.yaml#/Delete'
+  /users/posts:
+    get:
+      $ref: './paths/post.yaml#/GetUsersPosts'
+  /users/posts/{userId}:
+    get:
+      $ref: './paths/post.yaml#/GetUsersPostsByUserId'
+  /comments/{commentId}:
+    post:
+      $ref: './paths/comment.yaml#/PostDaughterComment'
+    get:
+      $ref: './paths/comment.yaml#/Get'
+    put:
+      $ref: './paths/comment.yaml#/Put'
+    delete:
+      $ref: './paths/comment.yaml#/Delete'
+  /posts/comments/{postId}:
+    post:
+      $ref: './paths/comment.yaml#/Post'
+    get:
+      $ref: './paths/comment.yaml#/GetPostComments'
+  /comments/children/{commentId}:
+    get:
+      $ref: './paths/comment.yaml#/GetChildren'
+  /users/comments/{userId}:
+    get:
+      $ref: './paths/comment.yaml#/GetUserComments'
+
+
 components:
   schemas:
     diary:

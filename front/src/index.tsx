@@ -9,7 +9,13 @@ import { ThemeProvider } from 'styled-components';
 import { theme, GlobalStyles } from 'styles/GloabalTheme';
 
 const queryClient = new QueryClient({
-  defaultOptions: { queries: { refetchOnWindowFocus: false, retry: false } },
+  defaultOptions: {
+    queries: {
+      refetchOnMount: false,
+      refetchOnReconnect: false,
+      refetchOnWindowFocus: false,
+    },
+  },
 });
 
 const root = ReactDOM.createRoot(

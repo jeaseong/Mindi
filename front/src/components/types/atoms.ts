@@ -36,7 +36,11 @@ export interface SnackBarProps {
   isActive: boolean;
   message?: string;
 }
-
+export interface Snackbar {
+  message: string;
+  isShowing: boolean;
+  openSnackBar: (msg: string) => void;
+}
 export interface SpanProps {
   children?: React.ReactNode;
   color?: string;

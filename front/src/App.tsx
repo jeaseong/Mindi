@@ -8,6 +8,7 @@ import EITest from 'pages/EITest/EITest';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import EITestResult from 'components/modules/EITest/EITestResult';
 import Main from 'components/modules/main/Main';
+import SnackbarContainer from 'components/modules/snackbar/SnackbarContainer';
 
 const App: React.FC = () => {
   return (
@@ -22,6 +23,7 @@ const App: React.FC = () => {
           <Route path='/main' element={<Main />} />
         </Routes>
       </Router>
+      <SnackbarContainer />
     </div>
   );
 };

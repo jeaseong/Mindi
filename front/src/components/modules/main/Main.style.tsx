@@ -1,6 +1,7 @@
 import styled from 'styled-components';
+import { motion } from 'framer-motion';
 
-export const MainTemplate = styled.div`
+export const MainTemplate = styled(motion.div)`
   width: 100vw;
   height: 100vh;
   display: flex;
@@ -8,7 +9,7 @@ export const MainTemplate = styled.div`
   align-items: center;
 `;
 
-export const MainButton = styled.button`
+export const MainButton = styled(motion.button)`
   position: absolute;
   margin-top: 3.5em;
   font-family: 'Courier New', Courier, monospace;
@@ -19,14 +20,14 @@ export const MainButton = styled.button`
   cursor: pointer;
 `;
 
-export const ImageWrapper = styled.div`
+export const ImageWrapper = styled(motion.div)`
   display: flex;
   justify-content: right;
 
   margin: 0 2em;
 `;
 
-export const EITestButton = styled.button`
+export const EITestButton = styled(motion.button)`
   position: absolute;
   top: 4em;
   right: 4em;
@@ -37,7 +38,7 @@ export const EITestButton = styled.button`
   cursor: pointer;
 `;
 
-export const ToEITest = styled.div`
+export const ToEITest = styled(motion.div)`
   bottom: 2em;
   right: -2em;
   position: absolute;

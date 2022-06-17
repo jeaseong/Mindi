@@ -1,4 +1,8 @@
-import { BaseDiary, IDiary, deleteResult } from './IDiary';
+import { BaseDiary, IDiary } from './IDiary';
+
+export interface deleteResult {
+  status: string; // "Succeess" or "Fail"
+}
 
 export interface IDiaryModel {
   create: (newDiary: BaseDiary) => Promise<IDiary>;

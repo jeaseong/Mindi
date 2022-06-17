@@ -1,7 +1,7 @@
 import { Schema, model } from 'mongoose';
 import { Service } from 'typedi';
-import { BaseDiary, deleteResult, IDiary } from '../interfaces/IDiary';
-import { IDiaryModel } from '../interfaces/IDiaryModel';
+import { BaseDiary, IDiary } from '../interfaces/IDiary';
+import { IDiaryModel, deleteResult } from '../interfaces/IDiaryModel';
 
 const DiarySchema = new Schema(
   {
@@ -17,6 +17,14 @@ const DiarySchema = new Schema(
       type: String,
       required: true,
     },
+    sentiment: {
+      type: Object,
+      required: true,
+    },
+    createdDate: {
+      type: String,
+      required: true,
+    },
     imageFileName: {
       type: String,
       required: false,
@@ -24,10 +32,6 @@ const DiarySchema = new Schema(
     imageFilePath: {
       type: String,
       required: false,
-    },
-    createdDate: {
-      type: String,
-      required: true,
     },
   },
   { timestamps: true },

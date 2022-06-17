@@ -3,8 +3,6 @@ import { StatusError } from '../utils/error';
 import { Service, Inject } from 'typedi';
 import { MongoDiaryModel } from '../models/diary';
 import { MongoUserModel } from '../models/user';
-import dayjs from 'dayjs';
-import 'dayjs/locale/ko';
 
 @Service()
 export default class DiaryService {
@@ -20,10 +18,6 @@ export default class DiaryService {
     if (!userExists) {
       throw new StatusError(400, '사용자가 존재하지 않습니다.');
     }
-
-    // 일기 작성 날짜 생성
-    const createdDate = dayjs().locale('ko').format('YYYY-MM-DD');
-    newDiary = { ...newDiary, createdDate };
 
     const createdNewDoc = await this.diaryModel.create(newDiary);
     return createdNewDoc;

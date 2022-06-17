@@ -1,6 +1,5 @@
 import React, { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useCurUser } from 'components/hooks/userQuery';
 import { postDiaryPosting } from 'api/api';
 import FileUpload from 'components/modules/fileUpload/FileUpload';
 import MainTitle from 'components/atoms/text/MainTitle';
@@ -19,8 +18,6 @@ function Posting() {
   });
   const formData = useMemo(() => new FormData(), [editImg]);
 
-  const { data } = useCurUser();
-
   const onChangeSimple = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setSimpleDiary((cur) => e.target.value);
   };
@@ -28,16 +25,14 @@ function Posting() {
   const onChangeMind = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setMindDiary((cur) => e.target.value);
   };
-  const onSubmit = (e: any) => {
-    e.preventDefault();
+  const onSubmit = () => {
     const diaryData = {
-      userId: data?.userState._Id,
       diary: simpleDiary,
       feeling: mindDiary,
     };
     formData.append('background', editImg.data);
     Object.entries(diaryData).forEach((val) => {
-      formData.append(val[0], JSON.stringify(val[1]));
+      formData.append(`${val[0]}`, JSON.stringify(val[1]));
     });
     postDiaryPosting(formData);
     navigate('/result');

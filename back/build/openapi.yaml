@@ -2,14 +2,26 @@ openapi: 3.0.0
 info:
   version: 1.0.0
   title: Mindi_API
-  description: Mindi의 API 명세서
+  description: |
+    # Mindi의 API 명세서
 servers:
   - url: 'http://localhost:5001/api/'
+tags:
+  - name: diaries
+    description: '일기 작성, 조회, 수정, 삭제 등'
+  - name: auth
+    description: '유저 로그인, 회원가입 등'
+  - name: users
+    description: '회원 탈퇴, 정보 조회, 정보 수정 등'
+  - name: posts
+    description: '게시글 작성, 조회, 수정, 삭제 등'
+  - name: comments
+    description: '댓글 작성, 조회, 수정, 삭제 등'
 paths:
   /diaries:
     post:
       tags:
-        - diary
+        - diaries
       summary: 다이어리를 생성합니다.
       requestBody:
         required: true
@@ -20,6 +32,7 @@ paths:
               required:
                 - diary
                 - feeling
+                - sentiment
               properties:
                 diary:
                   type: string
@@ -27,6 +40,9 @@ paths:
                 feeling:
                   type: string
                   description: 감정 내용이 들어갑니다.
+                sentiment:
+                  type: object
+                  description: 감정 분석 결과가 들어갑니다.
                 background:
                   type: file
                   format: binary
@@ -48,6 +64,13 @@ paths:
                       userId: 3e37d05b9fc9d01c9cdf5ac3
                       diary: example
                       feeling: example
+                      sentiment:
+                        fear: 2
+                        surprised: 0
+                        anger: 0
+                        sadness: 0
+                        happiness: 1
+                        aversion: 0
                       createdDate: 2022-6-14
                       _id: 62a7ed0f291754e07d151aac
                       createdAt: '2022-06-14T02:06:07.080Z'
@@ -55,7 +78,7 @@ paths:
                       __v: 0
     put:
       tags:
-        - diary
+        - diaries
       summary: 다이어리를 업데이트 합니다.
       requestBody:
         required: true
@@ -67,6 +90,7 @@ paths:
                 - _id
                 - diary
                 - feeling
+                - sentiment
                 - createdDate
               properties:
                 _id:
@@ -78,6 +102,9 @@ paths:
                 feeling:
                   type: string
                   description: 감정 내용이 들어갑니다.
+                sentiment:
+                  type: object
+                  description: 감정 분석 결과가 들어갑니다.
                 createdDate:
                   type: string
                   description: 일기 작성 날짜가 들어갑니다. 수정이 불가능한 속성입니다.
@@ -105,6 +132,7 @@ paths:
                       - userId
                       - diary
                       - feeling
+                      - sentiment
                       - createdDate
                     properties:
                       _id:
@@ -115,13 +143,15 @@ paths:
                         type: string
                       feeling:
                         type: string
+                      sentiment:
+                        type: object
+                      createdDate:
+                        type: string
+                        description: 오늘(일기 작성) 날짜가 "년도-월-일" 형식으로 저장됩니다.
                       imageFileName:
                         type: string
                       imageFilePath:
                         type: string
-                      createdDate:
-                        type: string
-                        description: 오늘(일기 작성) 날짜가 "년도-월-일" 형식으로 저장됩니다.
               examples:
                 updatedDiaryWithImage:
                   $ref: '#/paths/~1diaries~1%7Bid%7D/get/responses/200/content/application~1json/examples/diary'
@@ -129,7 +159,7 @@ paths:
                   $ref: '#/paths/~1diaries/post/responses/201/content/application~1json/examples/newDiaryWithoutImage'
     delete:
       tags:
-        - diary
+        - diaries
       summary: 다이어리를 삭제합니다.
       requestBody:
         required: true
@@ -161,7 +191,7 @@ paths:
   '/diaries?date={createdDate}':
     get:
       tags:
-        - diary
+        - diaries
       summary: 특정 날짜의 다이어리 리스트를 반환합니다.
       parameters:
         - in: query
@@ -188,6 +218,7 @@ paths:
                         - userId
                         - diary
                         - feeling
+                        - sentiment
                         - createdDate
                       properties:
                         _id:
@@ -198,11 +229,13 @@ paths:
                           type: string
                         feeling:
                           type: string
+                        sentiment:
+                          type: object
+                        createdDate:
+                          type: string
                         imageFileName:
                           type: string
                         imageFilePath:
-                          type: string
-                        createdDate:
                           type: string
               examples:
                 diaryList:
@@ -213,6 +246,13 @@ paths:
                         userId: 62a76c45f0ed80e0f9e765fc
                         diary: Consequuntur praesentium nesciunt sit maiores. Et eos eum adipisci et quis nam repudiandae soluta. Ut provident natus maiores quasi.
                         feeling: Minus nostrum soluta ratione sed saepe dolorum corrupti.
+                        sentiment:
+                          fear: 2
+                          surprised: 0
+                          anger: 0
+                          sadness: 0
+                          happiness: 1
+                          aversion: 0
                         createdDate: '2022-06-16'
                         createdAt: '2022-06-16T09:10:27.553Z'
                         updatedAt: '2022-06-16T09:10:27.706Z'
@@ -221,6 +261,13 @@ paths:
                         userId: 62a76c45f0ed80e0f9e765fc
                         diary: Dolor nihil magnam distinctio dolores molestias quidem harum et. Voluptatem sapiente totam. A animi asperiores aut deleniti cumque odit neque ipsum labore. Adipisci vel doloremque. Amet unde repellendus dicta voluptas provident similique at suscipit.
                         feeling: Ab fugiat tempora.
+                        sentiment:
+                          fear: 2
+                          surprised: 0
+                          anger: 0
+                          sadness: 0
+                          happiness: 1
+                          aversion: 0
                         createdDate: '2022-06-16'
                         createdAt: '2022-06-16T08:40:53.671Z'
                         updatedAt: '2022-06-16T08:40:53.671Z'
@@ -228,7 +275,7 @@ paths:
   '/diaries/{id}':
     get:
       tags:
-        - diary
+        - diaries
       summary: 특정 아이디의 다이어리 정보를 반환합니다.
       parameters:
         - in: path
@@ -252,13 +299,136 @@ paths:
                       userId: 3e37d05b9fc9d01c9cdf5ac3
                       diary: example
                       feeling: example
+                      sentiment:
+                        fear: 2
+                        surprised: 0
+                        anger: 0
+                        sadness: 0
+                        happiness: 1
+                        aversion: 0
+                      createdDate: 2022-6-14
                       imageFileName: background_1655172367029_test.jpg
                       imageFilePath: 'http://localhost:5001/images/background_1655172367029_test.jpg'
-                      createdDate: 2022-6-14
                       _id: 62a7ed0f291754e07d151aac
                       createdAt: '2022-06-14T02:06:07.080Z'
                       updatedAt: '2022-06-14T02:06:07.080Z'
                       __v: 0
+  /users:
+    get:
+      tags:
+        - users
+      summary: 로그인한 유저 정보를 반환합니다.
+      security:
+        - BearerAuth: []
+      description: |
+        # 로그인 유저 정보 API
+        현재 로그인한 유저의 정보를 반환합니다.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    description: 요청이 성공했는지를 나타냅니다.
+                  user:
+                    type: object
+                    properties:
+                      _id:
+                        type: string
+                        description: userId
+                      email:
+                        type: string
+                        description: 유저가 가입에 사용한 이메일 주소
+                      name:
+                        type: string
+                        description: 유저가 설정한 이름
+                      recentLogin:
+                        type: string
+                        format: date
+                        description: 마지막으로 로그인한 시각
+              examples:
+                value:
+                  success: true
+                  user:
+                    _id: 62a0c9fe574953ef39d5c9e8
+                    name: mindi
+                    email: mindi@elice.com
+                    recentLogin: 2022-06-27T16:26:08.844Z
+    put:
+      tags:
+        - users
+      summary: 입력받은 값으로 유저 정보를 업데이트합니다.
+      security:
+        - BearerAuth: []
+      description: |
+        # 유저 정보 수정 API
+        입력받은 값들로 유저 정보를 업데이트합니다.
+        사용할 수 있는 정보는 유저 이름, 비밀번호, 상태 메시지입니다.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                password:
+                  type: string
+            example:
+              name: acorn
+              password: 1q2w3e4r5t!
+      responses:
+        '200':
+          description: 정상적으로 수정되었습니다.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    description: 요청이 성공했는지를 나타냅니다.
+                  user:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                        description: 유저가 설정한 이름
+              example:
+                success: true
+                user:
+                  email: mindi@elice.com
+                  name: acorn
+    delete:
+      tags:
+        - users
+      summary: 현재 로그인한 유저 계정을 삭제합니다.
+      security:
+        - BearerAuth: []
+      description: |
+        # 회원탈퇴 API
+        현재 로그인한 유저의 계정 정보를 삭제합니다.
+      responses:
+        '200':
+          description: 정상적으로 삭제되었습니다.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    description: 요청이 성공했는지를 나타냅니다.
+                  message:
+                    type: string
+                    description: 삭제 성공 메시지
+              example:
+                success: true
+                message: 성공적으로 삭제되었습니다.
 components:
   schemas:
     diary:
@@ -267,6 +437,7 @@ components:
         - userId
         - diary
         - feeling
+        - sentiment
         - createdDate
       properties:
         userId:
@@ -275,9 +446,15 @@ components:
           type: string
         feeling:
           type: string
+        sentiment:
+          type: object
+        createdDate:
+          type: string
         imageFileName:
           type: string
         imageFilePath:
           type: string
-        createdDate:
-          type: string
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer

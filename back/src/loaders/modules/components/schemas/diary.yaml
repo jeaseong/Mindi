@@ -3,6 +3,7 @@ required:
   - userId
   - diary
   - feeling
+  - sentiment
   - createdDate
 properties:
   userId:
@@ -11,9 +12,11 @@ properties:
     type: string
   feeling:
     type: string
+  sentiment:
+    type: object
+  createdDate:
+    type: string
   imageFileName:
     type: string
   imageFilePath:
-    type: string
-  createdDate:
     type: string

@@ -1,92 +1,92 @@
 Post:
   tags:
-    - diary
+    - diaries
   summary: 다이어리를 생성합니다.
   requestBody:
     required: true
     content:
       multipart/form-data:
         schema:
-          $ref: '../components/requestBody/diary.yaml#/post'
+          $ref: "../components/requestBody/diary.yaml#/post"
   responses:
-    '201':
+    "201":
       description: A result object.
       content:
         application/json:
           schema:
-            $ref: '../components/responses/diary.yaml#/post'
+            $ref: "../components/responses/diary.yaml#/post"
           examples:
             newDiaryWithImage:
-              $ref: '../components/examples/diary.yaml#/createWithImage'
+              $ref: "../components/examples/diary.yaml#/createWithImage"
             newDiaryWithoutImage:
-              $ref: '../components/examples/diary.yaml#/createWithoutImage'
+              $ref: "../components/examples/diary.yaml#/createWithoutImage"
 
 Update:
   tags:
-    - diary
+    - diaries
   summary: 다이어리를 업데이트 합니다.
   requestBody:
     required: true
     content:
       multipart/form-data:
         schema:
-          $ref: '../components/requestBody/diary.yaml#/update'
+          $ref: "../components/requestBody/diary.yaml#/update"
   responses:
-    '200':
+    "200":
       description: A result object.
       content:
         application/json:
           schema:
-            $ref: '../components/responses/diary.yaml#/post'
+            $ref: "../components/responses/diary.yaml#/post"
           examples:
             updatedDiaryWithImage:
-              $ref: '../components/examples/diary.yaml#/createWithImage'
+              $ref: "../components/examples/diary.yaml#/createWithImage"
             updatedDiaryWithoutImage:
-              $ref: '../components/examples/diary.yaml#/createWithoutImage'
+              $ref: "../components/examples/diary.yaml#/createWithoutImage"
 
 Delete:
   tags:
-    - diary
+    - diaries
   summary: 다이어리를 삭제합니다.
   requestBody:
     required: true
     content:
       application/json:
         schema:
-          $ref: '../components/requestBody/diary.yaml#/delete'
+          $ref: "../components/requestBody/diary.yaml#/delete"
         examples:
           diaryToRemove:
-            $ref: '../components/examples/diary.yaml#/diaryToRemove'
+            $ref: "../components/examples/diary.yaml#/diaryToRemove"
           diaryWithNoImage:
-            $ref: '../components/examples/diary.yaml#/diaryWithNoImage'
+            $ref: "../components/examples/diary.yaml#/diaryWithNoImage"
   responses:
-    '204':
+    "204":
       description: No content
 
 GetAList:
   tags:
-    - diary
+    - diaries
   summary: 특정 날짜의 다이어리 리스트를 반환합니다.
   parameters:
     - in: query
       name: date
       schema:
         type: string
-        example: '2022-06-16'
+        example: "2022-06-16"
   responses:
-    '200':
+    "200":
       description: A result object.
       content:
         application/json:
           schema:
-            $ref: '../components/responses/diary.yaml#/getAList'
+            $ref: "../components/responses/diary.yaml#/getAList"
           examples:
             diaryList:
-              $ref: '../components/examples/diary.yaml#/diaryList'
+              $ref: "../components/examples/diary.yaml#/diaryList"
 
 GetADiary:
   tags:
-    - diary
+    - diaries
   summary: 특정 아이디의 다이어리 정보를 반환합니다.
   parameters:
     - in: path
@@ -96,12 +96,12 @@ GetADiary:
         example: 3e37d05b9fc9d01c9cdf5ac3
       description: The diary ID
   responses:
-    '200':
+    "200":
       description: A result object.
       content:
         application/json:
           schema:
-            $ref: '../components/responses/diary.yaml#/post'
+            $ref: "../components/responses/diary.yaml#/post"
           examples:
             diary:
-              $ref: '../components/examples/diary.yaml#/createWithImage'
+              $ref: "../components/examples/diary.yaml#/createWithImage"

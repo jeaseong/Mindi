@@ -3,17 +3,21 @@ post:
   required:
     - diary
     - feeling
+    - sentiment
   properties:
     diary:
       type: string
-      description: '일기 내용이 들어갑니다.'
+      description: "일기 내용이 들어갑니다."
     feeling:
       type: string
-      description: '감정 내용이 들어갑니다.'
+      description: "감정 내용이 들어갑니다."
+    sentiment:
+      type: object
+      description: "감정 분석 결과가 들어갑니다."
     background:
       type: file
       format: binary
-      description: '(Optinal)사진을 첨부할 수 있습니다. 5MB 이하의 파일만 업로드 가능합니다.'
+      description: "(Optinal)사진을 첨부할 수 있습니다. 5MB 이하의 파일만 업로드 가능합니다."
 
 update:
   type: object
@@ -21,27 +25,31 @@ update:
     - _id
     - diary
     - feeling
+    - sentiment
     - createdDate
   properties:
     _id:
       type: string
-      description: '다이어리의 object ID가 들어갑니다. 수정이 불가능한 속성입니다.'
+      description: "다이어리의 object ID가 들어갑니다. 수정이 불가능한 속성입니다."
     diary:
       type: string
-      description: '일기 내용이 들어갑니다.'
+      description: "일기 내용이 들어갑니다."
     feeling:
       type: string
-      description: '감정 내용이 들어갑니다.'
+      description: "감정 내용이 들어갑니다."
+    sentiment:
+      type: object
+      description: "감정 분석 결과가 들어갑니다."
     createdDate:
       type: string
-      description: '일기 작성 날짜가 들어갑니다. 수정이 불가능한 속성입니다.'
+      description: "일기 작성 날짜가 들어갑니다. 수정이 불가능한 속성입니다."
     imageFileName:
       type: string
-      description: '(Optional)사진이 있는 일기라면 사진 정보도 필요합니다.'
+      description: "(Optional)사진이 있는 일기라면 사진 정보도 필요합니다."
     background:
       type: file
       format: binary
-      description: '(Optinal)사진을 첨부할 수 있습니다. 5MB 이하의 파일만 업로드 가능합니다.'
+      description: "(Optinal)사진을 첨부할 수 있습니다. 5MB 이하의 파일만 업로드 가능합니다."
 
 delete:
   type: object
@@ -50,7 +58,7 @@ delete:
   properties:
     _id:
       type: string
-      description: '다이어리의 object ID가 들어갑니다. 수정이 불가능한 속성입니다.'
+      description: "다이어리의 object ID가 들어갑니다. 수정이 불가능한 속성입니다."
     imageFileName:
       type: string
-      description: '(Optional)사진이 있는 일기라면 사진 정보도 필요합니다.'
+      description: "(Optional)사진이 있는 일기라면 사진 정보도 필요합니다."

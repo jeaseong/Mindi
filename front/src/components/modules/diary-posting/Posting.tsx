@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSnackbarContext } from 'contexts/SnackbarContext';
-import { postDiaryPosting } from 'api/api';
+import { postDiaryPosting, postAnalysis } from 'api/api';
 import FileUpload from 'components/modules/fileUpload/FileUpload';
 import MainTitle from 'components/atoms/text/MainTitle';
 import TextArea from 'components/atoms/textArea/TextArea';
@@ -37,8 +37,8 @@ function Posting() {
       formData.append(`${val[0]}`, JSON.stringify(val[1]));
     });
     try {
-      const res = await postDiaryPosting(formData);
-      // await post(res + formData)
+      const res = await postAnalysis(diaryData.feeling);
+      await postDiaryPosting(formData.append('sentiment', res));
       navigate('/result');
     } catch (e) {
       openSnackBar(false, '작성을 안 했어요..!!');

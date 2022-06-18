@@ -1,7 +1,13 @@
 import React from 'react';
 import 'chart.js/auto';
 import { Doughnut } from 'react-chartjs-2';
-import { Title } from './Result.style';
+import {
+  ContentWrapper,
+  Title,
+  Emotion,
+  ChartTitle,
+  ChartWrapper,
+} from './Result.style';
 
 function Result() {
   const mockData = {
@@ -48,14 +54,15 @@ function Result() {
   };
 
   return (
-    <>
+    <ContentWrapper>
       <Title>오늘의 감정 분석 결과:</Title>
 
-      <p>{max}</p>
-      <div style={{ height: '350px', width: '350px' }}>
+      <Emotion>{max}</Emotion>
+      <ChartTitle>오늘의 감정 그래프</ChartTitle>
+      <ChartWrapper>
         <Doughnut data={data} />
-      </div>
-    </>
+      </ChartWrapper>
+    </ContentWrapper>
   );
 }
 

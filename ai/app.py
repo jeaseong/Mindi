@@ -1,5 +1,4 @@
 from flask import Flask, request
-from flask_pymongo import pymongo
 from predict_sentence import predict_sentiment
 
 app = Flask(__name__)

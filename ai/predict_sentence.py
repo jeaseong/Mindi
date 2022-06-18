@@ -2,9 +2,9 @@ import sys
 import torch
 from torch.utils.data import DataLoader, Dataset
 from transformers import ElectraTokenizer, ElectraForSequenceClassification
-from collections import Counter
 
-device = torch.device('cuda')
+# device = torch.device('cuda')
+device = torch.device('cpu')
 model = ElectraForSequenceClassification.from_pretrained('./model/model_2022-06-14_acc0.67.pt').to(device)
 tokenizer = ElectraTokenizer.from_pretrained('monologg/koelectra-base-v3-discriminator')
 model.eval()

@@ -103,7 +103,12 @@ export default (app: Router) => {
       const id: string = req.body._id;
       await diaryService.deleteOne(id);
 
-      res.sendStatus(204); // No Content
+      const response: IResponse<string> = {
+        success: true,
+        result: "성공적으로 삭제되었습니다.",
+      };
+
+      res.sendStatus(200).json(response);
     } catch (error) {
       next(error);
     }

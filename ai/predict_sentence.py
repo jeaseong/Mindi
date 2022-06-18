@@ -12,7 +12,6 @@ model.eval()
 class LoadDataset(Dataset):
   
   def __init__(self, sent_list):
-    # csv_file 읽어오기
     self.dataset = sent_list
   
   def __len__(self):

@@ -23,6 +23,8 @@ export const MainButton = styled(motion.button)`
 export const ImageWrapper = styled(motion.div)`
   display: flex;
   justify-content: right;
+  width: fit-content;
+  height: fit-content;
 
   margin: 0 2em;
 `;

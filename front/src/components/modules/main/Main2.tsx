@@ -25,7 +25,7 @@ function Main2() {
 
   const imageVariants = {
     hidden: {
-      opacity: 0,
+      opacity: 0.2,
     },
     visible: {
       opacity: 1,

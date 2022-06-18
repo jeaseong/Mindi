@@ -7,6 +7,7 @@ import { Container } from "typedi";
 import { imageDelete, imageUpload } from "../middlewares/imageHandler";
 import { loginRequired } from "../middlewares/loginRequired";
 import { matchedData } from "express-validator";
+import { IResponse } from "../../interfaces/IResponse";
 import dayjs from "dayjs";
 import "dayjs/locale/ko";
 
@@ -46,12 +47,12 @@ export default (app: Router) => {
 
         const createdDiary: IDiary = await diaryService.create(newDiary);
 
-        const body = {
+        const response: IResponse<Partial<IDiary>> = {
           success: true,
-          diary: createdDiary,
+          result: createdDiary,
         };
 
-        res.status(201).json(body);
+        res.status(201).json(response);
       } catch (error) {
         next(error);
       }
@@ -85,12 +86,12 @@ export default (app: Router) => {
 
         const updatedDiary = await diaryService.updateOne(id, toUpdate);
 
-        const body = {
+        const response: IResponse<Partial<IDiary>> = {
           success: true,
-          diary: updatedDiary,
+          result: updatedDiary,
         };
 
-        res.status(200).json(body);
+        res.status(200).json(response);
       } catch (error) {
         next(error);
       }
@@ -120,12 +121,12 @@ export default (app: Router) => {
 
         const diaries: IDiary[] = await diaryService.findByDate(userId, date);
 
-        const body = {
+        const response: IResponse<Partial<IDiary[]>> = {
           success: true,
-          diaries: diaries,
+          result: diaries,
         };
 
-        res.status(200).json(body);
+        res.status(200).json(response);
       } catch (error) {
         next(error);
       }
@@ -138,12 +139,12 @@ export default (app: Router) => {
 
       const diary: IDiary = await diaryService.findById(id);
 
-      const body = {
+      const response: IResponse<Partial<IDiary>> = {
         success: true,
-        diaries: diary,
+        result: diary,
       };
 
-      res.status(200).json(body);
+      res.status(200).json(response);
     } catch (error) {
       next(error);
     }

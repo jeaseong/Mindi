@@ -30,5 +30,11 @@ export const postDiaryPosting = async (diaryData: any) => {
 export const postAnalysis = async (diary: string) => {
   const apiUrl = `diaries/sentiment`;
   const { data } = await customAxiosForAi.post(apiUrl, diary);
-  return data.sentiment;
+  return data.result;
+};
+
+export const getDiaryList = async (id: string) => {
+  const apiUrl = `/diaries/${id}`;
+  const { data } = await customAxios.get(apiUrl);
+  return data;
 };

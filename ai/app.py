@@ -15,7 +15,7 @@ def sentiment_list():
     print(sentiment_dict)
     return_data = {
         'success': 'true',
-        'sentiment': sentiment_dict
+        'result': sentiment_dict
     }
     return return_data
 

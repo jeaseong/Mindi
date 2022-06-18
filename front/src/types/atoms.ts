@@ -71,3 +71,7 @@ export interface RadioProps {
   checked: boolean;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
+
+export interface CardProps {
+  bgImg: string;
+}

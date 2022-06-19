@@ -60,8 +60,18 @@ Delete:
           diaryWithNoImage:
             $ref: "../components/examples/diary.yaml#/diaryWithNoImage"
   responses:
-    "204":
-      description: No content
+    "200":
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+                example: true
+              result:
+                type: string
+                example: "성공적으로 삭제되었습니다."
 
 GetAList:
   tags:
@@ -73,9 +83,10 @@ GetAList:
       schema:
         type: string
         example: "2022-06-16"
+      description: YYYY / YYYY-MM / YYYY-MM-DD 형식에 일치해야 합니다.
   responses:
     "200":
-      description: A result object.
+      description: 특정 날짜에 해당하는 다이어리 리스트를 최신 순으로 나열하여 반환합니다.
       content:
         application/json:
           schema:

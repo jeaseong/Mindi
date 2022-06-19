@@ -1,4 +1,4 @@
-import { body, check, param, query, validationResult } from "express-validator";
+import { body, check, oneOf, param, query, validationResult } from "express-validator";
 
 export default {
   diaryBody: [
@@ -15,5 +15,15 @@ export default {
       .isString(),
     body("sentiment").isLength({ min: 3 }).withMessage("감정 분석 결과가 포함되어 있지 않습니다."),
   ],
-  getList: [query("date").notEmpty().withMessage("날짜 정보가 비어 있습니다.").bail()],
+  getDate: [
+    query("date").notEmpty().withMessage("날짜 정보가 비어 있습니다.").bail(),
+    oneOf(
+      [
+        query("date").matches(/^\d\d\d\d$/),
+        query("date").matches(/^\d\d\d\d-\d\d$/),
+        query("date").matches(/^\d\d\d\d-\d\d-\d\d$/),
+      ],
+      "날짜 형식이 올바르지 않습니다.",
+    ),
+  ],
 };

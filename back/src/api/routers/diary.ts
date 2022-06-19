@@ -117,12 +117,12 @@ export default (app: Router) => {
   diaryRouter.get(
     "/",
     loginRequired,
-    diaryValidator.getList,
+    diaryValidator.getDate,
     validationErrorChecker,
     async (req: Request, res: Response, next: NextFunction) => {
       try {
         const userId = req.user!._id;
-        const date: string = String(req.query.date); // 가정: "2022-6-10"
+        const date: string = String(req.query.date);
 
         const diaries: IDiary[] = await diaryService.findByDate(userId, date);
 

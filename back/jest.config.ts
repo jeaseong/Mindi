@@ -133,6 +133,7 @@ export default {
     // '**/?(*.)+(spec|test).ts?(x)',
     // '**/unittests/?(*.)+(spec|test).ts?(x)',
     '**/supertests/?(*.)+(spec|test).ts?(x)',
+    '**/unittests/?(*.)+(spec|test).ts?(x)'
   ],
 
   // An array of regexp pattern strings that are matched against all test paths, matched tests are skipped

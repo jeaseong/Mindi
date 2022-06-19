@@ -1,18 +1,25 @@
-import cors from "cors";
-import morgan from "morgan";
-import express from "express";
+import 'reflect-metadata';
+import config from './config';
+import loader from './loaders';
+import express from 'express';
+import { Request, Response, NextFunction } from 'express';
+import logger from './loaders/winston';
 
-import { Request, Response, NextFunction } from "express";
+async function appStart() {
+  const app: express.Application = express();
 
-const app: express.Application = express();
+  await loader({ expressApp: app });
 
-app.use(cors());
-app.use(morgan("tiny"));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+  app.listen(config.port, () => {
+    logger.info(`
+            Mindi API Server
+            is running on: http://localhost:${config.port}
+            `);
+  });
 
-app.get("/", (req: Request, res: Response, next: NextFunction) => {
-  res.send("Hello, world!");
-});
+  app.get('/', (req: Request, res: Response, next: NextFunction) => {
+    res.send('Hello, world!');
+  });
+}
 
-export { app };
+export = appStart();

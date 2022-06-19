@@ -1,0 +1,1422 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Mindi_API
+  description: |
+    # Mindi의 API 명세서
+servers:
+  - url: 'http://localhost:5001/api/'
+tags:
+  - name: diaries
+    description: '일기 작성, 조회, 수정, 삭제 등'
+  - name: auth
+    description: '유저 로그인, 회원가입 등'
+  - name: users
+    description: '회원 탈퇴, 정보 조회, 정보 수정 등'
+  - name: posts
+    description: '게시글 작성, 조회, 수정, 삭제 등'
+  - name: comments
+    description: '댓글 작성, 조회, 수정, 삭제 등'
+paths:
+  /diaries:
+    post:
+      tags:
+        - diaries
+      summary: 다이어리를 생성합니다.
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - diary
+                - feeling
+                - sentiment
+              properties:
+                diary:
+                  type: string
+                  description: 일기 내용이 들어갑니다.
+                feeling:
+                  type: string
+                  description: 감정 내용이 들어갑니다.
+                sentiment:
+                  type: object
+                  description: 감정 분석 결과가 들어갑니다.
+                background:
+                  type: file
+                  format: binary
+                  description: (Optinal)사진을 첨부할 수 있습니다. 5MB 이하의 파일만 업로드 가능합니다.
+      responses:
+        '201':
+          description: A result object.
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1diaries/put/responses/200/content/application~1json/schema'
+              examples:
+                newDiaryWithImage:
+                  $ref: '#/paths/~1diaries~1%7Bid%7D/get/responses/200/content/application~1json/examples/diary'
+                newDiaryWithoutImage:
+                  value:
+                    success: true
+                    diary:
+                      userId: 3e37d05b9fc9d01c9cdf5ac3
+                      diary: example
+                      feeling: example
+                      sentiment:
+                        fear: 2
+                        surprised: 0
+                        anger: 0
+                        sadness: 0
+                        happiness: 1
+                        aversion: 0
+                      createdDate: 2022-6-14
+                      _id: 62a7ed0f291754e07d151aac
+                      createdAt: '2022-06-14T02:06:07.080Z'
+                      updatedAt: '2022-06-14T02:06:07.080Z'
+                      __v: 0
+    put:
+      tags:
+        - diaries
+      summary: 다이어리를 업데이트 합니다.
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - _id
+                - diary
+                - feeling
+                - sentiment
+                - createdDate
+              properties:
+                _id:
+                  type: string
+                  description: 다이어리의 object ID가 들어갑니다. 수정이 불가능한 속성입니다.
+                diary:
+                  type: string
+                  description: 일기 내용이 들어갑니다.
+                feeling:
+                  type: string
+                  description: 감정 내용이 들어갑니다.
+                sentiment:
+                  type: object
+                  description: 감정 분석 결과가 들어갑니다.
+                createdDate:
+                  type: string
+                  description: 일기 작성 날짜가 들어갑니다. 수정이 불가능한 속성입니다.
+                imageFileName:
+                  type: string
+                  description: (Optional)사진이 있는 일기라면 사진 정보도 필요합니다.
+                background:
+                  type: file
+                  format: binary
+                  description: (Optinal)사진을 첨부할 수 있습니다. 5MB 이하의 파일만 업로드 가능합니다.
+      responses:
+        '200':
+          description: A result object.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  diary:
+                    type: object
+                    required:
+                      - _id
+                      - userId
+                      - diary
+                      - feeling
+                      - sentiment
+                      - createdDate
+                    properties:
+                      _id:
+                        type: string
+                      userId:
+                        type: string
+                      diary:
+                        type: string
+                      feeling:
+                        type: string
+                      sentiment:
+                        type: object
+                      createdDate:
+                        type: string
+                        description: 오늘(일기 작성) 날짜가 "년도-월-일" 형식으로 저장됩니다.
+                      imageFileName:
+                        type: string
+                      imageFilePath:
+                        type: string
+              examples:
+                updatedDiaryWithImage:
+                  $ref: '#/paths/~1diaries~1%7Bid%7D/get/responses/200/content/application~1json/examples/diary'
+                updatedDiaryWithoutImage:
+                  $ref: '#/paths/~1diaries/post/responses/201/content/application~1json/examples/newDiaryWithoutImage'
+    delete:
+      tags:
+        - diaries
+      summary: 다이어리를 삭제합니다.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - _id
+              properties:
+                _id:
+                  type: string
+                  description: 다이어리의 object ID가 들어갑니다. 수정이 불가능한 속성입니다.
+                imageFileName:
+                  type: string
+                  description: (Optional)사진이 있는 일기라면 사진 정보도 필요합니다.
+            examples:
+              diaryToRemove:
+                value:
+                  _id: 62a7ed0f291754e07d151aac
+                  imageFileName: background_1655172367029_test.jpg
+                  imageFilePath: 'http://localhost:5001/images/background_1655172367029_test.jpg'
+              diaryWithNoImage:
+                value:
+                  _id: 62a7ed0f291754e07d151aac
+      responses:
+        '204':
+          description: No content
+  '/diaries?date={createdDate}':
+    get:
+      tags:
+        - diaries
+      summary: 특정 날짜의 다이어리 리스트를 반환합니다.
+      parameters:
+        - in: query
+          name: date
+          schema:
+            type: string
+            example: '2022-06-16'
+      responses:
+        '200':
+          description: A result object.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  diaries:
+                    type: array
+                    items:
+                      types: object
+                      required:
+                        - _id
+                        - userId
+                        - diary
+                        - feeling
+                        - sentiment
+                        - createdDate
+                      properties:
+                        _id:
+                          type: string
+                        userId:
+                          type: string
+                        diary:
+                          type: string
+                        feeling:
+                          type: string
+                        sentiment:
+                          type: object
+                        createdDate:
+                          type: string
+                        imageFileName:
+                          type: string
+                        imageFilePath:
+                          type: string
+              examples:
+                diaryList:
+                  value:
+                    success: true
+                    diaries:
+                      - _id: 62aaf383abc6f9d6325f06e4
+                        userId: 62a76c45f0ed80e0f9e765fc
+                        diary: Consequuntur praesentium nesciunt sit maiores. Et eos eum adipisci et quis nam repudiandae soluta. Ut provident natus maiores quasi.
+                        feeling: Minus nostrum soluta ratione sed saepe dolorum corrupti.
+                        sentiment:
+                          fear: 2
+                          surprised: 0
+                          anger: 0
+                          sadness: 0
+                          happiness: 1
+                          aversion: 0
+                        createdDate: '2022-06-16'
+                        createdAt: '2022-06-16T09:10:27.553Z'
+                        updatedAt: '2022-06-16T09:10:27.706Z'
+                        __v: 0
+                      - _id: 62aaec9597623ebf98269f97
+                        userId: 62a76c45f0ed80e0f9e765fc
+                        diary: Dolor nihil magnam distinctio dolores molestias quidem harum et. Voluptatem sapiente totam. A animi asperiores aut deleniti cumque odit neque ipsum labore. Adipisci vel doloremque. Amet unde repellendus dicta voluptas provident similique at suscipit.
+                        feeling: Ab fugiat tempora.
+                        sentiment:
+                          fear: 2
+                          surprised: 0
+                          anger: 0
+                          sadness: 0
+                          happiness: 1
+                          aversion: 0
+                        createdDate: '2022-06-16'
+                        createdAt: '2022-06-16T08:40:53.671Z'
+                        updatedAt: '2022-06-16T08:40:53.671Z'
+                        __v: 0
+  '/diaries/{id}':
+    get:
+      tags:
+        - diaries
+      summary: 특정 아이디의 다이어리 정보를 반환합니다.
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+            example: 3e37d05b9fc9d01c9cdf5ac3
+          description: The diary ID
+      responses:
+        '200':
+          description: A result object.
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1diaries/put/responses/200/content/application~1json/schema'
+              examples:
+                diary:
+                  value:
+                    success: true
+                    diary:
+                      userId: 3e37d05b9fc9d01c9cdf5ac3
+                      diary: example
+                      feeling: example
+                      sentiment:
+                        fear: 2
+                        surprised: 0
+                        anger: 0
+                        sadness: 0
+                        happiness: 1
+                        aversion: 0
+                      createdDate: 2022-6-14
+                      imageFileName: background_1655172367029_test.jpg
+                      imageFilePath: 'http://localhost:5001/images/background_1655172367029_test.jpg'
+                      _id: 62a7ed0f291754e07d151aac
+                      createdAt: '2022-06-14T02:06:07.080Z'
+                      updatedAt: '2022-06-14T02:06:07.080Z'
+                      __v: 0
+  /users:
+    get:
+      tags:
+        - users
+      summary: 로그인한 유저 정보를 반환합니다.
+      security:
+        - BearerAuth: []
+      description: |
+        # 로그인 유저 정보 API
+        현재 로그인한 유저의 정보를 반환합니다.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    description: 요청이 성공했는지를 나타냅니다.
+                  user:
+                    type: object
+                    properties:
+                      _id:
+                        type: string
+                        description: userId
+                      email:
+                        type: string
+                        description: 유저가 가입에 사용한 이메일 주소
+                      name:
+                        type: string
+                        description: 유저가 설정한 이름
+                      recentLogin:
+                        type: string
+                        format: date
+                        description: 마지막으로 로그인한 시각
+              examples:
+                value:
+                  success: true
+                  user:
+                    _id: 62a0c9fe574953ef39d5c9e8
+                    name: mindi
+                    email: mindi@elice.com
+                    recentLogin: 2022-06-27T16:26:08.844Z
+    put:
+      tags:
+        - users
+      summary: 입력받은 값으로 유저 정보를 업데이트합니다.
+      security:
+        - BearerAuth: []
+      description: |
+        # 유저 정보 수정 API
+        입력받은 값들로 유저 정보를 업데이트합니다.
+        사용할 수 있는 정보는 유저 이름, 비밀번호, 상태 메시지입니다.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                password:
+                  type: string
+            example:
+              name: acorn
+              password: 1q2w3e4r5t!
+      responses:
+        '200':
+          description: 정상적으로 수정되었습니다.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    description: 요청이 성공했는지를 나타냅니다.
+                  user:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                        description: 유저가 설정한 이름
+              example:
+                success: true
+                user:
+                  email: mindi@elice.com
+                  name: acorn
+    delete:
+      tags:
+        - users
+      summary: 현재 로그인한 유저 계정을 삭제합니다.
+      security:
+        - BearerAuth: []
+      description: |
+        # 회원탈퇴 API
+        현재 로그인한 유저의 계정 정보를 삭제합니다.
+      responses:
+        '200':
+          description: 정상적으로 삭제되었습니다.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    description: 요청이 성공했는지를 나타냅니다.
+                  message:
+                    type: string
+                    description: 삭제 성공 메시지
+              example:
+                success: true
+                message: 성공적으로 삭제되었습니다.
+  /posts:
+    post:
+      tags:
+        - posts
+      summary: 새로운 게시글을 등록합니다.
+      security:
+        - BearerAuth: []
+      description: |
+        # 게시글 업로드 API
+        새로운 게시글을 등록합니다.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - title
+                - content
+              properties:
+                title:
+                  type: string
+                content:
+                  type: string
+            examples:
+              value:
+                title: 등록할 글 제목
+                content: 등록할 글 내용
+      responses:
+        '201':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    description: 요청이 성공했는지를 나타냅니다.
+                  post:
+                    type: object
+                    properties:
+                      _id:
+                        type: string
+                        description: postId
+                      title:
+                        type: string
+                        description: 글 제목
+                      content:
+                        type: string
+                        description: 글 내용
+                      author:
+                        type: string
+                        description: 작성자 userId
+                      createdAt:
+                        type: string
+                        description: 작성일
+              examples:
+                value:
+                  success: true
+                  post:
+                    _id: 62a0c9fe574953ef39d5c9e8
+                    title: 게시글 제목
+                    content: 게시글 내용
+                    author: 62a0c1234jk4953ef39d5c9e9
+                    createdAt: 2022-06-27T16:26:08.844Z
+    get:
+      tags:
+        - posts
+      summary: 게시글 목록을 가져옵니다.
+      security:
+        - BearerAuth: []
+      description: |
+        # 게시글 목록 API
+        게시글 목록을 반환합니다.
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+          description: 페이지 넘버
+        - name: limit
+          in: query
+          schema:
+            type: integer
+          description: 한 페이지에 표시할 게시글 수
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    description: 요청이 성공했는지를 나타냅니다.
+                  posts:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        _id:
+                          type: string
+                          description: postId
+                        title:
+                          type: string
+                          description: 게시글 제목
+                        content:
+                          type: string
+                          description: 게시글 내용
+                        author:
+                          type: string
+                          description: 게시글 작성자 userId
+                        comments:
+                          type: number
+                          description: 게시글 댓글 개수
+                        createdAt:
+                          type: string
+                          description: 게시글 작성일
+              examples:
+                value:
+                  success: true
+                  posts:
+                    - _id: 62a0c9fe574953ef39d5c9e8
+                      title: 게시글 제목1
+                      content: 게시글 내용1
+                      author: 62a0c1234jk4953ef39d5c9e9
+                      createdAt: 2022-06-27T16:26:08.844Z
+                    - _id: 62a0c9fe574953ef39d5c9e8
+                      title: 게시글 제목2
+                      content: 게시글 내용2
+                      author: 62a0c1234jk4953ef39d5c9e9
+                      createdAt: 2022-06-27T16:26:08.844Z
+  '/posts/{postId}':
+    get:
+      tags:
+        - posts
+      summary: 게시글 정보를 가져옵니다.
+      security:
+        - BearerAuth: []
+      description: |
+        # 게시글 정보 열람 API
+        게시글 1개의 정보를 반환합니다.
+      parameters:
+        - name: postId
+          in: path
+          description: postId
+          required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    description: 요청이 성공했는지를 나타냅니다.
+                  post:
+                    type: object
+                    properties:
+                      _id:
+                        type: string
+                        description: postId
+                      title:
+                        type: string
+                        description: 글 제목
+                      content:
+                        type: string
+                        description: 글 내용
+                      author:
+                        type: string
+                        description: 작성자 userId
+                      comments:
+                        type: number
+                        description: 댓글 개수
+                      createdAt:
+                        type: string
+                        description: 작성일
+              examples:
+                value:
+                  success: true
+                  posts:
+                    _id: 62a0c9fe574953ef39d5c9e8
+                    title: 게시글 제목
+                    content: 게시글 내용
+                    author: 62a0c1234jk4953ef39d5c9e9
+                    createdAt: 2022-06-27T16:26:08.844Z
+    put:
+      tags:
+        - posts
+      summary: 게시글 정보를 수정합니다.
+      security:
+        - BearerAuth: []
+      description: |
+        # 게시글 수정 API
+        게시글을 수정합니다.
+      parameters:
+        - name: postId
+          in: path
+          description: postId
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - title
+                - content
+              properties:
+                title:
+                  type: string
+                content:
+                  type: string
+            examples:
+              value:
+                title: 수정할 글 제목
+                content: 수정할 글 내용
+      responses:
+        '201':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    description: 요청이 성공했는지를 나타냅니다.
+                  post:
+                    type: object
+                    properties:
+                      _id:
+                        type: string
+                        description: postId
+                      title:
+                        type: string
+                        description: 글 제목
+                      content:
+                        type: string
+                        description: 글 내용
+                      author:
+                        type: string
+                        description: 작성자 userId
+                      createdAt:
+                        type: string
+                        description: 작성일
+              examples:
+                value:
+                  success: true
+                  post:
+                    _id: 62a0c9fe574953ef39d5c9e8
+                    title: 수정된 게시글 제목
+                    content: 수정된 게시글 내용
+                    author: 62a0c1234jk4953ef39d5c9e9
+                    createdAt: 2022-06-27T16:26:08.844Z
+    delete:
+      tags:
+        - posts
+      summary: 게시글을 삭제합니다.
+      security:
+        - BearerAuth: []
+      description: |
+        # 게시글 삭제 API
+        게시글 1개를 삭제합니다.
+      parameters:
+        - name: postId
+          in: path
+          description: postId
+          required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    description: 요청이 성공했는지를 나타냅니다.
+                  message:
+                    type: string
+                    descipriton: 메시지
+              examples:
+                value:
+                  success: true
+                  message: 성공적으로 삭제되었습니다.
+  /users/posts:
+    get:
+      tags:
+        - posts
+      summary: 게시글 목록을 가져옵니다.
+      security:
+        - BearerAuth: []
+      description: |
+        # 유저 게시글 목록 API
+        로그인한 사용자의 게시글 목록을 반환합니다.
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+          description: 페이지 넘버
+        - name: limit
+          in: query
+          schema:
+            type: integer
+          description: 한 페이지에 표시할 게시글 수
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    description: 요청이 성공했는지를 나타냅니다.
+                  posts:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        _id:
+                          type: string
+                          description: postId
+                        title:
+                          type: string
+                          description: 게시글 제목
+                        content:
+                          type: string
+                          description: 게시글 내용
+                        author:
+                          type: string
+                          description: 게시글 작성자 userId
+                        comments:
+                          type: number
+                          description: 게시글 댓글 개수
+                        createdAt:
+                          type: string
+                          description: 게시글 작성일
+              examples:
+                value:
+                  success: true
+                  posts:
+                    - _id: 62a0c9fe574953ef39d5c9e8
+                      title: 게시글 제목1
+                      content: 게시글 내용1
+                      author: 62a0c1234jk4953ef39d5c9e9
+                      createdAt: 2022-06-27T16:26:08.844Z
+                    - _id: 62a0c9fe574953ef39d5c9e8
+                      title: 게시글 제목2
+                      content: 게시글 내용2
+                      author: 62a0c1234jk4953ef39d5c9e9
+                      createdAt: 2022-06-27T16:26:08.844Z
+  '/users/posts/{userId}':
+    get:
+      tags:
+        - posts
+      summary: 게시글 목록을 가져옵니다.
+      security:
+        - BearerAuth: []
+      description: |
+        # 유저 게시글 목록 API
+        로그인한 사용자의 게시글 목록을 반환합니다.
+      parameters:
+        - name: userId
+          in: path
+          schema:
+            type: string
+          description: userId
+        - name: page
+          in: query
+          schema:
+            type: integer
+          description: 페이지 넘버
+        - name: limit
+          in: query
+          schema:
+            type: integer
+          description: 한 페이지에 표시할 게시글 수
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    description: 요청이 성공했는지를 나타냅니다.
+                  posts:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        _id:
+                          type: string
+                          description: postId
+                        title:
+                          type: string
+                          description: 게시글 제목
+                        content:
+                          type: string
+                          description: 게시글 내용
+                        author:
+                          type: string
+                          description: 게시글 작성자 userId
+                        comments:
+                          type: number
+                          description: 게시글 댓글 개수
+                        createdAt:
+                          type: string
+                          description: 게시글 작성일
+              examples:
+                value:
+                  success: true
+                  posts:
+                    - _id: 62a0c9fe574953ef39d5c9e8
+                      title: 게시글 제목1
+                      content: 게시글 내용1
+                      author: 62a0c1234jk4953ef39d5c9e9
+                      createdAt: 2022-06-27T16:26:08.844Z
+                    - _id: 62a0c9fe574953ef39d5c9e8
+                      title: 게시글 제목2
+                      content: 게시글 내용2
+                      author: 62a0c1234jk4953ef39d5c9e9
+                      createdAt: 2022-06-27T16:26:08.844Z
+  '/comments/{commentId}':
+    post:
+      tags:
+        - comments
+      summary: 새로운 대댓글을 등록합니다.
+      security:
+        - BearerAuth: []
+      description: |
+        # 대댓글 업로드 API
+        새로운 대댓글을 등록합니다.
+      parameters:
+        - name: commentId
+          in: path
+          description: commentId
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - content
+              properties:
+                content:
+                  type: string
+            examples:
+              value:
+                content: 등록할 댓글 내용
+      responses:
+        '201':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    description: 요청이 성공했는지를 나타냅니다.
+                  comment:
+                    type: object
+                    properties:
+                      _id:
+                        type: string
+                        description: commentId
+                      post:
+                        type: string
+                        description: postId
+                      content:
+                        type: string
+                        description: 댓글 내용
+                      author:
+                        type: string
+                        description: 작성자 userId
+                      depth:
+                        type: number
+                        description: 댓글 깊이
+                      parent:
+                        type: string
+                        description: 부모 댓글 commentId
+                      createdAt:
+                        type: string
+                        description: 작성일
+              examples:
+                value:
+                  success: true
+                  post:
+                    _id: 62a0c9fe574953ef39d5c9e8
+                    post: 62a0c34123574953ef39d5c9e
+                    content: 댓글 내용
+                    author: 62a0c1234jk4953ef39d5c9e9
+                    parent: 62a0casdfg574953ef39d5c9e
+                    depth: 1
+                    createdAt: 2022-06-27T16:26:08.844Z
+    get:
+      tags:
+        - comments
+      summary: 댓글 정보를 얻습니다.
+      security:
+        - BearerAuth: []
+      description: |
+        # 댓글 정보 확인 API
+        댓글 정보를 반환받습니다.
+      parameters:
+        - name: commentId
+          in: path
+          description: commentId
+          required: true
+      responses:
+        '201':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    description: 요청이 성공했는지를 나타냅니다.
+                  comment:
+                    type: object
+                    properties:
+                      _id:
+                        type: string
+                        description: commentId
+                      post:
+                        type: string
+                        description: postId
+                      content:
+                        type: string
+                        description: 댓글 내용
+                      author:
+                        type: string
+                        description: 작성자 userId
+                      depth:
+                        type: number
+                        description: 댓글 깊이
+                      createdAt:
+                        type: string
+                        description: 작성일
+              examples:
+                value:
+                  success: true
+                  post:
+                    _id: 62a0c9fe574953ef39d5c9e8
+                    post: 62a0c34123574953ef39d5c9e
+                    content: 댓글 내용
+                    author: 62a0c1234jk4953ef39d5c9e9
+                    depth: 0
+                    createdAt: 2022-06-27T16:26:08.844Z
+    put:
+      tags:
+        - comments
+      summary: 댓글을 수정합니다.
+      security:
+        - BearerAuth: []
+      description: |
+        # 댓글 수정 API
+        댓글 내용을 수정합니다.
+      parameters:
+        - name: commentId
+          in: path
+          description: commentId
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - content
+              properties:
+                content:
+                  type: string
+            examples:
+              value:
+                content: 등록할 댓글 내용
+      responses:
+        '201':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    description: 요청이 성공했는지를 나타냅니다.
+                  comment:
+                    type: object
+                    properties:
+                      _id:
+                        type: string
+                        description: commentId
+                      post:
+                        type: string
+                        description: postId
+                      content:
+                        type: string
+                        description: 댓글 내용
+                      author:
+                        type: string
+                        description: 작성자 userId
+                      depth:
+                        type: number
+                        description: 댓글 깊이
+                      createdAt:
+                        type: string
+                        description: 작성일
+              examples:
+                value:
+                  success: true
+                  post:
+                    _id: 62a0c9fe574953ef39d5c9e8
+                    post: 62a0c34123574953ef39d5c9e
+                    content: 댓글 내용
+                    author: 62a0c1234jk4953ef39d5c9e9
+                    depth: 0
+                    createdAt: 2022-06-27T16:26:08.844Z
+    delete:
+      tags:
+        - comments
+      summary: 댓글을 삭제합니다.
+      security:
+        - BearerAuth: []
+      description: |
+        # 댓글 삭제 API
+        댓글을 삭제합니다.
+      parameters:
+        - name: commentId
+          in: path
+          description: commentId
+          required: true
+      responses:
+        '201':
+          description: OK
+          content:
+            application/json:
+              schema:
+                success:
+                  type: boolean
+                  description: 삭제 성공 여부
+                message:
+                  type: string
+                  description: 삭제 메시지
+              examples:
+                value:
+                  success: true
+                  message: 성공적으로 삭제되었습니다.
+  '/posts/comments/{postId}':
+    post:
+      tags:
+        - comments
+      summary: 새로운 댓글을 등록합니다.
+      security:
+        - BearerAuth: []
+      description: |
+        # 댓글 업로드 API
+        새로운 댓글을 등록합니다.
+      parameters:
+        - name: postId
+          in: path
+          description: postId
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/paths/~1comments~1%7BcommentId%7D/post/requestBody/content/application~1json/schema'
+            examples:
+              $ref: '#/paths/~1comments~1%7BcommentId%7D/post/requestBody/content/application~1json/examples'
+      responses:
+        '201':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    description: 요청이 성공했는지를 나타냅니다.
+                  comment:
+                    type: object
+                    properties:
+                      _id:
+                        type: string
+                        description: commentId
+                      post:
+                        type: string
+                        description: postId
+                      content:
+                        type: string
+                        description: 댓글 내용
+                      author:
+                        type: string
+                        description: 작성자 userId
+                      depth:
+                        type: number
+                        description: 댓글 깊이
+                      createdAt:
+                        type: string
+                        description: 작성일
+              examples:
+                value:
+                  success: true
+                  post:
+                    _id: 62a0c9fe574953ef39d5c9e8
+                    post: 62a0c34123574953ef39d5c9e
+                    content: 댓글 내용
+                    author: 62a0c1234jk4953ef39d5c9e9
+                    depth: 0
+                    createdAt: 2022-06-27T16:26:08.844Z
+    get:
+      tags:
+        - comments
+      summary: 게시물의 댓글 정보를 얻습니다.
+      security:
+        - BearerAuth: []
+      description: |
+        # 게시물 댓글 정보 확인 API
+        게시물의 댓글 정보를 반환받습니다.
+      parameters:
+        - name: postId
+          in: path
+          description: postId
+          required: true
+        - name: page
+          in: query
+          schema:
+            type: integer
+          description: 페이지 넘버
+        - name: limit
+          in: query
+          schema:
+            type: integer
+          description: 한 페이지에 표시할 댓글 수
+      responses:
+        '201':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    description: 요청이 성공했는지를 나타냅니다.
+                  comments:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        _id:
+                          type: string
+                          description: commentId
+                        post:
+                          type: string
+                          description: postId
+                        content:
+                          type: string
+                          description: 댓글 내용
+                        author:
+                          type: string
+                          description: 작성자 userId
+                        depth:
+                          type: number
+                          description: 댓글 깊이
+                        parent:
+                          type: string
+                          description: 부모 댓글 commentId
+                        createdAt:
+                          type: string
+                          description: 작성일
+              examples:
+                value:
+                  success: true
+                  posts:
+                    - _id: 62a0c9fe574953ef39d5c9e8
+                      post: 62a0c34123574953ef39d5c9e
+                      content: 댓글 내용1
+                      author: 62a0c1234jk4953ef39d5c9e9
+                      depth: 0
+                      createdAt: 2022-06-27T16:26:08.844Z
+                    - _id: 62a0c9fe574953ef39d5c9e8
+                      post: 62a0c34123574953ef39d5c9e
+                      content: 댓글 내용2
+                      author: 62a0c1234jk4953ef39d5c9e9
+                      depth: 1
+                      parent: 62a0c34123414953ef39d5c9e
+                      createdAt: 2022-06-27T16:26:08.844Z
+  '/comments/children/{commentId}':
+    get:
+      tags:
+        - comments
+      summary: 댓글의 대댓글 정보를 얻습니다.
+      security:
+        - BearerAuth: []
+      description: |
+        # 댓글의 대댓글 정보 확인 API
+        댓글의 대댓글 정보를 반환받습니다.
+      parameters:
+        - name: coomentId
+          in: path
+          description: commentId
+          required: true
+        - name: page
+          in: query
+          schema:
+            type: integer
+          description: 페이지 넘버
+        - name: limit
+          in: query
+          schema:
+            type: integer
+          description: 한 페이지에 표시할 댓글 수
+      responses:
+        '201':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    description: 요청이 성공했는지를 나타냅니다.
+                  comments:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        _id:
+                          type: string
+                          description: commentId
+                        post:
+                          type: string
+                          description: postId
+                        content:
+                          type: string
+                          description: 댓글 내용
+                        author:
+                          type: string
+                          description: 작성자 userId
+                        depth:
+                          type: number
+                          description: 댓글 깊이
+                        parent:
+                          type: string
+                          description: 부모 댓글 commentId
+                        createdAt:
+                          type: string
+                          description: 작성일
+              examples:
+                value:
+                  success: true
+                  posts:
+                    - _id: 62a0c9fe574953ef39d5c9e8
+                      post: 62a0c34123574953ef39d5c9e
+                      content: 댓글 내용1
+                      author: 62a0c1234jk4953ef39d5c9e9
+                      depth: 1
+                      createdAt: 2022-06-27T16:26:08.844Z
+                    - _id: 62a0c9fe574953ef39d5c9e8
+                      post: 62a0c34123574953ef39d5c9e
+                      content: 댓글 내용2
+                      author: 62a0c1234jk4953ef39d5c9e9
+                      depth: 1
+                      parent: 62a0c34123414953ef39d5c9e
+                      createdAt: 2022-06-27T16:26:08.844Z
+  '/users/comments/{userId}':
+    get:
+      tags:
+        - comments
+      summary: 댓글의 대댓글 정보를 얻습니다.
+      security:
+        - BearerAuth: []
+      description: |
+        # 댓글의 대댓글 정보 확인 API
+        댓글의 대댓글 정보를 반환받습니다.
+      parameters:
+        - name: userId
+          in: path
+          description: userId
+          required: true
+        - name: page
+          in: query
+          schema:
+            type: integer
+          description: 페이지 넘버
+        - name: limit
+          in: query
+          schema:
+            type: integer
+          description: 한 페이지에 표시할 댓글 수
+      responses:
+        '201':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    description: 요청이 성공했는지를 나타냅니다.
+                  comments:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        _id:
+                          type: string
+                          description: commentId
+                        post:
+                          type: string
+                          description: postId
+                        content:
+                          type: string
+                          description: 댓글 내용
+                        author:
+                          type: string
+                          description: 작성자 userId
+                        depth:
+                          type: number
+                          description: 댓글 깊이
+                        parent:
+                          type: string
+                          description: 부모 댓글 commentId
+                        createdAt:
+                          type: string
+                          description: 작성일
+              examples:
+                value:
+                  success: true
+                  posts:
+                    - _id: 62a0c9fe574953ef39d5c9e8
+                      post: 62a0c34123574953ef39d5c9e
+                      content: 댓글 내용1
+                      author: 62a0c1234jk4953ef39d5c9e9
+                      depth: 0
+                      createdAt: 2022-06-27T16:26:08.844Z
+                    - _id: 62a0c9fe574953ef39d5c9e8
+                      post: 62a0c34123574953ef39d5c9e
+                      content: 댓글 내용2
+                      author: 62a0c1234jk4953ef39d5c9e9
+                      depth: 1
+                      parent: 62a0c34123414953ef39d5c9e
+                      createdAt: 2022-06-27T16:26:08.844Z
+components:
+  schemas:
+    diary:
+      type: object
+      required:
+        - userId
+        - diary
+        - feeling
+        - sentiment
+        - createdDate
+      properties:
+        userId:
+          type: string
+        diary:
+          type: string
+        feeling:
+          type: string
+        sentiment:
+          type: object
+        createdDate:
+          type: string
+        imageFileName:
+          type: string
+        imageFilePath:
+          type: string
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer

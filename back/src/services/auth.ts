@@ -93,7 +93,7 @@ export default class AuthService {
     const signedToken = jwt.sign(payload, secretKey, { expiresIn: expiresIn });
 
     return {
-      token: "Bearer " + signedToken,
+      token: signedToken,
       expires: expiresIn
     };
   }

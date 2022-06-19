@@ -1,6 +1,6 @@
 from flask import Flask, request
 from predict_sentence import predict_sentiment
-from flask_cors import CORS, cross_origin
+from flask_cors import CORS
 
 app = Flask(__name__)
 CORS(app)
@@ -11,9 +11,9 @@ def main():
     return 'Mindi'
 
 @app.route('/diaries/sentiment', methods=['POST'] )
-@cross_origin()
 def sentiment_list():
-    diary = request.get_json()['diary']
+    diary = request.get_json()["diary"]
+    print(diary)
     sentiment_dict = predict_sentiment(diary)
     print(sentiment_dict)
     return_data = {

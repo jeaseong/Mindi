@@ -51,7 +51,7 @@ function SignUp() {
       openSnackBar(true, ALERT_MESSAGE.SUCCESS_SIGNUP.label);
       navigate('/sign-in');
     } catch (e) {
-      openSnackBar(true, ALERT_MESSAGE.ERROR_SIGNUP.label);
+      openSnackBar(false, ALERT_MESSAGE.ERROR_SIGNUP.label);
     }
   };
   return (

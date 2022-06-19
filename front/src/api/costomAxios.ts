@@ -22,6 +22,7 @@ export const customAxiosForAi: AxiosInstance = axios.create({
   baseURL: `${aiURL}`, // 기본 서버 주소 입력
   headers: {
     'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': '*',
     Authorization: `${localStorage.getItem('userToken')}`,
   },
 });

@@ -4,16 +4,27 @@ import { faker } from '@faker-js/faker';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
 import logger from '../../src/loaders/winston';
+import { TestUserModel } from "./user.test";
 
 describe('Diary Service Test', () => {
   const today = dayjs().locale('ko').format('YYYY-MM-DD');
   const mockUserId = faker.database.mongodbObjectId();
   const mockObjectId = faker.database.mongodbObjectId();
 
+  const sentiment = {
+    fear: 2,
+    surprised: 0,
+    anger: 0,
+    sadness: 2,
+    happiness: 1,
+    aversion: 0
+  };
+
   const newDiary = {
     userId: mockUserId,
     diary: faker.lorem.paragraph(),
     feeling: faker.lorem.sentence(),
+    sentiment: sentiment,
     createdDate: '0',
   };
 
@@ -21,6 +32,7 @@ describe('Diary Service Test', () => {
     userId: mockUserId,
     diary: faker.lorem.paragraph(),
     feeling: faker.lorem.sentence(),
+    sentiment: sentiment,
     createdDate: today,
   };
 
@@ -70,7 +82,7 @@ describe('Diary Service Test', () => {
     },
   };
 
-  const diaryService = new DiaryService(testDiaryModel, logger);
+  const diaryService = new DiaryService(testDiaryModel, new TestUserModel(), logger);
 
   it('create new diary', async () => {
     expect(await diaryService.create(newDiary)).toEqual({
@@ -92,7 +104,7 @@ describe('Diary Service Test', () => {
   });
 
   it('find a diary list by date', async () => {
-    expect(await diaryService.findByDate(today)).toEqual([
+    expect(await diaryService.findByDate(mockUserId, today)).toEqual([
       {
         _id: mockObjectId,
         ...toUpdate,

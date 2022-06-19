@@ -8,4 +8,5 @@
 
 # 모델 다운로드
 
+`ai > model > model_final.pt` 디렉토리 아래에 링크에 있는 파일 2개 추가
 https://drive.google.com/drive/folders/1-b1pYj19NRtyGq5tVccJKQo_WVl0yYln?usp=sharing

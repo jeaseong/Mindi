@@ -7,6 +7,8 @@ import CommentService from "../../services/comment";
 import { StatusError } from "../../utils/error";
 import validationErrorChecker from "../middlewares/validationErrorChecker";
 import PostService from "../../services/post";
+import {IResponse} from "../../interfaces/IResponse";
+import {IComment} from "../../interfaces/IComment";
 
 export default (app: Router) => {
   const commentRouter = Router();
@@ -46,12 +48,12 @@ export default (app: Router) => {
 
         const { updatedAt, ...rest } = comment;
 
-        const body = {
+        const response: IResponse<IComment> = {
           success: true,
-          comment: rest
+          result: rest
         };
 
-        res.status(200).json(body);
+        res.status(200).json(response);
       } catch (error) {
         next(error);
       }
@@ -84,12 +86,12 @@ export default (app: Router) => {
 
         const { updatedAt, ...rest } = comment;
 
-        const body = {
+        const response: IResponse<IComment> = {
           success: true,
-          comment: rest
+          result: rest
         };
 
-        res.status(200).json(body);
+        res.status(200).json(response);
       } catch (error) {
         next(error);
       }
@@ -107,12 +109,12 @@ export default (app: Router) => {
         const comment = await commentService.getOneCommentByCommentId(commentId);
         const { updatedAt, ...rest } = comment!;
 
-        const body = {
+        const response: IResponse<IComment> = {
           success: true,
-          comments: rest
+          result: rest
         };
 
-        res.status(200).json(body);
+        res.status(200).json(response);
       } catch (error) {
         next(error);
       }
@@ -135,12 +137,12 @@ export default (app: Router) => {
           return rest;
         });
 
-        const body = {
+        const response: IResponse<Partial<IComment>[]> = {
           success: true,
-          comments: reducedComments
+          result: reducedComments
         };
 
-        res.status(200).json(body);
+        res.status(200).json(response);
       } catch (error) {
         next(error);
       }
@@ -163,12 +165,12 @@ export default (app: Router) => {
           return rest;
         });
 
-        const body = {
+        const response: IResponse<Partial<IComment>[]> = {
           success: true,
-          comments: reducedComments
+          result: reducedComments
         };
 
-        res.status(200).json(body);
+        res.status(200).json(response);
       } catch (error) {
         next(error);
       }
@@ -191,12 +193,12 @@ export default (app: Router) => {
           return rest;
         });
 
-        const body = {
+        const response: IResponse<Partial<IComment>[]> = {
           success: true,
-          comments: reducedComments
+          result: reducedComments
         };
 
-        res.status(200).json(body);
+        res.status(200).json(response);
       } catch (error) {
         next(error);
       }
@@ -222,12 +224,12 @@ export default (app: Router) => {
         const updatedComment = await commentService.updateCommentInfo(commentId, fieldToUpdate);
         const { updatedAt, ...rest } = updatedComment!;
 
-        const body = {
+        const response: IResponse<IComment> = {
           success: true,
-          comment: rest
+          result: rest
         };
 
-        res.status(200).json(body);
+        res.status(200).json(response);
       } catch (error) {
         next(error);
       }
@@ -255,12 +257,12 @@ export default (app: Router) => {
 
         await commentService.deleteComment(commentId);
 
-        const body = {
+        const response: IResponse<string> = {
           success: true,
-          message: "성공적으로 삭제되었습니다."
+          result: "성공적으로 삭제되었습니다."
         };
 
-        res.status(200).json(body);
+        res.status(200).json(response);
       } catch (error) {
         next(error);
       }

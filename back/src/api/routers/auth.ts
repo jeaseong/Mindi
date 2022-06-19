@@ -4,6 +4,8 @@ import AuthService from "../../services/auth";
 import { Container } from "typedi";
 import validationErrorChecker from "../middlewares/validationErrorChecker";
 import { authValidator } from "../middlewares/express-validator";
+import { IResponse } from "../../interfaces/IResponse";
+import { IUser } from "../../interfaces/IUser";
 
 export default (app: Router) => {
   const authRouter = Router();
@@ -21,16 +23,16 @@ export default (app: Router) => {
         const authService = Container.get(AuthService);
         const newUser = await authService.localSignUp(email, name, password);
 
-        const body = {
+        const response: IResponse<IUser> = {
           success: true,
-          user: {
+          result: {
             _id: newUser._id,
             email: newUser.email,
             name: newUser.name
-          },
+          }
         };
 
-        res.status(201).json(body);
+        res.status(200).json(response);
       } catch (error) {
         next(error);
       }
@@ -47,32 +49,18 @@ export default (app: Router) => {
         const authService = Container.get(AuthService);
         const user = await authService.localSignIn(email, password);
 
-        const body = {
+        const response: IResponse<object> = {
           success: true,
-          user: {
+          result: {
             _id: user._id,
             email: user.email,
             name: user.name,
             token: user.token,
             expiresIn: user.expiresIn
-          },
+          }
         };
 
-        res.status(201).json(body);
-      } catch (error) {
-        next(error);
-      }
-    });
-
-  authRouter.get(
-    "/",
-    async (req: Request, res: Response, next: NextFunction) => {
-      try {
-        const body = {
-          success: true
-        };
-
-        res.send("get /auth");
+        res.status(200).json(response);
       } catch (error) {
         next(error);
       }

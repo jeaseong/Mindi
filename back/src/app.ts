@@ -5,6 +5,7 @@ import express from "express";
 import { Request, Response, NextFunction } from "express";
 import logger from "./loaders/winston";
 import mongoose from "mongoose";
+import { createHttpTerminator } from "http-terminator";
 
 async function appStart() {
   const app: express.Application = express();
@@ -25,7 +26,9 @@ async function appStart() {
   async function handle() {
     await mongoose.connection.close();
     logger.info("MongoDB: Discnnected");
-    server.close();
+
+    const httpTerminator = createHttpTerminator({ server });
+    await httpTerminator.terminate();
     logger.info("Mindi API Server: Shutdown");
   }
 

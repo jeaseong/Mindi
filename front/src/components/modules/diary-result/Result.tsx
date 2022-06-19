@@ -1,6 +1,8 @@
 import React from 'react';
 import 'chart.js/auto';
 import { Doughnut } from 'react-chartjs-2';
+import Image from 'components/atoms/image/Image';
+import { IMAGE } from 'utils/image';
 import {
   ContentWrapper,
   Title,
@@ -58,6 +60,7 @@ function Result() {
       <Title>오늘의 감정 분석 결과:</Title>
 
       <Emotion>{max}</Emotion>
+      <Image width='47%' src={IMAGE.HAPPY.url} alt={IMAGE.HAPPY.alt} />
       <ChartTitle>오늘의 감정 그래프</ChartTitle>
       <ChartWrapper>
         <Doughnut data={data} />

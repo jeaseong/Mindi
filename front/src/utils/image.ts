@@ -20,4 +20,8 @@ export const IMAGE = {
     url: `${process.env.PUBLIC_URL}/assets/logo.png`,
     alt: '서비스 로고',
   },
+  HAPPY: {
+    url: `${process.env.PUBLIC_URL}/assets/happy.png`,
+    alt: '행복 캐릭터',
+  },
 };

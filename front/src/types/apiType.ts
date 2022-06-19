@@ -16,3 +16,7 @@ export interface DiaryInfo {
   feeling: string;
   background?: File;
 }
+
+export interface diary {
+  diary: string;
+}

@@ -39,7 +39,7 @@ function Posting() {
       formData.append(`${val[0]}`, JSON.stringify(val[1]));
     });
     try {
-      const res = await postAnalysis(diaryData.feeling);
+      const res = await postAnalysis({ diary: diaryData.feeling });
       // await postDiaryPosting(formData.append('sentiment', res));
       (await diaryMutation).mutate(formData.append('sentiment', res));
       navigate('/result');

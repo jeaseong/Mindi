@@ -36,10 +36,11 @@ export const useSignInHandler = (
         const JWT_TOKEN = res.user.token;
         localStorage.setItem('userToken', JWT_TOKEN);
         queryClient.invalidateQueries('userState');
-        openSnackBar(true, '에러를 출력해야햇!');
+        openSnackBar(true, '로그인 성공!');
         navigate('/main');
       },
-      onError: () => openSnackBar(false, '에러를 출력해야햇!'),
+      onError: () =>
+        openSnackBar(false, '아이디, 비밀번호가 일치하지 않습니다.'),
     },
   );
 };

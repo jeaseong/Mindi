@@ -3,7 +3,7 @@ import {
   customAxiosFileUpload,
   customAxiosForAi,
 } from 'api/costomAxios';
-import { SignUpInfo, SignInInfo } from 'types/apiType';
+import { SignUpInfo, SignInInfo, diary } from 'types/apiType';
 
 export const signUpPost = async (userInfo: SignUpInfo) => {
   const apiUrl = `api/auth/local/sign-up`;
@@ -27,7 +27,7 @@ export const postDiaryPosting = async (diaryData: any) => {
   await customAxiosFileUpload.post(apiUrl, diaryData);
 };
 
-export const postAnalysis = async (diary: string) => {
+export const postAnalysis = async ({ diary }: diary) => {
   const apiUrl = `diaries/sentiment`;
   const { data } = await customAxiosForAi.post(apiUrl, diary);
   return data.result;

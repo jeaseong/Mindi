@@ -10,6 +10,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import EITestResult from 'components/modules/EITest/EITestResult';
 import Main from 'components/modules/main/Main';
 import SnackbarContainer from 'components/modules/snackbar/SnackbarContainer';
+import ResultTemplate from 'components/templates/diary/ResultTemplate';
 
 const App: React.FC = () => {
   return (
@@ -21,6 +22,7 @@ const App: React.FC = () => {
           <Route path='/sign-up' element={<SignUp />} />
           <Route path='/diary' element={<Diary />} />
           <Route path='/diary-posting' element={<Posting />} />
+          <Route path='/diary-posting/result' element={<ResultTemplate />} />
           <Route path='/ei-test' element={<EITest />} />
           <Route path='/ei-test/result' element={<EITestResult />} />
           <Route path='/main' element={<Main />} />

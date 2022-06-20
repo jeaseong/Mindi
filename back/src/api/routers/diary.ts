@@ -108,7 +108,7 @@ export default (app: Router) => {
         result: "성공적으로 삭제되었습니다.",
       };
 
-      res.sendStatus(200).json(response);
+      res.status(200).json(response);
     } catch (error) {
       next(error);
     }

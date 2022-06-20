@@ -27,7 +27,7 @@ export const postDiaryPosting = async (diaryData: any) => {
   await customAxiosFileUpload.post(apiUrl, diaryData);
 };
 
-export const postAnalysis = async ({ diary }: diary) => {
+export const postAnalysis = async (diary: diary) => {
   const apiUrl = `diaries/sentiment`;
   const { data } = await customAxiosForAi.post(apiUrl, diary);
   return data.result;

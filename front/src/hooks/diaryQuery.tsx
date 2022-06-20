@@ -13,7 +13,9 @@ export const usePostDiary = async () => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   return useMutation(
-    async (diaryData: any) => await postDiaryPosting(diaryData),
+    async (diaryData: any) => {
+      await postDiaryPosting(diaryData);
+    },
     {
       onSuccess: () => {
         queryClient.invalidateQueries('diaryList');

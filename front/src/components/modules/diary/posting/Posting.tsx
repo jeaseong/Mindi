@@ -40,8 +40,8 @@ function Posting() {
     });
     try {
       const res = await postAnalysis({ diary: diaryData.feeling });
-      // await postDiaryPosting(formData.append('sentiment', res));
-      (await diaryMutation).mutate(formData.append('sentiment', res));
+      formData.append('sentiment', JSON.stringify(res));
+      (await diaryMutation).mutate(formData);
       navigate('/result');
     } catch (e) {
       openSnackBar(false, '작성을 안 했어요..!!');

@@ -13,13 +13,13 @@ export const signUpPost = async (userInfo: SignUpInfo) => {
 export const signInPost = async (userInfo: SignInInfo) => {
   const apiUrl = `api/auth/local/sign-in`;
   const { data } = await customAxios.post(apiUrl, userInfo);
-  return data;
+  return data.result;
 };
 
 export const getCurUser = async () => {
   const apiUrl = `api/users`;
   const { data } = await customAxios.get(apiUrl);
-  return data;
+  return data.result;
 };
 
 export const postDiaryPosting = async (diaryData: any) => {

@@ -9,6 +9,7 @@ import {
 } from './Main.style';
 import { MainButton } from './Main.style';
 import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
 
 function Main2() {
   const navigate = useNavigate();
@@ -19,18 +20,35 @@ function Main2() {
     },
     visible: {
       opacity: 1,
-      transition: { duration: 1 },
+      transition: { duration: 1, when: 'beforeChildren' },
     },
   };
 
   const imageVariants = {
     hidden: {
-      opacity: 0.2,
+      // opacity: 0.1,
+      rotate: -2,
     },
     visible: {
-      opacity: 1,
-      transition: { duration: 1, yoyo: Infinity },
+      // opacity: 1,
+      rotate: 2,
+      transition: { duration: 0.6, yoyo: Infinity },
     },
+    hover: { rotate: 180 },
+  };
+
+  const childVariants = {
+    initial: { opacity: 0 },
+    animate: {
+      opacity: 1,
+      scale: 1,
+      transition: {
+        delay: 0.5,
+        type: 'spring',
+        stiffness: 400,
+      },
+    },
+    hover: { rotate: -10 },
   };
 
   return (
@@ -42,6 +60,10 @@ function Main2() {
       >
         <Image width='30%' src={IMAGE.NEW_LOGO.url} alt={IMAGE.NEW_LOGO.alt} />
         <MainButton
+          variants={childVariants}
+          initial='initial'
+          animate='animate'
+          whileHover='hover'
           onClick={() => {
             navigate('/sign-in');
           }}
@@ -50,17 +72,18 @@ function Main2() {
         </MainButton>
       </MainTemplate>
       <ToEITest>
-        <ImageWrapper
-          variants={imageVariants}
-          initial='hidden'
-          animate='visible'
-        >
-          <Image
-            width='25%'
+        <ImageWrapper>
+          <motion.img
+            width='27%'
             src={IMAGE.MAIN_DOODLE.url}
             alt={IMAGE.MAIN_DOODLE.alt}
+            variants={imageVariants}
+            initial='hidden'
+            animate='visible'
           />
           <EITestButton
+            variants={childVariants}
+            whileHover='hover'
             onClick={() => {
               navigate('/EI-test');
             }}

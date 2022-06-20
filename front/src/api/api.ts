@@ -38,3 +38,19 @@ export const getDiaryList = async (id: string) => {
   const { data } = await customAxios.get(apiUrl);
   return data;
 };
+
+export const getDiaryListYear = async (year: string) => {
+  const apiUrl = `/diaries?data=${year}`;
+  const { data } = await customAxios.get(apiUrl);
+  return data.result;
+};
+export const getDiaryListMonth = async (month: string) => {
+  const apiUrl = `/diaries?data=${month}`;
+  const { data } = await customAxios.get(apiUrl);
+  return data.result;
+};
+export const getDiaryListDate = async (date: string) => {
+  const apiUrl = `/diaries?data=${date}`;
+  const { data } = await customAxios.get(apiUrl);
+  return data.result;
+};

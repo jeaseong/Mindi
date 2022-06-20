@@ -7,14 +7,14 @@ export const customAxios: AxiosInstance = axios.create({
   baseURL: `${serverURL}`, // 기본 서버 주소 입력
   headers: {
     'Content-Type': 'application/json',
-    Authorization: `${localStorage.getItem('userToken')}`,
+    Authorization: `Bearer ${localStorage.getItem('userToken')}`,
   },
 });
 export const customAxiosFileUpload: AxiosInstance = axios.create({
   baseURL: `${serverURL}`, // 기본 서버 주소 입력
   headers: {
     'Content-Type': 'multipart/form-data',
-    Authorization: `${localStorage.getItem('userToken')}`,
+    Authorization: `Bearer ${localStorage.getItem('userToken')}`,
   },
 });
 
@@ -23,6 +23,6 @@ export const customAxiosForAi: AxiosInstance = axios.create({
   headers: {
     'Content-Type': 'application/json',
     'Access-Control-Allow-Origin': '*',
-    Authorization: `${localStorage.getItem('userToken')}`,
+    Authorization: `Bearer ${localStorage.getItem('userToken')}`,
   },
 });

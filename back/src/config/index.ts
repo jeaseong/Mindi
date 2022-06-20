@@ -9,6 +9,9 @@ if (envFound.error) {
 }
 
 export default {
+  // 실행 환경
+  nodeEnv: process.env.NODE_ENV,
+
   // 백엔드 포트번호
   port: process.env.SERVER_PORT || 5000,
 
@@ -18,6 +21,10 @@ export default {
   // jwt 토큰 생성을 위한 secret key
   jwtSecretKey: process.env.JWT_SECRET_KEY,
   jwtExpirationDate: '1d',
+
+  // redis 정보
+  redisPort: process.env.REDIS_PORT || 6379,
+  redisHost: process.env.REDIS_HOST,
 
   // 구글 인증을 위한 클라이언트 정보
   googleClientId: process.env.GOOGLE_CLIENT_ID,

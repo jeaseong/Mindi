@@ -1,13 +1,13 @@
-import { Schema, model } from 'mongoose';
-import { Service } from 'typedi';
-import { BaseDiary, IDiary } from '../interfaces/IDiary';
-import { IDiaryModel, deleteResult } from '../interfaces/IDiaryModel';
+import { Schema, model } from "mongoose";
+import { Service } from "typedi";
+import { BaseDiary, IDiary } from "../interfaces/IDiary";
+import { IDiaryModel, deleteResult } from "../interfaces/IDiaryModel";
 
 const DiarySchema = new Schema(
   {
     userId: {
       type: Schema.Types.ObjectId,
-      ref: 'User',
+      ref: "User",
     },
     diary: {
       type: String,
@@ -37,7 +37,7 @@ const DiarySchema = new Schema(
   { timestamps: true },
 );
 
-const DiaryModel = model<IDiary>('Diary', DiarySchema);
+const DiaryModel = model<IDiary>("Diary", DiarySchema);
 
 @Service()
 export class MongoDiaryModel implements IDiaryModel {
@@ -54,9 +54,9 @@ export class MongoDiaryModel implements IDiaryModel {
   async deleteOne(id: string): Promise<deleteResult> {
     const result = await DiaryModel.deleteOne({ _id: id });
     if (result.deletedCount === 1) {
-      return { status: 'Succeess' };
+      return { status: "Succeess" };
     }
-    return { status: 'Fail' };
+    return { status: "Fail" };
   }
 
   async findById(id: string): Promise<IDiary> {
@@ -64,7 +64,9 @@ export class MongoDiaryModel implements IDiaryModel {
   }
 
   async findByDate(userId: string, date: string): Promise<IDiary[]> {
-    return DiaryModel.find({ $and: [{ userId }, { createdDate: date }] })
+    return DiaryModel.find({
+      $and: [{ userId }, { createdDate: { $regex: `^${date}` } }],
+    })
       .sort({ createdAt: -1 })
       .lean();
   }

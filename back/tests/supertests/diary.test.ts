@@ -1,83 +1,101 @@
 // "jest --detectOpenHandles --forceExit"
 import request from "supertest";
-import appStart from "../../src/app";
 import { faker } from "@faker-js/faker";
 import mongoose from "mongoose";
 import config from "../../src/config";
 import dayjs from "dayjs";
 import "dayjs/locale/ko";
 
-const today = dayjs().locale("ko").format("YYYY-MM-DD");
-const mockUserId = faker.database.mongodbObjectId();
-const mockDiary = faker.lorem.paragraph();
-const mockFeeling = faker.lorem.sentence();
-const tempUserId = "62a76c45f0ed80e0f9e765fc";
+import "reflect-metadata";
+import express from "express";
+import logger from "../../src/loaders/winston";
+import expressLoader from "../../src/loaders/express";
+import dependencyLoader from "../../src/loaders/dependencies";
+import { MongoMemoryServer } from "mongodb-memory-server";
 
-const newDiary = {
-  userId: tempUserId,
-  diary: faker.lorem.paragraph(),
-  feeling: faker.lorem.sentence(),
-};
-
-let toUpdate = {
-  _id: "mockObjectId",
-  userId: tempUserId,
-  diary: mockDiary,
-  feeling: mockFeeling,
-  createdDate: today,
-};
-
-const toDelete = {
-  _id: "mockObjectId",
-  userId: mockUserId,
-  diary: mockDiary,
-  feeling: mockFeeling,
-  createdDate: today,
-};
-
-const toDeleteWithImage = {
-  _id: "mockObjectId",
-  userId: mockUserId,
-  diary: mockDiary,
-  feeling: mockFeeling,
-  imageFileName: "default",
-  imageFilePath: `http://localhost:${config.port}/images/default`,
-  createdDate: today,
-};
-
-beforeAll(async () => {
-  await appStart;
-});
+async function appStart() {
+  const app: express.Application = express();
+  const mongoServer = await MongoMemoryServer.create();
+  await mongoose.connect(mongoServer.getUri());
+  await dependencyLoader();
+  await expressLoader({ app });
+  app.listen(config.port, () => {
+    logger.info(`
+            Mindi API Server
+            is running on: http://localhost:${config.port}
+            `);
+  });
+}
 
 const server = `http://localhost:${config.port}`;
+let accessToken: string;
+let mockObjectId: string;
+let imageFileName: string;
+const sentiment = {
+  fear: 2,
+  surprised: 0,
+  anger: 0,
+  sadness: 2,
+  happiness: 1,
+  aversion: 0,
+};
+const today = dayjs().locale("ko").format("YYYY-MM-DD");
+
+beforeAll(async () => {
+  await appStart();
+  await request(server).post("/api/auth/local/sign-up").send({
+    email: "test@test.com",
+    name: "test",
+    password: "1234",
+  });
+  const mockUserInfo = await request(server).post("/api/auth/local/sign-in").send({
+    email: "test@test.com",
+    password: "1234",
+  });
+  accessToken = mockUserInfo.body.user.token;
+});
 
 describe("Diary with no image", () => {
   it("Create a new diary without image", async () => {
-    const response = await request(server).post("/api/diaries").send(newDiary);
+    const response = await request(server)
+      .post("/api/diaries")
+      .set("Authorization", `${accessToken}`)
+      .type("multipart/form-data")
+      .field("diary", faker.lorem.sentence())
+      .field("feeling", faker.lorem.sentence())
+      .field("sentiment", JSON.stringify(sentiment));
     expect(response.status).toEqual(201);
-    let mockObjectId = response.body.diary._id;
-    toUpdate._id = mockObjectId;
-    toDelete._id = mockObjectId;
+    mockObjectId = response.body.result._id;
   });
 
   it("Update a diary without image", async () => {
-    const response = await request(server).put("/api/diaries").send(toUpdate);
+    const response = await request(server)
+      .put("/api/diaries")
+      .set("Authorization", `${accessToken}`)
+      .type("multipart/form-data")
+      .field("_id", mockObjectId)
+      .field("diary", faker.lorem.sentence())
+      .field("feeling", faker.lorem.sentence())
+      .field("sentiment", JSON.stringify(sentiment))
+      .field("createdDate", today);
     expect(response.status).toEqual(200);
   });
 
   it("Get a diary list", async () => {
-    const response = await request(server).get(`/api/diaries?userId=${tempUserId}&date=${today}`);
+    const response = await request(server)
+      .get(`/api/diaries?date=${"2022-06"}`)
+      .set("Authorization", `${accessToken}`);
     expect(response.status).toEqual(200);
   });
 
   it("Get a diary", async () => {
-    const response = await request(server).get(`/api/diaries/${toUpdate._id}`);
+    const response = await request(server).get(`/api/diaries/${mockObjectId}`);
     expect(response.status).toEqual(200);
   });
 
-  it("Delete a diary without image", async () => {
-    const response = await request(server).delete("/api/diaries").send(toDelete);
-    expect(response.status).toEqual(204);
+  it("Delete a diary with no image", async () => {
+    const response = await request(server).delete("/api/diaries").send({ _id: mockObjectId });
+    expect(response.status).toEqual(200);
   });
 });
 
@@ -85,38 +103,42 @@ describe("Diary with an image", () => {
   it("Create a new diary with an image", async () => {
     const response = await request(server)
       .post("/api/diaries")
+      .set("Authorization", `${accessToken}`)
       .type("multipart/form-data")
-      .field("userId", tempUserId)
-      .field("diary", mockDiary)
-      .field("feeling", mockFeeling)
+      .field("diary", faker.lorem.sentence())
+      .field("feeling", faker.lorem.sentence())
+      .field("sentiment", JSON.stringify(sentiment))
       .attach("background", "tests/test.jpg");
     expect(response.status).toEqual(201);
-    toDeleteWithImage._id = response.body.diary._id;
-    toDeleteWithImage.imageFileName = response.body.diary.imageFileName;
+    mockObjectId = response.body.result._id;
+    imageFileName = response.body.result.imageFileName;
   });
 
   it("Update a diary with an image", async () => {
     const response = await request(server)
       .put("/api/diaries")
+      .set("Authorization", `${accessToken}`)
       .type("multipart/form-data")
-      .field("_id", toDeleteWithImage._id)
-      .field("userId", tempUserId)
-      .field("diary", mockDiary)
+      .field("_id", mockObjectId)
+      .field("diary", faker.lorem.sentence())
       .field("feeling", faker.lorem.sentence())
-      .field("imageFileName", toDeleteWithImage.imageFileName)
+      .field("sentiment", JSON.stringify(sentiment))
+      .field("imageFileName", imageFileName)
       .field("createdDate", today)
       .attach("background", "tests/test2.jpg");
     expect(response.status).toEqual(200);
-    toDeleteWithImage.imageFileName = response.body.diary.imageFileName;
-    toDeleteWithImage.imageFilePath = response.body.diary.imageFilePath;
   });
 
   it("Delete a diary with an image", async () => {
-    const response = await request(server).delete("/api/diaries").send(toDeleteWithImage);
-    expect(response.status).toEqual(204);
+    const response = await request(server)
+      .delete("/api/diaries")
+      .send({ _id: mockObjectId, imageFileName: imageFileName });
+    expect(response.status).toEqual(200);
   });
 });
 
 afterAll(async () => {
+  await mongoose.disconnect();
   await mongoose.connection.close();
+  logger.info(`${mongoose.connection.name} ${mongoose.connection.readyState} => 0: disconnected`);
 });

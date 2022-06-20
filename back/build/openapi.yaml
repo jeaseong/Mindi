@@ -60,10 +60,10 @@ paths:
                 newDiaryWithoutImage:
                   value:
                     success: true
-                    diary:
+                    result:
                       userId: 3e37d05b9fc9d01c9cdf5ac3
-                      diary: example
-                      feeling: example
+                      diary: '"example"'
+                      feeling: '"example"'
                       sentiment:
                         fear: 2
                         surprised: 0
@@ -125,7 +125,7 @@ paths:
                 properties:
                   success:
                     type: boolean
-                  diary:
+                  result:
                     type: object
                     required:
                       - _id
@@ -186,8 +186,18 @@ paths:
                 value:
                   _id: 62a7ed0f291754e07d151aac
       responses:
-        '204':
-          description: No content
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  result:
+                    type: string
+                    example: 성공적으로 삭제되었습니다.
   '/diaries?date={createdDate}':
     get:
       tags:
@@ -199,9 +209,10 @@ paths:
           schema:
             type: string
             example: '2022-06-16'
+          description: YYYY / YYYY-MM / YYYY-MM-DD 형식에 일치해야 합니다.
       responses:
         '200':
-          description: A result object.
+          description: 특정 날짜에 해당하는 다이어리 리스트를 최신 순으로 나열하여 반환합니다.
           content:
             application/json:
               schema:
@@ -209,7 +220,7 @@ paths:
                 properties:
                   success:
                     type: boolean
-                  diaries:
+                  result:
                     type: array
                     items:
                       types: object
@@ -241,10 +252,10 @@ paths:
                 diaryList:
                   value:
                     success: true
-                    diaries:
+                    result:
                       - _id: 62aaf383abc6f9d6325f06e4
-                        userId: 62a76c45f0ed80e0f9e765fc
-                        diary: Consequuntur praesentium nesciunt sit maiores. Et eos eum adipisci et quis nam repudiandae soluta. Ut provident natus maiores quasi.
+                        userId: '"62a76c45f0ed80e0f9e765fc"'
+                        diary: '"Consequuntur praesentium nesciunt sit maiores. Et eos eum adipisci et quis nam repudiandae soluta. Ut provident natus maiores quasi."'
                         feeling: Minus nostrum soluta ratione sed saepe dolorum corrupti.
                         sentiment:
                           fear: 2
@@ -259,8 +270,8 @@ paths:
                         __v: 0
                       - _id: 62aaec9597623ebf98269f97
                         userId: 62a76c45f0ed80e0f9e765fc
-                        diary: Dolor nihil magnam distinctio dolores molestias quidem harum et. Voluptatem sapiente totam. A animi asperiores aut deleniti cumque odit neque ipsum labore. Adipisci vel doloremque. Amet unde repellendus dicta voluptas provident similique at suscipit.
-                        feeling: Ab fugiat tempora.
+                        diary: '"Dolor nihil magnam distinctio dolores molestias quidem harum et. Voluptatem sapiente totam. A animi asperiores aut deleniti cumque odit neque ipsum labore. Adipisci vel doloremque. Amet unde repellendus dicta voluptas provident similique at suscipit."'
+                        feeling: '"Ab fugiat tempora."'
                         sentiment:
                           fear: 2
                           surprised: 0
@@ -295,10 +306,10 @@ paths:
                 diary:
                   value:
                     success: true
-                    diary:
+                    result:
                       userId: 3e37d05b9fc9d01c9cdf5ac3
-                      diary: example
-                      feeling: example
+                      diary: '"example"'
+                      feeling: '"example"'
                       sentiment:
                         fear: 2
                         surprised: 0

@@ -1,13 +1,13 @@
-import DiaryService from '../../src/services/diary';
-import { BaseDiary, IDiary } from '../../src/interfaces/IDiary';
-import { faker } from '@faker-js/faker';
-import dayjs from 'dayjs';
-import 'dayjs/locale/ko';
-import logger from '../../src/loaders/winston';
-import { TestUserModel } from "./user.test";
+import DiaryService from "../../src/services/diary";
+import { BaseDiary, IDiary } from "../../src/interfaces/IDiary";
+import { faker } from "@faker-js/faker";
+import dayjs from "dayjs";
+import "dayjs/locale/ko";
+import logger from "../../src/loaders/winston";
+import { IDiaryModel } from "../../src/interfaces/IDiaryModel";
 
-describe('Diary Service Test', () => {
-  const today = dayjs().locale('ko').format('YYYY-MM-DD');
+describe("Diary Service Test", () => {
+  const today = dayjs().locale("ko").format("YYYY-MM-DD");
   const mockUserId = faker.database.mongodbObjectId();
   const mockObjectId = faker.database.mongodbObjectId();
 
@@ -17,7 +17,7 @@ describe('Diary Service Test', () => {
     anger: 0,
     sadness: 2,
     happiness: 1,
-    aversion: 0
+    aversion: 0,
   };
 
   const newDiary = {
@@ -25,7 +25,7 @@ describe('Diary Service Test', () => {
     diary: faker.lorem.paragraph(),
     feeling: faker.lorem.sentence(),
     sentiment: sentiment,
-    createdDate: '0',
+    createdDate: today,
   };
 
   const toUpdate = {
@@ -36,34 +36,34 @@ describe('Diary Service Test', () => {
     createdDate: today,
   };
 
-  const testDiaryModel = {
-    create: async (newDiary: BaseDiary) => {
+  class testDiaryModel implements IDiaryModel {
+    async create(newDiary: BaseDiary) {
       return {
         _id: mockObjectId,
         ...newDiary,
       };
-    },
+    }
 
-    updateOne: async (filter: object, toUpdate: BaseDiary) => {
+    async updateOne(filter: object, toUpdate: BaseDiary) {
       const filterCopy = { _id: mockObjectId }; // filter 객체로 들어와야 하는 값
       return {
         ...filterCopy,
         ...toUpdate,
       };
-    },
+    }
 
-    deleteOne: async (id: string) => {
-      return { status: 'Success' };
-    },
+    async deleteOne(id: string) {
+      return { status: "Success" };
+    }
 
-    findById: async (id: string) => {
+    async findById(id: string) {
       return {
         _id: id,
         ...toUpdate,
       };
-    },
+    }
 
-    findByDate: async (date: string) => {
+    async findByDate(userId: string, date: string) {
       return [
         {
           _id: mockObjectId,
@@ -71,20 +71,20 @@ describe('Diary Service Test', () => {
           createdDate: date,
         },
       ];
-    },
+    }
 
-    exists: async (filter: Object) => {
+    async exists(filter: Object) {
       if (filter) {
         return true;
       } else {
         return false;
       }
-    },
-  };
+    }
+  }
 
-  const diaryService = new DiaryService(testDiaryModel, new TestUserModel(), logger);
+  const diaryService = new DiaryService(new testDiaryModel(), logger);
 
-  it('create new diary', async () => {
+  it("create new diary", async () => {
     expect(await diaryService.create(newDiary)).toEqual({
       _id: mockObjectId,
       ...newDiary,
@@ -92,23 +92,30 @@ describe('Diary Service Test', () => {
     });
   });
 
-  it('update a diary', async () => {
+  it("update a diary", async () => {
     expect(await diaryService.updateOne(mockObjectId, toUpdate)).toEqual({
       _id: mockObjectId,
       ...toUpdate,
     });
   });
 
-  it('delete a diary', async () => {
+  it("delete a diary", async () => {
     expect(await diaryService.deleteOne(mockObjectId)).toEqual(void {});
   });
 
-  it('find a diary list by date', async () => {
+  it("find a diary list by date", async () => {
     expect(await diaryService.findByDate(mockUserId, today)).toEqual([
       {
         _id: mockObjectId,
         ...toUpdate,
       },
     ]);
+  });
+
+  it("find a diary by object id", async () => {
+    expect(await diaryService.findById(mockObjectId)).toEqual({
+      _id: mockObjectId,
+      ...toUpdate,
+    });
   });
 });

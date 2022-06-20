@@ -26,7 +26,6 @@ update:
     - diary
     - feeling
     - sentiment
-    - createdDate
   properties:
     _id:
       type: string

@@ -36,4 +36,4 @@ async function appStart() {
   process.on("SIGINT", handle);
 }
 
-export = appStart();
+appStart();

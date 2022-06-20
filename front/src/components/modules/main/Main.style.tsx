@@ -31,8 +31,8 @@ export const ImageWrapper = styled(motion.div)`
 
 export const EITestButton = styled(motion.button)`
   position: absolute;
-  top: 4em;
-  right: 4em;
+  top: 4.3em;
+  right: 4.5em;
   font-size: 1em;
   color: black;
   background-color: transparent;

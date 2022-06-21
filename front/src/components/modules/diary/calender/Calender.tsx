@@ -11,7 +11,16 @@ function Calender() {
   const [totalDate, setTotalDate] = useState([]);
 
   const onChangeMonth = (m: number) => {
-    setMonth(m);
+    if (month === 11 && m > 0) {
+      setMonth(0);
+      setYear((cur) => cur + 1);
+      return;
+    } else if (month === 0 && m < 0) {
+      setMonth(11);
+      setYear((cur) => cur - 1);
+      return;
+    }
+    setMonth((cur) => cur + m);
   };
   const HeadProps = {
     year,

@@ -8,11 +8,11 @@ function Head({ year, month, onChangeMonth }: CalenderProps) {
   return (
     <CalenderHeader>
       <Nav>
-        <NavBtn>&lt;</NavBtn>
+        <NavBtn onClick={() => onChangeMonth(-1)}>&lt;</NavBtn>
         <Span>
           {year}. {DATE.MONTH[month]}
         </Span>
-        <NavBtn>&gt;</NavBtn>
+        <NavBtn onClick={() => onChangeMonth(1)}>&gt;</NavBtn>
       </Nav>
       <Days>
         {DATE.DAY.en.map((d) => (

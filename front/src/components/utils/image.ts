@@ -13,6 +13,11 @@ export const IMAGE = {
     alt: '로고 집중선',
   },
 
+  LOGO_TEXT: {
+    url: `${process.env.PUBLIC_URL}/assets/logo_text.png`,
+    alt: '로고 텍스트',
+  },
+
   NEW_LOGO: {
     url: `${process.env.PUBLIC_URL}/assets/logo.png`,
     alt: '서비스 로고',

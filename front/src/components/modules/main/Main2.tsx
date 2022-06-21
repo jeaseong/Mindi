@@ -6,30 +6,43 @@ import {
   ImageWrapper,
   EITestButton,
   ToEITest,
+  BGImg,
+  LogoText,
 } from './Main.style';
 import { MainButton } from './Main.style';
 import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
 
 function Main2() {
   const navigate = useNavigate();
 
   const commonVariants = {
-    hidden: {
-      opacity: 0,
+    initial: {
+      scale: 0,
     },
-    visible: {
-      opacity: 1,
-      transition: { duration: 1, when: 'beforeChildren' },
+    animate: {
+      scale: 1,
+      transition: { duration: 0.5, when: 'beforeChildren' },
+    },
+    exit: {
+      opacity: 0,
+      scale: 0,
     },
   };
 
-  const imageVariants = {
-    hidden: {
+  const LogoEffectVariants = {
+    animate: {
+      scale: 1,
+      rotate: 360,
+      transition: { duration: 15, loop: Infinity, ease: 'linear' },
+    },
+  };
+
+  const EITestImgVariants = {
+    initial: {
       // opacity: 0.1,
       rotate: -2,
     },
-    visible: {
+    animate: {
       // opacity: 1,
       rotate: 2,
       transition: { duration: 0.6, yoyo: Infinity },
@@ -55,10 +68,23 @@ function Main2() {
     <>
       <MainTemplate
         variants={commonVariants}
-        initial='hidden'
-        animate='visible'
+        initial='initial'
+        animate='animate'
+        exit='exit'
       >
-        <Image width='30%' src={IMAGE.NEW_LOGO.url} alt={IMAGE.NEW_LOGO.alt} />
+        <BGImg
+          width='30%'
+          src={IMAGE.LOGO_EFFECT_LINE.url}
+          alt={IMAGE.LOGO_EFFECT_LINE.alt}
+          variants={LogoEffectVariants}
+          initial='initial'
+          animate='animate'
+        />
+        <LogoText
+          width='30%'
+          src={IMAGE.LOGO_TEXT.url}
+          alt={IMAGE.LOGO_TEXT.alt}
+        />
         <MainButton
           variants={childVariants}
           initial='initial'
@@ -73,13 +99,13 @@ function Main2() {
       </MainTemplate>
       <ToEITest>
         <ImageWrapper>
-          <motion.img
+          <BGImg
             width='27%'
             src={IMAGE.MAIN_DOODLE.url}
             alt={IMAGE.MAIN_DOODLE.alt}
-            variants={imageVariants}
-            initial='hidden'
-            animate='visible'
+            variants={EITestImgVariants}
+            initial='initial'
+            animate='animate'
           />
           <EITestButton
             variants={childVariants}

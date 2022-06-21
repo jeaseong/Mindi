@@ -26,16 +26,21 @@ function Main1() {
         when: 'beforeChildren',
       },
     },
+    exit: {
+      scale: 0,
+      opacity: 0,
+    },
   };
 
   const childVariants = {
-    normal: { scale: 0 },
+    normal: { scale: 0.9 },
     point: {
-      scale: 1,
+      scale: 1.1,
       transition: {
-        delay: 0.3,
-        type: 'spring',
-        stiffness: 400,
+        duration: 0.5,
+        delay: 0.4,
+        stiffness: 700,
+        yoyo: Infinity,
       },
     },
     hover: { scale: 1.2, color: 'red' },
@@ -46,6 +51,7 @@ function Main1() {
       variants={templateVariants}
       initial='hidden'
       animate='visible'
+      exit='exit'
     >
       <Image width='30%' src={IMAGE.NEW_LOGO.url} alt={IMAGE.NEW_LOGO.alt} />
       <MainButton

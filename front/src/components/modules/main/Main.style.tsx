@@ -29,6 +29,12 @@ export const ImageWrapper = styled(motion.div)`
   margin: 0 2em;
 `;
 
+export const BGImg = styled(motion.img)``;
+
+export const LogoText = styled(motion.img)`
+  position: absolute;
+`;
+
 export const EITestButton = styled(motion.button)`
   position: absolute;
   top: 4.3em;

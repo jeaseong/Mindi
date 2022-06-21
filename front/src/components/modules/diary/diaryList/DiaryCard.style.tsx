@@ -30,19 +30,25 @@ export const Date = styled.h3`
 
 export const PreviewPost = styled.div<CardProps>`
   width: 100%;
-  height: 100%;
+  height: 142px;
   padding: 10px;
+  line-height: 22px;
   background-color: #fff4cb;
   position: relative;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  word-wrap: break-word;
+  display: -webkit-box;
+  -webkit-line-clamp: 6;
+  -webkit-box-orient: vertical;
   &:before {
     content: '';
     background: url(${(props) => props.bgImg}) no-repeat center center;
-
     position: absolute;
     top: 0px;
     right: 0px;
     bottom: 0px;
     left: 0px;
-    opacity: 0.6;
+    opacity: 0.2;
   }
 `;

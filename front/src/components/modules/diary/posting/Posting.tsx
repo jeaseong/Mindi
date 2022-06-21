@@ -2,17 +2,16 @@ import React, { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSnackbarContext } from 'contexts/SnackbarContext';
 import { postDiaryPosting, postAnalysis } from 'api/api';
-import { usePostDiary } from 'hooks/diaryQuery';
 import FileUpload from 'components/modules/fileUpload/FileUpload';
 import MainTitle from 'components/atoms/text/MainTitle';
 import TextArea from 'components/atoms/textArea/TextArea';
 import Button from 'components/atoms/button/Button';
 import { IMAGE } from 'utils/image';
+import { FileType } from 'types/atoms';
 import { PostingContainer, Area, SubTitle, AlignRight } from './Posting.style';
 
 function Posting() {
   const navigate = useNavigate();
-  const diaryMutation = usePostDiary();
   const { openSnackBar } = useSnackbarContext();
   const [simpleDiary, setSimpleDiary] = useState('');
   const [mindDiary, setMindDiary] = useState('');
@@ -29,6 +28,9 @@ function Posting() {
   const onChangeMind = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setMindDiary((cur) => e.target.value);
   };
+  const onChangeFile = (fileData: FileType) => {
+    setEditImg(fileData);
+  };
   const onSubmit = async () => {
     const diaryData = {
       diary: simpleDiary,
@@ -41,7 +43,7 @@ function Posting() {
     try {
       const res = await postAnalysis({ diary: diaryData.feeling });
       formData.append('sentiment', JSON.stringify(res));
-      (await diaryMutation).mutate(formData);
+      await postDiaryPosting(formData);
       navigate('/result');
     } catch (e) {
       openSnackBar(false, '작성을 안 했어요..!!');
@@ -50,8 +52,7 @@ function Posting() {
 
   const fileuploadPros = {
     editImg,
-    formData,
-    setEditImg,
+    onChangeFile,
   };
 
   return (

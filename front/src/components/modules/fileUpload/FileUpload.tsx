@@ -1,16 +1,17 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Image from 'components/atoms/image/Image';
+import { FileProps } from 'types/atoms';
 import { UploadFile, UploadFileLabel } from './FileUpload.style';
 import { IMAGE } from 'utils/image';
 
-function FileUpload({ editImg, setEditImg }: any) {
+function FileUpload({ editImg, onChangeFile }: FileProps) {
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
     const img = {
       preview: URL.createObjectURL(e.target.files[0]),
       data: e.target.files[0],
     };
-    setEditImg(img);
+    onChangeFile(img);
   };
   return (
     <>

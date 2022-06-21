@@ -33,8 +33,8 @@ export const postAnalysis = async (diary: diary) => {
   return data.result;
 };
 
-export const getDiaryList = async (id: string) => {
-  const apiUrl = `/diaries/${id}`;
+export const getDiaryList = async (date: string) => {
+  const apiUrl = `/diaries?data=${date}`;
   const { data } = await customAxios.get(apiUrl);
-  return data;
+  return data.result;
 };

@@ -1,20 +1,18 @@
-import { Request, Response, NextFunction } from "express";
-import { StatusError } from "../../utils/error";
+import { Request, Response, NextFunction } from 'express';
+import logger from '../../loaders/winston';
+import { StatusError } from '../../utils/error';
 
 function errorHandler(error: StatusError, req: Request, res: Response, next: NextFunction) {
-  // 터미널에 노란색으로 출력됨.
-  console.log("\x1b[33m%s\x1b[0m", error);
+  logger.error(error.stack);
 
   const body = {
     success: false,
     error: {
       code: error.status,
-      message: error.message
-    }
+      message: error.message,
+    },
   };
-  res
-    .status(error.status!)
-    .send(body);
+  res.status(error.status!).send(body);
 }
 
 export default errorHandler;

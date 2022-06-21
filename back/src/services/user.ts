@@ -1,12 +1,11 @@
 import { Service } from "typedi";
 import { StatusError } from "../utils/error";
-import { MongoUserModel, TestUserModel } from "../interfaces/IUserModel";
+import { MongoUserModel } from "../models/user";
 
 @Service()
 export default class UserService {
   constructor(
     private userModel: MongoUserModel
-    // private userModel: TestUserModel
   ) {
   }
 

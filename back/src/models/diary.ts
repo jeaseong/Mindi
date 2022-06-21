@@ -1,20 +1,27 @@
-import { Schema, model } from 'mongoose';
-import { BaseDiary, deleteResult, IDiary, IDiaryModel } from '../interfaces/IDiary';
-import fs from 'fs';
+import { Schema, model } from "mongoose";
+import { Service } from "typedi";
+import { BaseDiary, IDiary } from "../interfaces/IDiary";
+import { IDiaryModel, deleteResult } from "../interfaces/IDiaryModel";
 
 const DiarySchema = new Schema(
   {
     userId: {
-      // type: Schema.Types.ObjectId,
-      // ref: 'User',
-      type: String,
-      required: true,
+      type: Schema.Types.ObjectId,
+      ref: "User",
     },
     diary: {
       type: String,
       required: true,
     },
     feeling: {
+      type: String,
+      required: true,
+    },
+    sentiment: {
+      type: Object,
+      required: true,
+    },
+    createdDate: {
       type: String,
       required: true,
     },
@@ -26,16 +33,13 @@ const DiarySchema = new Schema(
       type: String,
       required: false,
     },
-    createdDate: {
-      type: String,
-      required: true,
-    },
   },
   { timestamps: true },
 );
 
-const DiaryModel = model<IDiary>('Diary', DiarySchema);
+const DiaryModel = model<IDiary>("Diary", DiarySchema);
 
+@Service()
 export class MongoDiaryModel implements IDiaryModel {
   async create(newDiary: BaseDiary): Promise<IDiary> {
     const newDoc = await DiaryModel.create(newDiary);
@@ -49,17 +53,25 @@ export class MongoDiaryModel implements IDiaryModel {
 
   async deleteOne(id: string): Promise<deleteResult> {
     const result = await DiaryModel.deleteOne({ _id: id });
-    if (result.deletedCount !== 1) {
-      return { status: 'Fail' };
+    if (result.deletedCount === 1) {
+      return { status: "Succeess" };
     }
-    return { status: 'Succeess' };
+    return { status: "Fail" };
   }
 
   async findById(id: string): Promise<IDiary> {
     return DiaryModel.findOne({ _id: id }).lean();
   }
 
-  async findByDate(date: string): Promise<IDiary[]> {
-    return DiaryModel.find({ createdDate: date }).lean();
+  async findByDate(userId: string, date: string): Promise<IDiary[]> {
+    return DiaryModel.find({
+      $and: [{ userId }, { createdDate: { $regex: `^${date}` } }],
+    })
+      .sort({ createdAt: -1 })
+      .lean();
+  }
+
+  async exists(filter: Object): Promise<Boolean> {
+    return DiaryModel.exists(filter).lean();
   }
 }

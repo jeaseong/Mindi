@@ -2,7 +2,7 @@ import passport from "passport";
 import jwtStrategy from "./strategies/jwt";
 import localStrategy from "./strategies/local";
 import { Container, Service } from "typedi";
-import { MongoUserModel } from "../../../interfaces/IUserModel";
+import { MongoUserModel } from "../../../models/user";
 
 @Service()
 class StrategyManager {

@@ -4,13 +4,12 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import dayjs from "dayjs";
 import config from "../config";
-import { MongoUserModel, TestUserModel } from "../interfaces/IUserModel";
+import { MongoUserModel } from "../models/user";
 
 @Service()
 export default class AuthService {
   constructor(
     private userModel: MongoUserModel
-    // private userModel: TestUserModel
   ) {
   }
 
@@ -94,7 +93,7 @@ export default class AuthService {
     const signedToken = jwt.sign(payload, secretKey, { expiresIn: expiresIn });
 
     return {
-      token: "Bearer " + signedToken,
+      token: signedToken,
       expires: expiresIn
     };
   }

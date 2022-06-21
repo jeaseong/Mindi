@@ -1,9 +1,11 @@
 import { Router, Request, Response, NextFunction } from "express";
-import { body, matchedData } from "express-validator";
+import { matchedData } from "express-validator";
 import { userValidator } from "../middlewares/express-validator";
 import UserService from "../../services/user";
 import { Container } from "typedi";
 import { loginRequired } from "../middlewares/loginRequired";
+import { IResponse } from "../../interfaces/IResponse";
+import { IUser } from "../../interfaces/IUser";
 
 export default (app: Router) => {
   const userRouter = Router();
@@ -20,17 +22,17 @@ export default (app: Router) => {
         const userService = Container.get(UserService);
         const user = await userService.getUserInfo(userId);
 
-        const body = {
+        const response: IResponse<IUser> = {
           success: true,
-          user: {
-            _Id: user!._id,
+          result: {
+            _id: user!._id,
             email: user!.email,
             name: user!.name,
             recentLogin: user!.recentLogin
           }
         };
 
-        res.status(200).json(body);
+        res.status(200).json(response);
       } catch (error) {
         next(error);
       }
@@ -51,14 +53,17 @@ export default (app: Router) => {
           fieldToUpdate
         );
 
-        const body = {
+        const response: IResponse<IUser> = {
           success: true,
-          user: {
-            name: "name"
-          },
+          result: {
+            _id: updatedUser!._id,
+            email: updatedUser!.email,
+            name: updatedUser!.name,
+            recentLogin: updatedUser!.recentLogin
+          }
         };
 
-        res.status(200).json(body);
+        res.status(200).json(response);
       } catch (error) {
         next(error);
       }
@@ -74,12 +79,12 @@ export default (app: Router) => {
         const userService = Container.get(UserService);
         await userService.deleteUser(userId);
 
-        const body = {
+        const response: IResponse<string> = {
           success: true,
-          message: "성공적으로 삭제되었습니다."
+          result: "성공적으로 삭제되었습니다."
         };
 
-        res.status(200).json(body);
+        res.status(200).json(response);
       } catch (error) {
         next(error);
       }

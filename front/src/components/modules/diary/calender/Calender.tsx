@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Head from './head/Head';
 import Body from './body/Body';
+import { Container } from './Calender.style';
 function Calender() {
   const DATE: Date = new Date();
   const YEAR: number = DATE.getFullYear();
@@ -14,14 +15,14 @@ function Calender() {
   };
   const HeadProps = {
     year,
-    month,
+    month: month,
     onChangeMonth,
   };
   return (
-    <div>
+    <Container>
       <Head {...HeadProps}></Head>
       <Body></Body>
-    </div>
+    </Container>
   );
 }
 

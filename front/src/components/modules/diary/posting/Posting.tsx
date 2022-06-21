@@ -15,9 +15,9 @@ function Posting() {
   const { openSnackBar } = useSnackbarContext();
   const [simpleDiary, setSimpleDiary] = useState('');
   const [mindDiary, setMindDiary] = useState('');
-  const [editImg, setEditImg] = useState({
+  const [editImg, setEditImg] = useState<FileType>({
     preview: `${IMAGE.IMG_UPLOAD_BASIC.url}`,
-    data: '',
+    data: undefined,
   });
   const formData = useMemo(() => new FormData(), [editImg]);
 
@@ -36,9 +36,9 @@ function Posting() {
       diary: simpleDiary,
       feeling: mindDiary,
     };
-    formData.append('background', editImg.data);
+    formData.append('background', editImg.data as File);
     Object.entries(diaryData).forEach((val) => {
-      formData.append(`${val[0]}`, JSON.stringify(val[1]));
+      formData.append(`${val[0]}`, val[1]);
     });
     try {
       const res = await postAnalysis({ diary: diaryData.feeling });

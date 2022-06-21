@@ -1,0 +1,66 @@
+post:
+  type: object
+  properties:
+    success:
+      type: boolean
+    result:
+      type: object
+      required:
+        - _id
+        - userId
+        - diary
+        - feeling
+        - sentiment
+        - createdDate
+      properties:
+        _id:
+          type: string
+        userId:
+          type: string
+        diary:
+          type: string
+        feeling:
+          type: string
+        sentiment:
+          type: object
+        createdDate:
+          type: string
+          description: '오늘(일기 작성) 날짜가 "년도-월-일" 형식으로 저장됩니다.'
+        imageFileName:
+          type: string
+        imageFilePath:
+          type: string
+
+getAList:
+  type: object
+  properties:
+    success:
+      type: boolean
+    result:
+      type: array
+      items:
+        types: object
+        required:
+          - _id
+          - userId
+          - diary
+          - feeling
+          - sentiment
+          - createdDate
+        properties:
+          _id:
+            type: string
+          userId:
+            type: string
+          diary:
+            type: string
+          feeling:
+            type: string
+          sentiment:
+            type: object
+          createdDate:
+            type: string
+          imageFileName:
+            type: string
+          imageFilePath:
+            type: string

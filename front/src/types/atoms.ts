@@ -75,3 +75,13 @@ export interface RadioProps {
 export interface CardProps {
   bgImg: string;
 }
+
+export interface FileType {
+  preview: string;
+  data: any;
+}
+
+export interface FileProps {
+  editImg: FileType;
+  onChangeFile: (img: FileType) => void;
+}

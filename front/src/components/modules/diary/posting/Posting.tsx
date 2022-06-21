@@ -7,6 +7,7 @@ import MainTitle from 'components/atoms/text/MainTitle';
 import TextArea from 'components/atoms/textArea/TextArea';
 import Button from 'components/atoms/button/Button';
 import { IMAGE } from 'utils/image';
+import { FileType } from 'types/atoms';
 import { PostingContainer, Area, SubTitle, AlignRight } from './Posting.style';
 
 function Posting() {
@@ -26,6 +27,9 @@ function Posting() {
 
   const onChangeMind = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setMindDiary((cur) => e.target.value);
+  };
+  const onChangeFile = (fileData: FileType) => {
+    setEditImg(fileData);
   };
   const onSubmit = async () => {
     const diaryData = {
@@ -48,8 +52,7 @@ function Posting() {
 
   const fileuploadPros = {
     editImg,
-    formData,
-    setEditImg,
+    onChangeFile,
   };
 
   return (

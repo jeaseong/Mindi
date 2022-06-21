@@ -36,5 +36,5 @@ export const postAnalysis = async (diary: diary) => {
 export const getDiaryList = async (date: string) => {
   const apiUrl = `/diaries?data=${date}`;
   const { data } = await customAxios.get(apiUrl);
-  return data;
+  return data.result;
 };

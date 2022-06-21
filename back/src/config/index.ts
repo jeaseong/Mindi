@@ -9,6 +9,9 @@ if (envFound.error) {
 }
 
 export default {
+  // app 실행 환경
+  nodeEnv: process.env.NODE_ENV,
+
   // 백엔드 포트번호
   port: process.env.SERVER_PORT || 5000,
 

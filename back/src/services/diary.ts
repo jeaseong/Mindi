@@ -2,7 +2,6 @@ import { BaseDiary } from "../interfaces/IDiary";
 import { StatusError } from "../utils/error";
 import { Service, Inject } from "typedi";
 import { MongoDiaryModel } from "../models/diary";
-import { MongoUserModel } from "../models/user";
 
 @Service()
 export default class DiaryService {
@@ -15,18 +14,18 @@ export default class DiaryService {
 
   public async updateOne(id: string, toUpdate: BaseDiary) {
     const filter = { _id: id };
-    const doc = await this.diaryModel.exists(filter);
-    if (!doc) {
-      throw new StatusError(400, "해당 아이디를 가진 일기를 찾을 수 없습니다.");
+    try {
+      const updatedDoc = await this.diaryModel.updateOne(filter, toUpdate);
+      return updatedDoc;
+    } catch (error) {
+      throw new StatusError(400, "업데이트에 실패했습니다.");
     }
-
-    const updatedDoc = await this.diaryModel.updateOne(filter, toUpdate);
-    return updatedDoc;
   }
 
   public async deleteOne(id: string) {
-    const result = await this.diaryModel.deleteOne(id);
-    if (result.status === "Fail") {
+    try {
+      await this.diaryModel.deleteOne(id);
+    } catch (error) {
       throw new StatusError(400, "삭제에 실패했습니다.");
     }
   }
@@ -39,7 +38,7 @@ export default class DiaryService {
   public async findById(id: string) {
     const docInfo = await this.diaryModel.findById(id);
     if (!docInfo) {
-      throw new StatusError(400, "해당 아이디를 가진 일기를 찾을 수 없습니다.");
+      throw new StatusError(400, "일기가 존재하지 않습니다.");
     }
 
     return docInfo;

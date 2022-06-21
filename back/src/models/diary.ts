@@ -1,7 +1,7 @@
 import { Schema, model } from "mongoose";
 import { Service } from "typedi";
 import { BaseDiary, IDiary } from "../interfaces/IDiary";
-import { IDiaryModel, deleteResult } from "../interfaces/IDiaryModel";
+import { IDiaryModel, filterObj } from "../interfaces/IDiaryModel";
 
 const DiarySchema = new Schema(
   {
@@ -46,17 +46,13 @@ export class MongoDiaryModel implements IDiaryModel {
     return newDoc.toObject();
   }
 
-  async updateOne(filter: object, toUpdate: BaseDiary): Promise<IDiary> {
+  async updateOne(filter: filterObj, toUpdate: BaseDiary): Promise<IDiary> {
     const option = { returnOriginal: false };
     return DiaryModel.findOneAndUpdate(filter, toUpdate, option).lean();
   }
 
-  async deleteOne(id: string): Promise<deleteResult> {
-    const result = await DiaryModel.deleteOne({ _id: id });
-    if (result.deletedCount === 1) {
-      return { status: "Succeess" };
-    }
-    return { status: "Fail" };
+  async deleteOne(id: string): Promise<void> {
+    await DiaryModel.deleteOne({ _id: id });
   }
 
   async findById(id: string): Promise<IDiary> {
@@ -69,9 +65,5 @@ export class MongoDiaryModel implements IDiaryModel {
     })
       .sort({ createdAt: -1 })
       .lean();
-  }
-
-  async exists(filter: Object): Promise<Boolean> {
-    return DiaryModel.exists(filter).lean();
   }
 }

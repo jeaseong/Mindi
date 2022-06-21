@@ -1,4 +1,3 @@
-import { statSync } from 'fs';
 import styled from 'styled-components';
 
 export const EIResultTemplate = styled.section`

@@ -49,6 +49,9 @@ export default (app: Router) => {
         const authService = Container.get(AuthService);
         const user = await authService.localSignIn(email, password);
 
+        req.session.user = user._id;
+        console.log("sessionId: ", req.sessionID);
+
         const response: IResponse<object> = {
           success: true,
           result: {

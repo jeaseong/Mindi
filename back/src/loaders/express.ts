@@ -31,6 +31,10 @@ export default ({ app, sessionClient }: { app: express.Application, sessionClien
       saveUninitialized: false,
       secret: config.jwtSecretKey as string,
       resave: false,
+      cookie: {
+        httpOnly: true,
+        secure: false
+      }
     })
   );
 

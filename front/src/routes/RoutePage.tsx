@@ -7,7 +7,7 @@ import SignIn from 'pages/User/SignIn';
 import SignUp from 'pages/User/SignUp';
 import Diary from 'pages/Diary/Diary';
 import Posting from 'pages/Diary/Posting';
-import ResultTemplate from 'components/templates/diary/ResultTemplate';
+import ResultTemplate from 'components/templates/diary/result/ResultTemplate';
 import EITest from 'pages/EITest/EITest';
 import EITestResult from 'components/modules/EITest/EITestResult';
 import { RouterPros } from 'types/router';

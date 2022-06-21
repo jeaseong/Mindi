@@ -3,7 +3,7 @@ export interface BaseDiary {
   diary: string;
   feeling: string;
   sentiment: object;
-  readonly createdDate: string; // "2022-6-10"
+  diaryDate: string; // "2022-6-10"
   imageFileName?: string;
   imageFilePath?: string;
 }

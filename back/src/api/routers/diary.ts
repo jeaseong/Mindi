@@ -27,14 +27,13 @@ export default (app: Router) => {
       try {
         const userId = req.user!._id;
         const imgInfo = Object(req.file);
-        const { diary, feeling, sentiment } = matchedData(req);
-        const createdDate = dayjs().locale("ko").format("YYYY-MM-DD"); // 일기 작성 날짜 생성
+        const { diary, feeling, sentiment, diaryDate } = matchedData(req);
         let newDiary: BaseDiary = {
           userId,
           diary,
           feeling,
           sentiment: JSON.parse(sentiment),
-          createdDate,
+          diaryDate,
         };
 
         newDiary = imgInfo
@@ -70,7 +69,7 @@ export default (app: Router) => {
       try {
         const userId = req.user!._id;
         const imgInfo = Object(req.file);
-        const { _id, diary, feeling, sentiment, createdDate } = req.body;
+        const { _id, diary, feeling, sentiment, diaryDate } = req.body;
         const id: string = _id;
         const toUpdate: BaseDiary = req.file
           ? {
@@ -78,11 +77,11 @@ export default (app: Router) => {
               diary,
               feeling,
               sentiment: JSON.parse(sentiment),
-              createdDate,
+              diaryDate,
               imageFileName: imgInfo.key,
               imageFilePath: imgInfo.location,
             }
-          : { userId, diary, feeling, sentiment, createdDate };
+          : { userId, diary, feeling, sentiment, diaryDate };
 
         const updatedDiary = await diaryService.updateOne(id, toUpdate);
 
@@ -116,13 +115,22 @@ export default (app: Router) => {
 
   diaryRouter.get(
     "/",
-    loginRequired,
-    diaryValidator.getDate,
+    diaryValidator.getYear,
     validationErrorChecker,
+    loginRequired,
     async (req: Request, res: Response, next: NextFunction) => {
       try {
         const userId = req.user!._id;
-        const date: string = String(req.query.date);
+        const { year, month, day } = req.query;
+
+        let date: string;
+        if (!day && !month) {
+          date = `${year}`;
+        } else if (!day) {
+          date = `${year}-${month}`;
+        } else {
+          date = `${year}-${month}-${day}`;
+        }
 
         const diaries: IDiary[] = await diaryService.findByDate(userId, date);
 

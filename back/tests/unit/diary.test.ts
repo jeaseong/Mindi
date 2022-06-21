@@ -53,7 +53,7 @@ describe("Diary Service Test", () => {
     }
 
     async deleteOne(id: string) {
-      return { status: "Success" };
+      return;
     }
 
     async findById(id: string) {
@@ -71,14 +71,6 @@ describe("Diary Service Test", () => {
           createdDate: date,
         },
       ];
-    }
-
-    async exists(filter: Object) {
-      if (filter) {
-        return true;
-      } else {
-        return false;
-      }
     }
   }
 

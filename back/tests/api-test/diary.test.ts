@@ -138,6 +138,5 @@ describe("Diary with an image", () => {
 
 afterAll(async () => {
   await mongoose.disconnect();
-  await mongoose.connection.close();
   logger.info(`${mongoose.connection.name} ${mongoose.connection.readyState} => 0: disconnected`);
 });

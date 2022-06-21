@@ -4,6 +4,7 @@ export const HeaderContainer = styled.header`
   width: 90%;
   height: 65px;
   margin: 0 auto;
+  margin-bottom: 50px;
   display: grid;
   grid-template-columns: 1fr 3fr 1fr;
   background-color: transparent;

@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from 'components/atoms/image/Image';
-import { IMAGE } from 'components/utils/image';
+import { IMAGE } from '../../../utils/image';
 import {
   MainTemplate,
   ImageWrapper,

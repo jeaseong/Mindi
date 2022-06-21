@@ -2,10 +2,14 @@ import { BaseDiary } from "../interfaces/IDiary";
 import { StatusError } from "../utils/error";
 import { Service, Inject } from "typedi";
 import { MongoDiaryModel } from "../models/diary";
+import winston from "winston";
 
 @Service()
 export default class DiaryService {
-  constructor(private diaryModel: MongoDiaryModel, @Inject("logger") private logger: any) {}
+  constructor(
+    private diaryModel: MongoDiaryModel,
+    @Inject("logger") private logger: winston.Logger
+  ) {}
 
   public async create(newDiary: BaseDiary) {
     const createdNewDoc = await this.diaryModel.create(newDiary);

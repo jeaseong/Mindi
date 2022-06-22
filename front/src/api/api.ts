@@ -32,7 +32,6 @@ export const postAnalysis = async (diary: diary) => {
   const { data } = await customAxiosForAi.post(apiUrl, diary);
   return data.result;
 };
-
 export const getDiaryList = async (
   year: number,
   month: number,

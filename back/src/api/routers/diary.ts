@@ -52,7 +52,7 @@ export default (app: Router) => {
 
         const createdDiary: IDiary = await diaryService.create(newDiary);
 
-        const response: IResponse<Partial<IDiary>> = {
+        const response: IResponse<IDiary> = {
           success: true,
           result: createdDiary,
         };
@@ -101,7 +101,7 @@ export default (app: Router) => {
 
         const updatedDiary = await diaryService.updateOne(id, toUpdate, imageFileName);
 
-        const response: IResponse<Partial<IDiary>> = {
+        const response: IResponse<IDiary> = {
           success: true,
           result: updatedDiary,
         };
@@ -141,9 +141,9 @@ export default (app: Router) => {
         const { year, month, day } = req.query;
 
         let date: string;
-        if (!day && !month) {
+        if (day == "00" && month == "00") {
           date = `${year}`;
-        } else if (!day) {
+        } else if (day == "00") {
           date = `${year}-${month}`;
         } else {
           date = `${year}-${month}-${day}`;
@@ -151,7 +151,7 @@ export default (app: Router) => {
 
         const diaries: IDiary[] = await diaryService.findByDate(userId, date);
 
-        const response: IResponse<Partial<IDiary[]>> = {
+        const response: IResponse<IDiary[]> = {
           success: true,
           result: diaries,
         };
@@ -169,7 +169,7 @@ export default (app: Router) => {
 
       const diary: IDiary = await diaryService.findById(id);
 
-      const response: IResponse<Partial<IDiary>> = {
+      const response: IResponse<IDiary> = {
         success: true,
         result: diary,
       };

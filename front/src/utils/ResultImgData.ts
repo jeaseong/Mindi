@@ -1,10 +1,10 @@
-type emotionType = {
+type sentimentsType = {
   [key: string]: { [key: string]: string };
 };
 
 const url = process.env.PUBLIC_URL;
 
-export const SENTIMENTS: emotionType = {
+export const SENTIMENTS: sentimentsType = {
   HAPPINESS: {
     url: `${url}/assets/happiness.png`,
     alt: '행복 캐릭터',

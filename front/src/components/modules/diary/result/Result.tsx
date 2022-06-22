@@ -4,10 +4,9 @@ import { Doughnut } from 'react-chartjs-2';
 import YouTube from 'react-youtube';
 import Image from 'components/atoms/image/Image';
 import Button from 'components/atoms/button/Button';
-import { SENTIMENTS } from './ImgData';
+import { SENTIMENTS } from '../../../../utils/ResultImgData';
 import { useNavigate } from 'react-router-dom';
 import { getDiaryList } from 'api/api';
-import { IMAGE } from 'utils/image';
 import {
   ContentWrapper,
   Title,
@@ -16,7 +15,6 @@ import {
   ChartWrapper,
   YouTubeWrapper,
 } from './Result.style';
-import { stringify } from 'querystring';
 
 function Result() {
   const navigate = useNavigate();

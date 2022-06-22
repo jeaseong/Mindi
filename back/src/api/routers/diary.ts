@@ -1,44 +1,63 @@
-import { Router, Request, Response, NextFunction } from 'express';
-import DiaryService from '../../services/diary';
-import { BaseDiary, IDiary } from '../../interfaces/IDiary';
-import { imageUpload, imageDelete } from '../middlewares/imageHandler';
-import validationErrorChecker from '../middlewares/validationErrorChecker';
-import { diaryValidator } from '../middlewares/express-validator';
-import { MongoDiaryModel } from '../../models/diary';
+import { Router, Request, Response, NextFunction } from "express";
+import DiaryService from "../../services/diary";
+import { BaseDiary, IDiary } from "../../interfaces/IDiary";
+import validationErrorChecker from "../middlewares/validationErrorChecker";
+import { diaryValidator } from "../middlewares/express-validator";
+import { Container } from "typedi";
+import imageUpload from "../middlewares/imageHandler";
+import imageDelete from "../../utils/imageDelete";
+import { loginRequired } from "../middlewares/loginRequired";
+import { matchedData, validationResult } from "express-validator";
+import { IResponse } from "../../interfaces/IResponse";
+import { StatusError } from "../../utils/error";
 
 export default (app: Router) => {
   const diaryRouter = Router();
-  const diaryModel = new MongoDiaryModel();
-  const diaryService = new DiaryService(diaryModel);
+  const diaryService = Container.get(DiaryService);
 
-  app.use('/diaries', diaryRouter);
+  app.use("/diaries", diaryRouter);
 
   diaryRouter.post(
-    '/',
-    imageUpload.single('background'), // field name
+    "/",
+    loginRequired,
+    imageUpload.single("background"),
     diaryValidator.diaryBody,
-    validationErrorChecker,
     async (req: Request, res: Response, next: NextFunction) => {
       try {
-        const imageFileName = req.file?.filename; // 저장된 파일명​
-        const imageFilePath = `http://localhost:5001/images/${imageFileName}`;
+        const userId = req.user!._id;
+        const imgInfo = Object(req.file);
 
-        let Diary: BaseDiary = req.body;
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+          await imageDelete(imgInfo.key);
+          throw new StatusError(400, errors.array()[0].msg);
+        }
 
-        Diary = {
-          ...Diary,
-          imageFileName,
-          imageFilePath,
+        const { diary, feeling, sentiment, diaryDate } = matchedData(req);
+        let newDiary: BaseDiary = {
+          userId,
+          diary,
+          feeling,
+          sentiment: JSON.parse(sentiment),
+          diaryDate,
         };
 
-        const newDiary: IDiary = await diaryService.create(Diary);
+        newDiary = imgInfo
+          ? {
+              ...newDiary,
+              imageFileName: imgInfo.key,
+              imageFilePath: imgInfo.location,
+            }
+          : newDiary;
 
-        const body = {
+        const createdDiary: IDiary = await diaryService.create(newDiary);
+
+        const response: IResponse<Partial<IDiary>> = {
           success: true,
-          diary: newDiary,
+          result: createdDiary,
         };
 
-        res.status(201).json(body);
+        res.status(201).json(response);
       } catch (error) {
         next(error);
       }
@@ -46,64 +65,118 @@ export default (app: Router) => {
   );
 
   diaryRouter.put(
-    '/',
+    "/",
+    loginRequired,
+    imageUpload.single("background"),
     diaryValidator.diaryBody,
-    validationErrorChecker,
     async (req: Request, res: Response, next: NextFunction) => {
       try {
-        const { _id, userId, diary, feeling, createdDate } = req.body;
+        const userId = req.user!._id;
+        const imgInfo = Object(req.file);
+
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+          await imageDelete(imgInfo.key);
+          throw new StatusError(400, errors.array()[0].msg);
+        }
+
+        const { _id, diary, feeling, sentiment, diaryDate, imageFileName } = req.body;
         const id: string = _id;
-        const toUpdate: BaseDiary = {
+        let toUpdate: BaseDiary = {
           userId,
           diary,
           feeling,
-          createdDate,
+          sentiment: JSON.parse(sentiment),
+          imageFileName,
+          diaryDate,
         };
 
-        const updatedDiary = await diaryService.updateOne(id, toUpdate);
+        toUpdate = imgInfo
+          ? {
+              ...toUpdate,
+              imageFileName: imgInfo.key,
+              imageFilePath: imgInfo.location,
+            }
+          : toUpdate;
 
-        const body = {
+        const updatedDiary = await diaryService.updateOne(id, toUpdate, imageFileName);
+
+        const response: IResponse<Partial<IDiary>> = {
           success: true,
-          diary: updatedDiary,
+          result: updatedDiary,
         };
 
-        res.status(200).json(body);
+        res.status(200).json(response);
       } catch (error) {
         next(error);
       }
     },
   );
 
-  diaryRouter.delete('/', imageDelete, async (req: Request, res: Response, next: NextFunction) => {
+  diaryRouter.delete("/", async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const id: string = req.body._id;
-      await diaryService.deleteOne(id);
+      const id = req.body._id;
+      const imageFileName = req.body.imageFileName;
+      await diaryService.deleteOne(id, imageFileName);
 
-      res.sendStatus(204); // No Content
+      const response: IResponse<string> = {
+        success: true,
+        result: "성공적으로 삭제되었습니다.",
+      };
+
+      res.status(200).json(response);
     } catch (error) {
       next(error);
     }
   });
 
   diaryRouter.get(
-    '/',
-    diaryValidator.dateQuery,
+    "/",
+    diaryValidator.getYear,
     validationErrorChecker,
+    loginRequired,
     async (req: Request, res: Response, next: NextFunction) => {
       try {
-        const date: string = String(req.query.date); // 가정: "2022-6-10"
+        const userId = req.user!._id;
+        const { year, month, day } = req.query;
 
-        const diaries: IDiary[] = await diaryService.findByDate(date);
+        let date: string;
+        if (!day && !month) {
+          date = `${year}`;
+        } else if (!day) {
+          date = `${year}-${month}`;
+        } else {
+          date = `${year}-${month}-${day}`;
+        }
 
-        const body = {
+        const diaries: IDiary[] = await diaryService.findByDate(userId, date);
+
+        const response: IResponse<Partial<IDiary[]>> = {
           success: true,
-          diaries: diaries,
+          result: diaries,
         };
 
-        res.status(200).json(body);
+        res.status(200).json(response);
       } catch (error) {
         next(error);
       }
     },
   );
+
+  diaryRouter.get("/:id", async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const id = req.params.id;
+
+      const diary: IDiary = await diaryService.findById(id);
+
+      const response: IResponse<Partial<IDiary>> = {
+        success: true,
+        result: diary,
+      };
+
+      res.status(200).json(response);
+    } catch (error) {
+      next(error);
+    }
+  });
 };

@@ -1,16 +1,17 @@
-import { Service } from "typedi";
+import {Inject, Service} from "typedi";
 import { StatusError } from "../utils/error";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import dayjs from "dayjs";
 import config from "../config";
-import { MongoUserModel, TestUserModel } from "../interfaces/IUserModel";
+import { MongoUserModel } from "../models/user";
+import winston from "winston";
 
 @Service()
 export default class AuthService {
   constructor(
-    private userModel: MongoUserModel
-    // private userModel: TestUserModel
+    private userModel: MongoUserModel,
+    @Inject("logger") private logger: winston.Logger
   ) {
   }
 
@@ -94,7 +95,7 @@ export default class AuthService {
     const signedToken = jwt.sign(payload, secretKey, { expiresIn: expiresIn });
 
     return {
-      token: "Bearer " + signedToken,
+      token: signedToken,
       expires: expiresIn
     };
   }

@@ -2,6 +2,7 @@ import React from 'react';
 import 'chart.js/auto';
 import { Doughnut } from 'react-chartjs-2';
 import Image from 'components/atoms/image/Image';
+import { getDiaryList } from 'api/api';
 import { IMAGE } from 'utils/image';
 import {
   ContentWrapper,
@@ -24,6 +25,19 @@ function Result() {
     },
   };
 
+  const date = new Date();
+  const year = date.getFullYear();
+  const month = ('0' + (1 + date.getMonth())).slice(-2);
+  const day = ('0' + date.getDate()).slice(-2);
+
+  const dateString = year + '-' + month + '-' + day;
+
+  const Data = getDiaryList(dateString);
+
+  const { PromiseResult }: any = Data;
+
+  console.log(Data);
+
   const { sentiment }: any = mockData;
 
   const sent = Object.keys(sentiment);
@@ -34,7 +48,7 @@ function Result() {
 
   const max = keysSorted.pop();
 
-  console.log(keysSorted);
+  // console.log(keysSorted);
 
   const data = {
     datasets: [

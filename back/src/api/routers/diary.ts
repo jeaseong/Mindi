@@ -82,17 +82,22 @@ export default (app: Router) => {
 
         const { _id, diary, feeling, sentiment, diaryDate, imageFileName } = req.body;
         const id: string = _id;
-        const toUpdate: BaseDiary = req.file
+        let toUpdate: BaseDiary = {
+          userId,
+          diary,
+          feeling,
+          sentiment: JSON.parse(sentiment),
+          imageFileName,
+          diaryDate,
+        };
+
+        toUpdate = imgInfo
           ? {
-              userId,
-              diary,
-              feeling,
-              sentiment: JSON.parse(sentiment),
-              diaryDate,
+              ...toUpdate,
               imageFileName: imgInfo.key,
               imageFilePath: imgInfo.location,
             }
-          : { userId, diary, feeling, sentiment, diaryDate };
+          : toUpdate;
 
         const updatedDiary = await diaryService.updateOne(id, toUpdate, imageFileName);
 

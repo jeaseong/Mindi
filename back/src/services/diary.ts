@@ -20,23 +20,23 @@ export default class DiaryService {
     }
   }
 
-  public async updateOne(id: string, toUpdate: BaseDiary, imageFileName: string) {
+  public async updateOne(id: string, toUpdate: BaseDiary, imageFileName?: string) {
     try {
       const filter = { _id: id };
       const updatedDoc = await this.diaryModel.updateOne(filter, toUpdate);
-      if (imageFileName) {
+      if (imageFileName && imageFileName !== toUpdate.imageFileName) {
         await imageDelete(imageFileName); // 기존 이미지 삭제
       }
       return updatedDoc;
     } catch (error) {
-      if (toUpdate.imageFileName) {
+      if (toUpdate.imageFileName && imageFileName !== toUpdate.imageFileName) {
         await imageDelete(toUpdate.imageFileName); // 새로 업로드했던 이미지 삭제
       }
       throw new StatusError(400, "업데이트에 실패했습니다.");
     }
   }
 
-  public async deleteOne(id: string, imageFileName: string) {
+  public async deleteOne(id: string, imageFileName?: string) {
     try {
       if (imageFileName) {
         await imageDelete(imageFileName);

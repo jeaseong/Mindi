@@ -26,12 +26,39 @@ export const IMAGE = {
     url: `${process.env.PUBLIC_URL}/assets/logo.png`,
     alt: '서비스 로고',
   },
-  HAPPY: {
-    url: `${process.env.PUBLIC_URL}/assets/happy.png`,
-    alt: '행복 캐릭터',
-  },
+
   MAIN_DOODLE: {
     url: `${process.env.PUBLIC_URL}/assets/main_doodle.png`,
     alt: '글씨 강조 동그라미',
+  },
+
+  HAPPINESS: {
+    url: `${process.env.PUBLIC_URL}/assets/happiness.png`,
+    alt: '행복 캐릭터',
+  },
+
+  ANGER: {
+    url: `${process.env.PUBLIC_URL}/assets/anger.png`,
+    alt: '행복 캐릭터',
+  },
+
+  AVERSION: {
+    url: `${process.env.PUBLIC_URL}/assets/aversion.png`,
+    alt: '행복 캐릭터',
+  },
+
+  SADNESS: {
+    url: `${process.env.PUBLIC_URL}/assets/sadness.png`,
+    alt: '행복 캐릭터',
+  },
+
+  SCARED: {
+    url: `${process.env.PUBLIC_URL}/assets/scared.png`,
+    alt: '행복 캐릭터',
+  },
+
+  SURPRISED: {
+    url: `${process.env.PUBLIC_URL}/assets/surprised.png`,
+    alt: '행복 캐릭터',
   },
 };

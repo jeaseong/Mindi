@@ -3,6 +3,9 @@ import 'chart.js/auto';
 import { Doughnut } from 'react-chartjs-2';
 import YouTube from 'react-youtube';
 import Image from 'components/atoms/image/Image';
+import Button from 'components/atoms/button/Button';
+import { SENTIMENTS } from './ImgData';
+import { useNavigate } from 'react-router-dom';
 import { getDiaryList } from 'api/api';
 import { IMAGE } from 'utils/image';
 import {
@@ -13,8 +16,12 @@ import {
   ChartWrapper,
   YouTubeWrapper,
 } from './Result.style';
+import { stringify } from 'querystring';
 
 function Result() {
+  const navigate = useNavigate();
+
+  // 목데이터(삭제 예정)
   const mockData = {
     success: 'true',
     sentiment: {
@@ -49,9 +56,9 @@ function Result() {
   const Data = getDiaryList(dateString);
 
   console.log(Data);
-
   const dataProto = Object.keys(Data);
 
+  // 가장 많이 나온 감정 고르기
   const { sentiment }: any = mockData;
 
   const sent = Object.keys(sentiment);
@@ -60,8 +67,10 @@ function Result() {
     (a, b) => sentiment[a] - sentiment[b],
   );
 
-  const max = keysSorted.pop();
+  const max = keysSorted.pop()?.toUpperCase();
 
+  console.log(max);
+  if (max) console.log(SENTIMENTS[max].url);
   // console.log(keysSorted);
 
   const data = {
@@ -88,7 +97,11 @@ function Result() {
       <Title>오늘의 감정 분석 결과:</Title>
 
       <Emotion>{max}</Emotion>
-      <Image width='47%' src={IMAGE.HAPPINESS.url} alt={IMAGE.HAPPINESS.alt} />
+      <Image
+        width='47%'
+        src={SENTIMENTS[max as string].url}
+        alt={SENTIMENTS[max as string].alt}
+      />
       <SubTitle>오늘의 감정 그래프</SubTitle>
       <ChartWrapper>
         <Doughnut data={data} />
@@ -97,6 +110,13 @@ function Result() {
       <YouTubeWrapper>
         <YouTube videoId='E0COLl4M1i4' opts={videoOptions} />
       </YouTubeWrapper>
+      <Button
+        onClick={() => {
+          navigate('/diary');
+        }}
+      >
+        Diary Page
+      </Button>
     </ContentWrapper>
   );
 }

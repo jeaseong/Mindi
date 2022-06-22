@@ -39,26 +39,26 @@ export const IMAGE = {
 
   ANGER: {
     url: `${process.env.PUBLIC_URL}/assets/anger.png`,
-    alt: '행복 캐릭터',
+    alt: '화남 캐릭터',
   },
 
   AVERSION: {
     url: `${process.env.PUBLIC_URL}/assets/aversion.png`,
-    alt: '행복 캐릭터',
+    alt: '혐오 캐릭터',
   },
 
   SADNESS: {
     url: `${process.env.PUBLIC_URL}/assets/sadness.png`,
-    alt: '행복 캐릭터',
+    alt: '슬픔 캐릭터',
   },
 
   SCARED: {
     url: `${process.env.PUBLIC_URL}/assets/scared.png`,
-    alt: '행복 캐릭터',
+    alt: '두려움 캐릭터',
   },
 
   SURPRISED: {
     url: `${process.env.PUBLIC_URL}/assets/surprised.png`,
-    alt: '행복 캐릭터',
+    alt: '놀람 캐릭터',
   },
 };

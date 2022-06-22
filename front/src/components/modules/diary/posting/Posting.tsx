@@ -44,7 +44,7 @@ function Posting() {
       const res = await postAnalysis({ diary: diaryData.feeling });
       formData.append('sentiment', JSON.stringify(res));
       await postDiaryPosting(formData);
-      navigate('/result');
+      navigate('result');
     } catch (e) {
       openSnackBar(false, '작성을 안 했어요..!!');
     }

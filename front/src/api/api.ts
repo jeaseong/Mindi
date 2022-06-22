@@ -13,13 +13,13 @@ export const signUpPost = async (userInfo: SignUpInfo) => {
 export const signInPost = async (userInfo: SignInInfo) => {
   const apiUrl = `api/auth/local/sign-in`;
   const { data } = await customAxios.post(apiUrl, userInfo);
-  return data;
+  return data.result;
 };
 
 export const getCurUser = async () => {
   const apiUrl = `api/users`;
   const { data } = await customAxios.get(apiUrl);
-  return data;
+  return data.result;
 };
 
 export const postDiaryPosting = async (diaryData: any) => {
@@ -32,9 +32,12 @@ export const postAnalysis = async (diary: diary) => {
   const { data } = await customAxiosForAi.post(apiUrl, diary);
   return data.result;
 };
-
-export const getDiaryList = async (id: string) => {
-  const apiUrl = `/diaries/${id}`;
+export const getDiaryList = async (
+  year: number,
+  month: number,
+  day: number,
+) => {
+  const apiUrl = `/diaries?year=${year}&month=${month}&day=${day}`;
   const { data } = await customAxios.get(apiUrl);
-  return data;
+  return data.result;
 };

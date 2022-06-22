@@ -8,6 +8,7 @@ import { SnackbarProvider } from 'contexts/SnackbarContext';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { ThemeProvider } from 'styled-components';
 import { theme, GlobalStyles } from 'styles/GloabalTheme';
+import { BrowserRouter } from 'react-router-dom';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -26,10 +27,12 @@ root.render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={theme}>
-        <SnackbarProvider>
-          <GlobalStyles />
-          <App />
-        </SnackbarProvider>
+        <BrowserRouter>
+          <SnackbarProvider>
+            <GlobalStyles />
+            <App />
+          </SnackbarProvider>
+        </BrowserRouter>
       </ThemeProvider>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>

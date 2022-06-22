@@ -75,3 +75,19 @@ export interface RadioProps {
 export interface CardProps {
   bgImg: string;
 }
+
+export interface FileType {
+  preview: string;
+  data: File | undefined;
+}
+
+export interface FileProps {
+  editImg: FileType;
+  onChangeFile: (img: FileType) => void;
+}
+
+export interface CalenderProps {
+  year: number;
+  month: number;
+  onChangeMonth: (m: number) => void;
+}

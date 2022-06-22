@@ -26,6 +26,11 @@ export const SubTitle = styled.span`
 
 export const ChartWrapper = styled.div`
   margin-top: 2em;
+  margin-bottom: 2em;
   height: 400px;
   width: 400px;
+`;
+
+export const YouTubeWrapper = styled.div`
+  margin-top: 2em;
 `;

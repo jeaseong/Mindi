@@ -11,6 +11,7 @@ import {
   Emotion,
   SubTitle,
   ChartWrapper,
+  YouTubeWrapper,
 } from './Result.style';
 
 function Result() {
@@ -26,6 +27,18 @@ function Result() {
     },
   };
 
+  // 유튜브 비디오 옵션
+  const videoOptions = {
+    playerVars: {
+      autoplay: 0,
+      controls: 0,
+      rel: 0,
+      showinfo: 0,
+      mute: 0,
+      loop: 0,
+    },
+  };
+
   const date = new Date();
   const year = date.getFullYear();
   const month = ('0' + (1 + date.getMonth())).slice(-2);
@@ -35,9 +48,9 @@ function Result() {
 
   const Data = getDiaryList(dateString);
 
-  const { PromiseResult }: any = Data;
-
   console.log(Data);
+
+  const dataProto = Object.keys(Data);
 
   const { sentiment }: any = mockData;
 
@@ -75,12 +88,15 @@ function Result() {
       <Title>오늘의 감정 분석 결과:</Title>
 
       <Emotion>{max}</Emotion>
-      <Image width='47%' src={IMAGE.HAPPY.url} alt={IMAGE.HAPPY.alt} />
+      <Image width='47%' src={IMAGE.HAPPINESS.url} alt={IMAGE.HAPPINESS.alt} />
       <SubTitle>오늘의 감정 그래프</SubTitle>
       <ChartWrapper>
         <Doughnut data={data} />
       </ChartWrapper>
       <SubTitle>오늘의 추천 음악</SubTitle>
+      <YouTubeWrapper>
+        <YouTube videoId='E0COLl4M1i4' opts={videoOptions} />
+      </YouTubeWrapper>
     </ContentWrapper>
   );
 }

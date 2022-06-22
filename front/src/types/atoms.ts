@@ -91,3 +91,16 @@ export interface CalenderProps {
   month: number;
   onChangeMonth: (m: number) => void;
 }
+
+export interface CalenderBodyProps {
+  year: number;
+  month: number;
+  today: number;
+  totalDate: string[][];
+}
+
+export interface CalenderHeadProps {
+  year: number;
+  month: number;
+  onChangeMonth: (m: number) => void;
+}

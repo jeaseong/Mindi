@@ -95,7 +95,7 @@ export interface CalenderProps {
 export interface CalenderBodyProps {
   year: number;
   month: number;
-  today: number;
+  TODAY: number;
   totalDate: string[][];
 }
 

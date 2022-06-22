@@ -3,7 +3,7 @@ import React from 'react';
 import { CalenderBodyProps } from 'types/atoms';
 import { Container, Days, Day, Span } from './Body.style';
 
-function Body({ totalDate, year, month, today }: CalenderBodyProps) {
+function Body({ totalDate, year, month, TODAY }: CalenderBodyProps) {
   return (
     <Container>
       {totalDate?.map((days, index) => {

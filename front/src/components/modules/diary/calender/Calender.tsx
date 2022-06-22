@@ -8,9 +8,9 @@ function Calender() {
   const DATE: Date = new Date();
   const YEAR: number = DATE.getFullYear();
   const MONTH: number = DATE.getMonth();
+  const TODAY = DATE.getDate();
   const [month, setMonth] = useState(MONTH);
   const [year, setYear] = useState(YEAR);
-  const [today, setToday] = useState(DATE.getDate());
   const [totalDate, setTotalDate] = useState<string[][] | undefined>();
 
   const onChangeMonth = (m: number) => {
@@ -57,7 +57,7 @@ function Calender() {
     totalDate: nullCheck(totalDate),
     year,
     month,
-    today,
+    TODAY,
   };
 
   const headProps: CalenderHeadProps = useMemo(

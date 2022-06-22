@@ -5,7 +5,7 @@ import { IMAGE } from 'utils/image';
 const arr = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 const date = '2022-10';
 function DiaryCard() {
-  const diaryList = useGetDiaryList(date);
+  // const diaryList = useGetDiaryList(date);
   return (
     <DiaryPosts>
       {arr.map((v, index) => (

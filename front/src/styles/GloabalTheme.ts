@@ -91,6 +91,9 @@ a {
   text-decoration: none;
   color: inherit;
 }
+ol, ul {
+	list-style: none;
+}
 abbr[title] {
   border-bottom: none; /* 1 */
   text-decoration: underline; /* 2 */

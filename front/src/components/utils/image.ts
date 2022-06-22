@@ -27,4 +27,9 @@ export const IMAGE = {
     url: `${process.env.PUBLIC_URL}/assets/main_doodle.png`,
     alt: '글씨 강조 동그라미',
   },
+
+  MAIN_DOODLE_FLIP: {
+    url: `${process.env.PUBLIC_URL}/assets/main_doodle_2.png`,
+    alt: '글씨 강조 동그라미',
+  },
 };

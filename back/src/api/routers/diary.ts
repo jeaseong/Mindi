@@ -52,7 +52,7 @@ export default (app: Router) => {
 
         const createdDiary: IDiary = await diaryService.create(newDiary);
 
-        const response: IResponse<Partial<IDiary>> = {
+        const response: IResponse<IDiary> = {
           success: true,
           result: createdDiary,
         };
@@ -101,7 +101,7 @@ export default (app: Router) => {
 
         const updatedDiary = await diaryService.updateOne(id, toUpdate, imageFileName);
 
-        const response: IResponse<Partial<IDiary>> = {
+        const response: IResponse<IDiary> = {
           success: true,
           result: updatedDiary,
         };
@@ -132,18 +132,18 @@ export default (app: Router) => {
 
   diaryRouter.get(
     "/",
+    loginRequired,
     diaryValidator.getYear,
     validationErrorChecker,
-    loginRequired,
     async (req: Request, res: Response, next: NextFunction) => {
       try {
         const userId = req.user!._id;
         const { year, month, day } = req.query;
 
         let date: string;
-        if (!day && !month) {
+        if (day == "00" && month == "00") {
           date = `${year}`;
-        } else if (!day) {
+        } else if (day == "00") {
           date = `${year}-${month}`;
         } else {
           date = `${year}-${month}-${day}`;
@@ -151,7 +151,7 @@ export default (app: Router) => {
 
         const diaries: IDiary[] = await diaryService.findByDate(userId, date);
 
-        const response: IResponse<Partial<IDiary[]>> = {
+        const response: IResponse<IDiary[]> = {
           success: true,
           result: diaries,
         };
@@ -163,20 +163,45 @@ export default (app: Router) => {
     },
   );
 
-  diaryRouter.get("/:id", async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const id = req.params.id;
+  // diaryRouter.get("/diaries/:id", async (req: Request, res: Response, next: NextFunction) => {
+  //   try {
+  //     const id = req.params.id;
 
-      const diary: IDiary = await diaryService.findById(id);
+  //     const diary: IDiary = await diaryService.findById(id);
 
-      const response: IResponse<Partial<IDiary>> = {
-        success: true,
-        result: diary,
-      };
+  //     const response: IResponse<IDiary> = {
+  //       success: true,
+  //       result: diary,
+  //     };
 
-      res.status(200).json(response);
-    } catch (error) {
-      next(error);
-    }
-  });
+  //     res.status(200).json(response);
+  //   } catch (error) {
+  //     next(error);
+  //   }
+  // });
+
+  diaryRouter.get(
+    "/statistics",
+    loginRequired,
+    diaryValidator.dayDiff, // 요청이 오늘 날짜를 기준으로 지난 달인지 검사
+    validationErrorChecker,
+    async (req: Request, res: Response, next: NextFunction) => {
+      try {
+        const userId = req.user!._id;
+        const { year, month } = req.query;
+        const date: string = `${year}-${month}`;
+
+        const diaries: IDiary[] = await diaryService.findByDate(userId, date);
+
+        const response: IResponse<IDiary[]> = {
+          success: true,
+          result: diaries,
+        };
+
+        res.status(200).json(response);
+      } catch (error) {
+        next(error);
+      }
+    },
+  );
 };

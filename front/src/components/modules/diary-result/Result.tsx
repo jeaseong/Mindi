@@ -7,7 +7,7 @@ import {
   ContentWrapper,
   Title,
   Emotion,
-  ChartTitle,
+  SubTitle,
   ChartWrapper,
 } from './Result.style';
 
@@ -61,10 +61,11 @@ function Result() {
 
       <Emotion>{max}</Emotion>
       <Image width='47%' src={IMAGE.HAPPY.url} alt={IMAGE.HAPPY.alt} />
-      <ChartTitle>오늘의 감정 그래프</ChartTitle>
+      <SubTitle>오늘의 감정 그래프</SubTitle>
       <ChartWrapper>
         <Doughnut data={data} />
       </ChartWrapper>
+      <SubTitle>오늘의 추천 음악</SubTitle>
     </ContentWrapper>
   );
 }

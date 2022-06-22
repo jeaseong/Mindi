@@ -19,7 +19,7 @@ export const Emotion = styled.span`
   margin-top: 1em;
 `;
 
-export const ChartTitle = styled.span`
+export const SubTitle = styled.span`
   font-size: 1.5em;
   margin-top: 3em;
 `;

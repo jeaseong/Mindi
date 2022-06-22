@@ -21,7 +21,7 @@ const DiarySchema = new Schema(
       type: Object,
       required: true,
     },
-    createdDate: {
+    diaryDate: {
       type: String,
       required: true,
     },
@@ -61,7 +61,7 @@ export class MongoDiaryModel implements IDiaryModel {
 
   async findByDate(userId: string, date: string): Promise<IDiary[]> {
     return DiaryModel.find({
-      $and: [{ userId }, { createdDate: { $regex: `^${date}` } }],
+      $and: [{ userId }, { diaryDate: { $regex: `^${date}` } }],
     })
       .sort({ createdAt: -1 })
       .lean();

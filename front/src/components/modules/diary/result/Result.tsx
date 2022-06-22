@@ -1,6 +1,7 @@
 import React from 'react';
 import 'chart.js/auto';
 import { Doughnut } from 'react-chartjs-2';
+import YouTube from 'react-youtube';
 import Image from 'components/atoms/image/Image';
 import { getDiaryList } from 'api/api';
 import { IMAGE } from 'utils/image';

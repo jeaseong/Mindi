@@ -19,7 +19,7 @@ export const DiaryPost = styled.article`
   border: 1px solid black;
 `;
 
-export const Date = styled.h3`
+export const Day = styled.h3`
   display: inline-block;
   padding: 4px;
   background-color: ${(props) => props.theme.colors.basicWhite};

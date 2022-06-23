@@ -1,9 +1,4 @@
-import {
-  customAxios,
-  customAxiosFileUpload,
-  customAxiosForAi,
-  Axios,
-} from 'api/costomAxios';
+import { customAxiosFileUpload, Axios } from 'api/costomAxios';
 import { SignUpInfo, SignInInfo, diary } from 'types/apiType';
 
 export const signUpPost = async (userInfo: SignUpInfo) => {
@@ -30,7 +25,7 @@ export const postDiaryPosting = async (diaryData: any) => {
 
 export const postAnalysis = async (diary: diary) => {
   const apiUrl = `diaries/sentiment`;
-  const { data } = await customAxiosForAi.post(apiUrl, diary);
+  const { data } = await Axios.post(apiUrl, diary);
   return data.result;
 };
 export const getDiaryList = async (

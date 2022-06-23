@@ -1,11 +1,8 @@
-export interface BaseStat {
+export interface IStat {
+  readonly _id: string;
   readonly userId: string;
   monthly: string;
   keywords: Array<string>;
   emotions: object;
   // diaries: Array<object>;
-}
-
-export interface IStat extends BaseStat {
-  readonly _id: string;
 }

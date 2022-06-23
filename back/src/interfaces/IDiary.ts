@@ -1,4 +1,5 @@
-export interface BaseDiary {
+export interface IDiary {
+  readonly _id: string;
   readonly userId: string;
   diary: string;
   feeling: string;
@@ -6,8 +7,4 @@ export interface BaseDiary {
   diaryDate: string; // "2022-6-10"
   imageFileName?: string;
   imageFilePath?: string;
-}
-
-export interface IDiary extends BaseDiary {
-  readonly _id: string;
 }

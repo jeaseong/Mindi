@@ -1,5 +1,6 @@
 from flask import Flask, request
 from predict_sentence import predict_sentiment
+from extract_keyword import textrank_keyword
 from flask_cors import CORS
 
 app = Flask(__name__)
@@ -19,6 +20,19 @@ def sentiment_list():
     return_data = {
         'success': 'true',
         'result': sentiment_dict
+    }
+    return return_data
+
+@app.route('/diaries/keywords', methods=['POST'] )
+def keyword_list():
+    diary = request.get_json()["diary"]
+    print(diary)
+    keywords = textrank_keyword(diary)
+    keyword_list = [i for i, j in keywords]
+    print(keyword_list)
+    return_data = {
+        'success': 'true',
+        'result': keyword_list
     }
     return return_data
 

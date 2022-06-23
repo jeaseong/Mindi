@@ -2,23 +2,24 @@ import {
   customAxios,
   customAxiosFileUpload,
   customAxiosForAi,
+  Axios,
 } from 'api/costomAxios';
 import { SignUpInfo, SignInInfo, diary } from 'types/apiType';
 
 export const signUpPost = async (userInfo: SignUpInfo) => {
   const apiUrl = `api/auth/local/sign-up`;
-  await customAxios.post(apiUrl, userInfo);
+  await Axios.post(apiUrl, userInfo);
 };
 
 export const signInPost = async (userInfo: SignInInfo) => {
   const apiUrl = `api/auth/local/sign-in`;
-  const { data } = await customAxios.post(apiUrl, userInfo);
+  const { data } = await Axios.post(apiUrl, userInfo);
   return data.result;
 };
 
 export const getCurUser = async () => {
   const apiUrl = `api/users`;
-  const { data } = await customAxios.get(apiUrl);
+  const { data } = await Axios.get(apiUrl);
   return data.result;
 };
 
@@ -37,7 +38,7 @@ export const getDiaryList = async (
   month: string,
   day: string,
 ) => {
-  const apiUrl = `/diaries?year=${year}&month=${month}&day=${day}`;
-  const { data } = await customAxios.get(apiUrl);
+  const apiUrl = `api/diaries?year=${year}&month=${month}&day=${day}`;
+  const { data } = await Axios.get(apiUrl);
   return data.result;
 };

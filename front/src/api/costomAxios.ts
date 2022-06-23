@@ -27,3 +27,33 @@ export const customAxiosForAi: AxiosInstance = axios.create({
     Authorization: `Bearer ${accessToken}`,
   },
 });
+
+const Axios: AxiosInstance = axios.create({
+  baseURL: `${serverURL}`,
+  timeout: 5000,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
+
+Axios.interceptors.request.use(async (config) => {
+  const accessToken = sessionStorage.getItem('userToken');
+  if (config && accessToken) {
+    config.headers = {
+      Authorization: `Bearer ${accessToken}`,
+    };
+  }
+  return config;
+});
+
+Axios.interceptors.response.use(
+  function (response) {
+    return response;
+  },
+  function (error) {
+    console.log('에러 발생!', error);
+    return Promise.reject(error.response.data);
+  },
+);
+
+export { Axios };

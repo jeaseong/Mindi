@@ -12,7 +12,7 @@ def split_diary(diary):
         sent_list += [sent.strip() for sent in sents.split('.') if sent]
     return sent_list
 
-def scan_vocabulary(sent_list, tokenize, min_count=2):
+def scan_vocabulary(sent_list, tokenize, min_count):
     counter = Counter(w for sent in sent_list for w in tokenize(sent))
     counter = {w:c for w,c in counter.items() if c >= min_count}
     idx_to_vocab = [w for w, _ in sorted(counter.items(), key=lambda x:-x[1])]
@@ -27,7 +27,7 @@ def dict_to_mat(d, n_rows, n_cols):
         data.append(v)
     return csr_matrix((data, (rows, cols)), shape=(n_rows, n_cols))
 
-def cooccurrence(tokens, vocab_to_idx, window=2, min_cooccurrence=2):
+def cooccurrence(tokens, vocab_to_idx, window, min_cooccurrence):
     counter = defaultdict(int)
     for s, tokens_i in enumerate(tokens):
         vocabs = [vocab_to_idx[w] for w in tokens_i if w in vocab_to_idx]
@@ -47,7 +47,7 @@ def cooccurrence(tokens, vocab_to_idx, window=2, min_cooccurrence=2):
     n_vocabs = len(vocab_to_idx)
     return dict_to_mat(counter, n_vocabs, n_vocabs)
 
-def word_graph(sent_list, tokenize=None, min_count=2, window=2, min_cooccurrence=2):
+def word_graph(sent_list, tokenize, min_count, window, min_cooccurrence):
     idx_to_vocab, vocab_to_idx = scan_vocabulary(sent_list, tokenize, min_count)
     tokens = [tokenize(sent) for sent in sent_list]
     g = cooccurrence(tokens, vocab_to_idx, window, min_cooccurrence)

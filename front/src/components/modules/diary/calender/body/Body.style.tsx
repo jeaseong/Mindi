@@ -16,6 +16,7 @@ export const Days = styled.div`
 interface DayProps {
   isNull: boolean;
   isToday: boolean;
+  sentiment: string;
 }
 
 export const Day = styled.div<DayProps>`
@@ -23,7 +24,6 @@ export const Day = styled.div<DayProps>`
   flex-direction: column;
   width: calc(100% / 7);
   text-align: center;
-  background-color: #8ccd96;
   opacity: 0.6;
   border-radius: 65% 50%;
   padding: ${(props) => {
@@ -31,23 +31,34 @@ export const Day = styled.div<DayProps>`
   }};
   ${(props) => {
     return props.isToday ? `border: 2px solid #508A9C` : null;
-  }}
+  }};
+
+  background-color: ${(props) => {
+    switch (props.sentiment) {
+      case 'fear':
+        return '#8ccd96';
+      case 'aversion':
+        return '#8ccd96';
+      case 'surprised':
+        return '#8ccd96';
+      case 'anger':
+        return '#8ccd96';
+      case 'sadness':
+        return '#8ccd96';
+      case 'happiness':
+        return '#8ccd96';
+      default:
+        return null;
+    }
+  }};
 `;
 
-interface SpanProps {
-  isToday: boolean;
-}
-export const Span = styled.span<SpanProps>`
+export const Span = styled.span`
   display: inline-block;
   width: 100%;
   height: 100%;
   cursor: pointer;
   border-radius: 50%;
-  color: ${(props) => {
-    return props.isToday
-      ? props.theme.colors.basicWhite
-      : props.theme.colors.basicBlack;
-  }};
 `;
 
 export const Today = styled.p`

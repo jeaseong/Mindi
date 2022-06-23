@@ -1,7 +1,10 @@
+import { IUser } from "../../interfaces/IUser";
+
 export {}
 
 declare module "express-session" {
   interface SessionData {
-    user: string;
+    authorized: boolean;
+    user: Partial<IUser>;
   }
 }

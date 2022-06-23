@@ -2,6 +2,7 @@ import {
   customAxios,
   customAxiosFileUpload,
   customAxiosForAi,
+  customAxiosForBamboo,
 } from 'api/costomAxios';
 import { SignUpInfo, SignInInfo, diary } from 'types/apiType';
 
@@ -20,6 +21,11 @@ export const getCurUser = async () => {
   const apiUrl = `api/users`;
   const { data } = await customAxios.get(apiUrl);
   return data.result;
+};
+
+export const postBambooPosting = async (bambooData: any) => {
+  const apiUrl = `api/posts`;
+  await customAxiosForBamboo.post(apiUrl, bambooData);
 };
 
 export const postDiaryPosting = async (diaryData: any) => {

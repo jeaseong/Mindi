@@ -11,6 +11,14 @@ export const customAxios: AxiosInstance = axios.create({
     Authorization: `Bearer ${accessToken}`,
   },
 });
+export const customAxiosForBamboo: AxiosInstance = axios.create({
+  baseURL: `${serverURL}`, // 기본 서버 주소 입력
+  headers: {
+    'Content-Type': 'text/plain',
+    Authorization: `Bearer ${accessToken}`,
+  },
+});
+
 export const customAxiosFileUpload: AxiosInstance = axios.create({
   baseURL: `${serverURL}`, // 기본 서버 주소 입력
   headers: {

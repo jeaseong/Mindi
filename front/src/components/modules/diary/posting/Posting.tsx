@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSnackbarContext } from 'contexts/SnackbarContext';
-import { getCurDate } from 'utils/date';
+import { getCurDate } from 'utils/utils';
 import { postDiaryPosting, postAnalysis } from 'api/api';
 import FileUpload from 'components/modules/fileUpload/FileUpload';
 import MainTitle from 'components/atoms/text/MainTitle';

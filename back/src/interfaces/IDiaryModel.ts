@@ -10,4 +10,5 @@ export interface IDiaryModel {
   deleteOne: (id: string) => Promise<void>;
   findById: (id: string) => Promise<IDiary>;
   findByDate: (userId: string, date: string) => Promise<IDiary[]>;
+  exists: (filter: filterObj) => Promise<Boolean>;
 }

@@ -9,6 +9,11 @@ export default class DiaryService {
   constructor(private diaryModel: MongoDiaryModel, @Inject("logger") private logger: any) {}
 
   public async create(newDiary: BaseDiary) {
+    const doc = await this.diaryModel.exists({ diaryDate: newDiary.diaryDate });
+    if (doc) {
+      throw new StatusError(400, "해당 날짜의 일기가 이미 존재합니다.");
+    }
+
     try {
       const createdNewDoc = await this.diaryModel.create(newDiary);
       return createdNewDoc;

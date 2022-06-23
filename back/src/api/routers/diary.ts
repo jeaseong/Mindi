@@ -10,10 +10,17 @@ import { loginRequired } from "../middlewares/loginRequired";
 import { matchedData, validationResult } from "express-validator";
 import { IResponse } from "../../interfaces/IResponse";
 import { StatusError } from "../../utils/error";
+import axios from "axios";
+import config from "../../config";
 
 export default (app: Router) => {
   const diaryRouter = Router();
   const diaryService = Container.get(DiaryService);
+  const postAnalysis = async (diary: object) => {
+    const apiUrl = `${config.aiURL}/diaries/sentiment`;
+    const { data } = await axios.post(apiUrl, diary);
+    return data.result;
+  };
 
   app.use("/diaries", diaryRouter);
 
@@ -33,12 +40,14 @@ export default (app: Router) => {
           throw new StatusError(400, errors.array()[0].msg);
         }
 
-        const { diary, feeling, sentiment, diaryDate } = matchedData(req);
+        const { diary, feeling, diaryDate } = matchedData(req);
+        const aiResult = await postAnalysis({ feeling });
+
         let newDiary: BaseDiary = {
           userId,
           diary,
           feeling,
-          sentiment: JSON.parse(sentiment),
+          sentiment: aiResult,
           diaryDate,
         };
 
@@ -80,13 +89,14 @@ export default (app: Router) => {
           throw new StatusError(400, errors.array()[0].msg);
         }
 
-        const { _id, diary, feeling, sentiment, diaryDate, imageFileName } = req.body;
+        const { _id, diary, feeling, diaryDate, imageFileName } = req.body;
         const id: string = _id;
+        const aiResult = await postAnalysis({ diary });
         let toUpdate: BaseDiary = {
           userId,
           diary,
           feeling,
-          sentiment: JSON.parse(sentiment),
+          sentiment: aiResult,
           imageFileName,
           diaryDate,
         };
@@ -132,9 +142,9 @@ export default (app: Router) => {
 
   diaryRouter.get(
     "/",
+    loginRequired,
     diaryValidator.getYear,
     validationErrorChecker,
-    loginRequired,
     async (req: Request, res: Response, next: NextFunction) => {
       try {
         const userId = req.user!._id;

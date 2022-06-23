@@ -66,4 +66,8 @@ export class MongoDiaryModel implements IDiaryModel {
       .sort({ createdAt: -1 })
       .lean();
   }
+
+  async exists(filter: filterObj): Promise<Boolean> {
+    return DiaryModel.exists(filter).lean();
+  }
 }

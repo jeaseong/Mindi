@@ -32,8 +32,13 @@ export const postAnalysis = async (diary: diary) => {
   const { data } = await customAxiosForAi.post(apiUrl, diary);
   return data.result;
 };
+
 export const getDiaryList = async (date: any) => {
-  const apiUrl = `api/diaries?date=${date}`;
-  const { data } = await customAxios.get(apiUrl);
-  return data.result;
+  try {
+    const apiUrl = `api/diaries?date=${date}`;
+    const { data } = await customAxios.get(apiUrl);
+    return data.result;
+  } catch (error) {
+    console.log(error);
+  }
 };

@@ -16,9 +16,9 @@ https://drive.google.com/drive/folders/1-b1pYj19NRtyGq5tVccJKQo_WVl0yYln?usp=sha
 ### Linux, Mac 
 `sudo apt install default-jdk`
 ### Windows 
-  1. JAVA 설치
-    https://www.oracle.com/java/technologies/downloads/#jdk18-windows
-  2. JAVA 환경변수 설정
-    https://velog.io/@jaydev/JAVA%EC%9E%90%EB%B0%94-%ED%99%98%EA%B2%BD%EB%B3%80%EC%88%98-%EC%84%A4%EC%A0%95
-  3. 그래도 안될때는 jvm.py 수정
-    https://clsrn4561.tistory.com/1 두번째 방법
+  1. JAVA 설치  
+    https://www.oracle.com/java/technologies/downloads/#jdk18-windows  
+  2. JAVA 환경변수 설정  
+    https://velog.io/@jaydev/JAVA%EC%9E%90%EB%B0%94-%ED%99%98%EA%B2%BD%EB%B3%80%EC%88%98-%EC%84%A4%EC%A0%95  
+  3. 그래도 안될때는 jvm.py 수정  
+    https://clsrn4561.tistory.com/1 두번째 방법  

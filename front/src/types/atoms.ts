@@ -91,3 +91,10 @@ export interface CalenderProps {
   month: number;
   onChangeMonth: (m: number) => void;
 }
+
+export interface ModalProps {
+  modalStatus: boolean;
+  date: string;
+  text: string;
+  onClick?: (e: React.MouseEvent<HTMLSpanElement>) => void;
+}

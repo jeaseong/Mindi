@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import 'chart.js/auto';
 import { Doughnut } from 'react-chartjs-2';
 import YouTube from 'react-youtube';
@@ -18,19 +18,14 @@ import {
 
 function Result() {
   const navigate = useNavigate();
+  const [diaryData, setDiaryData] = useState();
 
-  // 목데이터(삭제 예정)
-  const mockData = {
-    success: 'true',
-    sentiment: {
-      fear: 0,
-      surprised: 1,
-      anger: 0,
-      sadness: 0,
-      happiness: 1,
-      aversion: 0,
-    },
-  };
+  useEffect(() => {
+    getDiaryList(dateString).then((data) => {
+      setDiaryData(data[0].sentiment);
+      console.log(diaryData);
+    });
+  }, []);
 
   // 유튜브 비디오 옵션
   const videoOptions = {
@@ -44,6 +39,7 @@ function Result() {
     },
   };
 
+  // api용 오늘자 date값 yyyy-mm-dd 변환 (삭제 예정)
   const date = new Date();
   const year = date.getFullYear();
   const month = ('0' + (1 + date.getMonth())).slice(-2);
@@ -51,31 +47,45 @@ function Result() {
 
   const dateString = year + '-' + month + '-' + day;
 
-  const Data = getDiaryList(dateString);
+  // 점수가 가장 높은 감정 1개 반환
+  const selectMaxSentiment = (diaryData: any) => {
+    if (diaryData) {
+      const keysSorted = Object.keys(diaryData).sort(
+        (a, b) => diaryData[a] - diaryData[b],
+      );
+      const max = keysSorted.pop()?.toUpperCase();
+      return max;
+    }
+  };
 
-  console.log(Data);
-  const dataProto = Object.keys(Data);
+  const diaryDataMax = selectMaxSentiment(diaryData);
 
-  // 가장 많이 나온 감정 고르기
-  const { sentiment }: any = mockData;
+  // 차트 감정 이름, 감정 값 구하기
 
-  const sent = Object.keys(sentiment);
-  const sentValues = Object.values(sentiment);
-  const keysSorted = Object.keys(sentiment).sort(
-    (a, b) => sentiment[a] - sentiment[b],
-  );
+  const selectSentimentNames = (diaryData: any) => {
+    if (diaryData) {
+      const sentimentNames = Object.keys(diaryData);
+      return sentimentNames;
+    }
+  };
+  const selectSentimentValues = (diaryData: any) => {
+    if (diaryData) {
+      const sentimentValues: Array<number> = Object.values(diaryData);
 
-  const max = keysSorted.pop()?.toUpperCase();
+      return sentimentValues;
+    }
+  };
 
-  console.log(max);
-  if (max) console.log(SENTIMENTS[max].url);
-  // console.log(keysSorted);
+  const sentimentNames = selectSentimentNames(diaryData);
+
+  const sentimentValues = selectSentimentValues(diaryData);
+  console.log(diaryDataMax, sentimentNames, sentimentValues);
 
   const data = {
     datasets: [
       {
         label: "Today's Emotion Dataset",
-        data: sentValues,
+        data: sentimentValues,
         backgroundColor: [
           '#ff555e',
           '#ff8650',
@@ -87,18 +97,18 @@ function Result() {
         hoverOffset: 4,
       },
     ],
-    labels: sent,
+    labels: sentimentNames,
   };
 
   return (
     <ContentWrapper>
       <Title>오늘의 감정 분석 결과:</Title>
 
-      <Emotion>{max}</Emotion>
+      <Emotion>{diaryDataMax}</Emotion>
       <Image
         width='47%'
-        src={SENTIMENTS[max as string].url}
-        alt={SENTIMENTS[max as string].alt}
+        src={SENTIMENTS[diaryDataMax as string].url}
+        alt={SENTIMENTS[diaryDataMax as string].alt}
       />
       <SubTitle>오늘의 감정 그래프</SubTitle>
       <ChartWrapper>

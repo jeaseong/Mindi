@@ -11,6 +11,7 @@ import EITest from 'pages/EITest/EITest';
 import EITestResult from 'components/modules/EITest/EITestResult';
 import Main1 from 'components/modules/main/Main1';
 import Main2 from 'components/modules/main/Main2';
+import Bamboo from 'pages/Bamboo/Bamboo';
 import { AnimatePresence } from 'framer-motion';
 import { RouterPros } from 'types/router';
 
@@ -36,6 +37,10 @@ function RoutePage({ isLogin }: RouterPros) {
             element={
               <PrivateRoute user={isLogin} component={<ResultTemplate />} />
             }
+          />
+          <Route
+            path='/bamboo'
+            element={<PrivateRoute user={isLogin} component={<Bamboo />} />}
           />
           <Route path='/ei-test' element={<EITest />} />
           <Route path='/ei-test/result' element={<EITestResult />} />

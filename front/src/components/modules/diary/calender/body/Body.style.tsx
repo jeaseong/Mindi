@@ -15,10 +15,12 @@ export const Days = styled.div`
 
 interface DayProps {
   isNull: boolean;
+  isToday: boolean;
 }
 
 export const Day = styled.div<DayProps>`
   display: flex;
+  flex-direction: column;
   width: calc(100% / 7);
   text-align: center;
   background-color: #8ccd96;
@@ -27,12 +29,27 @@ export const Day = styled.div<DayProps>`
   padding: ${(props) => {
     return props.isNull ? '0px' : '10px';
   }};
+  ${(props) => {
+    return props.isToday ? `border: 2px solid #508A9C` : null;
+  }}
 `;
 
-export const Span = styled.span`
+interface SpanProps {
+  isToday: boolean;
+}
+export const Span = styled.span<SpanProps>`
   display: inline-block;
   width: 100%;
   height: 100%;
   cursor: pointer;
   border-radius: 50%;
+  color: ${(props) => {
+    return props.isToday
+      ? props.theme.colors.basicWhite
+      : props.theme.colors.basicBlack;
+  }};
+`;
+
+export const Today = styled.p`
+  font-size: 0.5rem;
 `;

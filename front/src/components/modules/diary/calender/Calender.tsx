@@ -4,11 +4,12 @@ import Body from './body/Body';
 import { nullCheck } from 'utils/nullCheck';
 import { CalenderBodyProps, CalenderHeadProps } from 'types/atoms';
 import { Container } from './Calender.style';
+
 function Calender() {
   const DATE: Date = new Date();
   const YEAR: number = DATE.getFullYear();
   const MONTH: number = DATE.getMonth();
-  const TODAY = DATE.getDate();
+  const TODAY = `${YEAR}-${MONTH + 1}-${DATE.getDate()}`;
   const [month, setMonth] = useState(MONTH);
   const [year, setYear] = useState(YEAR);
   const [totalDate, setTotalDate] = useState<string[][] | undefined>();

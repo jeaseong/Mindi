@@ -1,8 +1,6 @@
 import React from 'react';
-
 import { CalenderBodyProps } from 'types/atoms';
 import { Container, Days, Day, Span } from './Body.style';
-
 function Body({ totalDate, year, month, TODAY }: CalenderBodyProps) {
   return (
     <Container>
@@ -12,9 +10,14 @@ function Body({ totalDate, year, month, TODAY }: CalenderBodyProps) {
           <Days key={dataKey}>
             {days?.map((day, i) => {
               const dataKey = `${year}-${month}-${i}`;
+              const curKey = `${year}-${month}-${day}`;
               return (
-                <Day isNull={day.length === 0 ? true : false} key={dataKey}>
-                  <Span>{day}</Span>
+                <Day
+                  isToday={curKey === TODAY ? true : false}
+                  isNull={day.length === 0 ? true : false}
+                  key={dataKey}
+                >
+                  <Span isToday={curKey === TODAY ? true : false}>{day}</Span>
                 </Day>
               );
             })}

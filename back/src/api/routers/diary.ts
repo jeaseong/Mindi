@@ -1,26 +1,15 @@
 import { Router, Request, Response, NextFunction } from "express";
-import DiaryService from "../../services/diary";
-import { BaseDiary, IDiary } from "../../interfaces/IDiary";
-import validationErrorChecker from "../middlewares/validationErrorChecker";
+import { IDiary, IResponse } from "../../interfaces";
 import { diaryValidator } from "../middlewares/express-validator";
-import { Container } from "typedi";
-import imageUpload from "../middlewares/imageHandler";
-import imageDelete from "../../utils/imageDelete";
-import { loginRequired } from "../middlewares/loginRequired";
+import { validationErrorChecker, imageUpload, loginRequired } from "../middlewares";
 import { matchedData, validationResult } from "express-validator";
-import { IResponse } from "../../interfaces/IResponse";
-import { StatusError } from "../../utils/error";
-import axios from "axios";
-import config from "../../config";
+import { StatusError, postSentimentAnalysis, imageDelete } from "../../utils";
+import { Container } from "typedi";
+import { DiaryService } from "../../services";
 
 export default (app: Router) => {
   const diaryRouter = Router();
   const diaryService = Container.get(DiaryService);
-  const postAnalysis = async (feeling: object) => {
-    const apiUrl = `${config.aiURL}/diaries/sentiment`;
-    const { data } = await axios.post(apiUrl, feeling);
-    return data.result;
-  };
 
   app.use("/diaries", diaryRouter);
 
@@ -41,9 +30,9 @@ export default (app: Router) => {
         }
 
         const { diary, feeling, diaryDate } = matchedData(req);
-        const aiResult = await postAnalysis({ feeling });
+        const aiResult = await postSentimentAnalysis({ feeling });
 
-        let newDiary: BaseDiary = {
+        let newDiary: Partial<IDiary> = {
           userId,
           diary,
           feeling,
@@ -80,7 +69,6 @@ export default (app: Router) => {
     diaryValidator.diaryBody,
     async (req: Request, res: Response, next: NextFunction) => {
       try {
-        const userId = req.user!._id;
         const imgInfo = Object(req.file);
 
         const errors = validationResult(req);
@@ -91,9 +79,8 @@ export default (app: Router) => {
 
         const { _id, diary, feeling, diaryDate, imageFileName } = req.body;
         const id: string = _id;
-        const aiResult = await postAnalysis({ diary });
-        let toUpdate: BaseDiary = {
-          userId,
+        const aiResult = await postSentimentAnalysis({ diary });
+        let toUpdate: Partial<IDiary> = {
           diary,
           feeling,
           sentiment: aiResult,

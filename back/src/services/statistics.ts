@@ -1,9 +1,8 @@
-import { StatusError } from "../utils/error";
+import { StatusError } from "../utils";
 import { Service, Inject } from "typedi";
+import { MongoDiaryModel, MongoStatModel } from "../models";
+import { IStat } from "../interfaces";
 import winston from "winston";
-import { MongoStatModel } from "../models/statistics";
-import { BaseStat } from "../interfaces/IStatistics";
-import { MongoDiaryModel } from "../models/diary";
 
 @Service()
 export default class StatService {
@@ -22,7 +21,7 @@ export default class StatService {
     }
   }
 
-  public async create(newResult: BaseStat) {
+  public async create(newResult: Partial<IStat>) {
     const doc = await this.statModel.exists({ monthly: newResult.monthly });
     if (doc) {
       throw new StatusError(400, "분석 결과가 이미 존재합니다.");
@@ -36,7 +35,7 @@ export default class StatService {
     }
   }
 
-  public async updateOne(id: string, toUpdate: BaseStat) {
+  public async updateOne(id: string, toUpdate: Partial<IStat>) {
     try {
       const filter = { _id: id };
       const updatedDoc = await this.statModel.updateOne(filter, toUpdate);

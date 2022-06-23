@@ -1,9 +1,8 @@
-import { BaseDiary } from "../interfaces/IDiary";
-import { StatusError } from "../utils/error";
+import { IDiary } from "../interfaces";
+import { StatusError, imageDelete } from "../utils";
 import { Service, Inject } from "typedi";
-import { MongoDiaryModel } from "../models/diary";
+import { MongoDiaryModel } from "../models";
 import winston from "winston";
-import imageDelete from "../utils/imageDelete";
 
 @Service()
 export default class DiaryService {
@@ -12,7 +11,7 @@ export default class DiaryService {
     @Inject("logger") private logger: winston.Logger,
   ) {}
 
-  public async create(newDiary: BaseDiary) {
+  public async create(newDiary: Partial<IDiary>) {
     const doc = await this.diaryModel.exists({ diaryDate: newDiary.diaryDate });
     if (doc) {
       throw new StatusError(400, "해당 날짜의 일기가 이미 존재합니다.");
@@ -29,7 +28,7 @@ export default class DiaryService {
     }
   }
 
-  public async updateOne(id: string, toUpdate: BaseDiary, imageFileName?: string) {
+  public async updateOne(id: string, toUpdate: Partial<IDiary>, imageFileName?: string) {
     try {
       const filter = { _id: id };
       const updatedDoc = await this.diaryModel.updateOne(filter, toUpdate);

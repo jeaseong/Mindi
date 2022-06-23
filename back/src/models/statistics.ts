@@ -1,7 +1,6 @@
 import { Schema, model } from "mongoose";
 import { Service } from "typedi";
-import { BaseStat, IStat } from "../interfaces/IStatistics";
-import { IStatModel, filterObj } from "../interfaces/IStatisticsModel";
+import { IStat, IStatModel } from "../interfaces";
 
 const StatisticsSchema = new Schema(
   {
@@ -33,12 +32,12 @@ const StatisticsModel = model<IStat>("Statistics", StatisticsSchema);
 
 @Service()
 export class MongoStatModel implements IStatModel {
-  async create(newDiary: BaseStat): Promise<IStat> {
+  async create(newDiary: Partial<IStat>): Promise<IStat> {
     const newDoc = await StatisticsModel.create(newDiary);
     return newDoc.toObject();
   }
 
-  async updateOne(filter: filterObj, toUpdate: BaseStat): Promise<IStat> {
+  async updateOne(filter: Partial<IStat>, toUpdate: Partial<IStat>): Promise<IStat> {
     const option = { returnOriginal: false };
     return StatisticsModel.findOneAndUpdate(filter, toUpdate, option).lean();
   }
@@ -53,7 +52,7 @@ export class MongoStatModel implements IStatModel {
     }).lean();
   }
 
-  async exists(filter: filterObj): Promise<Boolean> {
+  async exists(filter: Partial<IStat>): Promise<Boolean> {
     return StatisticsModel.exists(filter).lean();
   }
 }

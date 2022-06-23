@@ -1,7 +1,6 @@
 import { Schema, model } from "mongoose";
 import { Service } from "typedi";
-import { BaseDiary, IDiary } from "../interfaces/IDiary";
-import { IDiaryModel, filterObj } from "../interfaces/IDiaryModel";
+import { IDiary, IDiaryModel } from "../interfaces";
 
 const DiarySchema = new Schema(
   {
@@ -41,12 +40,12 @@ const DiaryModel = model<IDiary>("Diary", DiarySchema);
 
 @Service()
 export class MongoDiaryModel implements IDiaryModel {
-  async create(newDiary: BaseDiary): Promise<IDiary> {
+  async create(newDiary: Partial<IDiary>): Promise<IDiary> {
     const newDoc = await DiaryModel.create(newDiary);
     return newDoc.toObject();
   }
 
-  async updateOne(filter: filterObj, toUpdate: BaseDiary): Promise<IDiary> {
+  async updateOne(filter: Partial<IDiary>, toUpdate: Partial<IDiary>): Promise<IDiary> {
     const option = { returnOriginal: false };
     return DiaryModel.findOneAndUpdate(filter, toUpdate, option).lean();
   }
@@ -67,7 +66,7 @@ export class MongoDiaryModel implements IDiaryModel {
       .lean();
   }
 
-  async exists(filter: filterObj): Promise<Boolean> {
+  async exists(filter: Partial<IDiary>): Promise<Boolean> {
     return DiaryModel.exists(filter).lean();
   }
 }

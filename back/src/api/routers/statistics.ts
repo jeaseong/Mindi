@@ -1,23 +1,14 @@
 import { Router, Request, Response, NextFunction } from "express";
-import StatService from "../../services/statistics";
-import validationErrorChecker from "../middlewares/validationErrorChecker";
 import { Container } from "typedi";
-import { loginRequired } from "../middlewares/loginRequired";
-import { IResponse } from "../../interfaces/IResponse";
-import { BaseStat, IStat } from "../../interfaces/IStatistics";
+import { loginRequired, validationErrorChecker } from "../middlewares";
+import { IDiary, IStat, IResponse } from "../../interfaces";
 import { statValidator } from "../middlewares/express-validator";
-import { IDiary } from "../../interfaces/IDiary";
-import axios from "axios";
-import config from "../../config";
+import { postKeywordAnalysis } from "../../utils";
+import { StatService } from "../../services";
 
 export default (app: Router) => {
   const statRouter = Router();
   const statService = Container.get(StatService);
-  const postKeywordAnalysis = async (diary: object) => {
-    const apiUrl = `${config.aiURL}/diaries/keywords`;
-    const { data } = await axios.post(apiUrl, diary);
-    return data.result;
-  };
 
   app.use("/statistics", statRouter);
 
@@ -51,7 +42,7 @@ export default (app: Router) => {
         // TODO: 임시, 서버랑 연결 후 삭제
         const myEmotion = sentimentList;
 
-        const newResult: BaseStat = {
+        const newResult: Partial<IStat> = {
           userId,
           monthly: date,
           keywords: myKeyword,
@@ -87,20 +78,19 @@ export default (app: Router) => {
 
         let diaryList: Array<string> = [];
         diaries.forEach((doc) => {
-          diaryList.concat(doc.diary);
+          diaryList.push(doc.diary);
         });
 
         let sentimentList: Array<object> = [];
         diaries.forEach((doc) => {
-          sentimentList.concat(doc.sentiment);
+          sentimentList.push(doc.sentiment);
         });
 
-        // const myKeyword = await postKeywordAnalysis(diaryList);
+        const myKeyword = await postKeywordAnalysis(diaryList);
         // const myEmotion = await postEmotionAnalysis(sentimentList);
-        const myKeyword = diaryList;
         const myEmotion = sentimentList;
-        const toUpdate: BaseStat = {
-          userId,
+
+        const toUpdate: Partial<IStat> = {
           monthly: date,
           keywords: myKeyword,
           emotions: myEmotion,

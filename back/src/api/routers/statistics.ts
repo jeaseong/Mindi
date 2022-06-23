@@ -7,30 +7,57 @@ import { matchedData } from "express-validator";
 import { IResponse } from "../../interfaces/IResponse";
 import { BaseStat, IStat } from "../../interfaces/IStatistics";
 import { statValidator } from "../middlewares/express-validator";
+import { IDiary } from "../../interfaces/IDiary";
+import config from "../../config";
 
 export default (app: Router) => {
   const statRouter = Router();
   const statService = Container.get(StatService);
+  // const postKeywordAnalysis = async (diary: object) => {
+  //   const apiUrl = `${config.aiURL}/diaries/sentiment`;
+  //   const { data } = await axios.post(apiUrl, diary);
+  //   return data.result;
+  // };
 
   app.use("/statistics", statRouter);
 
   statRouter.post(
     "/",
     loginRequired,
-    statValidator.resultBody,
+    statValidator.dayDiff, // 요청이 오늘 날짜를 기준으로 지난 달인지 검사
     validationErrorChecker,
     async (req: Request, res: Response, next: NextFunction) => {
       try {
         const userId = req.user!._id;
-        const { monthly, keywords, emotions, diaries } = matchedData(req);
+
+        const { year, month } = req.query;
+        const date: string = `${year}-${month}`;
+
+        const diaries: IDiary[] = await statService.findDiaryList(userId, date);
+
+        let diaryList: Array<string> = [];
+        diaries.forEach((doc) => {
+          diaryList.push(doc.diary);
+        });
+
+        let sentimentList: Array<object> = [];
+        diaries.forEach((doc) => {
+          sentimentList.push(doc.sentiment);
+        });
+
+        // const myKeyword = await postKeywordAnalysis(diaryList);
+        // const myEmotion = await postEmotionAnalysis(sentimentList);
+
+        // TODO: 임시, 서버랑 연결 후 삭제
+        const myKeyword = diaryList;
+        const myEmotion = sentimentList;
+
         const newResult: BaseStat = {
           userId,
-          monthly,
-          keywords,
-          emotions,
-          diaries,
+          monthly: date,
+          keywords: myKeyword,
+          emotions: myEmotion,
         };
-
         const createdResult: IStat = await statService.create(newResult);
 
         const response: IResponse<IStat> = {
@@ -48,20 +75,36 @@ export default (app: Router) => {
   statRouter.put(
     "/",
     loginRequired,
-    statValidator.resultBody,
+    statValidator.dayDiff,
     validationErrorChecker,
     async (req: Request, res: Response, next: NextFunction) => {
       try {
         const userId = req.user!._id;
-        const { _id, monthly, keywords, emotions, diaries } = req.body;
+        const id: string = req.body._id;
+        const { year, month } = req.query;
+        const date: string = `${year}-${month}`;
 
-        const id: string = _id;
+        const diaries: IDiary[] = await statService.findDiaryList(userId, date);
+
+        let diaryList: Array<string> = [];
+        diaries.forEach((doc) => {
+          diaryList.concat(doc.diary);
+        });
+
+        let sentimentList: Array<object> = [];
+        diaries.forEach((doc) => {
+          sentimentList.concat(doc.sentiment);
+        });
+
+        // const myKeyword = await postKeywordAnalysis(diaryList);
+        // const myEmotion = await postEmotionAnalysis(sentimentList);
+        const myKeyword = diaryList;
+        const myEmotion = sentimentList;
         const toUpdate: BaseStat = {
           userId,
-          monthly,
-          keywords,
-          emotions,
-          diaries,
+          monthly: date,
+          keywords: myKeyword,
+          emotions: myEmotion,
         };
 
         const updatedDiary = await statService.updateOne(id, toUpdate);

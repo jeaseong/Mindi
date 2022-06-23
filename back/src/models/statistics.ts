@@ -52,4 +52,8 @@ export class MongoStatModel implements IStatModel {
       $and: [{ userId }, { monthly }],
     }).lean();
   }
+
+  async exists(filter: filterObj): Promise<Boolean> {
+    return StatisticsModel.exists(filter).lean();
+  }
 }

@@ -9,4 +9,5 @@ export interface IStatModel {
   updateOne: (filter: filterObj, toUpdate: BaseStat) => Promise<IStat>;
   deleteOne: (id: string) => Promise<void>;
   findByDate: (userId: string, date: string) => Promise<IStat>;
+  exists: (filter: filterObj) => Promise<Boolean>;
 }

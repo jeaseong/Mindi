@@ -163,45 +163,20 @@ export default (app: Router) => {
     },
   );
 
-  // diaryRouter.get("/diaries/:id", async (req: Request, res: Response, next: NextFunction) => {
-  //   try {
-  //     const id = req.params.id;
+  diaryRouter.get("/diaries/:id", async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const id = req.params.id;
 
-  //     const diary: IDiary = await diaryService.findById(id);
+      const diary: IDiary = await diaryService.findById(id);
 
-  //     const response: IResponse<IDiary> = {
-  //       success: true,
-  //       result: diary,
-  //     };
+      const response: IResponse<IDiary> = {
+        success: true,
+        result: diary,
+      };
 
-  //     res.status(200).json(response);
-  //   } catch (error) {
-  //     next(error);
-  //   }
-  // });
-
-  diaryRouter.get(
-    "/statistics",
-    loginRequired,
-    diaryValidator.dayDiff, // 요청이 오늘 날짜를 기준으로 지난 달인지 검사
-    validationErrorChecker,
-    async (req: Request, res: Response, next: NextFunction) => {
-      try {
-        const userId = req.user!._id;
-        const { year, month } = req.query;
-        const date: string = `${year}-${month}`;
-
-        const diaries: IDiary[] = await diaryService.findByDate(userId, date);
-
-        const response: IResponse<IDiary[]> = {
-          success: true,
-          result: diaries,
-        };
-
-        res.status(200).json(response);
-      } catch (error) {
-        next(error);
-      }
-    },
-  );
+      res.status(200).json(response);
+    } catch (error) {
+      next(error);
+    }
+  });
 };

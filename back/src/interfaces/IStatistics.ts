@@ -3,7 +3,7 @@ export interface BaseStat {
   monthly: string;
   keywords: object;
   emotions: object;
-  diaries: Array<object>;
+  // diaries: Array<object>;
 }
 
 export interface IStat extends BaseStat {

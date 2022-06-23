@@ -1,24 +1,19 @@
 import { body, check } from "express-validator";
+import dayjs from "dayjs";
+import "dayjs/locale/ko";
 
 export default {
-  resultBody: [
-    body("monthly").isISO8601().withMessage("존재하지 않는 날짜입니다.").bail().isString().bail(),
-    body("keywords")
+  dayDiff: [
+    check("year").notEmpty().withMessage("연도 정보는 필수입니다.").bail(),
+    check("month")
       .notEmpty()
-      .withMessage("키워드 통계가 포함되어 있지 않습니다.")
-      .bail()
-      .isObject()
-      .bail(),
-    body("emotions")
-      .notEmpty()
-      .withMessage("감정 통계가 포함되어 있지 않습니다.")
-      .bail()
-      .isObject()
-      .bail(),
-    check("diaries")
-      .notEmpty()
-      .withMessage("다이어리 리스트가 포함되어 있지 않습니다.")
-      .bail()
-      .isArray(),
+      .custom((value, { req }) => {
+        const Q = Object(req.query);
+        const queryDate = dayjs(`${Q.year}-${Q.month}`).locale("ko");
+        const today = dayjs().locale("ko");
+        const checkDate = today.diff(queryDate, "month");
+        return checkDate > 0;
+      })
+      .withMessage("한 달이 지난 결과만 확인할 수 있습니다."),
   ],
 };

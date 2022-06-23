@@ -3,15 +3,31 @@ import { Service, Inject } from "typedi";
 import winston from "winston";
 import { MongoStatModel } from "../models/statistics";
 import { BaseStat } from "../interfaces/IStatistics";
+import { MongoDiaryModel } from "../models/diary";
 
 @Service()
 export default class StatService {
   constructor(
     private statModel: MongoStatModel,
+    private diaryModel: MongoDiaryModel,
     @Inject("logger") private logger: winston.Logger,
   ) {}
 
+  public async findDiaryList(userId: string, date: string) {
+    try {
+      const docList = await this.diaryModel.findByDate(userId, date);
+      return docList;
+    } catch (error) {
+      throw new StatusError(400, "리스트가 존재하지 않습니다.");
+    }
+  }
+
   public async create(newResult: BaseStat) {
+    const doc = await this.statModel.exists({ monthly: newResult.monthly });
+    if (doc) {
+      throw new StatusError(400, "분석 결과가 이미 존재합니다.");
+    }
+
     try {
       const createdNewDoc = await this.statModel.create(newResult);
       return createdNewDoc;

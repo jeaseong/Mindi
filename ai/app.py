@@ -13,9 +13,8 @@ def main():
 
 @app.route('/diaries/sentiment', methods=['POST'] )
 def sentiment_list():
-    diary = request.get_json()["diary"]
-    print(diary)
-    sentiment_dict = predict_sentiment(diary)
+    feeling = request.get_json()["feeling"]
+    sentiment_dict = predict_sentiment(feeling)
     print(sentiment_dict)
     return_data = {
         'success': 'true',
@@ -26,9 +25,8 @@ def sentiment_list():
 @app.route('/diaries/keywords', methods=['POST'] )
 def keyword_list():
     diary = request.get_json()["diary"]
-    print(diary)
     keywords = textrank_keyword(diary)
-    keyword_list = [i for i, j in keywords]
+    keyword_list = [i for i, _ in keywords]
     print(keyword_list)
     return_data = {
         'success': 'true',

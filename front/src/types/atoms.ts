@@ -76,6 +76,12 @@ export interface CardProps {
   bgImg: string;
 }
 
+export interface DiaryType {
+  diary: string;
+  feeling: string;
+  diaryDate: string;
+}
+
 export interface FileType {
   preview: string;
   data: File | undefined;
@@ -95,7 +101,7 @@ export interface CalenderProps {
 export interface CalenderBodyProps {
   year: number;
   month: number;
-  TODAY: number;
+  TODAY: string;
   totalDate: string[][];
 }
 

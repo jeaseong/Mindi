@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import Head from './head/Head';
 import Body from './body/Body';
-import { nullCheck } from 'utils/nullCheck';
+import { nullCheck, getCurDate } from 'utils/utils';
 import { CalenderBodyProps, CalenderHeadProps } from 'types/atoms';
 import { Container } from './Calender.style';
 
@@ -9,8 +9,8 @@ function Calender() {
   const DATE: Date = new Date();
   const YEAR: number = DATE.getFullYear();
   const MONTH: number = DATE.getMonth();
-  const TODAY = `${YEAR}-${MONTH + 1}-${DATE.getDate()}`;
-  const [month, setMonth] = useState(MONTH);
+  const TODAY = getCurDate();
+  const [month, setMonth] = useState(MONTH + 1);
   const [year, setYear] = useState(YEAR);
   const [totalDate, setTotalDate] = useState<string[][] | undefined>();
 

@@ -173,7 +173,7 @@ export default (app: Router) => {
     },
   );
 
-  diaryRouter.get("/:id", async (req: Request, res: Response, next: NextFunction) => {
+  diaryRouter.get("/diaries/:id", async (req: Request, res: Response, next: NextFunction) => {
     try {
       const id = req.params.id;
 

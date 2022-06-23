@@ -12,7 +12,7 @@ async function appStart() {
 
   await loader({ expressApp: app });
 
-  console.log("NODE_ENV:", process.env.NODE_ENV);
+  logger.info("NODE_ENV:", process.env.NODE_ENV);
   const server = app.listen(config.port, () => {
     logger.info(`
             Mindi API Server
@@ -24,16 +24,26 @@ async function appStart() {
     res.send("Hello, world!");
   });
 
-  async function handle() {
+  async function handler(signal: string) {
+    logger.info(`Received ${signal}`);
+
     await mongoose.connection.close();
-    logger.info("MongoDB: Discnnected");
+    logger.info("MongoDB: Disconnected");
 
     const httpTerminator = createHttpTerminator({ server });
     await httpTerminator.terminate();
     logger.info("Mindi API Server: Shutdown");
+
+    logger.info("Application is terminated.");
   }
 
-  process.on("SIGINT", handle);
+  process.on("SIGINT", () => {
+    handler("SIGINT");
+  });
+  process.on("SIGTERM", () => {
+    handler("SIGTERM");
+  });
+
 }
 
 appStart();

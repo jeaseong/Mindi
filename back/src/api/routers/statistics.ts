@@ -3,21 +3,21 @@ import StatService from "../../services/statistics";
 import validationErrorChecker from "../middlewares/validationErrorChecker";
 import { Container } from "typedi";
 import { loginRequired } from "../middlewares/loginRequired";
-import { matchedData } from "express-validator";
 import { IResponse } from "../../interfaces/IResponse";
 import { BaseStat, IStat } from "../../interfaces/IStatistics";
 import { statValidator } from "../middlewares/express-validator";
 import { IDiary } from "../../interfaces/IDiary";
+import axios from "axios";
 import config from "../../config";
 
 export default (app: Router) => {
   const statRouter = Router();
   const statService = Container.get(StatService);
-  // const postKeywordAnalysis = async (diary: object) => {
-  //   const apiUrl = `${config.aiURL}/diaries/sentiment`;
-  //   const { data } = await axios.post(apiUrl, diary);
-  //   return data.result;
-  // };
+  const postKeywordAnalysis = async (diary: object) => {
+    const apiUrl = `${config.aiURL}/diaries/keywords`;
+    const { data } = await axios.post(apiUrl, diary);
+    return data.result;
+  };
 
   app.use("/statistics", statRouter);
 
@@ -45,11 +45,10 @@ export default (app: Router) => {
           sentimentList.push(doc.sentiment);
         });
 
-        // const myKeyword = await postKeywordAnalysis(diaryList);
+        const myKeyword = await postKeywordAnalysis({ diary: diaryList });
         // const myEmotion = await postEmotionAnalysis(sentimentList);
 
         // TODO: 임시, 서버랑 연결 후 삭제
-        const myKeyword = diaryList;
         const myEmotion = sentimentList;
 
         const newResult: BaseStat = {

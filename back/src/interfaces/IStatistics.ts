@@ -1,7 +1,7 @@
 export interface BaseStat {
   readonly userId: string;
   monthly: string;
-  keywords: object;
+  keywords: Array<string>;
   emotions: object;
   // diaries: Array<object>;
 }

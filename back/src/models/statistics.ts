@@ -14,17 +14,17 @@ const StatisticsSchema = new Schema(
       required: true,
     },
     keywords: {
-      type: Object,
+      type: Array,
       required: true,
     },
     emotions: {
       type: Object,
       required: true,
     },
-    diaries: {
-      type: Array,
-      required: true,
-    },
+    // diaries: {
+    //   type: Array,
+    //   required: true,
+    // },
   },
   { timestamps: true },
 );

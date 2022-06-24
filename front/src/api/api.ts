@@ -38,3 +38,9 @@ export const getDiaryList = async (
   const { data } = await Axios.get(apiUrl);
   return data.result;
 };
+
+export const getDiaryListTemp = async (date: string) => {
+  const apiUrl = `api/diaries?date=${date}`;
+  const { data } = await Axios.get(apiUrl);
+  return data.result;
+};

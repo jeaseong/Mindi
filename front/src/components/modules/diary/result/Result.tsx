@@ -7,7 +7,7 @@ import Button from 'components/atoms/button/Button';
 import { SENTIMENTS } from '../../../../utils/ResultImgData';
 import { getCurDate } from 'utils/utils';
 import { useNavigate } from 'react-router-dom';
-import { getDiaryList } from 'api/api';
+import { getDiaryList, getDiaryListTemp } from 'api/api';
 import {
   ContentWrapper,
   Title,
@@ -18,7 +18,7 @@ import {
   ButtonWrapper,
   ResultButton,
 } from './Result.style';
-import { LineBottom, Lines } from 'components/atoms/pageTitle/pageTitle.style';
+import { LineBottom } from 'components/atoms/pageTitle/pageTitle.style';
 
 function Result() {
   const navigate = useNavigate();
@@ -28,7 +28,7 @@ function Result() {
   const strSplit = curDate.split('-');
 
   useEffect(() => {
-    getDiaryList(strSplit[0], strSplit[1], strSplit[2]).then((data) => {
+    getDiaryListTemp(curDate).then((data) => {
       setDiaryData(data[0].sentiment);
       console.log(diaryData);
     });
@@ -102,13 +102,13 @@ function Result() {
   return (
     <ContentWrapper>
       <Title>오늘의 감정 분석 결과:</Title>
-      {/* 
+
       <Emotion>{diaryDataMax}</Emotion>
       <Image
         width='47%'
         src={SENTIMENTS[diaryDataMax as string].url}
         alt={SENTIMENTS[diaryDataMax as string].alt}
-      /> */}
+      />
       <SubTitle>오늘의 감정 그래프</SubTitle>
       <ChartWrapper>
         <Doughnut data={data} />

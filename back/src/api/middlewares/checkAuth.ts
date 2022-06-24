@@ -5,7 +5,7 @@ import config from "../../config";
 import logger from "../../loaders/winston";
 // import passport from "../middlewares/passport";
 
-function loginRequired(req: Request, res: Response, next: NextFunction) {
+function checkAuth(req: Request, res: Response, next: NextFunction) {
   // const passportInstance = passport();
   // return passportInstance.authenticate("jwtStrategy", { session: false })(req, res, next);
 
@@ -19,6 +19,14 @@ function loginRequired(req: Request, res: Response, next: NextFunction) {
     const payload = jwt.verify(token as string, config.jwtSecretKey as string) as JwtPayload;
 
     req.user = {
+      colorScheme: [""],
+      createdAt: "",
+      email: "",
+      name: "",
+      password: "",
+      recentLogin: "",
+      role: "",
+      updatedAt: "",
       _id: payload!._id };
     next();
 
@@ -30,4 +38,4 @@ function loginRequired(req: Request, res: Response, next: NextFunction) {
   }
 }
 
-export { loginRequired };
+export { checkAuth };

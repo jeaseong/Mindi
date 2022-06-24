@@ -5,6 +5,6 @@ declare global {
     interface Request {
       user?: Partial<IUser> | undefined;
     }
-    interface User {}
+    interface User extends IUser {}
   }
 }

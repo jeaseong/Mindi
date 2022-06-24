@@ -2,7 +2,7 @@ import { Router, Request, Response, NextFunction } from "express";
 import { matchedData } from "express-validator";
 import { PostService } from "../../services";
 import { Container } from "typedi";
-import { loginRequired, validationErrorChecker } from "../middlewares";
+import { checkAuth, validationErrorChecker } from "../middlewares";
 import { postValidator } from "../middlewares/express-validator";
 import { StatusError } from "../../utils";
 import { IPost, IResponse } from "../../interfaces";
@@ -14,7 +14,7 @@ export default (app: Router) => {
 
   postRouter.post(
     "/posts",
-    loginRequired,
+    checkAuth,
     postValidator.uploadBody,
     validationErrorChecker,
     async (req: Request, res: Response, next: NextFunction) => {
@@ -41,7 +41,7 @@ export default (app: Router) => {
 
   postRouter.get(
     "/posts",
-    loginRequired,
+    checkAuth,
     async (req: Request, res: Response, next: NextFunction) => {
       try {
         const page = (req.query.page as unknown as number) || 1;
@@ -69,7 +69,7 @@ export default (app: Router) => {
 
   postRouter.get(
     "/posts/:postId",
-    loginRequired,
+    checkAuth,
     async (req: Request, res: Response, next: NextFunction) => {
       try {
         const { postId } = req.params;
@@ -93,7 +93,7 @@ export default (app: Router) => {
 
   postRouter.get(
     "/users/posts",
-    loginRequired,
+    checkAuth,
     async (req: Request, res: Response, next: NextFunction) => {
       try {
         const page = (req.query.page as unknown as number) || 1;
@@ -122,7 +122,7 @@ export default (app: Router) => {
 
   postRouter.get(
     "/users/posts/:userId",
-    loginRequired,
+    checkAuth,
     async (req: Request, res: Response, next: NextFunction) => {
       try {
         const { userId } = req.params;
@@ -152,7 +152,7 @@ export default (app: Router) => {
 
   postRouter.put(
     "/posts/:postId",
-    loginRequired,
+    checkAuth,
     postValidator.modifyingBody,
     async (req: Request, res: Response, next: NextFunction) => {
       try {
@@ -184,7 +184,7 @@ export default (app: Router) => {
 
   postRouter.delete(
     "/posts/:postId",
-    loginRequired,
+    checkAuth,
     async (req: Request, res: Response, next: NextFunction) => {
       try {
         const { postId } = req.params;

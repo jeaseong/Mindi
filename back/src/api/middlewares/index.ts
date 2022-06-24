@@ -1,6 +1,6 @@
 import errorHandler from "./errorHandler";
 import imageUpload from "./imageUpload";
 import validationErrorChecker from "./validationErrorChecker";
-import { loginRequired } from "./loginRequired";
+import { checkAuth } from "./checkAuth";
 
-export { errorHandler, imageUpload, validationErrorChecker, loginRequired };
+export { errorHandler, imageUpload, validationErrorChecker, checkAuth };

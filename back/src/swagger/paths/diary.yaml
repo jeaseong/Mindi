@@ -10,7 +10,7 @@ Post:
           $ref: "../components/requestBody/diary.yaml#/post"
   responses:
     "201":
-      description: A result object.
+      description: OK
       content:
         application/json:
           schema:
@@ -33,7 +33,7 @@ Update:
           $ref: "../components/requestBody/diary.yaml#/update"
   responses:
     "200":
-      description: A result object.
+      description: OK
       content:
         application/json:
           schema:
@@ -98,7 +98,7 @@ GetAList:
       description: (Optional) 일을 나타냅니다. 형식은 "DD"입니다.
   responses:
     "200":
-      description: 특정 날짜에 해당하는 다이어리 리스트를 최신 순으로 나열하여 반환합니다.
+      description: 특정 날짜에 해당하는 다이어리 리스트를 최신 순(diaryDate 기준)으로 나열하여 반환합니다.
       content:
         application/json:
           schema:
@@ -106,25 +106,3 @@ GetAList:
           examples:
             diaryList:
               $ref: "../components/examples/diary.yaml#/diaryList"
-
-GetADiary:
-  tags:
-    - diaries
-  summary: 특정 아이디의 다이어리 정보를 반환합니다.
-  parameters:
-    - in: path
-      name: id
-      schema:
-        type: string
-        example: 3e37d05b9fc9d01c9cdf5ac3
-      description: The diary ID
-  responses:
-    "200":
-      description: A result object.
-      content:
-        application/json:
-          schema:
-            $ref: "../components/responses/diary.yaml#/post"
-          examples:
-            diary:
-              $ref: "../components/examples/diary.yaml#/createWithImage"

@@ -59,13 +59,4 @@ export default class DiaryService {
     const docList = await this.diaryModel.findByDate(userId, date);
     return docList;
   }
-
-  public async findById(id: string) {
-    const docInfo = await this.diaryModel.findById(id);
-    if (!docInfo) {
-      throw new StatusError(400, "일기가 존재하지 않습니다.");
-    }
-
-    return docInfo;
-  }
 }

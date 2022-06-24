@@ -159,21 +159,4 @@ export default (app: Router) => {
       }
     },
   );
-
-  diaryRouter.get("/diaries/:id", async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const id = req.params.id;
-
-      const diary: IDiary = await diaryService.findById(id);
-
-      const response: IResponse<IDiary> = {
-        success: true,
-        result: diary,
-      };
-
-      res.status(200).json(response);
-    } catch (error) {
-      next(error);
-    }
-  });
 };

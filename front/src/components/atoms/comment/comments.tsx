@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
-const Comments = () => {
+const Comments = (currentUserId: any) => {
+  const [backendComments, setBackendComments] = useState([]);
+
+  //   useEffect(() => {}, []);
   return <div></div>;
 };
 

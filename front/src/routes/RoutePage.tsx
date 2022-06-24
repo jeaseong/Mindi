@@ -39,7 +39,7 @@ function RoutePage({ isLogin }: RouterPros) {
             }
           />
           <Route
-            path='/bamboo'
+            path='/bamboo-grove'
             element={<PrivateRoute user={isLogin} component={<Bamboo />} />}
           />
           <Route path='/ei-test' element={<EITest />} />

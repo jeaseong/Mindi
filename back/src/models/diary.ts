@@ -58,7 +58,7 @@ export class MongoDiaryModel implements IDiaryModel {
     return DiaryModel.find({
       $and: [{ userId }, { diaryDate: { $regex: `^${date}` } }],
     })
-      .sort({ createdAt: -1 })
+      .sort({ diaryDate: -1 })
       .lean();
   }
 

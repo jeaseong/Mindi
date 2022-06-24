@@ -19,6 +19,8 @@ tags:
     description: 게시글 작성, 조회, 수정, 삭제 등
   - name: comments
     description: 댓글 작성, 조회, 수정, 삭제 등
+  - name: statistics
+    description: 월별 통계 작성, 조회, 삭제 등
 paths:
   /diaries:
     post:
@@ -30,9 +32,6 @@ paths:
   /diaries?year={}&month={}&day={}:
     get:
       $ref: "./paths/diary.yaml#/GetAList"
-  /diaries/{id}:
-    get:
-      $ref: "./paths/diary.yaml#/GetADiary"
   /users:
     get:
       $ref: "./paths/user.yaml#/Get"
@@ -78,6 +77,14 @@ paths:
   /users/comments/{userId}:
     get:
       $ref: "./paths/comment.yaml#/GetUserComments"
+  /statistics?year={}&month={}:
+    post:
+      $ref: "./paths/statistics.yaml#/Post"
+    get:
+      $ref: "./paths/statistics.yaml#/Get"
+  /statistics:
+    delete:
+      $ref: "./paths/statistics.yaml#/Delete"
 
 components:
   securitySchemes:

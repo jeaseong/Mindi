@@ -25,7 +25,7 @@ describe("Diary Service Test", () => {
     diary: faker.lorem.paragraph(),
     feeling: faker.lorem.sentence(),
     sentiment: sentiment,
-    createdDate: today,
+    diaryDate: today,
   };
 
   const toUpdate = {
@@ -33,7 +33,7 @@ describe("Diary Service Test", () => {
     diary: faker.lorem.paragraph(),
     feeling: faker.lorem.sentence(),
     sentiment: sentiment,
-    createdDate: today,
+    diaryDate: today,
   };
 
   class testDiaryModel implements IDiaryModel {
@@ -68,7 +68,7 @@ describe("Diary Service Test", () => {
         {
           _id: mockObjectId,
           ...toUpdate,
-          createdDate: date,
+          diaryDate: date,
         },
       ];
     }

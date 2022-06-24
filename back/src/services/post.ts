@@ -2,12 +2,13 @@ import { Service, Inject } from "typedi";
 import { StatusError } from "../utils/error";
 import { MongoPostModel } from "../models/post";
 import { IPost } from "../interfaces/IPost";
+import winston from "winston";
 
 @Service()
 export default class PostService {
   constructor(
     private postModel: MongoPostModel,
-    @Inject("logger") private logger: any
+    @Inject("logger") private logger: winston.Logger
   ) {
   }
   public async makeNewPost(body: Partial<IPost>) {

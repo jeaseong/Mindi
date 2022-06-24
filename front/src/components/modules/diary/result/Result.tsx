@@ -28,7 +28,7 @@ function Result() {
   const strSplit = curDate.split('-');
 
   useEffect(() => {
-    getDiaryListTemp(curDate).then((data) => {
+    getDiaryList(strSplit[0], strSplit[1], strSplit[2]).then((data) => {
       setDiaryData(data[0].sentiment);
       console.log(diaryData);
     });
@@ -99,6 +99,7 @@ function Result() {
     labels: sentimentNames,
   };
 
+  if (diaryData === undefined) return <></>;
   return (
     <ContentWrapper>
       <Title>오늘의 감정 분석 결과:</Title>

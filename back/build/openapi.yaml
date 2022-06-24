@@ -33,6 +33,7 @@ paths:
                 - diary
                 - feeling
                 - sentiment
+                - diaryDate
               properties:
                 diary:
                   type: string
@@ -43,6 +44,9 @@ paths:
                 sentiment:
                   type: object
                   description: 감정 분석 결과가 들어갑니다.
+                diaryDate:
+                  type: string
+                  description: 일기 날짜가 들어갑니다. "YYYY-MM-DD" 형식에 맞춰주세요.
                 background:
                   type: file
                   format: binary
@@ -71,7 +75,7 @@ paths:
                         sadness: 0
                         happiness: 1
                         aversion: 0
-                      createdDate: 2022-6-14
+                      diaryDate: 2022-6-14
                       _id: 62a7ed0f291754e07d151aac
                       createdAt: '2022-06-14T02:06:07.080Z'
                       updatedAt: '2022-06-14T02:06:07.080Z'
@@ -91,7 +95,7 @@ paths:
                 - diary
                 - feeling
                 - sentiment
-                - createdDate
+                - diaryDate
               properties:
                 _id:
                   type: string
@@ -105,9 +109,9 @@ paths:
                 sentiment:
                   type: object
                   description: 감정 분석 결과가 들어갑니다.
-                createdDate:
+                diaryDate:
                   type: string
-                  description: 일기 작성 날짜가 들어갑니다. 수정이 불가능한 속성입니다.
+                  description: 일기 날짜가 들어갑니다. "YYYY-MM-DD" 형식에 맞춰주세요.
                 imageFileName:
                   type: string
                   description: (Optional)사진이 있는 일기라면 사진 정보도 필요합니다.
@@ -133,7 +137,7 @@ paths:
                       - diary
                       - feeling
                       - sentiment
-                      - createdDate
+                      - diaryDate
                     properties:
                       _id:
                         type: string
@@ -145,9 +149,8 @@ paths:
                         type: string
                       sentiment:
                         type: object
-                      createdDate:
+                      diaryDate:
                         type: string
-                        description: 오늘(일기 작성) 날짜가 "년도-월-일" 형식으로 저장됩니다.
                       imageFileName:
                         type: string
                       imageFilePath:
@@ -181,7 +184,6 @@ paths:
                 value:
                   _id: 62a7ed0f291754e07d151aac
                   imageFileName: background_1655172367029_test.jpg
-                  imageFilePath: 'http://localhost:5001/images/background_1655172367029_test.jpg'
               diaryWithNoImage:
                 value:
                   _id: 62a7ed0f291754e07d151aac
@@ -198,18 +200,30 @@ paths:
                   result:
                     type: string
                     example: 성공적으로 삭제되었습니다.
-  '/diaries?date={createdDate}':
+  '/diaries?year={}&month={}&day={}':
     get:
       tags:
         - diaries
       summary: 특정 날짜의 다이어리 리스트를 반환합니다.
       parameters:
         - in: query
-          name: date
+          name: year
           schema:
             type: string
-            example: '2022-06-16'
-          description: YYYY / YYYY-MM / YYYY-MM-DD 형식에 일치해야 합니다.
+            example: '2022'
+          description: 연도를 나타냅니다. 형식은 "YYYY"입니다.
+        - in: query
+          name: month
+          schema:
+            type: string
+            example: '06'
+          description: (Optional) 월을 나타냅니다. 형식은 "MM"입니다.
+        - in: query
+          name: day
+          schema:
+            type: string
+            example: '21'
+          description: (Optional) 일을 나타냅니다. 형식은 "DD"입니다.
       responses:
         '200':
           description: 특정 날짜에 해당하는 다이어리 리스트를 최신 순으로 나열하여 반환합니다.
@@ -230,7 +244,7 @@ paths:
                         - diary
                         - feeling
                         - sentiment
-                        - createdDate
+                        - diaryDate
                       properties:
                         _id:
                           type: string
@@ -242,7 +256,7 @@ paths:
                           type: string
                         sentiment:
                           type: object
-                        createdDate:
+                        diaryDate:
                           type: string
                         imageFileName:
                           type: string
@@ -264,7 +278,7 @@ paths:
                           sadness: 0
                           happiness: 1
                           aversion: 0
-                        createdDate: '2022-06-16'
+                        diaryDate: '2022-06-16'
                         createdAt: '2022-06-16T09:10:27.553Z'
                         updatedAt: '2022-06-16T09:10:27.706Z'
                         __v: 0
@@ -279,7 +293,7 @@ paths:
                           sadness: 0
                           happiness: 1
                           aversion: 0
-                        createdDate: '2022-06-16'
+                        diaryDate: '2022-06-16'
                         createdAt: '2022-06-16T08:40:53.671Z'
                         updatedAt: '2022-06-16T08:40:53.671Z'
                         __v: 0
@@ -317,9 +331,9 @@ paths:
                         sadness: 0
                         happiness: 1
                         aversion: 0
-                      createdDate: 2022-6-14
+                      diaryDate: 2022-6-14
                       imageFileName: background_1655172367029_test.jpg
-                      imageFilePath: 'http://localhost:5001/images/background_1655172367029_test.jpg'
+                      imageFilePath: 'https://mindi-bucket.kr.object.ncloudstorage.com/background_1655815723162_test2.jpg'
                       _id: 62a7ed0f291754e07d151aac
                       createdAt: '2022-06-14T02:06:07.080Z'
                       updatedAt: '2022-06-14T02:06:07.080Z'
@@ -1403,30 +1417,6 @@ paths:
                       parent: 62a0c34123414953ef39d5c9e
                       createdAt: 2022-06-27T16:26:08.844Z
 components:
-  schemas:
-    diary:
-      type: object
-      required:
-        - userId
-        - diary
-        - feeling
-        - sentiment
-        - createdDate
-      properties:
-        userId:
-          type: string
-        diary:
-          type: string
-        feeling:
-          type: string
-        sentiment:
-          type: object
-        createdDate:
-          type: string
-        imageFileName:
-          type: string
-        imageFilePath:
-          type: string
   securitySchemes:
     BearerAuth:
       type: http

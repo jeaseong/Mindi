@@ -13,7 +13,7 @@ function DiaryCard() {
     <DiaryPosts>
       {isFetching
         ? 'loading'
-        : diary?.map((d, index) => (
+        : diary?.map((d: any, index: number) => (
             <DiaryPost key={d._id}>
               <Day>{d.diaryDate}</Day>
               <PreviewPost bgImg={IMAGE.AUTH_LOGO.url}>{d.feeling}</PreviewPost>

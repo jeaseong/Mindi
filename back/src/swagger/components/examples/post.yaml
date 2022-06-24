@@ -5,7 +5,7 @@ postRequestBody:
 post:
   value:
     success: true
-    post:
+    result:
       _id: 62a0c9fe574953ef39d5c9e8
       title: 게시글 제목
       content: 게시글 내용
@@ -14,7 +14,7 @@ post:
 get:
   value:
     success: true
-    posts:
+    result:
       - _id: 62a0c9fe574953ef39d5c9e8
         title: 게시글 제목1
         content: 게시글 내용1
@@ -28,7 +28,7 @@ get:
 getOne:
   value:
     success: true
-    posts:
+    result:
       _id: 62a0c9fe574953ef39d5c9e8
       title: 게시글 제목
       content: 게시글 내용
@@ -41,7 +41,7 @@ putRequestBody:
 put:
   value:
     success: true
-    post:
+    result:
       _id: 62a0c9fe574953ef39d5c9e8
       title: 수정된 게시글 제목
       content: 수정된 게시글 내용
@@ -50,7 +50,7 @@ put:
 getUsers:
   value:
     success: true
-    posts:
+    result:
       - _id: 62a0c9fe574953ef39d5c9e8
         title: 게시글 제목1
         content: 게시글 내용1
@@ -64,7 +64,7 @@ getUsers:
 getUsersById:
   value:
     success: true
-    posts:
+    result:
       - _id: 62a0c9fe574953ef39d5c9e8
         title: 게시글 제목1
         content: 게시글 내용1

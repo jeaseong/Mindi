@@ -4,7 +4,7 @@ postRequestBody:
 post:
   value:
     success: true
-    post:
+    result:
       _id: 62a0c9fe574953ef39d5c9e8
       post: 62a0c34123574953ef39d5c9e
       content: 댓글 내용
@@ -15,7 +15,7 @@ post:
 get:
   value:
     success: true
-    post:
+    result:
       _id: 62a0c9fe574953ef39d5c9e8
       post: 62a0c34123574953ef39d5c9e
       content: 댓글 내용
@@ -25,7 +25,7 @@ get:
 put:
   value:
     success: true
-    post:
+    result:
       _id: 62a0c9fe574953ef39d5c9e8
       post: 62a0c34123574953ef39d5c9e
       content: 댓글 내용
@@ -38,7 +38,7 @@ putRequestBody:
 postDepthZero:
   value:
     success: true
-    post:
+    result:
       _id: 62a0c9fe574953ef39d5c9e8
       post: 62a0c34123574953ef39d5c9e
       content: 댓글 내용
@@ -48,7 +48,7 @@ postDepthZero:
 getPostComments:
   value:
     success: true
-    posts:
+    result:
       - _id: 62a0c9fe574953ef39d5c9e8
         post: 62a0c34123574953ef39d5c9e
         content: 댓글 내용1
@@ -65,7 +65,7 @@ getPostComments:
 getDaughterComments:
   value:
     success: true
-    posts:
+    result:
       - _id: 62a0c9fe574953ef39d5c9e8
         post: 62a0c34123574953ef39d5c9e
         content: 댓글 내용1
@@ -82,7 +82,7 @@ getDaughterComments:
 getUserComments:
   value:
     success: true
-    posts:
+    result:
       - _id: 62a0c9fe574953ef39d5c9e8
         post: 62a0c34123574953ef39d5c9e
         content: 댓글 내용1

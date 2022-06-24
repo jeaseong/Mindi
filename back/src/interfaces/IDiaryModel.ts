@@ -7,4 +7,5 @@ export interface IDiaryModel {
   findById: (id: string) => Promise<IDiary>;
   findByDate: (userId: string, date: string) => Promise<IDiary[]>;
   exists: (filter: Partial<IDiary>) => Promise<Boolean>;
+  findMostEmotionalDiary: (userId: string, emotion: string) => Promise<IDiary[]>;
 }

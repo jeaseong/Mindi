@@ -4,5 +4,5 @@ export interface IStat {
   monthly: string;
   keywords: Array<string>;
   emotions: object;
-  // diaries: Array<object>;
+  reminder: Array<object>;
 }

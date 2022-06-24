@@ -20,10 +20,10 @@ const StatisticsSchema = new Schema(
       type: Object,
       required: true,
     },
-    // diaries: {
-    //   type: Array,
-    //   required: true,
-    // },
+    reminder: {
+      type: Array,
+      required: true,
+    },
   },
   { timestamps: true },
 );

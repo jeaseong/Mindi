@@ -69,4 +69,13 @@ export class MongoDiaryModel implements IDiaryModel {
   async exists(filter: Partial<IDiary>): Promise<Boolean> {
     return DiaryModel.exists(filter).lean();
   }
+
+  async findMostEmotionalDiary(userId: string, emotion: string): Promise<IDiary[]> {
+    const a = DiaryModel.find({
+      $and: [{ userId }, { [`sentiment.${emotion}`]: { $gt: 0 } }],
+    })
+      .sort({ [`sentiment.${emotion}`]: -1 })
+      .lean();
+    return a;
+  }
 }

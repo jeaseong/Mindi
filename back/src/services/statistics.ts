@@ -21,6 +21,15 @@ export default class StatService {
     }
   }
 
+  public async findMostEmotionalDiary(userId: string, emotion: string) {
+    try {
+      const docList = await this.diaryModel.findMostEmotionalDiary(userId, emotion);
+      return docList;
+    } catch (error) {
+      throw new StatusError(400, "리스트가 존재하지 않습니다.");
+    }
+  }
+
   public async create(newResult: Partial<IStat>) {
     const doc = await this.statModel.exists({ monthly: newResult.monthly });
     if (doc) {

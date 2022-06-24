@@ -1,7 +1,7 @@
 import { IResponse } from "./IResponse";
 import { IUser } from "./IUser";
 import { IUserModel } from "./IUserModel";
-import { IDiary } from "./IDiary";
+import { IDiary, ISentiment } from "./IDiary";
 import { IDiaryModel } from "./IDiaryModel";
 import { IPost } from "./IPost";
 import { IPostModel } from "./IPostModel";
@@ -14,6 +14,7 @@ export {
   IResponse,
   IUser,
   IUserModel,
+  ISentiment,
   IDiary,
   IDiaryModel,
   IPost,

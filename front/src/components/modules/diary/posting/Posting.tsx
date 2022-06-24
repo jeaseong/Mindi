@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSnackbarContext } from 'contexts/SnackbarContext';
 import { getCurDate } from 'utils/utils';
-import { postDiaryPosting, postAnalysis } from 'api/api';
+import { postDiaryPosting } from 'api/api';
 import FileUpload from 'components/modules/fileUpload/FileUpload';
 import MainTitle from 'components/atoms/text/MainTitle';
 import TextArea from 'components/atoms/textArea/TextArea';
@@ -44,8 +44,6 @@ function Posting() {
       formData.append(`${val[0]}`, val[1]);
     });
     try {
-      const res = await postAnalysis({ diary: diaryData.feeling });
-      formData.append('sentiment', JSON.stringify(res));
       await postDiaryPosting(formData);
       navigate('/result');
     } catch (e) {

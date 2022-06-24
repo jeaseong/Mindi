@@ -1,9 +1,8 @@
-import { BaseDiary } from "../interfaces/IDiary";
-import { StatusError } from "../utils/error";
+import { IDiary } from "../interfaces";
+import { StatusError, imageDelete } from "../utils";
 import { Service, Inject } from "typedi";
-import { MongoDiaryModel } from "../models/diary";
+import { MongoDiaryModel } from "../models";
 import winston from "winston";
-import imageDelete from "../utils/imageDelete";
 
 @Service()
 export default class DiaryService {
@@ -12,7 +11,12 @@ export default class DiaryService {
     @Inject("logger") private logger: winston.Logger,
   ) {}
 
-  public async create(newDiary: BaseDiary) {
+  public async create(userId: string, newDiary: Partial<IDiary>) {
+    const doc = await this.diaryModel.exists(userId, { diaryDate: newDiary.diaryDate });
+    if (doc) {
+      throw new StatusError(400, "해당 날짜의 일기가 이미 존재합니다.");
+    }
+
     try {
       const createdNewDoc = await this.diaryModel.create(newDiary);
       return createdNewDoc;
@@ -24,7 +28,7 @@ export default class DiaryService {
     }
   }
 
-  public async updateOne(id: string, toUpdate: BaseDiary, imageFileName?: string) {
+  public async updateOne(id: string, toUpdate: Partial<IDiary>, imageFileName?: string) {
     try {
       const filter = { _id: id };
       const updatedDoc = await this.diaryModel.updateOne(filter, toUpdate);
@@ -54,14 +58,5 @@ export default class DiaryService {
   public async findByDate(userId: string, date: string) {
     const docList = await this.diaryModel.findByDate(userId, date);
     return docList;
-  }
-
-  public async findById(id: string) {
-    const docInfo = await this.diaryModel.findById(id);
-    if (!docInfo) {
-      throw new StatusError(400, "일기가 존재하지 않습니다.");
-    }
-
-    return docInfo;
   }
 }

@@ -10,4 +10,4 @@ async function imageDelete(imageFileName: string) {
   });
 }
 
-export default imageDelete;
+export { imageDelete };

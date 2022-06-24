@@ -34,15 +34,15 @@ class LoadDataset(Dataset):
 
     return input_ids, attention_mask
 
-def split_diary(diary):
-    diary.replace('\n', '')
-    sent_list = [sent.strip() for sent in diary.split('.') if sent]
+def split_feeling(feeling):
+    feeling.replace('\n', '')
+    sent_list = [sent.strip() for sent in feeling.split('.') if sent]
     return sent_list
 
-def predict_sentiment(diary):
+def predict_sentiment(feeling):
     # label_dict = {0: 'fear', 1: 'surprised', 2: 'anger', 3: 'sadness', 4: 'neutrality', 5: 'happiness', 6: 'aversion'}
 
-    sent_list = split_diary(diary)
+    sent_list = split_feeling(feeling)
     dataset = LoadDataset(sent_list)
     data_loader = DataLoader(dataset, batch_size = len(dataset))    
     

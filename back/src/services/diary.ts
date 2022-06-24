@@ -7,9 +7,21 @@ import { MongoDiaryModel } from "../models/diary";
 export default class DiaryService {
   constructor(private diaryModel: MongoDiaryModel, @Inject("logger") private logger: any) {}
 
-  public async create(newDiary: BaseDiary) {
-    const createdNewDoc = await this.diaryModel.create(newDiary);
-    return createdNewDoc;
+  public async create(userId: string, newDiary: Partial<IDiary>) {
+    const doc = await this.diaryModel.exists(userId, { diaryDate: newDiary.diaryDate });
+    if (doc) {
+      throw new StatusError(400, "해당 날짜의 일기가 이미 존재합니다.");
+    }
+
+    try {
+      const createdNewDoc = await this.diaryModel.create(newDiary);
+      return createdNewDoc;
+    } catch (error) {
+      if (newDiary.imageFileName) {
+        await imageDelete(newDiary.imageFileName);
+      }
+      throw new StatusError(400, "업로드에 실패했습니다.");
+    }
   }
 
   public async updateOne(id: string, toUpdate: BaseDiary) {

@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import 'chart.js/auto';
-import { Doughnut } from 'react-chartjs-2';
+import { Doughnut, Line } from 'react-chartjs-2';
 import YouTube from 'react-youtube';
 import Image from 'components/atoms/image/Image';
 import Button from 'components/atoms/button/Button';
 import { SENTIMENTS } from '../../../../utils/ResultImgData';
+import { getCurDate } from 'utils/utils';
 import { useNavigate } from 'react-router-dom';
 import { getDiaryList } from 'api/api';
 import {
@@ -14,14 +15,20 @@ import {
   SubTitle,
   ChartWrapper,
   YouTubeWrapper,
+  ButtonWrapper,
+  ResultButton,
 } from './Result.style';
+import { LineBottom, Lines } from 'components/atoms/pageTitle/pageTitle.style';
 
 function Result() {
   const navigate = useNavigate();
   const [diaryData, setDiaryData] = useState();
 
+  const curDate = getCurDate();
+  const strSplit = curDate.split('-');
+
   useEffect(() => {
-    getDiaryList(dateString).then((data) => {
+    getDiaryList(strSplit[0], strSplit[1], strSplit[2]).then((data) => {
       setDiaryData(data[0].sentiment);
       console.log(diaryData);
     });
@@ -38,14 +45,6 @@ function Result() {
       loop: 0,
     },
   };
-
-  // api용 오늘자 date값 yyyy-mm-dd 변환 (삭제 예정)
-  const date = new Date();
-  const year = date.getFullYear();
-  const month = ('0' + (1 + date.getMonth())).slice(-2);
-  const day = ('0' + date.getDate()).slice(-2);
-
-  const dateString = year + '-' + month + '-' + day;
 
   // 점수가 가장 높은 감정 1개 반환
   const selectMaxSentiment = (diaryData: any) => {
@@ -103,13 +102,13 @@ function Result() {
   return (
     <ContentWrapper>
       <Title>오늘의 감정 분석 결과:</Title>
-
+      {/* 
       <Emotion>{diaryDataMax}</Emotion>
       <Image
         width='47%'
         src={SENTIMENTS[diaryDataMax as string].url}
         alt={SENTIMENTS[diaryDataMax as string].alt}
-      />
+      /> */}
       <SubTitle>오늘의 감정 그래프</SubTitle>
       <ChartWrapper>
         <Doughnut data={data} />
@@ -118,13 +117,18 @@ function Result() {
       <YouTubeWrapper>
         <YouTube videoId='E0COLl4M1i4' opts={videoOptions} />
       </YouTubeWrapper>
-      <Button
-        onClick={() => {
-          navigate('/diary');
-        }}
-      >
-        Diary Page
-      </Button>
+      <ButtonWrapper>
+        <LineBottom />
+        <ResultButton>
+          <Button
+            onClick={() => {
+              navigate('/diary');
+            }}
+          >
+            Diary Page
+          </Button>
+        </ResultButton>
+      </ButtonWrapper>
     </ContentWrapper>
   );
 }

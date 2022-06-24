@@ -34,3 +34,13 @@ export const ChartWrapper = styled.div`
 export const YouTubeWrapper = styled.div`
   margin-top: 2em;
 `;
+
+export const ButtonWrapper = styled.div`
+  margin-top: 4em;
+  display: flex;
+  width: 40em;
+`;
+
+export const ResultButton = styled.div`
+  margin-left: auto;
+`;

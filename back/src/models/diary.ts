@@ -1,7 +1,6 @@
 import { Schema, model } from "mongoose";
 import { Service } from "typedi";
-import { BaseDiary, IDiary } from "../interfaces/IDiary";
-import { IDiaryModel, filterObj } from "../interfaces/IDiaryModel";
+import { IDiary, IDiaryModel } from "../interfaces";
 
 const DiarySchema = new Schema(
   {
@@ -41,12 +40,12 @@ const DiaryModel = model<IDiary>("Diary", DiarySchema);
 
 @Service()
 export class MongoDiaryModel implements IDiaryModel {
-  async create(newDiary: BaseDiary): Promise<IDiary> {
+  async create(newDiary: Partial<IDiary>): Promise<IDiary> {
     const newDoc = await DiaryModel.create(newDiary);
     return newDoc.toObject();
   }
 
-  async updateOne(filter: filterObj, toUpdate: BaseDiary): Promise<IDiary> {
+  async updateOne(filter: Partial<IDiary>, toUpdate: Partial<IDiary>): Promise<IDiary> {
     const option = { returnOriginal: false };
     return DiaryModel.findOneAndUpdate(filter, toUpdate, option).lean();
   }
@@ -55,15 +54,24 @@ export class MongoDiaryModel implements IDiaryModel {
     await DiaryModel.deleteOne({ _id: id });
   }
 
-  async findById(id: string): Promise<IDiary> {
-    return DiaryModel.findOne({ _id: id }).lean();
-  }
-
   async findByDate(userId: string, date: string): Promise<IDiary[]> {
     return DiaryModel.find({
       $and: [{ userId }, { diaryDate: { $regex: `^${date}` } }],
     })
       .sort({ createdAt: -1 })
       .lean();
+  }
+
+  async exists(filter: Partial<IDiary>): Promise<Boolean> {
+    return DiaryModel.exists(filter).lean();
+  }
+
+  async findMostEmotionalDiary(userId: string, emotion: string): Promise<IDiary[]> {
+    const a = DiaryModel.find({
+      $and: [{ userId }, { [`sentiment.${emotion}`]: { $gt: 0 } }],
+    })
+      .sort({ [`sentiment.${emotion}`]: -1 })
+      .lean();
+    return a;
   }
 }

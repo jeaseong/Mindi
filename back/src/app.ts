@@ -32,8 +32,6 @@ async function appStart() {
 
     const httpTerminator = createHttpTerminator({ server });
     await httpTerminator.terminate();
-    logger.info("Mindi API Server: Shutdown");
-
     logger.info("Application is terminated.");
   }
 
@@ -44,6 +42,10 @@ async function appStart() {
     handler("SIGTERM");
   });
 
+  process.on("uncaughtException", () => {
+    // 무엇을 넣어야 하는 건지요...
+    process.exit(1);
+  });
 }
 
 appStart();

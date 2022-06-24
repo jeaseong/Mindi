@@ -3,7 +3,6 @@ post:
   required:
     - diary
     - feeling
-    - sentiment
     - diaryDate
   properties:
     diary:
@@ -12,9 +11,6 @@ post:
     feeling:
       type: string
       description: 감정 내용이 들어갑니다.
-    sentiment:
-      type: object
-      description: 감정 분석 결과가 들어갑니다.
     diaryDate:
       type: string
       description: 일기 날짜가 들어갑니다. "YYYY-MM-DD" 형식에 맞춰주세요.
@@ -29,7 +25,6 @@ update:
     - _id
     - diary
     - feeling
-    - sentiment
     - diaryDate
   properties:
     _id:
@@ -41,9 +36,6 @@ update:
     feeling:
       type: string
       description: 감정 내용이 들어갑니다.
-    sentiment:
-      type: object
-      description: 감정 분석 결과가 들어갑니다.
     diaryDate:
       type: string
       description: 일기 날짜가 들어갑니다. "YYYY-MM-DD" 형식에 맞춰주세요.

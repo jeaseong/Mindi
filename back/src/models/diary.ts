@@ -62,8 +62,8 @@ export class MongoDiaryModel implements IDiaryModel {
       .lean();
   }
 
-  async exists(filter: Partial<IDiary>): Promise<Boolean> {
-    return DiaryModel.exists(filter).lean();
+  async exists(userId: string, filter: Partial<IDiary>): Promise<Boolean> {
+    return DiaryModel.exists({ $and: [{ userId }, filter] }).lean();
   }
 
   async findMostEmotionalDiary(userId: string, emotion: string): Promise<IDiary[]> {

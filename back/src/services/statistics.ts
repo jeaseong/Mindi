@@ -30,8 +30,8 @@ export default class StatService {
     }
   }
 
-  public async create(newResult: Partial<IStat>) {
-    const doc = await this.statModel.exists({ monthly: newResult.monthly });
+  public async create(userId: string, newResult: Partial<IStat>) {
+    const doc = await this.statModel.exists(userId, { monthly: newResult.monthly });
     if (doc) {
       throw new StatusError(400, "분석 결과가 이미 존재합니다.");
     }

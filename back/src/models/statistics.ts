@@ -52,7 +52,7 @@ export class MongoStatModel implements IStatModel {
     }).lean();
   }
 
-  async exists(filter: Partial<IStat>): Promise<Boolean> {
-    return StatisticsModel.exists(filter).lean();
+  async exists(userId: string, filter: Partial<IStat>): Promise<Boolean> {
+    return StatisticsModel.exists({ $and: [{ userId }, filter] }).lean();
   }
 }

@@ -69,7 +69,7 @@ export default (app: Router) => {
           emotions: myEmotion,
           reminder,
         };
-        const createdResult: IStat = await statService.create(newResult);
+        const createdResult: IStat = await statService.create(userId, newResult);
 
         const response: IResponse<IStat> = {
           success: true,

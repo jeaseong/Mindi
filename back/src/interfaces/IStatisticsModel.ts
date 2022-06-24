@@ -5,5 +5,5 @@ export interface IStatModel {
   updateOne: (filter: Partial<IStat>, toUpdate: Partial<IStat>) => Promise<IStat>;
   deleteOne: (id: string) => Promise<void>;
   findByDate: (userId: string, date: string) => Promise<IStat>;
-  exists: (filter: Partial<IStat>) => Promise<Boolean>;
+  exists: (userId: string, filter: Partial<IStat>) => Promise<Boolean>;
 }

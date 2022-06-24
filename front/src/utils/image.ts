@@ -32,6 +32,11 @@ export const IMAGE = {
     alt: '글씨 강조 동그라미',
   },
 
+  RESULT_EFFECT: {
+    url: `${url}/assets/result_effect.png`,
+    alt: '캐릭터 뒤 집중선',
+  },
+
   HAPPINESS: {
     url: `${url}/assets/happiness.png`,
     alt: '행복 캐릭터',

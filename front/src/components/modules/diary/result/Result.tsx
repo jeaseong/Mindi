@@ -1,24 +1,28 @@
 import React, { useEffect, useState } from 'react';
 import 'chart.js/auto';
-import { Doughnut, Line } from 'react-chartjs-2';
+import { Doughnut } from 'react-chartjs-2';
 import YouTube from 'react-youtube';
 import Image from 'components/atoms/image/Image';
 import Button from 'components/atoms/button/Button';
 import { SENTIMENTS } from '../../../../utils/ResultImgData';
 import { getCurDate } from 'utils/utils';
 import { useNavigate } from 'react-router-dom';
-import { getDiaryList, getDiaryListTemp } from 'api/api';
+import { getDiaryList } from 'api/api';
 import {
   ContentWrapper,
   Title,
   Emotion,
   SubTitle,
   ChartWrapper,
+  CharacterWrapper,
   YouTubeWrapper,
   ButtonWrapper,
   ResultButton,
+  ButtonLine,
+  CharacterEffect,
 } from './Result.style';
 import { LineBottom } from 'components/atoms/pageTitle/pageTitle.style';
+import { IMAGE } from 'utils/image';
 
 function Result() {
   const navigate = useNavigate();
@@ -105,11 +109,18 @@ function Result() {
       <Title>오늘의 감정 분석 결과:</Title>
 
       <Emotion>{diaryDataMax}</Emotion>
-      <Image
-        width='47%'
-        src={SENTIMENTS[diaryDataMax as string].url}
-        alt={SENTIMENTS[diaryDataMax as string].alt}
-      />
+      <CharacterWrapper>
+        <CharacterEffect
+          width='16%'
+          src={IMAGE.RESULT_EFFECT.url}
+          alt={IMAGE.RESULT_EFFECT.alt}
+        />
+        <Image
+          width='45%'
+          src={SENTIMENTS[diaryDataMax as string].url}
+          alt={SENTIMENTS[diaryDataMax as string].alt}
+        />
+      </CharacterWrapper>
       <SubTitle>오늘의 감정 그래프</SubTitle>
       <ChartWrapper>
         <Doughnut data={data} />
@@ -119,7 +130,7 @@ function Result() {
         <YouTube videoId='E0COLl4M1i4' opts={videoOptions} />
       </YouTubeWrapper>
       <ButtonWrapper>
-        <LineBottom />
+        <ButtonLine />
         <ResultButton>
           <Button
             onClick={() => {

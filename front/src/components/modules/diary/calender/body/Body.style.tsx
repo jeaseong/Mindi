@@ -36,17 +36,17 @@ export const Day = styled.div<DayProps>`
   background-color: ${(props) => {
     switch (props.sentiment) {
       case 'fear':
-        return '#8ccd96';
+        return '#FEBA4F';
       case 'aversion':
-        return '#8ccd96';
+        return '#89E077';
       case 'surprised':
-        return '#8ccd96';
+        return '#C381FD';
       case 'anger':
-        return '#8ccd96';
+        return '#F2626B';
       case 'sadness':
-        return '#8ccd96';
+        return '#83C3FF';
       case 'happiness':
-        return '#8ccd96';
+        return '#FFEA7F';
       default:
         return null;
     }

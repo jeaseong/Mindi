@@ -1,17 +1,17 @@
-import React from 'react';
-import { useQueryClient } from 'react-query';
+import React, { useState } from 'react';
+import { useGetDiaryList } from 'hooks/diaryQuery';
 import { CalenderBodyProps } from 'types/atoms';
-import { selectMaxSentiment } from 'utils/utils';
+import { selectMaxSentiment, getDateForString } from 'utils/utils';
 import { Container, Days, Day, Span } from './Body.style';
-
 function Body({ totalDate, year, month, TODAY }: CalenderBodyProps) {
-  const queryClient = useQueryClient();
-  // return type을 전부 정의해줘야하는가..
-  const diary: any = queryClient.getQueryData([
-    'diary',
-    `${TODAY.slice(0, 7)}-00`,
-  ]);
-  let count = 0;
+  const date = getDateForString(year, month, 0);
+  const { diary, isFetching } = useGetDiaryList(
+    `${year}`,
+    `${date.slice(5, 7)}`,
+    '00',
+  );
+  let count = diary?.length - 1;
+
   return (
     <Container>
       {totalDate?.map((days, index) => {
@@ -23,10 +23,14 @@ function Body({ totalDate, year, month, TODAY }: CalenderBodyProps) {
               const curKey = `${year}-${
                 month >= 10 ? month : `0${month}`
               }-${day}`;
-              const sentiment =
-                diary && curKey === diary[count]?.diaryDate
-                  ? selectMaxSentiment(diary[count++]?.sentiment)
-                  : 'none';
+
+              let sentiment;
+              if (diary && curKey === diary[count]?.diaryDate) {
+                sentiment = selectMaxSentiment(diary[count--]?.sentiment);
+              } else {
+                sentiment = 'none';
+              }
+
               return (
                 <Day
                   isToday={curKey === TODAY ? true : false}

@@ -1,13 +1,14 @@
 import { Service, Inject } from "typedi";
 import { StatusError } from "../utils/error";
 import { MongoCommentModel } from "../models/comment";
-import {IComment} from "../interfaces/IComment";
+import { IComment } from "../interfaces/IComment";
+import winston from "winston";
 
 @Service()
 export default class CommentService {
   constructor(
     private commentModel: MongoCommentModel,
-    @Inject("logger") private logger: any
+    @Inject("logger") private logger: winston.Logger
   ) {
   }
   public async makeNewComment(body: Partial<IComment>) {

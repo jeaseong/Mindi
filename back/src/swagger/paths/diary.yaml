@@ -79,11 +79,23 @@ GetAList:
   summary: 특정 날짜의 다이어리 리스트를 반환합니다.
   parameters:
     - in: query
-      name: date
+      name: year
       schema:
         type: string
-        example: "2022-06-16"
-      description: YYYY / YYYY-MM / YYYY-MM-DD 형식에 일치해야 합니다.
+        example: "2022"
+      description: 연도를 나타냅니다. 형식은 "YYYY"입니다.
+    - in: query
+      name: month
+      schema:
+        type: string
+        example: "06"
+      description: (Optional) 월을 나타냅니다. 형식은 "MM"입니다.
+    - in: query
+      name: day
+      schema:
+        type: string
+        example: "21"
+      description: (Optional) 일을 나타냅니다. 형식은 "DD"입니다.
   responses:
     "200":
       description: 특정 날짜에 해당하는 다이어리 리스트를 최신 순으로 나열하여 반환합니다.

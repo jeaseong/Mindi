@@ -9,9 +9,9 @@ createWithImage:
           "feeling": '"example"',
           "sentiment":
             { "fear": 2, "surprised": 0, "anger": 0, "sadness": 0, "happiness": 1, "aversion": 0 },
-          "createdDate": "2022-6-14",
+          "diaryDate": "2022-6-14",
           "imageFileName": "background_1655172367029_test.jpg",
-          "imageFilePath": "http://localhost:5001/images/background_1655172367029_test.jpg",
+          "imageFilePath": "https://mindi-bucket.kr.object.ncloudstorage.com/background_1655815723162_test2.jpg",
           "_id": "62a7ed0f291754e07d151aac",
           "createdAt": "2022-06-14T02:06:07.080Z",
           "updatedAt": "2022-06-14T02:06:07.080Z",
@@ -29,7 +29,7 @@ createWithoutImage:
           "feeling": '"example"',
           "sentiment":
             { "fear": 2, "surprised": 0, "anger": 0, "sadness": 0, "happiness": 1, "aversion": 0 },
-          "createdDate": "2022-6-14",
+          "diaryDate": "2022-6-14",
           "_id": "62a7ed0f291754e07d151aac",
           "createdAt": "2022-06-14T02:06:07.080Z",
           "updatedAt": "2022-06-14T02:06:07.080Z",
@@ -37,12 +37,7 @@ createWithoutImage:
         },
     }
 diaryToRemove:
-  value:
-    {
-      "_id": "62a7ed0f291754e07d151aac",
-      "imageFileName": "background_1655172367029_test.jpg",
-      "imageFilePath": "http://localhost:5001/images/background_1655172367029_test.jpg",
-    }
+  value: { "_id": "62a7ed0f291754e07d151aac", "imageFileName": "background_1655172367029_test.jpg" }
 diaryWithNoImage:
   value: { "_id": "62a7ed0f291754e07d151aac" }
 diaryList:
@@ -65,7 +60,7 @@ diaryList:
                 "happiness": 1,
                 "aversion": 0,
               },
-            createdDate: "2022-06-16",
+            diaryDate: "2022-06-16",
             createdAt: "2022-06-16T09:10:27.553Z",
             updatedAt: "2022-06-16T09:10:27.706Z",
             __v: 0,
@@ -84,7 +79,7 @@ diaryList:
                 "happiness": 1,
                 "aversion": 0,
               },
-            createdDate: "2022-06-16",
+            diaryDate: "2022-06-16",
             createdAt: "2022-06-16T08:40:53.671Z",
             updatedAt: "2022-06-16T08:40:53.671Z",
             __v: 0,

@@ -19,14 +19,6 @@ function loginRequired(req: Request, res: Response, next: NextFunction) {
     const payload = jwt.verify(token as string, config.jwtSecretKey as string) as JwtPayload;
 
     req.user = {
-      colorScheme: [""],
-      createdAt: "",
-      email: "",
-      name: "",
-      password: "",
-      recentLogin: "",
-      role: "",
-      updatedAt: "",
       _id: payload!._id };
     next();
 

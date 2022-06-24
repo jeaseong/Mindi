@@ -2,6 +2,7 @@ import { IUserModel } from '../../src/interfaces/IUserModel';
 import { faker } from "@faker-js/faker";
 import dayjs from "dayjs";
 import AuthService from "../../src/services/auth";
+import logger from "../../src/loaders/winston";
 
 const mockObjectId = faker.database.mongodbObjectId();
 const dayString = dayjs().toISOString();
@@ -16,6 +17,7 @@ const userObject = {
   email: mockEmail,
   password: mockPassword,
   role: role,
+  colorScheme: ["#asdfgh"],
   recentLogin: dayString,
   createdAt: dayString,
   updatedAt: dayString
@@ -51,7 +53,7 @@ export class TestUserModel implements IUserModel {
 }
 
 describe("Auth Service Test", () => {
-  const authService = new AuthService(new TestUserModel);
+  const authService = new AuthService(new TestUserModel, logger);
 
   test("should return UserInfo.", async () => {
     expect(await authService.localSignUp(mockEmail, mockName, mockPassword)).toEqual(userObject);

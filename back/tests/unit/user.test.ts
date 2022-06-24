@@ -2,6 +2,7 @@ import { IUserModel } from '../../src/interfaces/IUserModel';
 import { faker } from "@faker-js/faker";
 import dayjs from "dayjs";
 import UserService from "../../src/services/user";
+import logger from "../../src/loaders/winston";
 
 const mockObjectId = faker.database.mongodbObjectId();
 const dayString = dayjs().toISOString();
@@ -16,6 +17,7 @@ const userObject = {
   email: mockEmail,
   password: mockPassword,
   role: role,
+  colorScheme: ["#asdfgh"],
   recentLogin: dayString,
   createdAt: dayString,
   updatedAt: dayString
@@ -56,7 +58,7 @@ export class TestUserModel implements IUserModel {
 }
 
 describe("User Service Test", () => {
-  const userService = new UserService(new TestUserModel);
+  const userService = new UserService(new TestUserModel, logger);
 
   test("should return UserInfo.", async () => {
     expect(await userService.getUserInfo(mockObjectId)).toEqual(userObject);

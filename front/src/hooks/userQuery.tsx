@@ -4,7 +4,6 @@ import { signInPost, getCurUser } from 'api/api';
 import { SignInInfo } from 'types/apiType';
 
 export const useCurUser = () => {
-  const queryClient = useQueryClient();
   return useQuery(
     'userState',
     async () => {

@@ -15,6 +15,7 @@ export type TextProps = {
 export type TextAreaProps = {
   bgColor?: 'green' | 'red';
   onChange?: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  value?: string;
 };
 
 export type ImgProps = {
@@ -83,6 +84,7 @@ export interface CustomizedState {
 }
 
 export interface DiaryType {
+  _id?: string;
   diary: string;
   feeling: string;
   diaryDate: string;

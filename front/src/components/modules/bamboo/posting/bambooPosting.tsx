@@ -26,7 +26,11 @@ function BambooPosting() {
       postBambooPosting({
         title: bambooTitleRef.current.value,
         content: bambooTextRef.current.value,
-      }).then((res) => console.log(res));
+      })
+        .then(() => {
+          alert('등록 완료!'), navigate('/bamboo-grove');
+        })
+        .catch((err) => console.log(err));
     }
   };
 

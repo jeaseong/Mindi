@@ -13,25 +13,58 @@ export const IMAGE = {
     alt: '업로드 기본 사진입니다.',
   },
   LOGO_EFFECT_LINE: {
-    url: `${process.env.PUBLIC_URL}/assets/logo_effect_line.png`,
+    url: `${url}/assets/logo_effect_line.png`,
     alt: '로고 집중선',
   },
 
   LOGO_TEXT: {
-    url: `${process.env.PUBLIC_URL}/assets/logo_text.png`,
+    url: `${url}/assets/logo_text.png`,
     alt: '로고 텍스트',
   },
 
   NEW_LOGO: {
-    url: `${process.env.PUBLIC_URL}/assets/logo.png`,
+    url: `${url}/assets/logo.png`,
     alt: '서비스 로고',
   },
-  HAPPY: {
-    url: `${process.env.PUBLIC_URL}/assets/happy.png`,
+
+  MAIN_DOODLE: {
+    url: `${url}/assets/main_doodle.png`,
+    alt: '글씨 강조 동그라미',
+  },
+
+  RESULT_EFFECT: {
+    url: `${url}/assets/result_effect.png`,
+    alt: '캐릭터 뒤 집중선',
+  },
+};
+
+type sentimentsType = {
+  [key: string]: { [key: string]: string };
+};
+
+export const SENTIMENTS: sentimentsType = {
+  HAPPINESS: {
+    url: `${url}/assets/happiness.png`,
     alt: '행복 캐릭터',
   },
-  MAIN_DOODLE: {
-    url: `${process.env.PUBLIC_URL}/assets/main_doodle.png`,
-    alt: '글씨 강조 동그라미',
+  ANGER: {
+    url: `${url}/assets/anger.png`,
+    alt: '화남 캐릭터',
+  },
+  AVERSION: {
+    url: `${url}/assets/aversion.png`,
+    alt: '혐오 캐릭터',
+  },
+  SADNESS: {
+    url: `${url}/assets/sadness.png`,
+    alt: '슬픔 캐릭터',
+  },
+  FEAR: {
+    url: `${url}/assets/scared.png`,
+    alt: '두려움 캐릭터',
+  },
+  SURPRISED: {
+    url: `${url}/assets/surprised.png`,
+    alt: '놀람 캐릭터',
   },
 };

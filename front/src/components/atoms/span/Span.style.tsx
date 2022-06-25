@@ -9,7 +9,6 @@ export const StyledSpan = styled.span<SpanProps>`
   word-break: break-all;
 
   &.small {
-    padding: 0.5em 0.3em;
     font-size: 1rem;
   }
   &.normal {

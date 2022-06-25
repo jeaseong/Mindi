@@ -1,17 +1,10 @@
 import React from 'react';
-import Calender from 'components/modules/diary/calender/Calender';
-import DiaryCard from 'components/modules/diary/diaryList/DiaryCard';
-import { Wrap, DiaryCalendar, DiaryList } from './DiaryTemplate.style';
+import Diary from 'components/modules/diary/Diary';
+import { Wrap } from './DiaryTemplate.style';
 function DiaryTemplate() {
   return (
     <Wrap>
-      <DiaryCalendar>
-        <Calender />
-        <Calender />
-      </DiaryCalendar>
-      <DiaryList>
-        <DiaryCard />
-      </DiaryList>
+      <Diary />
     </Wrap>
   );
 }

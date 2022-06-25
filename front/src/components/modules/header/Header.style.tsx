@@ -19,6 +19,4 @@ export const Nav = styled.nav`
   align-items: center;
 `;
 
-export const NavItem = styled.span`
-  font-size: 0.8rem;
-`;
+export const NavItem = styled.span``;

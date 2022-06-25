@@ -8,6 +8,8 @@ export interface BtnProps {
 
 export type TextProps = {
   children: React.ReactNode;
+  align?: string;
+  size?: string;
 };
 
 export type TextAreaProps = {
@@ -76,6 +78,16 @@ export interface CardProps {
   bgImg: string;
 }
 
+export interface CustomizedState {
+  [date: string]: string;
+}
+
+export interface DiaryType {
+  diary: string;
+  feeling: string;
+  diaryDate: string;
+}
+
 export interface FileType {
   preview: string;
   data: File | undefined;
@@ -90,6 +102,27 @@ export interface CalenderProps {
   year: number;
   month: number;
   onChangeMonth: (m: number) => void;
+  onSetDay: (d: number) => void;
+}
+
+export interface CalenderHeadProps {
+  year: number;
+  month: number;
+  onChangeMonth: (m: number) => void;
+}
+
+export interface PreviewProps {
+  year: number;
+  month: number;
+  day: number;
+}
+
+export interface CalenderBodyProps {
+  year: number;
+  month: number;
+  TODAY: string;
+  totalDate: string[][];
+  onSetDay: (d: number) => void;
 }
 
 export interface ModalProps {

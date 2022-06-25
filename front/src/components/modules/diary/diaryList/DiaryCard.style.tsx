@@ -13,24 +13,12 @@ export const DiaryPosts = styled.div`
 export const DiaryPost = styled.article`
   height: 200px;
   padding: 8px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
   border: 1px solid black;
-`;
-
-export const Date = styled.h3`
-  display: inline-block;
-  padding: 4px;
-  font-size: 0.8rem;
-  background-color: ${(props) => props.theme.colors.basicWhite};
-  font-weight: normal;
-  margin-bottom: 8px;
 `;
 
 export const PreviewPost = styled.div<CardProps>`
   width: 100%;
-  height: 142px;
+  height: 144px;
   padding: 10px;
   line-height: 22px;
   background-color: #fff4cb;

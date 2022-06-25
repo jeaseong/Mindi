@@ -1,70 +1,67 @@
-import {
-  customAxios,
-  customAxiosFileUpload,
-  customAxiosForAi,
-} from 'api/costomAxios';
+import { customAxiosFileUpload, Axios } from 'api/costomAxios';
 import { SignUpInfo, SignInInfo, diary } from 'types/apiType';
 import axios from 'axios';
 
 export const signUpPost = async (userInfo: SignUpInfo) => {
   const apiUrl = `api/auth/local/sign-up`;
-  await customAxios.post(apiUrl, userInfo);
+  await Axios.post(apiUrl, userInfo);
 };
 
 export const signInPost = async (userInfo: SignInInfo) => {
   const apiUrl = `api/auth/local/sign-in`;
-  const { data } = await customAxios.post(apiUrl, userInfo);
+  const { data } = await Axios.post(apiUrl, userInfo);
   return data.result;
 };
 
 export const getCurUser = async () => {
   const apiUrl = `api/users`;
-  const { data } = await customAxios.get(apiUrl);
+  const { data } = await Axios.get(apiUrl);
   return data.result;
 };
 
-export const getDiaryList = async (
-  year: number,
-  month: number,
-  day: number,
-) => {
-  const apiUrl = `/diaries?year=${year}&month=${month}&day=${day}`;
-  const { data } = await customAxios.get(apiUrl);
-  return data.result;
-};
-
-export const postAnalysis = async (diary: diary) => {
-  const apiUrl = `diaries/sentiment`;
-  const { data } = await customAxiosForAi.post(apiUrl, diary);
-  return data.result;
-};
 export const postDiaryPosting = async (diaryData: any) => {
   const apiUrl = `api/diaries`;
   await customAxiosFileUpload.post(apiUrl, diaryData);
 };
 
+export const postAnalysis = async (diary: diary) => {
+  const apiUrl = `diaries/sentiment`;
+  const { data } = await Axios.post(apiUrl, diary);
+  return data.result;
+};
+
+export const getDiaryList = async (
+  year: string,
+  month: string,
+  day: string,
+) => {
+  const apiUrl = `api/diaries?year=${year}&month=${month}&day=${day}`;
+  const { data } = await Axios.get(apiUrl);
+  return data.result;
+};
+
 export const postBambooPosting = async (bambooData: any) => {
   const apiUrl = `api/posts`;
-  await axios.post(apiUrl, bambooData);
+  await Axios.post(apiUrl, bambooData);
 };
 
 export const getBambooList = async () => {
   const apiUrl = `api/users/posts`;
-  const { data } = await customAxios.get(apiUrl);
+  const { data } = await axios.get(apiUrl);
   return data.result;
 };
 
 export const postComment = async (postId: any, content: string) => {
   const apiUrl = `api/posts/comments/${postId}`;
-  await customAxios.post(apiUrl, content);
+  await Axios.post(apiUrl, content);
 };
 
 export const deleteComment = async (commentId: any) => {
   const apiUrl = `api/posts/comments/${commentId}`;
-  await customAxios.delete(apiUrl);
+  await Axios.delete(apiUrl);
 };
 
 export const putComment = async (commentId: any, content: string) => {
   const apiUrl = `api/posts/comments/${commentId}`;
-  await customAxios.put(apiUrl, content);
+  await Axios.put(apiUrl, content);
 };

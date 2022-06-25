@@ -6,6 +6,7 @@ export const CalenderHeader = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 10px;
+  margin-bottom: 10px;
 `;
 
 export const Nav = styled.div`

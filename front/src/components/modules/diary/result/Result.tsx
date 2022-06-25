@@ -4,7 +4,7 @@ import { Doughnut } from 'react-chartjs-2';
 import YouTube from 'react-youtube';
 import Image from 'components/atoms/image/Image';
 import Button from 'components/atoms/button/Button';
-import { SENTIMENTS } from '../../../../utils/ResultImgData';
+import { SENTIMENTS } from 'utils/image';
 import { getCurDate } from 'utils/utils';
 import { useNavigate } from 'react-router-dom';
 import { getDiaryList } from 'api/api';

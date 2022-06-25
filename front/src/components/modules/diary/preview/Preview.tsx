@@ -24,19 +24,26 @@ function Preview({ year, month, day }: PreviewProps) {
     `${date.slice(8, 10)}`,
   );
 
-  const onClickToPosting = () => {
-    navigate('/diary-posting', {
-      state: {
-        date,
-      },
-    });
-  };
-  const onClickToResult = () => {
-    navigate(`/result/${date}`, {
-      state: {
-        date,
-      },
-    });
+  const onClickTo = (type: string) => {
+    if (type === 'posting') {
+      navigate('/diary-posting', {
+        state: {
+          date,
+        },
+      });
+    } else if (type === 'result') {
+      navigate(`/result/${date}`, {
+        state: {
+          date,
+        },
+      });
+    } else if (type === 'edit') {
+      navigate(`/diary-edit`, {
+        state: {
+          date,
+        },
+      });
+    }
   };
 
   let sentiment = '';
@@ -72,7 +79,9 @@ function Preview({ year, month, day }: PreviewProps) {
           </PreviewSentiment>
           <NavigateBox>
             <Text size='sm'>일기 써주세요ㅠ</Text>
-            <Button onClick={onClickToPosting}>일기 쓰러가기 &rarr;</Button>
+            <Button onClick={() => onClickTo('posting')}>
+              일기 쓰러가기 &rarr;
+            </Button>
           </NavigateBox>
         </PreviewBox>
       </Container>
@@ -95,8 +104,12 @@ function Preview({ year, month, day }: PreviewProps) {
           />
         </PreviewSentiment>
         <NavigateBox>
-          <Button onClick={onClickToPosting}>일기 수정하기 &rarr;</Button>
-          <Button onClick={onClickToResult}>일기 결과보기 &rarr;</Button>
+          <Button onClick={() => onClickTo('edit')}>
+            일기 수정하기 &rarr;
+          </Button>
+          <Button onClick={() => onClickTo('result')}>
+            일기 결과보기 &rarr;
+          </Button>
         </NavigateBox>
       </PreviewBox>
     </Container>

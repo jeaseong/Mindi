@@ -35,7 +35,7 @@ function Posting() {
 
   const onChangeMind = useCallback(
     (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-      setMindDiary((cur) => e.target.value);
+      setMindDiary(e.target.value);
     },
     [mindDiary],
   );

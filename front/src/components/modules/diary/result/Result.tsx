@@ -20,21 +20,26 @@ import {
   ResultButton,
   ButtonLine,
   CharacterEffect,
+  DiaryWrapper,
+  FeelingWrapper,
+  DiaryAndFeeling,
 } from './Result.style';
-import { LineBottom } from 'components/atoms/pageTitle/pageTitle.style';
 import { IMAGE } from 'utils/image';
 
 function Result() {
   const navigate = useNavigate();
+  const [sentimentData, setSentimentData] = useState();
   const [diaryData, setDiaryData] = useState();
+  const [feelingData, setFeelingData] = useState();
 
   const curDate = getCurDate();
   const strSplit = curDate.split('-');
 
   useEffect(() => {
     getDiaryList(strSplit[0], strSplit[1], strSplit[2]).then((data) => {
-      setDiaryData(data[0].sentiment);
-      console.log(diaryData);
+      setSentimentData(data[0].sentiment);
+      setDiaryData(data[0].diary);
+      setFeelingData(data[0].feeling);
     });
   }, []);
 
@@ -51,38 +56,37 @@ function Result() {
   };
 
   // 점수가 가장 높은 감정 1개 반환
-  const selectMaxSentiment = (diaryData: any) => {
-    if (diaryData) {
-      const keysSorted = Object.keys(diaryData).sort(
-        (a, b) => diaryData[a] - diaryData[b],
+  const selectMaxSentiment = (sentimentData: any) => {
+    if (sentimentData) {
+      const keysSorted = Object.keys(sentimentData).sort(
+        (a, b) => sentimentData[a] - sentimentData[b],
       );
       const max = keysSorted.pop()?.toUpperCase();
       return max;
     }
   };
 
-  const diaryDataMax = selectMaxSentiment(diaryData);
+  const diaryDataMax = selectMaxSentiment(sentimentData);
 
   // 차트 감정 이름, 감정 값 구하기
 
-  const selectSentimentNames = (diaryData: any) => {
-    if (diaryData) {
-      const sentimentNames = Object.keys(diaryData);
+  const selectSentimentNames = (sentimentData: any) => {
+    if (sentimentData) {
+      const sentimentNames = Object.keys(sentimentData);
       return sentimentNames;
     }
   };
-  const selectSentimentValues = (diaryData: any) => {
-    if (diaryData) {
-      const sentimentValues: Array<number> = Object.values(diaryData);
+  const selectSentimentValues = (sentimentData: any) => {
+    if (sentimentData) {
+      const sentimentValues: Array<number> = Object.values(sentimentData);
 
       return sentimentValues;
     }
   };
 
-  const sentimentNames = selectSentimentNames(diaryData);
+  const sentimentNames = selectSentimentNames(sentimentData);
 
-  const sentimentValues = selectSentimentValues(diaryData);
-  console.log(diaryDataMax, sentimentNames, sentimentValues);
+  const sentimentValues = selectSentimentValues(sentimentData);
 
   const data = {
     datasets: [
@@ -103,7 +107,12 @@ function Result() {
     labels: sentimentNames,
   };
 
-  if (diaryData === undefined) return <></>;
+  if (
+    sentimentData === undefined ||
+    diaryData === undefined ||
+    feelingData === undefined
+  )
+    return <></>;
   return (
     <ContentWrapper>
       <Title>오늘의 감정 분석 결과:</Title>
@@ -121,6 +130,12 @@ function Result() {
           alt={SENTIMENTS[diaryDataMax as string].alt}
         />
       </CharacterWrapper>
+      <DiaryAndFeeling>
+        <SubTitle>오늘 한 일</SubTitle>
+        <DiaryWrapper>{diaryData}</DiaryWrapper>
+        <SubTitle>오늘 느낀 감정</SubTitle>
+        <FeelingWrapper>{feelingData}</FeelingWrapper>
+      </DiaryAndFeeling>
       <SubTitle>오늘의 감정 그래프</SubTitle>
       <ChartWrapper>
         <Doughnut data={data} />

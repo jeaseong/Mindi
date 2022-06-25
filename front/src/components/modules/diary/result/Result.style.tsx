@@ -64,3 +64,23 @@ export const ButtonLine = styled.hr`
   width: 70%;
   border-radius: 2em;
 `;
+
+export const DiaryAndFeeling = styled.section`
+  margin-top: 3em;
+  width: 55em;
+  text-align: start;
+  line-height: 1.7em;
+`;
+
+export const DiaryWrapper = styled.div`
+  margin-top: 2em;
+  margin-bottom: 4em;
+`;
+
+export const FeelingWrapper = styled.div`
+  margin-top: 2em;
+`;
+
+export const Diarytitle = styled.h4``;
+
+export const Feelingtitle = styled.h4``;

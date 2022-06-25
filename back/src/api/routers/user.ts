@@ -13,7 +13,7 @@ export default (app: Router) => {
 
   userRouter.get("/", checkAuth, async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const userId = req.user!._id;
+      const userId = <string>req.user!._id;
 
       const userService = Container.get(UserService);
       const user = await userService.getUserInfo(userId);
@@ -40,7 +40,7 @@ export default (app: Router) => {
     userValidator.userUpdateBody,
     async (req: Request, res: Response, next: NextFunction) => {
       try {
-        const userId = req.user!._id;
+        const userId = <string>req.user!._id;
         const fieldToUpdate = matchedData(req);
 
         const userService = Container.get(UserService);
@@ -65,7 +65,7 @@ export default (app: Router) => {
 
   userRouter.delete("/", checkAuth, async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const userId = req.user!._id;
+      const userId = <string>req.user!._id;
 
       const userService = Container.get(UserService);
       await userService.deleteUser(userId);

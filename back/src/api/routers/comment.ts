@@ -21,7 +21,7 @@ export default (app: Router) => {
       try {
         const { commentId } = req.params;
         const { content } = matchedData(req);
-        const author = req.user!._id;
+        const author = <string>req.user!._id;
 
         const commentService = Container.get(CommentService);
         const postService = Container.get(PostService);
@@ -226,7 +226,7 @@ export default (app: Router) => {
     async (req: Request, res: Response, next: NextFunction) => {
       try {
         const { commentId } = req.params;
-        const userId = req.user!._id;
+        const userId = <string>req.user!._id;
         const fieldToUpdate = matchedData(req);
 
         const commentService = Container.get(CommentService);
@@ -257,7 +257,7 @@ export default (app: Router) => {
     async (req: Request, res: Response, next: NextFunction) => {
       try {
         const { commentId } = req.params;
-        const userId = req.user!._id;
+        const userId = <string>req.user!._id;
 
         const commentService = Container.get(CommentService);
         const postService = Container.get(PostService);

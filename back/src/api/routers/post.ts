@@ -157,7 +157,7 @@ export default (app: Router) => {
     async (req: Request, res: Response, next: NextFunction) => {
       try {
         const { postId } = req.params;
-        const userId = req.user!._id;
+        const userId = <string>req.user!._id;
         const fieldToUpdate = matchedData(req);
 
         const postService = Container.get(PostService);
@@ -188,7 +188,7 @@ export default (app: Router) => {
     async (req: Request, res: Response, next: NextFunction) => {
       try {
         const { postId } = req.params;
-        const userId = req.user!._id;
+        const userId = <string>req.user!._id;
 
         const postService = Container.get(PostService);
 

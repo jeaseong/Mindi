@@ -20,7 +20,7 @@ export default (app: Router) => {
     diaryValidator.diaryBody,
     async (req: Request, res: Response, next: NextFunction) => {
       try {
-        const userId = req.user!._id;
+        const userId = <string>req.user!._id;
         const imgInfo = Object(req.file);
 
         const errors = validationResult(req);
@@ -134,7 +134,7 @@ export default (app: Router) => {
     validationErrorChecker,
     async (req: Request, res: Response, next: NextFunction) => {
       try {
-        const userId = req.user!._id;
+        const userId = <string>req.user!._id;
         const { year, month, day } = req.query;
 
         let date: string;

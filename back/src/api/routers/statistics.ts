@@ -19,7 +19,7 @@ export default (app: Router) => {
     validationErrorChecker,
     async (req: Request, res: Response, next: NextFunction) => {
       try {
-        const userId = req.user!._id;
+        const userId = <string>req.user!._id;
 
         const { year, month } = req.query;
         const date: string = `${year}-${month}`;
@@ -101,7 +101,7 @@ export default (app: Router) => {
 
   statRouter.get("/", checkAuth, async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const userId = req.user!._id;
+      const userId = <string>req.user!._id;
       const { year, month } = req.query;
       const monthly: string = `${year}-${month}`;
 

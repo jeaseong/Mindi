@@ -4,6 +4,7 @@ import {
   customAxiosForAi,
 } from 'api/costomAxios';
 import { SignUpInfo, SignInInfo, diary } from 'types/apiType';
+import axios from 'axios';
 
 export const signUpPost = async (userInfo: SignUpInfo) => {
   const apiUrl = `api/auth/local/sign-up`;
@@ -44,7 +45,7 @@ export const postDiaryPosting = async (diaryData: any) => {
 
 export const postBambooPosting = async (bambooData: any) => {
   const apiUrl = `api/posts`;
-  await customAxios.post(apiUrl, bambooData);
+  await axios.post(apiUrl, bambooData);
 };
 
 export const getBambooList = async () => {

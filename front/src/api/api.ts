@@ -53,7 +53,17 @@ export const getBambooList = async () => {
   return data.result;
 };
 
-export const postBambooCommentPosting = async (bambooData: any) => {
-  const apiUrl = `api/posts/comments`;
-  await customAxios.post(apiUrl, bambooData);
+export const postComment = async (postId: any, content: string) => {
+  const apiUrl = `api/posts/comments/${postId}`;
+  await customAxios.post(apiUrl, content);
+};
+
+export const deleteComment = async (commentId: any) => {
+  const apiUrl = `api/posts/comments/${commentId}`;
+  await customAxios.delete(apiUrl);
+};
+
+export const putComment = async (commentId: any, content: string) => {
+  const apiUrl = `api/posts/comments/${commentId}`;
+  await customAxios.put(apiUrl, content);
 };

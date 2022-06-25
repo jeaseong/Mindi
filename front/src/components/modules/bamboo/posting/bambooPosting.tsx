@@ -1,26 +1,34 @@
-import React, { useRef } from 'react';
+import React, { useState, useMemo, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   BambooPostForm,
   BambooPostStyle,
   TodaysDate,
   InputArea,
-  Input,
+  TextInput,
+  TitleInput,
   ButtonArea,
 } from './bambooPosting.style';
 import Button from 'components/atoms/button/Button';
+import { postBambooPosting } from 'api/api';
 
 function BambooPosting() {
   const navigate = useNavigate();
-  const bambooRef = useRef<HTMLTextAreaElement>(null);
+  const bambooTitleRef = useRef<HTMLInputElement>(null);
+  const bambooTextRef = useRef<HTMLTextAreaElement>(null);
 
-  function onSubmit(e: any) {
+  const onSubmit = (e: any) => {
     e.preventDefault();
 
-    if (bambooRef.current !== null) {
-      console.log(bambooRef.current.value);
+    if (bambooTextRef.current !== null && bambooTitleRef.current !== null) {
+      console.log(bambooTitleRef.current.value, bambooTextRef.current.value);
+
+      postBambooPosting({
+        title: bambooTitleRef.current.value,
+        content: bambooTextRef.current.value,
+      }).then((res) => console.log(res));
     }
-  }
+  };
 
   function getTodaysDate() {
     const today = new Date();
@@ -38,8 +46,9 @@ function BambooPosting() {
       <BambooPostForm onSubmit={onSubmit}>
         <TodaysDate>{dateString}</TodaysDate>
         <InputArea>
-          <Input
-            ref={bambooRef}
+          <TitleInput ref={bambooTitleRef} placeholder='제목을 적어주세요!' />
+          <TextInput
+            ref={bambooTextRef}
             placeholder='공유하고 싶은 감정을 적어주세요!'
           />
         </InputArea>

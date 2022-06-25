@@ -1,0 +1,68 @@
+version: "3"
+services:
+#  redis:
+#    image: redis:alpine
+#    container_name: redis
+#    restart: always
+#    ports:
+#      - "6379:6379"
+#    command:
+#      - "redis-server"
+
+  ml-server:
+    build:
+      contex: ../ai
+      dockerfile: Dockerfile.dev
+    container_name: ml-server
+    # container port를 host port와는 매핑하지 않고 conatiner network 상에서만 container port를 노출
+    # 즉, ml-server는 host port를 통해 접근이 불가하다. 오직 container network 상에서만 접속 가능
+    # server container는 ml-server container에 아래와 같이 http request를 날릴 수 있다:
+    # e.g. http://ml-server:3000/{path}
+    # 위의 url의 호스트 즉 ml-server는 docker-compose.yaml의 service 아래 서비스 명이다.
+    # 자세한 글은 https://docs.docker.com/compose/networking/
+    # 참고로 container engine(Docker와 같은) 자체 네트워크를 구성해서 컨테이너 간 통신을 가능하게 해준다.
+    expose: 3000
+    depends_on:
+      - server
+
+  client:
+    build:
+      context: ../front
+      dockerfile: Dockerfile.dev
+    container_name: client
+    ports:
+      - "80:80"
+    depends_on:
+#      - redis
+      - server
+
+  server:
+    build:
+      context: ../back
+      dockerfile: Dockerfile.dev
+    container_name: server
+    ports:
+      - "5001:5001"
+#    depends_on:
+#      - redis
+
+# env는 노출되어도 괜찮은 친구들은 environments 아래에 명시적으로 두고 노출이 되면 안되는 값들은
+# docker secrets로 따로 관리하는게 어떨까 합니다. 아래는 예시에요. service에서 secret을 사용하는 방법은
+# services:
+#   app:
+#     environment:
+#       MONGO_USER: mongo_user
+#       MONGO_PW_FILE: /run/secrets/mongodb_pw
+#       JWT_SECRET_FILE: /run/secrets/jwt_secret
+#     secrets:
+#       - mongodb_pw
+#       - jwt_secret
+# secrets:
+#   mongodb_pw:
+#     external: true
+#   jwt_secret:
+#     external: true
+#
+# secret에 대한 설명은 https://docs.docker.com/engine/swarm/secrets/ 여기에 있고 compose에서의 예제는 페이지 가장 아래에 있습니다
+# secret 쓰지 않고 그냥 오피스아워에서 말씀드린 export ENV=something 방식으로 된 shell script를 source하는 방법으로 해도 되지만 이러한 방법도 있다는 걸
+# 알려드리기 위해 기록해놓았습니다 :) k8s에서 관리하는 방법이랑 유사해요ㅎㅎ

@@ -1,4 +1,3 @@
-// "jest --detectOpenHandles --forceExit"
 import request from "supertest";
 import { faker } from "@faker-js/faker";
 import mongoose from "mongoose";
@@ -12,17 +11,12 @@ import expressLoader from "../../src/loaders/express";
 import dependencyLoader from "../../src/loaders/dependencies";
 import { MongoMemoryServer } from "mongodb-memory-server";
 
+jest.setTimeout(10000);
+
+faker.locale = "ko";
 let accessToken: string;
 let mockObjectId: string;
 let imageFileName: string;
-const sentiment = {
-  fear: 2,
-  surprised: 0,
-  anger: 0,
-  sadness: 2,
-  happiness: 1,
-  aversion: 0,
-};
 const today = dayjs().locale("ko").format("YYYY-MM-DD");
 const server = `http://localhost:${config.port}`;
 
@@ -60,9 +54,9 @@ describe("Diary with no image", () => {
       .post("/api/diaries")
       .set("Authorization", `Bearer ${accessToken}`)
       .type("multipart/form-data")
-      .field("diary", faker.lorem.sentence())
-      .field("feeling", faker.lorem.sentence())
-      .field("sentiment", JSON.stringify(sentiment));
+      .field("diary", faker.lorem.sentences())
+      .field("feeling", faker.lorem.sentences())
+      .field("diaryDate", today);
     expect(response.status).toEqual(201);
     mockObjectId = response.body.result._id;
   });
@@ -73,22 +67,16 @@ describe("Diary with no image", () => {
       .set("Authorization", `Bearer ${accessToken}`)
       .type("multipart/form-data")
       .field("_id", mockObjectId)
-      .field("diary", faker.lorem.sentence())
-      .field("feeling", faker.lorem.sentence())
-      .field("sentiment", JSON.stringify(sentiment))
-      .field("createdDate", today);
+      .field("diary", faker.lorem.sentences())
+      .field("feeling", faker.lorem.sentences())
+      .field("diaryDate", today);
     expect(response.status).toEqual(200);
   });
 
   it("Get a diary list", async () => {
     const response = await request(server)
-      .get(`/api/diaries?date=${"2022-06"}`)
+      .get(`/api/diaries?year=2022&month=06&day=00`)
       .set("Authorization", `Bearer ${accessToken}`);
-    expect(response.status).toEqual(200);
-  });
-
-  it("Get a diary", async () => {
-    const response = await request(server).get(`/api/diaries/${mockObjectId}`);
     expect(response.status).toEqual(200);
   });
 
@@ -104,9 +92,9 @@ describe("Diary with an image", () => {
       .post("/api/diaries")
       .set("Authorization", `Bearer ${accessToken}`)
       .type("multipart/form-data")
-      .field("diary", faker.lorem.sentence())
-      .field("feeling", faker.lorem.sentence())
-      .field("sentiment", JSON.stringify(sentiment))
+      .field("diary", faker.lorem.sentences())
+      .field("feeling", faker.lorem.sentences())
+      .field("diaryDate", today)
       .attach("background", "tests/test.jpg");
     expect(response.status).toEqual(201);
     mockObjectId = response.body.result._id;
@@ -119,13 +107,13 @@ describe("Diary with an image", () => {
       .set("Authorization", `Bearer ${accessToken}`)
       .type("multipart/form-data")
       .field("_id", mockObjectId)
-      .field("diary", faker.lorem.sentence())
-      .field("feeling", faker.lorem.sentence())
-      .field("sentiment", JSON.stringify(sentiment))
+      .field("diary", faker.lorem.sentences())
+      .field("feeling", faker.lorem.sentences())
       .field("imageFileName", imageFileName)
-      .field("createdDate", today)
+      .field("diaryDate", today)
       .attach("background", "tests/test2.jpg");
     expect(response.status).toEqual(200);
+    imageFileName = response.body.result.imageFileName;
   });
 
   it("Delete a diary with an image", async () => {

@@ -26,19 +26,31 @@ function Posting() {
   });
   const formData = useMemo(() => new FormData(), [editImg]);
 
-  const onChangeSimple = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setSimpleDiary((cur) => e.target.value);
-  };
+  const onChangeSimple = useCallback(
+    (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+      setSimpleDiary(e.target.value);
+    },
+    [simpleDiary],
+  );
 
-  const onChangeMind = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setMindDiary((cur) => e.target.value);
-  };
+  const onChangeMind = useCallback(
+    (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+      setMindDiary((cur) => e.target.value);
+    },
+    [mindDiary],
+  );
+
   const onChangeFile = useCallback(
     (fileData: FileType) => {
       setEditImg(fileData);
     },
     [editImg],
   );
+
+  const onChangeLoading = useCallback(() => {
+    setIsLoading((cur) => !cur);
+  }, [isLoading]);
+
   const onSubmit = async () => {
     const diaryData: DiaryType = {
       diary: simpleDiary,
@@ -49,16 +61,12 @@ function Posting() {
     Object.entries(diaryData).forEach((val) => {
       formData.append(`${val[0]}`, val[1]);
     });
-
     try {
-      setIsLoading((cur) => !cur);
       postDiary.mutate(formData);
     } catch (e) {
       openSnackBar(false, '작성을 안 했어요..!!');
     }
-    setIsLoading((cur) => !cur);
   };
-
   const fileuploadPros = {
     editImg,
     onChangeFile,
@@ -79,9 +87,15 @@ function Posting() {
         <TextArea onChange={onChangeMind} bgColor='red' />
       </Area>
       <AlignRight>
-        <Button onClick={onSubmit}>Save & Analysis</Button>
+        <Button
+          onClick={() => {
+            onChangeLoading();
+            onSubmit();
+          }}
+        >
+          Save & Analysis
+        </Button>
       </AlignRight>
-      <Loader>하이</Loader>
     </PostingContainer>
   );
 }

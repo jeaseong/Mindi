@@ -1,19 +1,22 @@
 import React, { useState, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useSnackbarContext } from 'contexts/SnackbarContext';
-import { getCurDate } from 'utils/utils';
-import { postDiaryPosting } from 'api/api';
+import { usePostDiary } from 'hooks/diaryQuery';
 import FileUpload from 'components/modules/fileUpload/FileUpload';
 import MainTitle from 'components/atoms/text/MainTitle';
 import TextArea from 'components/atoms/textArea/TextArea';
 import Button from 'components/atoms/button/Button';
+import SubTitle from 'components/atoms/text/SubTitle';
 import { IMAGE } from 'utils/image';
-import { FileType, DiaryType } from 'types/atoms';
-import { PostingContainer, Area, SubTitle, AlignRight } from './Posting.style';
+import { FileType, DiaryType, CustomizedState } from 'types/atoms';
+import { PostingContainer, Area, AlignRight } from './Posting.style';
 
 function Posting() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const state = location.state as CustomizedState;
   const { openSnackBar } = useSnackbarContext();
+  const postDiary = usePostDiary(openSnackBar, state?.date);
   const [simpleDiary, setSimpleDiary] = useState('');
   const [mindDiary, setMindDiary] = useState('');
   const [editImg, setEditImg] = useState<FileType>({
@@ -33,18 +36,17 @@ function Posting() {
     setEditImg(fileData);
   };
   const onSubmit = async () => {
-    const diaryDate: string = getCurDate();
     const diaryData: DiaryType = {
       diary: simpleDiary,
       feeling: mindDiary,
-      diaryDate,
+      diaryDate: state?.date,
     };
     formData.append('background', editImg.data as File);
     Object.entries(diaryData).forEach((val) => {
       formData.append(`${val[0]}`, val[1]);
     });
     try {
-      await postDiaryPosting(formData);
+      postDiary.mutate(formData);
       navigate('/result');
     } catch (e) {
       openSnackBar(false, '작성을 안 했어요..!!');

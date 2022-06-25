@@ -1,6 +1,6 @@
 import { Router, Request, Response, NextFunction } from "express";
 import { Container } from "typedi";
-import { loginRequired, validationErrorChecker } from "../middlewares";
+import { checkAuth, validationErrorChecker } from "../middlewares";
 import { IDiary, ISentiment, IStat, IResponse } from "../../interfaces";
 import { statValidator } from "../middlewares/express-validator";
 import { postKeywordAnalysis } from "../../utils";
@@ -14,12 +14,12 @@ export default (app: Router) => {
 
   statRouter.post(
     "/",
-    loginRequired,
+    checkAuth,
     statValidator.dayDiff, // 요청이 오늘 날짜를 기준으로 지난 달인지 검사
     validationErrorChecker,
     async (req: Request, res: Response, next: NextFunction) => {
       try {
-        const userId = req.user!._id;
+        const userId = <string>req.user!._id;
 
         const { year, month } = req.query;
         const date: string = `${year}-${month}`;
@@ -99,9 +99,9 @@ export default (app: Router) => {
     }
   });
 
-  statRouter.get("/", loginRequired, async (req: Request, res: Response, next: NextFunction) => {
+  statRouter.get("/", checkAuth, async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const userId = req.user!._id;
+      const userId = <string>req.user!._id;
       const { year, month } = req.query;
       const monthly: string = `${year}-${month}`;
 

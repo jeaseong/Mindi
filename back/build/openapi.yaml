@@ -465,6 +465,7 @@ paths:
         # 게시글 업로드 API
         새로운 게시글을 등록합니다.
       requestBody:
+        required: true
         content:
           application/json:
             schema:
@@ -513,7 +514,7 @@ paths:
               examples:
                 value:
                   success: true
-                  post:
+                  result:
                     _id: 62a0c9fe574953ef39d5c9e8
                     title: 게시글 제목
                     content: 게시글 내용
@@ -576,7 +577,7 @@ paths:
               examples:
                 value:
                   success: true
-                  posts:
+                  result:
                     - _id: 62a0c9fe574953ef39d5c9e8
                       title: 게시글 제목1
                       content: 게시글 내용1
@@ -637,7 +638,7 @@ paths:
               examples:
                 value:
                   success: true
-                  posts:
+                  result:
                     _id: 62a0c9fe574953ef39d5c9e8
                     title: 게시글 제목
                     content: 게시글 내용
@@ -706,7 +707,7 @@ paths:
               examples:
                 value:
                   success: true
-                  post:
+                  result:
                     _id: 62a0c9fe574953ef39d5c9e8
                     title: 수정된 게시글 제목
                     content: 수정된 게시글 내용
@@ -802,7 +803,7 @@ paths:
               examples:
                 value:
                   success: true
-                  posts:
+                  result:
                     - _id: 62a0c9fe574953ef39d5c9e8
                       title: 게시글 제목1
                       content: 게시글 내용1
@@ -876,7 +877,7 @@ paths:
               examples:
                 value:
                   success: true
-                  posts:
+                  result:
                     - _id: 62a0c9fe574953ef39d5c9e8
                       title: 게시글 제목1
                       content: 게시글 내용1
@@ -953,7 +954,7 @@ paths:
               examples:
                 value:
                   success: true
-                  post:
+                  result:
                     _id: 62a0c9fe574953ef39d5c9e8
                     post: 62a0c34123574953ef39d5c9e
                     content: 댓글 내용
@@ -1010,7 +1011,7 @@ paths:
               examples:
                 value:
                   success: true
-                  post:
+                  result:
                     _id: 62a0c9fe574953ef39d5c9e8
                     post: 62a0c34123574953ef39d5c9e
                     content: 댓글 내용
@@ -1079,7 +1080,7 @@ paths:
               examples:
                 value:
                   success: true
-                  post:
+                  result:
                     _id: 62a0c9fe574953ef39d5c9e8
                     post: 62a0c34123574953ef39d5c9e
                     content: 댓글 내용
@@ -1173,7 +1174,7 @@ paths:
               examples:
                 value:
                   success: true
-                  post:
+                  result:
                     _id: 62a0c9fe574953ef39d5c9e8
                     post: 62a0c34123574953ef39d5c9e
                     content: 댓글 내용
@@ -1244,7 +1245,7 @@ paths:
               examples:
                 value:
                   success: true
-                  posts:
+                  result:
                     - _id: 62a0c9fe574953ef39d5c9e8
                       post: 62a0c34123574953ef39d5c9e
                       content: 댓글 내용1
@@ -1323,7 +1324,7 @@ paths:
               examples:
                 value:
                   success: true
-                  posts:
+                  result:
                     - _id: 62a0c9fe574953ef39d5c9e8
                       post: 62a0c34123574953ef39d5c9e
                       content: 댓글 내용1
@@ -1402,7 +1403,7 @@ paths:
               examples:
                 value:
                   success: true
-                  posts:
+                  result:
                     - _id: 62a0c9fe574953ef39d5c9e8
                       post: 62a0c34123574953ef39d5c9e
                       content: 댓글 내용1

@@ -1,7 +1,7 @@
 import { Router, Request, Response, NextFunction } from "express";
 import { IDiary, IResponse } from "../../interfaces";
 import { diaryValidator } from "../middlewares/express-validator";
-import { validationErrorChecker, imageUpload, loginRequired } from "../middlewares";
+import { validationErrorChecker, imageUpload, checkAuth } from "../middlewares";
 import { matchedData, validationResult } from "express-validator";
 import { StatusError, postSentimentAnalysis, imageDelete } from "../../utils";
 import { Container } from "typedi";
@@ -15,12 +15,12 @@ export default (app: Router) => {
 
   diaryRouter.post(
     "/",
-    loginRequired,
+    checkAuth,
     imageUpload.single("background"),
     diaryValidator.diaryBody,
     async (req: Request, res: Response, next: NextFunction) => {
       try {
-        const userId = req.user!._id;
+        const userId = <string>req.user!._id;
         const imgInfo = Object(req.file);
 
         const errors = validationResult(req);
@@ -64,7 +64,7 @@ export default (app: Router) => {
 
   diaryRouter.put(
     "/",
-    loginRequired,
+    checkAuth,
     imageUpload.single("background"),
     diaryValidator.diaryBody,
     async (req: Request, res: Response, next: NextFunction) => {
@@ -129,12 +129,12 @@ export default (app: Router) => {
 
   diaryRouter.get(
     "/",
-    loginRequired,
+    checkAuth,
     diaryValidator.getYear,
     validationErrorChecker,
     async (req: Request, res: Response, next: NextFunction) => {
       try {
-        const userId = req.user!._id;
+        const userId = <string>req.user!._id;
         const { year, month, day } = req.query;
 
         let date: string;

@@ -32,7 +32,7 @@ function RoutePage({ isLogin }: RouterPros) {
             element={<PrivateRoute user={isLogin} component={<Posting />} />}
           />
           <Route
-            path='/diary-posting/result'
+            path='/result/:date'
             element={
               <PrivateRoute user={isLogin} component={<ResultTemplate />} />
             }

@@ -1,17 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useGetDiaryList } from 'hooks/diaryQuery';
 import { CalenderBodyProps } from 'types/atoms';
 import { selectMaxSentiment, getDateForString } from 'utils/utils';
 import { Container, Days, Day, Span } from './Body.style';
-function Body({ totalDate, year, month, TODAY }: CalenderBodyProps) {
+function Body({ totalDate, year, month, TODAY, onSetDay }: CalenderBodyProps) {
   const date = getDateForString(year, month, 0);
-  const { diary, isFetching } = useGetDiaryList(
-    `${year}`,
-    `${date.slice(5, 7)}`,
-    '00',
-  );
+  const { diary } = useGetDiaryList(`${year}`, `${date.slice(5, 7)}`, '00');
   let count = diary?.length - 1;
-
   return (
     <Container>
       {totalDate?.map((days, index) => {
@@ -20,10 +15,9 @@ function Body({ totalDate, year, month, TODAY }: CalenderBodyProps) {
           <Days key={dataKey}>
             {days?.map((day, i) => {
               const dataKey = `${year}-${month}-${i}`;
-              const curKey = `${year}-${
-                month >= 10 ? month : `0${month}`
-              }-${day}`;
-
+              const curKey = `${year}-${month >= 10 ? month : `0${month}`}-${
+                +day >= 10 ? day : `0${day}`
+              }`;
               let sentiment;
               if (diary && curKey === diary[count]?.diaryDate) {
                 sentiment = selectMaxSentiment(diary[count--]?.sentiment);
@@ -38,7 +32,7 @@ function Body({ totalDate, year, month, TODAY }: CalenderBodyProps) {
                   sentiment={sentiment}
                   key={dataKey}
                 >
-                  <Span>{day}</Span>
+                  <Span onClick={() => onSetDay(+day)}>{day}</Span>
                 </Day>
               );
             })}

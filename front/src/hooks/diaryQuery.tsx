@@ -36,8 +36,8 @@ export const usePostDiary = (
           },
         });
       },
-      onError: (error) => {
-        openSnackBar(false, `${error}`);
+      onError: () => {
+        openSnackBar(false, '일기 날짜와 내용을 확인해주세요.');
       },
     },
   );

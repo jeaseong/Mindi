@@ -1,4 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { useNavigate } from 'react-router-dom';
 import { getDiaryList, postDiaryPosting } from 'api/api';
 
 export const useGetDiaryList = (year: string, month: string, day: string) => {
@@ -20,6 +21,7 @@ export const usePostDiary = (
   date: string,
 ) => {
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
   return useMutation(
     async (diaryData: any) => await postDiaryPosting(diaryData),
     {
@@ -27,10 +29,15 @@ export const usePostDiary = (
         queryClient.invalidateQueries(['diary', `${date.slice(0, 7)}-00`], {
           refetchInactive: true,
         });
-        openSnackBar(true, '일기를 분석 중입니다.');
+        openSnackBar(true, '일기를 분석을 성공했습니다.');
+        navigate('/result', {
+          state: {
+            date,
+          },
+        });
       },
       onError: () => {
-        openSnackBar(false, '오늘의 일기를 작성해주세요.');
+        openSnackBar(false, '일기 날짜와 내용을 확인해주세요.');
       },
     },
   );

@@ -6,4 +6,4 @@ function SubTitle({ children }: TextProps) {
   return <Sub>{children}</Sub>;
 }
 
-export default SubTitle;
+export default React.memo(SubTitle);

@@ -7,7 +7,7 @@ import Image from 'components/atoms/image/Image';
 import Button from 'components/atoms/button/Button';
 import { getDateForString, selectMaxSentiment } from 'utils/utils';
 import { PreviewProps } from 'types/atoms';
-import { IMAGE } from 'utils/image';
+import { SENTIMENTS } from 'utils/image';
 import {
   Container,
   PreviewBox,
@@ -39,12 +39,21 @@ function Preview({ year, month, day }: PreviewProps) {
     });
   };
 
-  let sentiment;
+  let sentiment = '';
   if (!isLoading && diary.length > 0) {
-    sentiment = selectMaxSentiment(diary[0].sentiment);
+    sentiment = selectMaxSentiment(diary[0].sentiment).toUpperCase();
   }
 
-  if (!isLoading && sentiment === undefined) {
+  if (isLoading) {
+    return (
+      <Container>
+        <SubTitle>
+          {year}. {month}. {day}
+        </SubTitle>
+        <PreviewBox></PreviewBox>
+      </Container>
+    );
+  } else if (!isLoading && sentiment === '') {
     return (
       <Container>
         <SubTitle>
@@ -55,7 +64,11 @@ function Preview({ year, month, day }: PreviewProps) {
             일기 작성을 안 했어요!
           </Text>
           <PreviewSentiment>
-            <Image src={IMAGE.HAPPY.url} alt={IMAGE.HAPPY.alt} width='40%' />
+            <Image
+              src={SENTIMENTS.SADNESS.url}
+              alt={SENTIMENTS.SADNESS.alt}
+              width='40%'
+            />
           </PreviewSentiment>
           <NavigateBox>
             <Text size='sm'>일기 써주세요ㅠ</Text>
@@ -75,7 +88,11 @@ function Preview({ year, month, day }: PreviewProps) {
           기분에 따라 조언 하나씩 줘야함
         </Text>
         <PreviewSentiment>
-          <Image src={IMAGE.HAPPY.url} alt={IMAGE.HAPPY.alt} width='40%' />
+          <Image
+            src={SENTIMENTS[sentiment].url}
+            alt={SENTIMENTS[sentiment].alt}
+            width='40%'
+          />
         </PreviewSentiment>
         <NavigateBox>
           <Button onClick={onClickToPosting}>일기 수정하기 &rarr;</Button>

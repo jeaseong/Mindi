@@ -1,4 +1,13 @@
 import React from 'react';
+import {
+  BambooPostForm,
+  BambooPostStyle,
+  TodaysDate,
+  InputArea,
+  Input,
+  ButtonArea,
+} from './bambooPosting.style';
+import Button from 'components/atoms/button/Button';
 
 function BambooPosting() {
   const today = new Date();
@@ -10,9 +19,17 @@ function BambooPosting() {
   const dateString = year + '. ' + month + '. ' + day + '. ';
 
   return (
-    <>
-      <h1>{dateString}</h1>
-    </>
+    <BambooPostStyle>
+      <BambooPostForm>
+        <TodaysDate>{dateString}</TodaysDate>
+        <InputArea>
+          <Input placeholder='공유하고 싶은 감정을 적어주세요' />
+        </InputArea>
+        <ButtonArea>
+          <Button>등록</Button>
+        </ButtonArea>
+      </BambooPostForm>
+    </BambooPostStyle>
   );
 }
 

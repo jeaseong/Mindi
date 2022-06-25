@@ -8,7 +8,6 @@ import {
   CommentSpan,
   CommentText,
 } from './modal.style';
-import Comments from '../comment/comments';
 
 function Modal({ date, text, onClick }: ModalProps) {
   return (
@@ -16,9 +15,7 @@ function Modal({ date, text, onClick }: ModalProps) {
       <DateWrapper>{date}</DateWrapper>
       <TextWrapper>{text}</TextWrapper>
       <CommentSpan>Comments</CommentSpan>
-      <CommentText>
-        <Comments currentUserId='1' />
-      </CommentText>
+      <CommentText></CommentText>
       <Button onClick={onClick}>CLOSE</Button>
     </ModalWrapper>
   );

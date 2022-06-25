@@ -1,11 +1,12 @@
 import React from 'react';
-import Bamboo from 'components/modules/bamboo/bamboo';
+import BambooCard from 'components/modules/bamboo/bambooCard/bambooCard';
 import {
   PageTitle,
   Lines,
   LineTop,
   LineBottom,
 } from '../../atoms/pageTitle/pageTitle.style';
+import { Wrap } from './bambooTemplate.style';
 
 function BambooTemplate() {
   return (
@@ -19,7 +20,9 @@ function BambooTemplate() {
         <LineTop />
         <LineBottom />
       </Lines>
-      <Bamboo />
+      <Wrap>
+        <BambooCard />
+      </Wrap>
     </>
   );
 }

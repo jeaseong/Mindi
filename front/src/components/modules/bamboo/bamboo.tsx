@@ -4,11 +4,7 @@ import Modal from 'components/atoms/modal/modal';
 function Bamboo() {
   const [showModal, setShowModal] = useState(false);
 
-  return (
-    <>
-      <Modal modalStatus={true} date='string' text='text' />
-    </>
-  );
+  return <></>;
 }
 
 export default Bamboo;

@@ -16,16 +16,16 @@ services:
     container_name: client
     ports:
       - "80:80"
-#    depends_on:
+    depends_on:
 #      - redis
-#      - server
+      - server
 
-#  server:
-#    build:
-#      context: ./back
-#      dockerfile: Dockerfile.dev
-#    container_name: server
-#    ports:
-#      - "5001:5000"
+  server:
+    build:
+      context: ./back
+      dockerfile: Dockerfile.dev
+    container_name: server
+    ports:
+      - "5001:5001"
 #    depends_on:
 #      - redis

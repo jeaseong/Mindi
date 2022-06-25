@@ -30,7 +30,7 @@ export const usePostDiary = (
         openSnackBar(true, '일기를 분석 중입니다.');
       },
       onError: () => {
-        openSnackBar(false, '오늘의 일기를 작성해주세요');
+        openSnackBar(false, '오늘의 일기를 작성해주세요.');
       },
     },
   );

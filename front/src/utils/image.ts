@@ -59,7 +59,7 @@ export const SENTIMENTS: sentimentsType = {
     url: `${url}/assets/sadness.png`,
     alt: '슬픔 캐릭터',
   },
-  SCARED: {
+  FEAR: {
     url: `${url}/assets/scared.png`,
     alt: '두려움 캐릭터',
   },

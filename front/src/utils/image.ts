@@ -36,6 +36,11 @@ export const IMAGE = {
     alt: '글씨 강조 동그라미',
   },
 
+  MAIN_DOODLE_FLIP: {
+    url: `${url}/assets/main_doodle_2.png`,
+    alt: '글씨 강조 동그라미',
+  },
+
   RESULT_EFFECT: {
     url: `${url}/assets/result_effect.png`,
     alt: '캐릭터 뒤 집중선',

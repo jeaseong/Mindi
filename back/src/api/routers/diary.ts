@@ -31,7 +31,7 @@ export default (app: Router) => {
         }
 
         const { diary, feeling, diaryDate } = matchedData(req);
-        const aiResult = await mlService.postSentimentAnalysis({ feeling });
+        const aiResult = await mlService.postSentimentAnalysis(feeling, userId, diaryDate);
 
         let newDiary: Partial<IDiary> = {
           userId,
@@ -49,7 +49,7 @@ export default (app: Router) => {
             }
           : newDiary;
 
-        const createdDiary: IDiary = await diaryService.create(userId, newDiary);
+        const createdDiary: IDiary = await diaryService.create(newDiary);
 
         const response: IResponse<IDiary> = {
           success: true,
@@ -80,7 +80,7 @@ export default (app: Router) => {
 
         const { _id, diary, feeling, diaryDate, imageFileName } = req.body;
         const id: string = _id;
-        const aiResult = await mlService.postSentimentAnalysis({ feeling });
+        const aiResult = await mlService.postSentimentAnalysis(feeling);
 
         let toUpdate: Partial<IDiary> = {
           diary,

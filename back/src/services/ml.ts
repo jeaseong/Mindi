@@ -13,10 +13,17 @@ export default class MLService {
     @Inject("logger") private logger: winston.Logger,
   ) {}
 
-  public async postSentimentAnalysis(feeling: object) {
+  public async postSentimentAnalysis(feeling: string, userId?: string, diaryDate?: string) {
+    if (userId && diaryDate) {
+      const doc = await this.diaryModel.exists(userId, { diaryDate });
+      if (doc) {
+        throw new StatusError(400, "해당 날짜의 일기가 이미 존재합니다.");
+      }
+    }
+
     try {
       const apiUrl = `${config.aiURL}/diaries/sentiment`;
-      const { data } = await axios.post(apiUrl, feeling);
+      const { data } = await axios.post(apiUrl, { feeling });
       return data.result;
     } catch (error) {
       throw new StatusError(400, "감정 분석에 실패하였습니다.");

@@ -7,7 +7,7 @@ describe("Diary Service Test", () => {
   const diaryService = new DiaryService(testDiaryModel, logger);
 
   it("create new diary", async () => {
-    expect(await diaryService.create(mockUserId, mockDiary)).toEqual({
+    expect(await diaryService.create(mockDiary)).toEqual({
       _id: mockObjectId,
       ...mockDiary,
     });

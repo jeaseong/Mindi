@@ -12,8 +12,10 @@ import {
   ButtonWrap,
   TitleWrap,
 } from './bambooTemplate.style';
+import { useNavigate } from 'react-router-dom';
 
 function BambooTemplate() {
+  const navigate = useNavigate();
   return (
     <>
       <TitleWrap>
@@ -24,7 +26,7 @@ function BambooTemplate() {
         </PageTitle>
       </TitleWrap>
       <ButtonWrap>
-        <WriteButton>글쓰기</WriteButton>
+        <WriteButton onClick={() => navigate('posting')}>글쓰기</WriteButton>
       </ButtonWrap>
       <Lines>
         <LineTop />

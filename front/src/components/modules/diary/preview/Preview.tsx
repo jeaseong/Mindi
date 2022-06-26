@@ -94,7 +94,7 @@ function Preview({ year, month, day }: PreviewProps) {
       </SubTitle>
       <PreviewBox>
         <Text size='sm' align='center'>
-          기분에 따라 조언 하나씩 줘야함
+          {SENTIMENTS[sentiment].comment}
         </Text>
         <PreviewSentiment>
           <Image

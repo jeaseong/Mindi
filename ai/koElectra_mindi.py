@@ -3,6 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sn
 import datetime
+import random
 import torch
 from torch import nn
 from torch.nn import functional as F
@@ -11,6 +12,12 @@ from torch.utils.data import DataLoader, Dataset, random_split
 from transformers import ElectraTokenizer, ElectraForSequenceClassification
 from tqdm.notebook import tqdm
 from sklearn.metrics import confusion_matrix
+
+torch.manual_seed(0)
+torch.cuda.manual_seed(0)
+torch.cuda.manual_seed_all(0)
+np.random.seed(0)
+random.seed(0)
 
 # 1. GPU enabled
 device = torch.device('cuda')
@@ -34,7 +41,7 @@ class LoadDataset(Dataset):
     
     # Sentence 전처리
     # 여러가지 키보드상 특수문자 제거
-    self.dataset['Sentence'] = self.dataset['Sentence'].str.replace('[\{\}\[\]\/?.,;:|\)*~`·!^\-_+<>@\#$%&\\\=\(\'\"]', ' ', regex = True)
+    # self.dataset['Sentence'] = self.dataset['Sentence'].str.replace('[\{\}\[\]\/?.,;:|\)*~`·!^\-_+<>@\#$%&\\\=\(\'\"]', ' ', regex = True)
     # 공백 제거
     self.dataset['Sentence'] = self.dataset['Sentence'].str.strip()
 
@@ -99,7 +106,7 @@ optimizer = AdamW(model.parameters(), lr=5e-6)
 # dataloader
 train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True, drop_last=True)
 validation_loader = DataLoader(validation_dataset, batch_size=batch_size, shuffle=True, drop_last=True)
-test_loader = DataLoader(test_dataset, batch_size=batch_size/8 , shuffle=True, drop_last=True)
+test_loader = DataLoader(test_dataset, batch_size=int(batch_size/16) , shuffle=True, drop_last=True)
 
 # train model
 def train_model():
@@ -146,6 +153,10 @@ def train_model():
         print('Train Loss:', total_loss, 'Train Accuracy:', train_accuracy)
 
         model.eval()
+
+        y_predicted = []
+        y_true = []
+
         with torch.no_grad():
             for input_ids_batch, attention_masks_batch, y_batch in tqdm(validation_loader):
                 y_batch = y_batch.to(device)
@@ -156,23 +167,35 @@ def train_model():
                 _, predicted = torch.max(y_pred, 1)
                 valid_correct += (predicted == y_batch).sum()
                 valid_total += len(y_batch)
+
+                y_predicted.extend(predicted.cpu().numpy()) # Save Prediction        
+                y_true.extend(y_batch.cpu().numpy()) # Save Truth
         
         valid_losses.append(valid_loss)
         valid_accuracy = valid_correct.float() / valid_total
         valid_accuracies.append(valid_accuracy)
 
-        # if valid_accuracy > best_accuracy:
-        #     saveModel(i, date, valid_accuracy)
-        #     best_accuracy = valid_accuracy
         saveModel(i, date, train_accuracy, valid_accuracy)
         print('epoch:', i, 'Validation Loss:', valid_loss, 'Validation Accuracy:', valid_accuracy)
+
+        # constant for classes
+        classes = (0, 1, 2, 3, 4, 5, 6)
+
+        # Build confusion matrix
+        cf_matrix = confusion_matrix(y_true, y_predicted)
+        df_cm = pd.DataFrame(cf_matrix/np.sum(cf_matrix) *10, index = [i for i in classes],
+                            columns = [i for i in classes])
+        plt.figure(figsize = (12,7))
+        sn.heatmap(df_cm, annot=True)
+        plt.savefig(f'./image/output_{date}_epoch_{i}.png')
+
     return losses, accuracies, valid_losses, valid_accuracies
 
 losses, accuracies, valid_losses, valid_accuracies = train_model()
 print(losses, accuracies, valid_losses, valid_accuracies)
 
 # save final version model
-model.save_pretrained(f'./model/model_{date}_final.pt')
+# model.save_pretrained(f'./model/model_{date}_final.pt')
 
 # 6. Test model
 def test_model():
@@ -184,15 +207,16 @@ def test_model():
     y_predicted = []
     y_true = []
 
-    for input_ids_batch, attention_masks_batch, y_batch in tqdm(test_loader):
-        y_batch = y_batch.to(device)
-        y_pred = model(input_ids_batch.to(device), attention_mask=attention_masks_batch.to(device))[0]
-        _, predicted = torch.max(y_pred, 1)
-        test_correct += (predicted == y_batch).sum()
-        test_total += len(y_batch)
-        
-        y_predicted.extend(predicted.cpu().numpy()) # Save Prediction        
-        y_true.extend(y_batch.cpu().numpy()) # Save Truth
+    with torch.no_grad():
+        for input_ids_batch, attention_masks_batch, y_batch in tqdm(test_loader):
+            y_batch = y_batch.to(device)
+            y_pred = model(input_ids_batch.to(device), attention_mask=attention_masks_batch.to(device))[0]
+            _, predicted = torch.max(y_pred, 1)
+            test_correct += (predicted == y_batch).sum()
+            test_total += len(y_batch)
+            
+            y_predicted.extend(predicted.cpu().numpy()) # Save Prediction        
+            y_true.extend(y_batch.cpu().numpy()) # Save Truth
 
     print('Test Accuracy:', test_correct.float() / test_total)
 
@@ -205,7 +229,7 @@ def test_model():
                         columns = [i for i in classes])
     plt.figure(figsize = (12,7))
     sn.heatmap(df_cm, annot=True)
-    plt.savefig(f'./image/output_{date}.png')
+    plt.savefig(f'./image/output_{date}_test.png')
 
 test_model()
 

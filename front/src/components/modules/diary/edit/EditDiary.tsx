@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useQueryClient } from 'react-query';
 import { useEditDiary } from 'hooks/diaryQuery';
@@ -24,15 +24,34 @@ function EditDiary() {
   const putDiary = useEditDiary(openSnackBar, state?.date);
   const queryClient = useQueryClient();
   const diary = queryClient.getQueryData(['diary', state?.date]) as any;
-  console.log(diary[0]);
   const [isLoading, setIsLoading] = useState(false);
-  const [simpleDiary, setSimpleDiary] = useState<string>(diary[0]?.diary);
-  console.log(simpleDiary);
-  const [mindDiary, setMindDiary] = useState<string>(diary[0]?.feeling);
+  const [simpleDiary, setSimpleDiary] = useState<string>('');
+  const [mindDiary, setMindDiary] = useState<string>('');
   const [editImg, setEditImg] = useState<FileType>({
     preview: `${IMAGE.IMG_UPLOAD_BASIC.url}`,
     data: undefined,
   });
+
+  useEffect(() => {
+    initState();
+  }, []);
+
+  const initState = useCallback(() => {
+    if (diary.length > 0) {
+      setSimpleDiary(diary[0].diary);
+      setMindDiary(diary[0].feeling);
+    }
+    if ('imageFilePath' in diary) {
+      setEditImg((cur) => {
+        return {
+          ...cur,
+          ['preview']: diary[0].imageFilePath,
+          ['data']: diary[0].imageFilePath,
+        };
+      });
+    }
+  }, [simpleDiary, mindDiary, editImg]);
+
   const formData = useMemo(() => new FormData(), [editImg]);
 
   const onChangeSimple = useCallback(

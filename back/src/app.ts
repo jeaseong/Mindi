@@ -18,6 +18,12 @@ async function appStart() {
             Mindi API Server
             is running on: http://localhost:${config.port}
             `);
+    if (config.nodeEnv === "production") {
+      console.log(`
+            Mindi API Server
+            is running on: http://localhost:${config.port}
+            `);
+    }
   });
 
   app.get("/", (req: Request, res: Response, next: NextFunction) => {

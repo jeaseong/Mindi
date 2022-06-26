@@ -1,11 +1,10 @@
 import { Router, Request, Response, NextFunction } from "express";
 import { matchedData } from "express-validator";
-import AuthService from "../../services/auth";
+import { AuthService } from "../../services";
 import { Container } from "typedi";
-import validationErrorChecker from "../middlewares/validationErrorChecker";
+import { validationErrorChecker } from "../middlewares";
 import { authValidator } from "../middlewares/express-validator";
-import { IResponse } from "../../interfaces/IResponse";
-import { IUser } from "../../interfaces/IUser";
+import { IUser, IResponse } from "../../interfaces";
 
 export default (app: Router) => {
   const authRouter = Router();
@@ -28,15 +27,16 @@ export default (app: Router) => {
           result: {
             _id: newUser._id,
             email: newUser.email,
-            name: newUser.name
-          }
+            name: newUser.name,
+          },
         };
 
         res.status(200).json(response);
       } catch (error) {
         next(error);
       }
-    });
+    },
+  );
 
   authRouter.post(
     "/local/sign-in",
@@ -56,13 +56,14 @@ export default (app: Router) => {
             email: user.email,
             name: user.name,
             token: user.token,
-            expiresIn: user.expiresIn
-          }
+            expiresIn: user.expiresIn,
+          },
         };
 
         res.status(200).json(response);
       } catch (error) {
         next(error);
       }
-    });
-}
+    },
+  );
+};

@@ -14,10 +14,6 @@ export default {
       .bail()
       .isString()
       .bail(),
-    body("sentiment")
-      .isLength({ min: 3 })
-      .withMessage("감정 분석 결과가 포함되어 있지 않습니다.")
-      .bail(),
     check("diaryDate")
       .isISO8601()
       .withMessage("존재하지 않는 날짜입니다.")

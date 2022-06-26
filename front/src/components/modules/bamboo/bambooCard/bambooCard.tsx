@@ -1,17 +1,33 @@
-import React from 'react';
-import { DiaryPosts, DiaryPost, Date, PreviewPost } from './bambooCard.style';
+import React, { useEffect, useState } from 'react';
+import {
+  DiaryPosts,
+  DiaryPost,
+  Date,
+  Title,
+  PreviewPost,
+} from './bambooCard.style';
 import { IMAGE } from 'utils/image';
+import { getBambooList } from 'api/api';
+import { getCustomizedDate } from 'utils/utils';
 
 function BambooCard() {
   const arr = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-  const date = '2022-10';
+  const [bambooList, setBambooList] = useState<any[]>([]);
+  const [bambooDate, setBambooDate] = useState('');
+
+  useEffect(() => {
+    getBambooList().then((res) => {
+      console.log(res), setBambooList(res);
+    });
+  }, []);
 
   return (
     <DiaryPosts>
-      {arr.map((v, index) => (
+      {bambooList.map((item: any, index: any) => (
         <DiaryPost key={index}>
-          <Date>2022.06.18</Date>
-          <PreviewPost bgImg={IMAGE.AUTH_LOGO.url}></PreviewPost>
+          <Date>{item.createdAt.substr(0, 10)}</Date>
+          <Title>{item.title}</Title>
+          <PreviewPost bgImg={IMAGE.AUTH_LOGO.url}>{item.content}</PreviewPost>
         </DiaryPost>
       ))}
     </DiaryPosts>

@@ -28,14 +28,22 @@ export const DiaryPost = styled.article`
   border: 1px solid black;
 `;
 
-export const Date = styled.h3`
+export const Date = styled.h4`
   width: max-content;
   display: inline-block;
-  padding: 4px;
-  font-size: 1.3rem;
+  padding: 0 4px;
+  font-size: 1rem;
   background-color: ${(props) => props.theme.colors.basicWhite};
   font-weight: normal;
-  margin-bottom: 8px;
+`;
+
+export const Title = styled.h3`
+  display: inline-block;
+  padding: 0px 4px;
+  font-size: 1.2rem;
+  background-color: ${(props) => props.theme.colors.basicWhite};
+  font-weight: normal;
+  margin-bottom: 5px;
 `;
 
 export const PreviewPost = styled.div<CardProps>`

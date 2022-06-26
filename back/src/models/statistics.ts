@@ -32,8 +32,8 @@ const StatisticsModel = model<IStat>("Statistics", StatisticsSchema);
 
 @Service()
 export class MongoStatModel implements IStatModel {
-  async create(newDiary: Partial<IStat>): Promise<IStat> {
-    const newDoc = await StatisticsModel.create(newDiary);
+  async create(newResult: Partial<IStat>): Promise<IStat> {
+    const newDoc = await StatisticsModel.create(newResult);
     return newDoc.toObject();
   }
 

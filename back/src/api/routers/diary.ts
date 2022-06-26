@@ -3,13 +3,14 @@ import { IDiary, IResponse } from "../../interfaces";
 import { diaryValidator } from "../middlewares/express-validator";
 import { validationErrorChecker, imageUpload, checkAuth } from "../middlewares";
 import { matchedData, validationResult } from "express-validator";
-import { StatusError, postSentimentAnalysis, imageDelete } from "../../utils";
+import { StatusError, imageDelete } from "../../utils";
 import { Container } from "typedi";
-import { DiaryService } from "../../services";
+import { DiaryService, MLService } from "../../services";
 
 export default (app: Router) => {
   const diaryRouter = Router();
   const diaryService = Container.get(DiaryService);
+  const mlService = Container.get(MLService);
 
   app.use("/diaries", diaryRouter);
 
@@ -30,7 +31,7 @@ export default (app: Router) => {
         }
 
         const { diary, feeling, diaryDate } = matchedData(req);
-        const aiResult = await postSentimentAnalysis({ feeling });
+        const aiResult = await mlService.postSentimentAnalysis(feeling, userId, diaryDate);
 
         let newDiary: Partial<IDiary> = {
           userId,
@@ -48,7 +49,7 @@ export default (app: Router) => {
             }
           : newDiary;
 
-        const createdDiary: IDiary = await diaryService.create(userId, newDiary);
+        const createdDiary: IDiary = await diaryService.create(newDiary);
 
         const response: IResponse<IDiary> = {
           success: true,
@@ -79,7 +80,8 @@ export default (app: Router) => {
 
         const { _id, diary, feeling, diaryDate, imageFileName } = req.body;
         const id: string = _id;
-        const aiResult = await postSentimentAnalysis({ diary });
+        const aiResult = await mlService.postSentimentAnalysis(feeling);
+
         let toUpdate: Partial<IDiary> = {
           diary,
           feeling,

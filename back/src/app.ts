@@ -18,6 +18,12 @@ async function appStart() {
             Mindi API Server
             is running on: http://localhost:${config.port}
             `);
+    if (config.nodeEnv === "production") {
+      console.log(`
+            Mindi API Server
+            is running on: http://localhost:${config.port}
+            `);
+    }
   });
 
   app.get("/", (req: Request, res: Response, next: NextFunction) => {
@@ -42,8 +48,9 @@ async function appStart() {
     handler("SIGTERM");
   });
 
-  process.on("uncaughtException", () => {
+  process.on("uncaughtException", (error) => {
     // 무엇을 넣어야 하는 건지요...
+    logger.error(error.message);
     process.exit(1);
   });
 }

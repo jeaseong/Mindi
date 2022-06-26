@@ -42,8 +42,9 @@ async function appStart() {
     handler("SIGTERM");
   });
 
-  process.on("uncaughtException", () => {
+  process.on("uncaughtException", (error) => {
     // 무엇을 넣어야 하는 건지요...
+    logger.error(error.message);
     process.exit(1);
   });
 }

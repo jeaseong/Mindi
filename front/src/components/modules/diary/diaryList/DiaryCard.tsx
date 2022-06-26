@@ -17,7 +17,7 @@ function DiaryCard() {
         : diary?.map((d: any, index: number) => (
             <DiaryPost key={d._id}>
               <SubTitle>{d.diaryDate}</SubTitle>
-              <PreviewPost bgImg={IMAGE.AUTH_LOGO.url}>{d.feeling}</PreviewPost>
+              <PreviewPost bgImg={d?.imageFilePath}>{d.feeling}</PreviewPost>
             </DiaryPost>
           ))}
     </DiaryPosts>

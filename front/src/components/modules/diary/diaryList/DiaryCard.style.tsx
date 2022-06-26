@@ -1,3 +1,4 @@
+import { NONAME } from 'dns';
 import styled from 'styled-components';
 import { CardProps } from 'types/atoms';
 
@@ -21,7 +22,9 @@ export const PreviewPost = styled.div<CardProps>`
   height: 144px;
   padding: 10px;
   line-height: 22px;
-  background-color: #fff4cb;
+  background-color: ${(props) => {
+    return props.bgImg ? '#fff4cb' : '#fff4cb';
+  }};
   position: relative;
   text-overflow: ellipsis;
   overflow: hidden;
@@ -31,12 +34,15 @@ export const PreviewPost = styled.div<CardProps>`
   -webkit-box-orient: vertical;
   &:before {
     content: '';
-    background: url(${(props) => props.bgImg}) no-repeat center center;
+    background-image: url(${(props) => props.bgImg});
+    background-size: 60% 60%;
+    background-repeat: no-repeat;
+    background-position: center;
     position: absolute;
     top: 0px;
     right: 0px;
     bottom: 0px;
     left: 0px;
-    opacity: 0.2;
+    opacity: 0.3;
   }
 `;

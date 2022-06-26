@@ -18,12 +18,11 @@ import {
 function Preview({ year, month, day }: PreviewProps) {
   const navigate = useNavigate();
   const date = getDateForString(year, month, day);
-  const { diary, isLoading, isFetching } = useGetDiaryList(
+  const { diary, isLoading } = useGetDiaryList(
     `${year}`,
     `${date.slice(5, 7)}`,
     `${date.slice(8, 10)}`,
   );
-  console.log(diary);
 
   const onClickToPosting = () => {
     navigate('/diary-posting', {
@@ -40,12 +39,12 @@ function Preview({ year, month, day }: PreviewProps) {
     });
   };
 
-  let sentiment = 'SADNESS';
+  let sentiment = '';
   if (!isLoading && diary.length > 0) {
     sentiment = selectMaxSentiment(diary[0].sentiment).toUpperCase();
   }
 
-  if (isFetching) {
+  if (isLoading) {
     return (
       <Container>
         <SubTitle>
@@ -54,7 +53,7 @@ function Preview({ year, month, day }: PreviewProps) {
         <PreviewBox></PreviewBox>
       </Container>
     );
-  } else if (!isFetching && sentiment === undefined) {
+  } else if (!isLoading && sentiment === '') {
     return (
       <Container>
         <SubTitle>

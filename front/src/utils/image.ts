@@ -1,5 +1,9 @@
 const url = process.env.PUBLIC_URL;
 export const IMAGE = {
+  LOADER: {
+    url: `${url}/assets/loader.gif`,
+    alt: '로딩중',
+  },
   AUTH_LOGO: {
     url: `${url}/assets/auth_logo.png`,
     alt: '서비스 로고',

@@ -1,8 +1,9 @@
 import React from 'react';
 import { useGetDiaryList } from 'hooks/diaryQuery';
+import SubTitle from 'components/atoms/text/SubTitle';
 import { getCurDate } from 'utils/utils';
 import { IMAGE } from 'utils/image';
-import { DiaryPosts, DiaryPost, Day, PreviewPost } from './DiaryCard.style';
+import { DiaryPosts, DiaryPost, PreviewPost } from './DiaryCard.style';
 
 function DiaryCard() {
   const curDate = getCurDate();
@@ -15,12 +16,12 @@ function DiaryCard() {
         ? 'loading'
         : diary?.map((d: any, index: number) => (
             <DiaryPost key={d._id}>
-              <Day>{d.diaryDate}</Day>
-              <PreviewPost bgImg={IMAGE.AUTH_LOGO.url}>{d.feeling}</PreviewPost>
+              <SubTitle>{d.diaryDate}</SubTitle>
+              <PreviewPost bgImg={d?.imageFilePath}>{d.feeling}</PreviewPost>
             </DiaryPost>
           ))}
     </DiaryPosts>
   );
 }
 
-export default DiaryCard;
+export default React.memo(DiaryCard);

@@ -23,6 +23,11 @@ export const postDiaryPosting = async (diaryData: any) => {
   await customAxiosFileUpload.post(apiUrl, diaryData);
 };
 
+export const putDiaryPosting = async (diaryData: any) => {
+  const apiUrl = `api/diaries`;
+  await customAxiosFileUpload.put(apiUrl, diaryData);
+};
+
 export const postAnalysis = async (diary: diary) => {
   const apiUrl = `diaries/sentiment`;
   const { data } = await Axios.post(apiUrl, diary);

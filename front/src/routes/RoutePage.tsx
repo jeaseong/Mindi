@@ -6,6 +6,7 @@ import SignIn from 'pages/User/SignIn';
 import SignUp from 'pages/User/SignUp';
 import Diary from 'pages/Diary/Diary';
 import Posting from 'pages/Diary/Posting';
+import Edit from 'pages/Diary/Edit';
 import ResultTemplate from 'components/templates/diary/result/ResultTemplate';
 import EITest from 'pages/EITest/EITest';
 import EITestResult from 'components/modules/EITest/EITestResult';
@@ -32,7 +33,11 @@ function RoutePage({ isLogin }: RouterPros) {
             element={<PrivateRoute user={isLogin} component={<Posting />} />}
           />
           <Route
-            path='/diary-posting/result'
+            path='/diary-edit'
+            element={<PrivateRoute user={isLogin} component={<Edit />} />}
+          />
+          <Route
+            path='/result/:date'
             element={
               <PrivateRoute user={isLogin} component={<ResultTemplate />} />
             }

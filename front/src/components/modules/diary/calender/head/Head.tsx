@@ -1,10 +1,10 @@
 import React from 'react';
-import { CalenderProps } from 'types/atoms';
+import { CalenderHeadProps } from 'types/atoms';
 import Span from 'components/atoms/span/Span';
 import { CalenderHeader, Nav, NavBtn, Days, Day } from './Head.style';
 import { DATE } from 'utils/constants';
 
-function Head({ year, month, onChangeMonth }: CalenderProps) {
+function Head({ year, month, onChangeMonth }: CalenderHeadProps) {
   return (
     <CalenderHeader>
       <Nav>

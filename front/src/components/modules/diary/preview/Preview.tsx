@@ -74,7 +74,7 @@ function Preview({ year, month, day }: PreviewProps) {
             <Image
               src={SENTIMENTS.SADNESS.url}
               alt={SENTIMENTS.SADNESS.alt}
-              width='40%'
+              width='30%'
             />
           </PreviewSentiment>
           <NavigateBox>

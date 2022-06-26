@@ -47,7 +47,7 @@ export const postBambooPosting = async (bambooData: any) => {
 
 export const getBambooList = async () => {
   const apiUrl = `api/users/posts`;
-  const { data } = await axios.get(apiUrl);
+  const { data } = await Axios.get(apiUrl);
   return data.result;
 };
 

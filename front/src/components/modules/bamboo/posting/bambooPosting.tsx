@@ -11,6 +11,7 @@ import {
 } from './bambooPosting.style';
 import Button from 'components/atoms/button/Button';
 import { postBambooPosting } from 'api/api';
+import { getCustomizedDate } from 'utils/utils';
 
 function BambooPosting() {
   const navigate = useNavigate();
@@ -30,20 +31,14 @@ function BambooPosting() {
         .then(() => {
           alert('등록 완료!'), navigate('/bamboo-grove');
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          alert('등록에 실패했습니다!'), console.log(err);
+        });
     }
   };
 
-  function getTodaysDate() {
-    const today = new Date();
-
-    const month = ('0' + (today.getMonth() + 1)).slice(-2);
-    const year = today.getFullYear();
-    const day = ('0' + today.getDate()).slice(-2);
-
-    return year + '. ' + month + '. ' + day + '. ';
-  }
-  const dateString = getTodaysDate();
+  const today = new Date();
+  const dateString = getCustomizedDate(today);
 
   return (
     <BambooPostStyle>

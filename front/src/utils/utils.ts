@@ -27,3 +27,12 @@ export const selectMaxSentiment = (sentiments: SentimentsType) => {
   const sorted = Object.entries(sentiments)?.sort((a, b) => b[1] - a[1]);
   return sorted[0][0];
 };
+
+//yyyy.mm.dd.형식으로 바꾸기
+export const getCustomizedDate = (date: any) => {
+  const month = ('0' + (date.getMonth() + 1)).slice(-2);
+  const year = date.getFullYear();
+  const day = ('0' + date.getDate()).slice(-2);
+
+  return year + '. ' + month + '. ' + day + '. ';
+};

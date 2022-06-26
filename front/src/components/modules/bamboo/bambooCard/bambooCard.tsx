@@ -11,7 +11,6 @@ import { getBambooList } from 'api/api';
 import { getCustomizedDate } from 'utils/utils';
 
 function BambooCard() {
-  const arr = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
   const [bambooList, setBambooList] = useState<any[]>([]);
   const [bambooDate, setBambooDate] = useState('');
 

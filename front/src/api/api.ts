@@ -45,8 +45,8 @@ export const postBambooPosting = async (bambooData: any) => {
   await Axios.post(apiUrl, bambooData);
 };
 
-export const getBambooList = async () => {
-  const apiUrl = `api/users/posts`;
+export const getBambooList = async (page: number, limit: number) => {
+  const apiUrl = `api/users/posts?page=${page}&limit=${limit}`;
   const { data } = await Axios.get(apiUrl);
   return data.result;
 };

@@ -39,7 +39,7 @@ export const usePostDiary = (
           },
         });
       },
-      onError: () => {
+      onError: (e) => {
         openSnackBar(false, '일기 날짜와 내용을 확인해주세요.');
         setTimeout(() => {
           navigate('/diary');
@@ -62,7 +62,7 @@ export const useEditDiary = (
           refetchInactive: true,
         });
         openSnackBar(true, '일기를 수정했습니다. 새로 일기를 분석했습니다.');
-        navigate('/result', {
+        navigate(`/result/${date}`, {
           state: {
             date,
           },

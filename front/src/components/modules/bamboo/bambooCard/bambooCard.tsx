@@ -88,9 +88,7 @@ function BambooCard() {
         )}
 
         {loading ? <div>로딩 중</div> : <></>}
-        <div ref={observeRef} style={{ background: 'yellow', height: '120px' }}>
-          옵저버 Element
-        </div>
+        <div ref={observeRef} style={{ height: '100px' }}></div>
       </DiaryPosts>
     </>
   );

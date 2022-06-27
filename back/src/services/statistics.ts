@@ -59,16 +59,6 @@ export default class StatService {
     }
   }
 
-  public async updateOne(id: string, toUpdate: Partial<IStat>) {
-    try {
-      const filter = { _id: id };
-      const updatedDoc = await this.statModel.updateOne(filter, toUpdate);
-      return updatedDoc;
-    } catch (error) {
-      throw new StatusError(400, "업데이트에 실패했습니다.");
-    }
-  }
-
   public async deleteOne(id: string) {
     try {
       await this.statModel.deleteOne(id);

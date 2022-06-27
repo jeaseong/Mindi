@@ -37,11 +37,6 @@ export class MongoStatModel implements IStatModel {
     return newDoc.toObject();
   }
 
-  async updateOne(filter: Partial<IStat>, toUpdate: Partial<IStat>): Promise<IStat> {
-    const option = { returnOriginal: false };
-    return StatisticsModel.findOneAndUpdate(filter, toUpdate, option).lean();
-  }
-
   async deleteOne(id: string): Promise<void> {
     await StatisticsModel.deleteOne({ _id: id });
   }

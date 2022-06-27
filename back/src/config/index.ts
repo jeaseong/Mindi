@@ -1,12 +1,12 @@
-import * as dotenv from "dotenv";
-import path from "path";
+// import * as dotenv from "dotenv";
+// import path from "path";
 
-const envFound = dotenv.config({
-  path: path.resolve(__dirname, `../../.env_${process.env.NODE_ENV}`),
-});
-if (envFound.error) {
-  throw new Error(".env 파일을 만들어주세요.️");
-}
+// const envFound = dotenv.config({
+//   path: path.resolve(__dirname, `../../.env_${process.env.NODE_ENV}`),
+// });
+// if (envFound.error) {
+//   throw new Error(".env 파일을 만들어주세요.️");
+// }
 
 export default {
   // app 실행 환경

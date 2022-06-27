@@ -4,7 +4,7 @@ const serverURL = `${process.env.REACT_APP_API_SERVER}`;
 
 const Axios: AxiosInstance = axios.create({
   baseURL: `${serverURL}`,
-  timeout: 5000,
+  timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -53,7 +53,7 @@ AxiosFile.interceptors.response.use(
   },
   function (error) {
     console.log('에러 발생!', error);
-    return Promise.reject(error.response);
+    return Promise.reject(error.response.data);
   },
 );
 

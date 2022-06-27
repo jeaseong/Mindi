@@ -1,15 +1,15 @@
 import React from 'react';
 import { useGetDiaryList } from 'hooks/diaryQuery';
 import SubTitle from 'components/atoms/text/SubTitle';
-import { getCurDate } from 'utils/utils';
-import { IMAGE } from 'utils/image';
+import { ListProps } from 'types/atoms';
 import { DiaryPosts, DiaryPost, PreviewPost } from './DiaryCard.style';
 
-function DiaryCard() {
-  const curDate = getCurDate();
-  const year = curDate.slice(0, 4);
-  const month = curDate.slice(5, 7);
-  const { diary, isFetching } = useGetDiaryList(year, month, '00');
+function DiaryCard({ year, month }: ListProps) {
+  const { diary, isFetching } = useGetDiaryList(
+    `${year}`,
+    `${month >= 10 ? month : `0${month}`}`,
+    '00',
+  );
   return (
     <DiaryPosts>
       {isFetching

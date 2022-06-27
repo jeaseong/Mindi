@@ -113,6 +113,11 @@ export interface CalenderHeadProps {
   onChangeMonth: (m: number) => void;
 }
 
+export interface ListProps {
+  year: number;
+  month: number;
+}
+
 export interface PreviewProps {
   year: number;
   month: number;

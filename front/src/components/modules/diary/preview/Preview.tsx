@@ -29,7 +29,7 @@ function Preview({ year, month, day }: PreviewProps) {
 
   const onClickTo = (type: string) => {
     if (type === 'posting') {
-      navigate('/diary-posting', {
+      navigate(`/diary-posting/${date}`, {
         state: {
           date,
         },
@@ -41,7 +41,7 @@ function Preview({ year, month, day }: PreviewProps) {
         },
       });
     } else if (type === 'edit') {
-      navigate(`/diary-edit`, {
+      navigate(`/diary-edit/${date}`, {
         state: {
           date,
         },

@@ -1,9 +1,20 @@
 import React from 'react';
 import { useSnackbarContext } from 'contexts/SnackbarContext';
 import SnackBar from 'components/atoms/snackBar/SnackBar';
-function SnackbarContainer() {
+
+interface PositionType {
+  position?: 'topRight' | 'bottomRight';
+}
+function SnackbarContainer({ position }: PositionType) {
   const { message, isShowing, type } = useSnackbarContext();
-  return <SnackBar message={message} isActive={isShowing} type={type} />;
+  return (
+    <SnackBar
+      position={position}
+      message={message}
+      isActive={isShowing}
+      type={type}
+    />
+  );
 }
 
 export default SnackbarContainer;

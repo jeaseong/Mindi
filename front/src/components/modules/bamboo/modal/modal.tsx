@@ -1,6 +1,6 @@
 import React from 'react';
 import { ModalProps } from 'types/atoms';
-import Button from '../button/Button';
+import Button from '../../../atoms/button/Button';
 import {
   ModalWrapper,
   DateWrapper,

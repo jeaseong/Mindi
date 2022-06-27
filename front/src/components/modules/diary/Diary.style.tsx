@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 export const DiaryCalendar = styled.section`
+  width: 100%;
   height: 100%;
   margin-bottom: 50px;
   display: grid;

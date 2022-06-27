@@ -25,5 +25,6 @@ export const selectMaxSentiment = (sentiments: SentimentsType) => {
     throw new Error('sentiments이 없습니다.');
   }
   const sorted = Object.entries(sentiments)?.sort((a, b) => b[1] - a[1]);
+  if (sorted[0][1] === 0) return 'relaxed';
   return sorted[0][0];
 };

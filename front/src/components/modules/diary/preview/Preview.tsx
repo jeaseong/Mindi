@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useGetDiaryList } from 'hooks/diaryQuery';
 import SubTitle from 'components/atoms/text/SubTitle';
 import Text from 'components/atoms/text/Text';
 import Image from 'components/atoms/image/Image';
 import Button from 'components/atoms/button/Button';
-import { getDateForString, selectMaxSentiment } from 'utils/utils';
+import { getDateForString, selectMaxSentiment, getCurDate } from 'utils/utils';
 import { PreviewProps } from 'types/atoms';
 import { SENTIMENTS } from 'utils/image';
 import {
@@ -16,6 +16,7 @@ import {
 } from './Preview.style';
 
 function Preview({ year, month, day }: PreviewProps) {
+  const today = getCurDate();
   const navigate = useNavigate();
   const date = getDateForString(year, month, day);
   const { diary, isLoading } = useGetDiaryList(
@@ -23,6 +24,8 @@ function Preview({ year, month, day }: PreviewProps) {
     `${date.slice(5, 7)}`,
     `${date.slice(8, 10)}`,
   );
+
+  const isOverToday = useMemo(() => today < date, [today, date]);
 
   const onClickTo = (type: string) => {
     if (type === 'posting') {
@@ -68,7 +71,9 @@ function Preview({ year, month, day }: PreviewProps) {
         </SubTitle>
         <PreviewBox>
           <Text size='sm' align='center'>
-            일기 작성을 안 했어요!
+            {isOverToday
+              ? '일기는 지난 날만 작성이 가능해요!'
+              : '일기 작성을 안 했어요!'}
           </Text>
           <PreviewSentiment>
             <Image
@@ -79,7 +84,7 @@ function Preview({ year, month, day }: PreviewProps) {
           </PreviewSentiment>
           <NavigateBox>
             <Text size='sm'>일기 써주세요ㅠ</Text>
-            <Button onClick={() => onClickTo('posting')}>
+            <Button disabled={isOverToday} onClick={() => onClickTo('posting')}>
               일기 쓰러가기 &rarr;
             </Button>
           </NavigateBox>
@@ -94,7 +99,7 @@ function Preview({ year, month, day }: PreviewProps) {
       </SubTitle>
       <PreviewBox>
         <Text size='sm' align='center'>
-          기분에 따라 조언 하나씩 줘야함
+          {SENTIMENTS[sentiment].comment}
         </Text>
         <PreviewSentiment>
           <Image

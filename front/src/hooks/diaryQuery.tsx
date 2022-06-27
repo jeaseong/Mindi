@@ -38,6 +38,9 @@ export const usePostDiary = (
       },
       onError: () => {
         openSnackBar(false, '일기 날짜와 내용을 확인해주세요.');
+        setTimeout(() => {
+          navigate('/diary');
+        }, 2500);
       },
     },
   );

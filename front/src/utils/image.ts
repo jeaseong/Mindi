@@ -55,25 +55,36 @@ export const SENTIMENTS: sentimentsType = {
   HAPPINESS: {
     url: `${url}/assets/happiness.png`,
     alt: '행복 캐릭터',
+    comment: '행복한 하루였네요! 오늘 하루는 어떠세요?',
   },
   ANGER: {
     url: `${url}/assets/anger.png`,
     alt: '화남 캐릭터',
+    comment: '화가 났던 하루였네요ㅠ 항상 응원합니다.',
   },
   AVERSION: {
     url: `${url}/assets/aversion.png`,
     alt: '혐오 캐릭터',
+    comment: '당신도 혐오스러워!',
   },
   SADNESS: {
     url: `${url}/assets/sadness.png`,
     alt: '슬픔 캐릭터',
+    comment: '뿌엥ㅠ',
   },
   FEAR: {
     url: `${url}/assets/scared.png`,
     alt: '두려움 캐릭터',
+    comment: '살려주세요..제발요..',
   },
   SURPRISED: {
     url: `${url}/assets/surprised.png`,
     alt: '놀람 캐릭터',
+    comment: '으엌!',
+  },
+  RELAXED: {
+    url: `${url}/assets/relaxed.png`,
+    alt: '평온 캐릭터',
+    comment: '흠흠흠',
   },
 };

@@ -30,7 +30,7 @@ export const usePostDiary = (
           refetchInactive: true,
         });
         openSnackBar(true, '일기를 분석을 성공했습니다.');
-        navigate('/result', {
+        navigate(`/result/${date}}`, {
           state: {
             date,
           },

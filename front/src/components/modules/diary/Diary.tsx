@@ -17,10 +17,10 @@ function Diary() {
   const [day, setDay] = useState(DAY);
 
   const curDate = useMemo(
-    () => getDateForString(year, month, day).split('-'),
+    () => getDateForString(year, month, day, 'perMonth'),
     [year, month, day],
   );
-  const { isLoading } = useGetDiaryList(curDate[0], curDate[1], '00');
+  const { isLoading } = useGetDiaryList(curDate);
 
   const onSetDay = (d: number) => {
     setDay(d);

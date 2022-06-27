@@ -90,6 +90,17 @@ export interface DiaryType {
   diaryDate: string;
 }
 
+export type DateType = 'perYear' | 'perMonth' | 'perDay';
+
+export interface SentimentsType {
+  fear: string;
+  surprised: string;
+  anger: string;
+  sadness: string;
+  happiness: string;
+  aversion: string;
+}
+
 export interface FileType {
   preview: string;
   data: File | undefined;

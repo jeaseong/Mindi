@@ -18,12 +18,8 @@ import {
 function Preview({ year, month, day }: PreviewProps) {
   const today = getCurDate();
   const navigate = useNavigate();
-  const date = getDateForString(year, month, day);
-  const { diary, isFetching } = useGetDiaryList(
-    `${year}`,
-    `${date.slice(5, 7)}`,
-    `${date.slice(8, 10)}`,
-  );
+  const date = getDateForString(year, month, day, 'perDay');
+  const { diary, isFetching } = useGetDiaryList(date);
 
   const isOverToday = useMemo(() => today < date, [today, date]);
 

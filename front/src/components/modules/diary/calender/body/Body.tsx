@@ -5,11 +5,8 @@ import { selectMaxSentiment, getDateForString } from 'utils/utils';
 import { Container, Days, Day, Span } from './Body.style';
 function Body({ totalDate, year, month, TODAY, onSetDay }: CalenderBodyProps) {
   const queryClient = useQueryClient();
-  const date = getDateForString(year, month, 0);
-  const diary: any = queryClient.getQueryData([
-    'diary',
-    `${year}-${date.slice(5, 7)}-00`,
-  ]);
+  const date = getDateForString(year, month, 0, 'perMonth');
+  const diary: any = queryClient.getQueryData(['diary', date]);
   let count = diary?.length - 1;
   return (
     <Container>

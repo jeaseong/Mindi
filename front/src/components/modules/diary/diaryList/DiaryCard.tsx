@@ -7,11 +7,8 @@ import { DiaryPosts, DiaryPost, PreviewPost } from './DiaryCard.style';
 
 function DiaryCard({ year, month }: ListProps) {
   const queryClient = useQueryClient();
-  const date = getDateForString(year, month, 0);
-  const diaries: any = queryClient.getQueryData([
-    'diary',
-    `${year}-${date.slice(5, 7)}-00`,
-  ]);
+  const date = getDateForString(year, month, 0, 'perMonth');
+  const diaries: any = queryClient.getQueryData(['diary', date]);
   return (
     <DiaryPosts>
       {diaries?.map((d: any, index: number) => (

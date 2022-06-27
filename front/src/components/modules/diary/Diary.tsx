@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useGetDiaryList } from 'hooks/diaryQuery';
 import Calender from 'components/modules/diary/calender/Calender';
 import Preview from 'components/modules/diary/preview/Preview';
 import DiaryCard from 'components/modules/diary/diaryList/DiaryCard';
@@ -18,12 +17,12 @@ function Diary() {
     setDay(d);
   };
   const onChangeMonth = (m: number) => {
-    if (month === 11 && m > 0) {
-      setMonth(0);
+    if (month === 12 && m > 0) {
+      setMonth(1);
       setYear((cur) => cur + 1);
       return;
-    } else if (month === 0 && m < 0) {
-      setMonth(11);
+    } else if (month === 1 && m < 0) {
+      setMonth(12);
       setYear((cur) => cur - 1);
       return;
     }
@@ -42,7 +41,7 @@ function Diary() {
         />
       </DiaryCalendar>
       <DiaryList>
-        <DiaryCard />
+        <DiaryCard year={year} month={month} />
       </DiaryList>
     </>
   );

@@ -90,6 +90,17 @@ export interface DiaryType {
   diaryDate: string;
 }
 
+export type DateType = 'perYear' | 'perMonth' | 'perDay';
+
+export interface SentimentsType {
+  fear: string;
+  surprised: string;
+  anger: string;
+  sadness: string;
+  happiness: string;
+  aversion: string;
+}
+
 export interface FileType {
   preview: string;
   data: File | undefined;
@@ -111,6 +122,11 @@ export interface CalenderHeadProps {
   year: number;
   month: number;
   onChangeMonth: (m: number) => void;
+}
+
+export interface ListProps {
+  year: number;
+  month: number;
 }
 
 export interface PreviewProps {

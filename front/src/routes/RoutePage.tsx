@@ -29,11 +29,11 @@ function RoutePage({ isLogin }: RouterPros) {
             element={<PrivateRoute user={isLogin} component={<Diary />} />}
           />
           <Route
-            path='/diary-posting'
+            path='/diary-posting/:diaryDate'
             element={<PrivateRoute user={isLogin} component={<Posting />} />}
           />
           <Route
-            path='/diary-edit'
+            path='/diary-edit/:diaryDate'
             element={<PrivateRoute user={isLogin} component={<Edit />} />}
           />
           <Route

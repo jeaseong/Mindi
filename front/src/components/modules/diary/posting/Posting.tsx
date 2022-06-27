@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useCallback } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useSnackbarContext } from 'contexts/SnackbarContext';
 import { usePostDiary } from 'hooks/diaryQuery';
 import FileUpload from 'components/modules/fileUpload/FileUpload';
@@ -13,10 +13,9 @@ import { FileType, DiaryType, CustomizedState } from 'types/atoms';
 import { PostingContainer, Area, AlignRight } from './Posting.style';
 
 function Posting() {
-  const location = useLocation();
-  const state = location.state as CustomizedState;
+  const { diaryDate } = useParams<{ diaryDate: string }>();
   const { openSnackBar } = useSnackbarContext();
-  const postDiary = usePostDiary(openSnackBar, state?.date);
+  const postDiary = usePostDiary(openSnackBar, diaryDate as string);
   const [isLoading, setIsLoading] = useState(false);
   const [simpleDiary, setSimpleDiary] = useState('');
   const [mindDiary, setMindDiary] = useState('');
@@ -55,7 +54,7 @@ function Posting() {
     const diaryData: DiaryType = {
       diary: simpleDiary,
       feeling: mindDiary,
-      diaryDate: state?.date,
+      diaryDate: diaryDate as string,
     };
     formData.append('background', editImg.data as File);
     Object.entries(diaryData).forEach((val) => {
@@ -64,7 +63,7 @@ function Posting() {
     try {
       postDiary.mutate(formData);
     } catch (e) {
-      openSnackBar(false, '작성을 안 했어요..!!');
+      openSnackBar(false, `${e}`);
     }
   };
   const fileuploadPros = {

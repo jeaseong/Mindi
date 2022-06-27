@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
+import Loader from 'components/modules/loader/Loader';
 import { useGetDiaryList } from 'hooks/diaryQuery';
 import Calender from 'components/modules/diary/calender/Calender';
 import Preview from 'components/modules/diary/preview/Preview';
 import DiaryCard from 'components/modules/diary/diaryList/DiaryCard';
+import { getDateForString } from 'utils/utils';
 import { DiaryCalendar, DiaryList } from './Diary.style';
 
 function Diary() {
@@ -14,22 +16,28 @@ function Diary() {
   const [year, setYear] = useState(YEAR);
   const [day, setDay] = useState(DAY);
 
+  const curDate = useMemo(
+    () => getDateForString(year, month, day, 'perMonth'),
+    [year, month, day],
+  );
+  const { isLoading } = useGetDiaryList(curDate);
+
   const onSetDay = (d: number) => {
     setDay(d);
   };
   const onChangeMonth = (m: number) => {
-    if (month === 11 && m > 0) {
-      setMonth(0);
+    if (month === 12 && m > 0) {
+      setMonth(1);
       setYear((cur) => cur + 1);
       return;
-    } else if (month === 0 && m < 0) {
-      setMonth(11);
+    } else if (month === 1 && m < 0) {
+      setMonth(12);
       setYear((cur) => cur - 1);
       return;
     }
     setMonth((cur) => cur + m);
   };
-
+  if (isLoading) return <Loader>로딩중...</Loader>;
   return (
     <>
       <DiaryCalendar>
@@ -42,7 +50,7 @@ function Diary() {
         />
       </DiaryCalendar>
       <DiaryList>
-        <DiaryCard />
+        <DiaryCard year={year} month={month} />
       </DiaryList>
     </>
   );

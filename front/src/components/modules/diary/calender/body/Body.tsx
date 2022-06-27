@@ -1,11 +1,12 @@
 import React from 'react';
-import { useGetDiaryList } from 'hooks/diaryQuery';
+import { useQueryClient } from 'react-query';
 import { CalenderBodyProps } from 'types/atoms';
 import { selectMaxSentiment, getDateForString } from 'utils/utils';
 import { Container, Days, Day, Span } from './Body.style';
 function Body({ totalDate, year, month, TODAY, onSetDay }: CalenderBodyProps) {
-  const date = getDateForString(year, month, 0);
-  const { diary } = useGetDiaryList(`${year}`, `${date.slice(5, 7)}`, '00');
+  const queryClient = useQueryClient();
+  const date = getDateForString(year, month, 0, 'perMonth');
+  const diary: any = queryClient.getQueryData(['diary', date]);
   let count = diary?.length - 1;
   return (
     <Container>

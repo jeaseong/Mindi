@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
-import { useLocation } from 'react-router-dom';
-import { useQueryClient } from 'react-query';
-import { useEditDiary } from 'hooks/diaryQuery';
+import { useParams } from 'react-router-dom';
+import { useEditDiary, useGetDiaryList } from 'hooks/diaryQuery';
 import { useSnackbarContext } from 'contexts/SnackbarContext';
 import FileUpload from 'components/modules/fileUpload/FileUpload';
 import Loader from 'components/modules/loader/Loader';
@@ -9,7 +8,7 @@ import MainTitle from 'components/atoms/text/MainTitle';
 import TextArea from 'components/atoms/textArea/TextArea';
 import Button from 'components/atoms/button/Button';
 import SubTitle from 'components/atoms/text/SubTitle';
-import { FileType, DiaryType, CustomizedState } from 'types/atoms';
+import { FileType, DiaryType } from 'types/atoms';
 import { IMAGE } from 'utils/image';
 import {
   PostingContainer,
@@ -18,13 +17,11 @@ import {
 } from 'components/modules/diary/posting/Posting.style';
 
 function EditDiary() {
-  const location = useLocation();
-  const state = location.state as CustomizedState;
+  const { diaryDate } = useParams<{ diaryDate: string }>();
   const { openSnackBar } = useSnackbarContext();
-  const putDiary = useEditDiary(openSnackBar, state?.date);
-  const queryClient = useQueryClient();
-  const diary = queryClient.getQueryData(['diary', state?.date]) as any;
-  const [isLoading, setIsLoading] = useState(false);
+  const putDiary = useEditDiary(openSnackBar, diaryDate as string);
+  const { diary, isLoading } = useGetDiaryList(diaryDate as string);
+  const [isLoader, setIsLoader] = useState(false);
   const [simpleDiary, setSimpleDiary] = useState<string>('');
   const [mindDiary, setMindDiary] = useState<string>('');
   const [editImg, setEditImg] = useState<FileType>({
@@ -33,24 +30,25 @@ function EditDiary() {
   });
 
   useEffect(() => {
+    console.log('이거 왜 렌더링 안 해?');
     initState();
   }, []);
 
-  const initState = useCallback(() => {
-    if (diary.length > 0) {
-      setSimpleDiary(diary[0].diary);
-      setMindDiary(diary[0].feeling);
+  const initState = () => {
+    if (!isLoading) {
+      setSimpleDiary(diary[0]?.diary);
+      setMindDiary(diary[0]?.feeling);
+      if ('imageFilePath' in diary[0]) {
+        setEditImg((cur) => {
+          return {
+            ...cur,
+            ['preview']: diary[0]?.imageFilePath,
+            ['data']: diary[0]?.imageFilePath,
+          };
+        });
+      }
     }
-    if ('imageFilePath' in diary) {
-      setEditImg((cur) => {
-        return {
-          ...cur,
-          ['preview']: diary[0].imageFilePath,
-          ['data']: diary[0].imageFilePath,
-        };
-      });
-    }
-  }, [simpleDiary, mindDiary, editImg]);
+  };
 
   const formData = useMemo(() => new FormData(), [editImg]);
 
@@ -76,15 +74,15 @@ function EditDiary() {
   );
 
   const onChangeLoading = useCallback(() => {
-    setIsLoading((cur) => !cur);
+    setIsLoader((cur) => !cur);
   }, [isLoading]);
 
   const onSubmit = async () => {
     const diaryData: DiaryType = {
-      _id: diary[0]?._id,
+      _id: diary[0]._id,
       diary: simpleDiary,
       feeling: mindDiary,
-      diaryDate: state?.date,
+      diaryDate: diaryDate as string,
     };
     formData.append('background', editImg.data as File);
     Object.entries(diaryData).forEach((val) => {
@@ -102,8 +100,8 @@ function EditDiary() {
     onChangeFile,
   };
 
-  if (isLoading) return <Loader>일기를 분석하고 있습니다...</Loader>;
-
+  if (isLoader) return <Loader>일기를 분석하고 있습니다...</Loader>;
+  if (isLoading) return <Loader>일기를 가져오고 있습니다...</Loader>;
   return (
     <PostingContainer>
       <MainTitle>Daily Log Edit</MainTitle>

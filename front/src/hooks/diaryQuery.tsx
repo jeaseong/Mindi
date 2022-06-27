@@ -5,7 +5,10 @@ import { getDiaryList, postDiaryPosting, putDiaryPosting } from 'api/api';
 export const useGetDiaryList = (year: string, month: string, day: string) => {
   const { isFetching, isLoading, error, data } = useQuery(
     ['diary', `${year}-${month}-${day}`],
-    async () => await getDiaryList(year, month, day),
+    async () => {
+      const result = await getDiaryList(year, month, day);
+      return result;
+    },
     {
       staleTime: Infinity,
       onError: () => {

@@ -2,7 +2,6 @@ import React from 'react';
 import RoutePage from 'routes/RoutePage';
 import SnackbarContainer from 'components/modules/snackbar/SnackbarContainer';
 import { useCurUser } from 'hooks/userQuery';
-import './App.css';
 
 const App: React.FC = () => {
   const { data } = useCurUser();

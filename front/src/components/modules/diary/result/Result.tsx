@@ -6,7 +6,7 @@ import Image from 'components/atoms/image/Image';
 import Button from 'components/atoms/button/Button';
 import { SENTIMENTS } from 'utils/image';
 import { getCurDate } from 'utils/utils';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { getDiaryList } from 'api/api';
 import {
   ContentWrapper,
@@ -32,7 +32,11 @@ function Result() {
   const [diaryData, setDiaryData] = useState();
   const [feelingData, setFeelingData] = useState();
 
-  const curDate = getCurDate();
+  // const curDate = location.state as CustomizedState;
+
+  // console.log(curDate, sentimentData);
+  const param = useParams();
+  const curDate = param.date?.substring(0, 10) as string;
   const strSplit = curDate.split('-');
 
   useEffect(() => {

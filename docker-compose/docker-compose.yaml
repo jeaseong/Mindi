@@ -27,6 +27,8 @@ services:
     container_name: client-container
     ports:
       - "3001:3001"
+    environment:
+      REACT_APP_API_SERVER: "http://localhost:5001/"
     depends_on:
 #      - redis
       - server
@@ -39,6 +41,9 @@ services:
     container_name: server-container
     ports:
       - "5001:5001"
+    environment:
+      SERVER_PORT: 5001
+      AI_SERVER_URL: "http://ai-container:8000/"
 #    depends_on:
 #      - redis
   ai:

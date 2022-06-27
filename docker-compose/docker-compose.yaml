@@ -11,7 +11,7 @@ services:
   nginx:
     build:
       context: ../nginx
-      dockerfile: ../nginx/Dockerfile.dev
+      dockerfile: Dockerfile.dev
     container_name: nginx-container
     ports:
       - "80:80"
@@ -23,12 +23,10 @@ services:
   client:
     build:
       context: ../front
-      dockerfile: ../front/Dockerfile.dev
+      dockerfile: Dockerfile.dev
     container_name: client-container
     ports:
       - "3001:3001"
-    environment:
-      REACT_APP_API_SERVER: "http://localhost:5001/"
     depends_on:
 #      - redis
       - server
@@ -37,19 +35,16 @@ services:
   server:
     build:
       context: ../back
-      dockerfile: ../back/Dockerfile.dev
+      dockerfile: Dockerfile.dev
     container_name: server-container
     ports:
       - "5001:5001"
-    environment:
-      SERVER_PORT: 5001
-      AI_SERVER_URL: "http://ai-container:8000/"
 #    depends_on:
 #      - redis
   ai:
     build:
       context: ../ai
-      dockerfile: ../ai/Dockerfile.dev
+      dockerfile: Dockerfile.dev
     container_name: ai-container
     ports:
       - "8000:8000"

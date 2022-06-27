@@ -1,13 +1,14 @@
 import React from 'react';
-import Image from 'components/atoms/image/Image';
 import { IMAGE } from '../../../utils/image';
 import {
   MainTemplate,
   ImageWrapper,
   EITestButton,
   ToEITest,
+  ToRegister,
   BGImg,
   LogoText,
+  RegisterButton,
 } from './Main.style';
 import { MainButton } from './Main.style';
 import { useNavigate } from 'react-router-dom';
@@ -97,6 +98,27 @@ function Main2() {
           LOGIN!
         </MainButton>
       </MainTemplate>
+      <ToRegister>
+        <ImageWrapper>
+          <BGImg
+            width='27%'
+            src={IMAGE.MAIN_DOODLE_FLIP.url}
+            alt={IMAGE.MAIN_DOODLE_FLIP.alt}
+            variants={EITestImgVariants}
+            initial='initial'
+            animate='animate'
+          />
+          <RegisterButton
+            variants={childVariants}
+            whileHover='hover'
+            onClick={() => {
+              navigate('/sign-up');
+            }}
+          >
+            가입하기
+          </RegisterButton>
+        </ImageWrapper>
+      </ToRegister>
       <ToEITest>
         <ImageWrapper>
           <BGImg

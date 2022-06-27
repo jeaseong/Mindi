@@ -1,10 +1,4 @@
-import React, {
-  useEffect,
-  useState,
-  useRef,
-  useContext,
-  useCallback,
-} from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import {
   DiaryPosts,
   DiaryPost,
@@ -14,7 +8,6 @@ import {
 } from './bambooCard.style';
 import { IMAGE } from 'utils/image';
 import { getBambooList } from 'api/api';
-import { Axios } from 'api/costomAxios';
 
 function BambooCard() {
   const [bambooList, setBambooList] = useState<any[]>([]);
@@ -33,19 +26,18 @@ function BambooCard() {
     }
   }, []);
 
-  // const options = {
-  //   root: null, //기본 null, 관찰대상의 부모요소를 지정
-  //   rootMargin: '20px', // 관찰하는 뷰포트의 마진 지정
-  //   threshold: 1.0, // 관찰요소와 얼만큼 겹쳤을 때 콜백을 수행하도록 지정하는 요소
-  // };
+  const options = {
+    root: null, //기본 null, 관찰대상의 부모요소를 지정
+    rootMargin: '20px', // 관찰하는 뷰포트의 마진 지정
+    threshold: 1.0, // 관찰요소와 얼만큼 겹쳤을 때 콜백을 수행하도록 지정하는 요소
+  };
 
   const getPost = useCallback(async () => {
     console.log('포스트 불러오기');
     setLoading(true);
-    const apiUrl = `api/users/posts?page=${page}&limit=6`;
-    const { data } = await Axios.get(apiUrl);
+    const data = await getBambooList(page);
     if (data) {
-      setBambooList((prev) => [...prev, ...data.result]);
+      setBambooList((prev) => [...prev, ...data]);
       preventRef.current = true;
     } else {
       console.log(data);
@@ -57,9 +49,7 @@ function BambooCard() {
 
   useEffect(() => {
     getPost();
-    const observer = new IntersectionObserver(handleObserver, {
-      threshold: 0.5,
-    });
+    const observer = new IntersectionObserver(handleObserver, options);
     if (observeRef.current) observer.observe(observeRef.current);
     return () => {
       observer.disconnect();

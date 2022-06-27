@@ -5,10 +5,7 @@ import { getDiaryList, postDiaryPosting, putDiaryPosting } from 'api/api';
 export const useGetDiaryList = (year: string, month: string, day: string) => {
   const { isFetching, isLoading, error, data } = useQuery(
     ['diary', `${year}-${month}-${day}`],
-    async () => {
-      const result = await getDiaryList(year, month, day);
-      return result;
-    },
+    async () => await getDiaryList(year, month, day),
     {
       staleTime: Infinity,
       onError: () => {
@@ -30,6 +27,9 @@ export const usePostDiary = (
     {
       onSuccess: () => {
         queryClient.invalidateQueries(['diary', `${date.slice(0, 7)}-00`], {
+          refetchInactive: true,
+        });
+        queryClient.invalidateQueries(['diary', date], {
           refetchInactive: true,
         });
         openSnackBar(true, '일기를 분석을 성공했습니다.');

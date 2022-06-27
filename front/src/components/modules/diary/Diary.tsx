@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
+import Loader from 'components/modules/loader/Loader';
+import { useGetDiaryList } from 'hooks/diaryQuery';
 import Calender from 'components/modules/diary/calender/Calender';
 import Preview from 'components/modules/diary/preview/Preview';
 import DiaryCard from 'components/modules/diary/diaryList/DiaryCard';
+import { getDateForString } from 'utils/utils';
 import { DiaryCalendar, DiaryList } from './Diary.style';
 
 function Diary() {
@@ -12,6 +15,12 @@ function Diary() {
   const [month, setMonth] = useState(MONTH + 1);
   const [year, setYear] = useState(YEAR);
   const [day, setDay] = useState(DAY);
+
+  const curDate = useMemo(
+    () => getDateForString(year, month, day).split('-'),
+    [year, month, day],
+  );
+  const { isLoading } = useGetDiaryList(curDate[0], curDate[1], '00');
 
   const onSetDay = (d: number) => {
     setDay(d);
@@ -28,7 +37,7 @@ function Diary() {
     }
     setMonth((cur) => cur + m);
   };
-
+  if (isLoading) return <Loader>로딩중...</Loader>;
   return (
     <>
       <DiaryCalendar>

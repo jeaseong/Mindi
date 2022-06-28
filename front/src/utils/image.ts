@@ -82,7 +82,7 @@ export const SENTIMENTS: sentimentsType = {
     alt: '놀람 캐릭터',
     comment: '으엌!',
   },
-  RELAXED: {
+  MIXED: {
     url: `${url}/assets/relaxed.png`,
     alt: '평온 캐릭터',
     comment: '흠흠흠',

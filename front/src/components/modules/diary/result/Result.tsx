@@ -98,23 +98,9 @@ function Result() {
     }
   };
 
-  const 중복값제거 = (sentimentData: any) => {
-    const result: any = {};
-    if (sentimentData) {
-      sentimentData.forEach((x: any) => {
-        result[x] = (result[x] || 0) + 1;
-      });
-
-      return result;
-    }
-  };
-
   const sentimentNames = selectSentimentNames(sentimentData);
 
   const sentimentValues = selectSentimentValues(sentimentData);
-
-  const 중제 = 중복값제거(sentimentValues);
-  // console.log(중제);
 
   const data = {
     datasets: [

@@ -4,7 +4,6 @@ import { signInPost, getCurUser } from 'api/api';
 import { SignInInfo } from 'types/apiType';
 
 export const useCurUser = () => {
-  const queryClient = useQueryClient();
   return useQuery(
     'userState',
     async () => {
@@ -30,7 +29,7 @@ export const useSignInHandler = (
     {
       onSuccess: (res) => {
         const JWT_TOKEN = res.token;
-        localStorage.setItem('userToken', JWT_TOKEN);
+        sessionStorage.setItem('userToken', JWT_TOKEN);
         queryClient.invalidateQueries('userState');
         openSnackBar(true, '로그인 성공!');
         navigate('/');

@@ -8,11 +8,14 @@ export interface BtnProps {
 
 export type TextProps = {
   children: React.ReactNode;
+  align?: string;
+  size?: string;
 };
 
 export type TextAreaProps = {
   bgColor?: 'green' | 'red';
   onChange?: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  value?: string;
 };
 
 export type ImgProps = {
@@ -74,4 +77,68 @@ export interface RadioProps {
 
 export interface CardProps {
   bgImg: string;
+}
+
+export interface CustomizedState {
+  [date: string]: string;
+}
+
+export interface DiaryType {
+  _id?: string;
+  diary: string;
+  feeling: string;
+  diaryDate: string;
+}
+
+export type DateType = 'perYear' | 'perMonth' | 'perDay';
+
+export interface SentimentsType {
+  fear: string;
+  surprised: string;
+  anger: string;
+  sadness: string;
+  happiness: string;
+  aversion: string;
+}
+
+export interface FileType {
+  preview: string;
+  data: File | undefined;
+}
+
+export interface FileProps {
+  editImg: FileType;
+  onChangeFile: (img: FileType) => void;
+}
+
+export interface CalenderProps {
+  year: number;
+  month: number;
+  onChangeMonth: (m: number) => void;
+  onSetDay: (d: number) => void;
+}
+
+export interface CalenderHeadProps {
+  year: number;
+  month: number;
+  onChangeMonth: (m: number) => void;
+}
+
+export interface ListProps {
+  year: number;
+  month: number;
+}
+
+export interface PreviewProps {
+  year: number;
+  month: number;
+  day: number;
+}
+
+export interface CalenderBodyProps {
+  year: number;
+  month: number;
+  TODAY: string;
+  totalDate: string[][];
+  onSetDay: (d: number) => void;
 }

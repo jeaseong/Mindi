@@ -1,18 +1,24 @@
 import React from 'react';
-import { DiaryPosts, DiaryPost, Date, PreviewPost } from './DiaryCard.style';
-import { IMAGE } from 'utils/image';
-const arr = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-function DiaryCard() {
+import { useQueryClient } from 'react-query';
+import SubTitle from 'components/atoms/text/SubTitle';
+import { getDateForString } from 'utils/utils';
+import { ListProps } from 'types/atoms';
+import { DiaryPosts, DiaryPost, PreviewPost } from './DiaryCard.style';
+
+function DiaryCard({ year, month }: ListProps) {
+  const queryClient = useQueryClient();
+  const date = getDateForString(year, month, 0, 'perMonth');
+  const diaries: any = queryClient.getQueryData(['diary', date]);
   return (
     <DiaryPosts>
-      {arr.map((v, index) => (
-        <DiaryPost key={index}>
-          <Date>2022.06.18 {v}</Date>
-          <PreviewPost bgImg={IMAGE.AUTH_LOGO.url}>뭐야 이거</PreviewPost>
+      {diaries?.map((d: any, index: number) => (
+        <DiaryPost key={d._id}>
+          <SubTitle>{d.diaryDate}</SubTitle>
+          <PreviewPost bgImg={d?.imageFilePath}>{d.feeling}</PreviewPost>
         </DiaryPost>
       ))}
     </DiaryPosts>
   );
 }
 
-export default DiaryCard;
+export default React.memo(DiaryCard);

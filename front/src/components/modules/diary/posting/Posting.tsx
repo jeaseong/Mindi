@@ -1,58 +1,77 @@
-import React, { useState, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useMemo, useCallback } from 'react';
+import { useParams } from 'react-router-dom';
 import { useSnackbarContext } from 'contexts/SnackbarContext';
-import { postDiaryPosting, postAnalysis } from 'api/api';
 import { usePostDiary } from 'hooks/diaryQuery';
 import FileUpload from 'components/modules/fileUpload/FileUpload';
+import Loader from 'components/modules/loader/Loader';
 import MainTitle from 'components/atoms/text/MainTitle';
 import TextArea from 'components/atoms/textArea/TextArea';
 import Button from 'components/atoms/button/Button';
+import SubTitle from 'components/atoms/text/SubTitle';
 import { IMAGE } from 'utils/image';
-import { PostingContainer, Area, SubTitle, AlignRight } from './Posting.style';
+import { FileType, DiaryType, CustomizedState } from 'types/atoms';
+import { PostingContainer, Area, AlignRight } from './Posting.style';
 
 function Posting() {
-  const navigate = useNavigate();
-  const diaryMutation = usePostDiary();
+  const { diaryDate } = useParams<{ diaryDate: string }>();
   const { openSnackBar } = useSnackbarContext();
+  const postDiary = usePostDiary(openSnackBar, diaryDate as string);
+  const [isLoading, setIsLoading] = useState(false);
   const [simpleDiary, setSimpleDiary] = useState('');
   const [mindDiary, setMindDiary] = useState('');
-  const [editImg, setEditImg] = useState({
+  const [editImg, setEditImg] = useState<FileType>({
     preview: `${IMAGE.IMG_UPLOAD_BASIC.url}`,
-    data: '',
+    data: undefined,
   });
   const formData = useMemo(() => new FormData(), [editImg]);
 
-  const onChangeSimple = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setSimpleDiary((cur) => e.target.value);
-  };
+  const onChangeSimple = useCallback(
+    (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+      setSimpleDiary(e.target.value);
+    },
+    [simpleDiary],
+  );
 
-  const onChangeMind = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setMindDiary((cur) => e.target.value);
-  };
+  const onChangeMind = useCallback(
+    (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+      setMindDiary(e.target.value);
+    },
+    [mindDiary],
+  );
+
+  const onChangeFile = useCallback(
+    (fileData: FileType) => {
+      setEditImg(fileData);
+    },
+    [editImg],
+  );
+
+  const onChangeLoading = useCallback(() => {
+    setIsLoading((cur) => !cur);
+  }, [isLoading]);
+
   const onSubmit = async () => {
-    const diaryData = {
+    const diaryData: DiaryType = {
       diary: simpleDiary,
       feeling: mindDiary,
+      diaryDate: diaryDate as string,
     };
-    formData.append('background', editImg.data);
+    formData.append('background', editImg.data as File);
     Object.entries(diaryData).forEach((val) => {
-      formData.append(`${val[0]}`, JSON.stringify(val[1]));
+      formData.append(`${val[0]}`, val[1]);
     });
     try {
-      const res = await postAnalysis({ diary: diaryData.feeling });
-      formData.append('sentiment', JSON.stringify(res));
-      (await diaryMutation).mutate(formData);
-      navigate('/result');
+      postDiary.mutate(formData);
     } catch (e) {
-      openSnackBar(false, '작성을 안 했어요..!!');
+      openSnackBar(false, `${e}`);
     }
   };
-
   const fileuploadPros = {
     editImg,
-    formData,
-    setEditImg,
+    onChangeFile,
   };
+
+  if (isLoading) return <Loader>일기를 분석하고 있습니다...</Loader>;
 
   return (
     <PostingContainer>
@@ -67,7 +86,14 @@ function Posting() {
         <TextArea onChange={onChangeMind} bgColor='red' />
       </Area>
       <AlignRight>
-        <Button onClick={onSubmit}>Save & Analysis</Button>
+        <Button
+          onClick={() => {
+            onChangeLoading();
+            onSubmit();
+          }}
+        >
+          Save & Analysis
+        </Button>
       </AlignRight>
     </PostingContainer>
   );

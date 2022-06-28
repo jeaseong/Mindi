@@ -1,12 +1,12 @@
 import React from 'react';
-import Result from 'components/modules/diary-result/Result';
+import Result from 'components/modules/diary/result/Result';
 import { StyledTemplate } from './ResultTemplate.style';
 import {
   PageTitle,
   Lines,
   LineTop,
   LineBottom,
-} from '../../atoms/pageTitle/pageTitle.style';
+} from 'components/atoms/pageTitle/pageTitle.style';
 function ResultTemplate() {
   return (
     <StyledTemplate>

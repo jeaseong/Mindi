@@ -1,16 +1,23 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useSnackbarContext } from 'contexts/SnackbarContext';
 import Image from 'components/atoms/image/Image';
-import { UploadFile, UploadFileLabel } from './FileUpload.style';
+import { FileProps } from 'types/atoms';
 import { IMAGE } from 'utils/image';
+import { UploadFile, UploadFileLabel } from './FileUpload.style';
 
-function FileUpload({ editImg, setEditImg }: any) {
+function FileUpload({ editImg, onChangeFile }: FileProps) {
+  const { openSnackBar } = useSnackbarContext();
+
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
+    if (e.target.files[0].size > 1024 * 1024 * 5) {
+      return openSnackBar(false, '이미지는 5MB 이하만 업로드 가능합니다!');
+    }
     const img = {
       preview: URL.createObjectURL(e.target.files[0]),
       data: e.target.files[0],
     };
-    setEditImg(img);
+    onChangeFile(img);
   };
   return (
     <>

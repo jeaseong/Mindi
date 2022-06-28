@@ -4,6 +4,7 @@ export const HeaderContainer = styled.header`
   width: 90%;
   height: 65px;
   margin: 0 auto;
+  margin-bottom: 50px;
   display: grid;
   grid-template-columns: 1fr 3fr 1fr;
   background-color: transparent;
@@ -19,5 +20,9 @@ export const Nav = styled.nav`
 `;
 
 export const NavItem = styled.span`
-  font-size: 0.8rem;
+  font-size: 14px;
+  transition: all 0.2s ease-in-out;
+  &:hover {
+    transform: scale(1.1);
+  }
 `;

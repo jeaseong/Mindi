@@ -5,7 +5,7 @@ import { Container } from "typedi";
 import { validationErrorChecker } from "../middlewares";
 import { authValidator } from "../middlewares/express-validator";
 import { IUser, IResponse } from "../../interfaces";
-import { transporter } from "../../utils";
+import crypto from "crypto";
 
 export default (app: Router) => {
   const authRouter = Router();
@@ -69,31 +69,23 @@ export default (app: Router) => {
   );
 
   authRouter.post(
-    "/local/email",
+    "/local/sign-up/mail",
     authValidator.checkEmail,
     validationErrorChecker,
     async (req: Request, res: Response, next: NextFunction) => {
       try {
-        const generateRandom = function (min: number, max: number) {
-          const ranNum = Math.floor(Math.random() * (max - min + 1)) + min;
-          return ranNum;
-        };
-
-        const authNum = generateRandom(111111, 999999);
         const { email } = matchedData(req);
+        const code = crypto.randomBytes(3).toString("hex");
 
-        const mailOptions = {
-          from: "Mindi",
-          to: email,
-          subject: "[Mindi] 회원가입을 위한 인증번호를 입력해주세요.",
-          text: "오른쪽 숫자 6자리를 입력해주세요 : " + authNum,
+        const authService = Container.get(AuthService);
+        await authService.sendMail(email, code);
+
+        const response: IResponse<string> = {
+          success: true,
+          result: code,
         };
 
-        await transporter.sendMail(mailOptions, (error, info) => {
-          console.log("Finish sending email : " + info.response);
-          res.status(200).send(authNum);
-          transporter.close();
-        });
+        res.status(200).send(response);
       } catch (error) {
         next(error);
       }

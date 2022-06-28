@@ -28,6 +28,7 @@ export default {
       .withMessage("이메일 정보는 필수입니다.")
       .bail()
       .isEmail()
+      .withMessage("이메일 형식이 올바르지 않습니다")
       .bail()
       .normalizeEmail(),
   ],

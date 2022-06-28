@@ -8,8 +8,16 @@ import {
 } from './bambooCard.style';
 import { IMAGE } from 'utils/image';
 import { getBambooList } from 'api/api';
+import Bamboo from '../bamboo';
+import Modal from '../modal/modal';
 
 function BambooCard() {
+  const [isOpenModal, setOpenModal] = useState<boolean>(false);
+
+  const onClickToggleModal = useCallback(() => {
+    setOpenModal(!isOpenModal);
+  }, [isOpenModal]);
+
   const [bambooList, setBambooList] = useState<any[]>([]);
   const [page, setPage] = useState(1); //현재 페이지
   const [loading, setLoading] = useState(false);
@@ -60,6 +68,12 @@ function BambooCard() {
     if (page !== 1) getPost();
   }, [page]);
 
+  //클릭하면 alert
+
+  const onClickEvent = () => {
+    alert('되나?');
+  };
+
   return (
     <>
       <DiaryPosts>
@@ -69,14 +83,22 @@ function BambooCard() {
               <DiaryPost key={index}>
                 <Date>{item.createdAt.substr(0, 10)}</Date>
                 <Title>{item.title}</Title>
-                <PreviewPost bgImg={IMAGE.AUTH_LOGO.url}>
+
+                <PreviewPost
+                  onClick={onClickToggleModal}
+                  bgImg={IMAGE.AUTH_LOGO.url}
+                >
                   {item.content}
                 </PreviewPost>
               </DiaryPost>
             ))}
           </>
         )}
-
+        {isOpenModal && (
+          <Modal onClickToggleModal={onClickToggleModal}>
+            이곳에 children이 들어갑니다.
+          </Modal>
+        )}
         {loading ? <div>로딩 중</div> : <></>}
         <div ref={observeRef} style={{ height: '100px' }}></div>
       </DiaryPosts>

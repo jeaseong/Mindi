@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
-import Modal from 'components/atoms/modal/modal';
+import Modal from 'components/modules/bamboo/modal/modal';
 
-function Bamboo() {
-  const [showModal, setShowModal] = useState(false);
-
-  return <></>;
+function Bamboo(_handleModal: any) {
+  return (
+    <>
+      {/* <Modal _handleModal={_handleModal}>
+        <h1>프로젝트 내용</h1>
+      </Modal> */}
+    </>
+  );
 }
 
 export default Bamboo;

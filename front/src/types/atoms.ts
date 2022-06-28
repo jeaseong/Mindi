@@ -126,8 +126,7 @@ export interface CalenderBodyProps {
 }
 
 export interface ModalProps {
-  modalStatus: boolean;
-  date: string;
-  text: string;
+  children: any;
+  _handleModal: any;
   onClick?: (e: React.MouseEvent<HTMLSpanElement>) => void;
 }

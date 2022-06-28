@@ -4,7 +4,7 @@ const serverURL = `${process.env.REACT_APP_API_SERVER}`;
 
 const Axios: AxiosInstance = axios.create({
   baseURL: `${serverURL}`,
-  timeout: 5000,
+  timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -32,7 +32,7 @@ Axios.interceptors.response.use(
 
 const AxiosFile: AxiosInstance = axios.create({
   baseURL: `${serverURL}`,
-  timeout: 5000,
+  timeout: 50000,
   headers: {
     'Content-Type': 'multipart/form-data',
   },

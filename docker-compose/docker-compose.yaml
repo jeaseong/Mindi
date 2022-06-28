@@ -13,38 +13,51 @@ services:
       context: ../nginx
       dockerfile: Dockerfile.dev
     container_name: nginx-container
+    networks:
+      - mindi
     ports:
       - "80:80"
     depends_on:
       - client
       - server
-      - ai
+      - server-ai
 
   client:
     build:
       context: ../front
       dockerfile: Dockerfile.dev
     container_name: client-container
+    networks:
+      - mindi
     ports:
       - "3001:3001"
     depends_on:
 #      - redis
       - server
-      - ai
+      - server-ai
 
   server:
     build:
       context: ../back
       dockerfile: Dockerfile.dev
     container_name: server-container
+    networks:
+      - mindi
+    links:
+      - server-ai
     ports:
       - "5001:5001"
 #    depends_on:
 #      - redis
-  ai:
+  server-ai:
     build:
       context: ../ai
       dockerfile: Dockerfile.dev
     container_name: ai-container
+    networks:
+      - mindi
     ports:
       - "8000:8000"
+
+networks:
+  mindi:

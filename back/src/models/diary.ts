@@ -21,7 +21,7 @@ const DiarySchema = new Schema(
       required: true,
     },
     diaryDate: {
-      type: String,
+      type: Date,
       required: true,
     },
     imageFileName: {
@@ -54,9 +54,9 @@ export class MongoDiaryModel implements IDiaryModel {
     await DiaryModel.deleteOne({ _id: id });
   }
 
-  async findByDate(userId: string, date: string): Promise<IDiary[]> {
+  async findByDate(userId: string, from: string, to: string): Promise<IDiary[]> {
     return DiaryModel.find({
-      $and: [{ userId }, { diaryDate: { $regex: `^${date}` } }],
+      $and: [{ userId }, { diaryDate: { $gte: from, $lte: to } }],
     })
       .sort({ diaryDate: -1 })
       .lean();

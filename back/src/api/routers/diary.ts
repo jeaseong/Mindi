@@ -6,6 +6,7 @@ import { matchedData, validationResult } from "express-validator";
 import { StatusError, imageDelete } from "../../utils";
 import { Container } from "typedi";
 import { DiaryService, MLService } from "../../services";
+import { UnitType } from "dayjs";
 
 export default (app: Router) => {
   const diaryRouter = Router();
@@ -21,12 +22,14 @@ export default (app: Router) => {
     diaryValidator.diaryBody,
     async (req: Request, res: Response, next: NextFunction) => {
       try {
-        const userId = <string>req.user!._id;
+        const userId = req.user!._id;
         const imgInfo = Object(req.file);
 
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-          await imageDelete(imgInfo.key);
+          if (Object.keys(imgInfo).length !== 0) {
+            await imageDelete(imgInfo.key);
+          }
           throw new StatusError(400, errors.array()[0].msg);
         }
 
@@ -74,7 +77,9 @@ export default (app: Router) => {
 
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-          await imageDelete(imgInfo.key);
+          if (Object.keys(imgInfo).length !== 0) {
+            await imageDelete(imgInfo.key);
+          }
           throw new StatusError(400, errors.array()[0].msg);
         }
 
@@ -136,19 +141,25 @@ export default (app: Router) => {
     validationErrorChecker,
     async (req: Request, res: Response, next: NextFunction) => {
       try {
-        const userId = <string>req.user!._id;
+        const userId = req.user!._id;
         const { year, month, day } = req.query;
 
         let date: string;
-        if (day == "00" && month == "00") {
+        let set: UnitType;
+        if (!day && !month) {
           date = `${year}`;
-        } else if (day == "00") {
+          set = "year";
+        } else if (!month) {
+          throw new StatusError(400, "올바르지 않은 요청입니다.");
+        } else if (!day) {
           date = `${year}-${month}`;
+          set = "month";
         } else {
           date = `${year}-${month}-${day}`;
+          set = "day";
         }
 
-        const diaries: IDiary[] = await diaryService.findByDate(userId, date);
+        const diaries: IDiary[] = await diaryService.findByDate(userId!, date, set);
 
         const response: IResponse<IDiary[]> = {
           success: true,

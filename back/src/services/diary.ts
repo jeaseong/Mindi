@@ -3,6 +3,8 @@ import { StatusError, imageDelete } from "../utils";
 import { Service, Inject } from "typedi";
 import { MongoDiaryModel } from "../models";
 import winston from "winston";
+import dayjs, { UnitType } from "dayjs";
+import "dayjs/locale/ko";
 
 @Service()
 export default class DiaryService {
@@ -41,17 +43,22 @@ export default class DiaryService {
 
   public async deleteOne(id: string, imageFileName?: string) {
     try {
+      await this.diaryModel.deleteOne(id);
       if (imageFileName) {
         await imageDelete(imageFileName);
       }
-      await this.diaryModel.deleteOne(id);
     } catch (error) {
       throw new StatusError(400, "삭제에 실패했습니다.");
     }
   }
 
-  public async findByDate(userId: string, date: string) {
-    const docList = await this.diaryModel.findByDate(userId, date);
+  public async findByDate(userId: string, date: string, set: UnitType) {
+    //TODO: 프론트에서 iso로 주면 지우기!
+    dayjs.locale("ko");
+    const from = dayjs(date).startOf(set).format();
+    const to = dayjs(date).endOf(set).format();
+
+    const docList = await this.diaryModel.findByDate(userId, from, to);
     return docList;
   }
 }

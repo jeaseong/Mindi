@@ -9,7 +9,7 @@ const StatisticsSchema = new Schema(
       ref: "User",
     },
     monthly: {
-      type: String,
+      type: Date,
       required: true,
     },
     keywords: {

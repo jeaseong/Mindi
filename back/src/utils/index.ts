@@ -1,5 +1,5 @@
 import { StatusError } from "./error";
 import { imageDelete } from "./imageDelete";
-import { transporter } from "./email";
+import { setResetPasswordMail, setSignUpMail } from "./setMailOptions";
 
-export { StatusError, imageDelete, transporter };
+export { StatusError, imageDelete, setSignUpMail, setResetPasswordMail };

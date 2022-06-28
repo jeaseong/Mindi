@@ -18,7 +18,7 @@ services:
     depends_on:
       - client
       - server
-      - ai
+      - server-ai
 
   client:
     build:
@@ -30,7 +30,7 @@ services:
     depends_on:
       #      - redis
       - server
-      - ai
+      - server-ai
 
   server:
     build:
@@ -41,10 +41,10 @@ services:
       - "5001:5001"
   #    depends_on:
   #      - redis
-  ai:
+  server-ai:
     build:
       context: ../ai
       dockerfile: Dockerfile.dev
     container_name: ai-container
-    ports:
-      - "8000:8000"
+    expose:
+      - "8000"

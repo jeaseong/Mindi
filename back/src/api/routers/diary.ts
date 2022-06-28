@@ -6,6 +6,8 @@ import { matchedData, validationResult } from "express-validator";
 import { StatusError, imageDelete } from "../../utils";
 import { Container } from "typedi";
 import { DiaryService, MLService } from "../../services";
+import axios from "axios";
+import config from "../../config";
 
 export default (app: Router) => {
   const diaryRouter = Router();
@@ -21,42 +23,50 @@ export default (app: Router) => {
     diaryValidator.diaryBody,
     async (req: Request, res: Response, next: NextFunction) => {
       try {
-        const userId = <string>req.user!._id;
-        const imgInfo = Object(req.file);
-
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-          await imageDelete(imgInfo.key);
-          throw new StatusError(400, errors.array()[0].msg);
-        }
-
-        const { diary, feeling, diaryDate } = matchedData(req);
-        const aiResult = await mlService.postSentimentAnalysis(feeling, userId, diaryDate);
-
-        let newDiary: Partial<IDiary> = {
-          userId,
-          diary,
-          feeling,
-          sentiment: aiResult,
-          diaryDate,
-        };
-
-        newDiary = imgInfo
-          ? {
-              ...newDiary,
-              imageFileName: imgInfo.key,
-              imageFilePath: imgInfo.location,
-            }
-          : newDiary;
-
-        const createdDiary: IDiary = await diaryService.create(newDiary);
-
-        const response: IResponse<IDiary> = {
+        // const userId = <string>req.user!._id;
+        // const imgInfo = Object(req.file);
+        //
+        // const errors = validationResult(req);
+        // if (!errors.isEmpty()) {
+        //   await imageDelete(imgInfo.key);
+        //   throw new StatusError(400, errors.array()[0].msg);
+        // }
+        //
+        // const { diary, feeling, diaryDate } = matchedData(req);
+        // const aiResult = await mlService.postSentimentAnalysis(feeling, userId, diaryDate);
+        //
+        // let newDiary: Partial<IDiary> = {
+        //   userId,
+        //   diary,
+        //   feeling,
+        //   sentiment: aiResult,
+        //   diaryDate,
+        // };
+        //
+        // newDiary = imgInfo
+        //   ? {
+        //       ...newDiary,
+        //       imageFileName: imgInfo.key,
+        //       imageFilePath: imgInfo.location,
+        //     }
+        //   : newDiary;
+        //
+        // const createdDiary: IDiary = await diaryService.create(newDiary);
+        //
+        // const response: IResponse<IDiary> = {
+        //   success: true,
+        //   result: createdDiary,
+        // };
+        //
+        // res.status(201).json(response);
+        console.log("to ai server");
+        console.log("endpoint: ", `${config.aiURL}/diaries/sentiment`);
+        const re = await axios.get(`${config.aiURL}/diaries/sentiment`);
+        console.log("re: ", re);
+        res.status(201).json({
           success: true,
-          result: createdDiary,
-        };
-
-        res.status(201).json(response);
+          result: "result"
+        });
       } catch (error) {
         next(error);
       }

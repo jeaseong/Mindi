@@ -19,7 +19,7 @@ function Preview({ year, month, day }: PreviewProps) {
   const today = getCurDate();
   const navigate = useNavigate();
   const date = getDateForString(year, month, day, 'perDay');
-  const { diary, isFetching } = useGetDiaryList(date);
+  const { diary, isFetching, isLoading } = useGetDiaryList(date);
 
   const isOverToday = useMemo(() => today < date, [today, date]);
 
@@ -50,7 +50,7 @@ function Preview({ year, month, day }: PreviewProps) {
     sentiment = selectMaxSentiment(diary[0].sentiment).toUpperCase();
   }
 
-  if (isFetching) {
+  if (isLoading) {
     return (
       <Container>
         <SubTitle>
@@ -59,7 +59,7 @@ function Preview({ year, month, day }: PreviewProps) {
         <PreviewBox></PreviewBox>
       </Container>
     );
-  } else if (!isFetching && sentiment === '') {
+  } else if (!isLoading && sentiment === '') {
     return (
       <Container>
         <SubTitle>

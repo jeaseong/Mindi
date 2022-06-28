@@ -5,7 +5,6 @@ import YouTube from 'react-youtube';
 import Image from 'components/atoms/image/Image';
 import Button from 'components/atoms/button/Button';
 import { SENTIMENTS } from 'utils/image';
-import { getCurDate } from 'utils/utils';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getDiaryList } from 'api/api';
 import {
@@ -32,9 +31,6 @@ function Result() {
   const [diaryData, setDiaryData] = useState();
   const [feelingData, setFeelingData] = useState();
 
-  // const curDate = location.state as CustomizedState;
-
-  // console.log(curDate, sentimentData);
   const param = useParams();
   const curDate = param.date?.substring(0, 10) as string;
   const strSplit = curDate.split('-');
@@ -62,11 +58,25 @@ function Result() {
   // 점수가 가장 높은 감정 1개 반환
   const selectMaxSentiment = (sentimentData: any) => {
     if (sentimentData) {
-      const keysSorted = Object.keys(sentimentData).sort(
-        (a, b) => sentimentData[a] - sentimentData[b],
-      );
-      const max = keysSorted.pop()?.toUpperCase();
-      return max;
+      const sentimentValues: Array<number> = Object.values(sentimentData);
+
+      const valuesSorted = sentimentValues.sort(function (a, b) {
+        return a - b;
+      });
+      const maxValue = valuesSorted[valuesSorted.length - 1];
+
+      const maxValueCount = valuesSorted.filter((e) => maxValue === e).length;
+      if (maxValueCount > 1) {
+        return 'MIXED';
+      } else {
+        const keysSorted = Object.keys(sentimentData).sort(
+          (a, b) => sentimentData[a] - sentimentData[b],
+        );
+
+        const maxKey = keysSorted.pop()?.toUpperCase();
+
+        return maxKey;
+      }
     }
   };
 
@@ -88,9 +98,23 @@ function Result() {
     }
   };
 
+  const 중복값제거 = (sentimentData: any) => {
+    const result: any = {};
+    if (sentimentData) {
+      sentimentData.forEach((x: any) => {
+        result[x] = (result[x] || 0) + 1;
+      });
+
+      return result;
+    }
+  };
+
   const sentimentNames = selectSentimentNames(sentimentData);
 
   const sentimentValues = selectSentimentValues(sentimentData);
+
+  const 중제 = 중복값제거(sentimentValues);
+  // console.log(중제);
 
   const data = {
     datasets: [

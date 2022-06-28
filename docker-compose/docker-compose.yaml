@@ -1,63 +1,50 @@
 version: "3"
 services:
-#  redis:
-#    image: redis:alpine
-#    container_name: redis
-#    restart: always
-#    ports:
-#      - "6379:6379"
-#    command:
-#      - "redis-server"
+  #  redis:
+  #    image: redis:alpine
+  #    container_name: redis
+  #    restart: always
+  #    ports:
+  #      - "6379:6379"
+  #    command:
+  #      - "redis-server"
   nginx:
     build:
       context: ../nginx
       dockerfile: Dockerfile.dev
     container_name: nginx-container
-    networks:
-      - mindi
     ports:
       - "80:80"
     depends_on:
       - client
       - server
-      - server-ai
+      - ai
 
   client:
     build:
       context: ../front
       dockerfile: Dockerfile.dev
     container_name: client-container
-    networks:
-      - mindi
     ports:
       - "3001:3001"
     depends_on:
-#      - redis
+      #      - redis
       - server
-      - server-ai
+      - ai
 
   server:
     build:
       context: ../back
       dockerfile: Dockerfile.dev
     container_name: server-container
-    networks:
-      - mindi
-    links:
-      - server-ai
     ports:
       - "5001:5001"
-#    depends_on:
-#      - redis
-  server-ai:
+  #    depends_on:
+  #      - redis
+  ai:
     build:
       context: ../ai
       dockerfile: Dockerfile.dev
     container_name: ai-container
-    networks:
-      - mindi
     ports:
       - "8000:8000"
-
-networks:
-  mindi:

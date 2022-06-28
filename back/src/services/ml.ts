@@ -3,7 +3,8 @@ import { Service, Inject } from "typedi";
 import { MongoDiaryModel, MongoStatModel } from "../models";
 import winston from "winston";
 import axios from "axios";
-import config from "../config";
+import dayjs from "dayjs";
+import "dayjs/locale/ko";
 
 @Service()
 export default class MLService {
@@ -22,8 +23,7 @@ export default class MLService {
     }
 
     try {
-      const apiUrl = `${config.aiURL}/diaries/sentiment`;
-      const { data } = await axios.post(apiUrl, { feeling });
+      const { data } = await axios.post("/sentiment", { feeling });
       return data.result;
     } catch (error) {
       throw new StatusError(400, "감정 분석에 실패하였습니다.");
@@ -36,19 +36,19 @@ export default class MLService {
       throw new StatusError(400, "분석 결과가 이미 존재합니다.");
     }
 
-    const docList = await this.diaryModel.findByDate(userId, date);
+    //TODO: 프론트에서 iso로 주면 지우기!
+    dayjs.locale("ko");
+    const from = dayjs(date).startOf("month").format();
+    const to = dayjs(date).endOf("month").format();
+
+    const docList = await this.diaryModel.findByDate(userId, from, to);
     if (docList.length == 0) {
       throw new StatusError(400, "다이어리가 존재하지 않습니다.");
     }
 
     try {
-      let diaryList: Array<string> = [];
-      docList.forEach((doc) => {
-        diaryList.push(doc.diary);
-      });
-
-      const apiUrl = `${config.aiURL}/diaries/keywords`;
-      const { data } = await axios.post(apiUrl, { diary: diaryList });
+      const diaryList = docList.map((doc) => doc.diary);
+      const { data } = await axios.post("/keywords", { diary: diaryList });
       const myKeyword = data.result;
 
       return { docList, myKeyword };

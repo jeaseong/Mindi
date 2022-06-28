@@ -5,7 +5,7 @@ post:
       "result":
         {
           "userId": "62b57c946a75c5bd73a0d97d",
-          "monthly": "2022-05",
+          "monthly": "2022-05-01T00:00:00.000Z",
           "keywords": ["릭", "버", "영화", "행맨", "루스"],
           "emotions":
             { "fear": 1, "surprised": 1, "anger": 0, "sadness": 1, "happiness": 2, "aversion": 0 },
@@ -65,7 +65,7 @@ get:
         {
           "_id": "62b57d226a75c5bd73a0d994",
           "userId": "62b57c946a75c5bd73a0d97d",
-          "monthly": "2022-05",
+          "monthly": "2022-05-01T00:00:00.000Z",
           "keywords": ["릭", "버", "영화", "행맨", "루스"],
           "emotions":
             { "fear": 1, "surprised": 1, "anger": 0, "sadness": 1, "happiness": 2, "aversion": 0 },

@@ -226,7 +226,7 @@ paths:
                   result:
                     type: string
                     example: 성공적으로 삭제되었습니다.
-  '/diaries?year={}&month={}&day={}':
+  '/diaries?year={year}&month={month}&day={day}':
     get:
       tags:
         - diaries
@@ -1417,7 +1417,7 @@ paths:
                       depth: 1
                       parent: 62a0c34123414953ef39d5c9e
                       createdAt: 2022-06-27T16:26:08.844Z
-  '/statistics?year={}&month={}':
+  '/statistics?year={year}&month={month}':
     post:
       tags:
         - statistics
@@ -1441,7 +1441,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/paths/~1statistics%3Fyear%3D%7B%7D%26month%3D%7B%7D/get/responses/200/content/application~1json/schema'
+                $ref: '#/paths/~1statistics%3Fyear%3D%7Byear%7D%26month%3D%7Bmonth%7D/get/responses/200/content/application~1json/schema'
               examples:
                 post:
                   value:
@@ -1618,23 +1618,17 @@ paths:
                       createdAt: '2022-06-24T09:00:18.949Z'
                       updatedAt: '2022-06-24T09:00:18.949Z'
                       __v: 0
-  /statistics:
+  '/statistics/{statId}':
     delete:
       tags:
         - statistics
       summary: 통계 결과를 삭제합니다.
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - _id
-              properties:
-                _id:
-                  type: string
-                  description: 통계 결과의 object ID가 들어갑니다. 수정이 불가능한 속성입니다.
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          description: 통계 결과의 object ID가 들어갑니다.
       responses:
         '200':
           content:

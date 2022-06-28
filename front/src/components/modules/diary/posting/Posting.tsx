@@ -29,26 +29,23 @@ function Posting() {
     (e: React.ChangeEvent<HTMLTextAreaElement>) => {
       setSimpleDiary(e.target.value);
     },
-    [simpleDiary],
+    [],
   );
 
   const onChangeMind = useCallback(
     (e: React.ChangeEvent<HTMLTextAreaElement>) => {
       setMindDiary(e.target.value);
     },
-    [mindDiary],
+    [],
   );
 
-  const onChangeFile = useCallback(
-    (fileData: FileType) => {
-      setEditImg(fileData);
-    },
-    [editImg],
-  );
+  const onChangeFile = useCallback((fileData: FileType) => {
+    setEditImg(fileData);
+  }, []);
 
   const onChangeLoading = useCallback(() => {
     setIsLoading((cur) => !cur);
-  }, [isLoading]);
+  }, []);
 
   const onSubmit = async () => {
     const diaryData: DiaryType = {

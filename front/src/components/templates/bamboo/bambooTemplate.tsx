@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import BambooCard from 'components/modules/bamboo/bambooCard/bambooCard';
 import {
   PageTitle,
@@ -6,16 +6,13 @@ import {
   LineTop,
   LineBottom,
 } from '../../atoms/pageTitle/pageTitle.style';
-import {
-  CardWrap,
-  WriteButton,
-  ButtonWrap,
-  TitleWrap,
-} from './bambooTemplate.style';
+import { WriteButton, ButtonWrap, TitleWrap } from './bambooTemplate.style';
 import { useNavigate } from 'react-router-dom';
+import { CardWrap } from 'components/modules/bamboo/bambooCard/bambooCard.style';
 
 function BambooTemplate() {
   const navigate = useNavigate();
+
   return (
     <>
       <TitleWrap>
@@ -32,7 +29,6 @@ function BambooTemplate() {
         <LineTop />
         <LineBottom />
       </Lines>
-
       <CardWrap>
         <BambooCard />
       </CardWrap>

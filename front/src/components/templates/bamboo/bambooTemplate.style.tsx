@@ -6,8 +6,7 @@ export const TitleWrap = styled.section`
 `;
 
 export const CardWrap = styled.section`
-  max-width: 60%;
-  width: 100%;
+  min-width: 60%;
   margin: 0 auto;
 `;
 

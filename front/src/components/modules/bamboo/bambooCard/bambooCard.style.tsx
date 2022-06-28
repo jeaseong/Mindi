@@ -2,13 +2,11 @@ import styled from 'styled-components';
 
 import { CardProps } from 'types/atoms';
 
-export const StyledCard = styled.div``;
-
-export const ContentSection = styled.section``;
-
-export const CardDate = styled.div``;
-
-export const CardContent = styled.div``;
+export const CardWrap = styled.section`
+  max-width: 60%;
+  width: 100%;
+  margin: 0 auto;
+`;
 
 export const DiaryPosts = styled.div`
   display: grid;
@@ -62,7 +60,7 @@ export const PreviewPost = styled.div<CardProps>`
   &:before {
     content: '';
     background: url(${(props) => props.bgImg}) no-repeat center center;
-    position: absolute;
+    /* position: absolute; */
     top: 0px;
     right: 0px;
     bottom: 0px;

@@ -1,75 +1,40 @@
 import React from 'react';
 import styled from 'styled-components';
-import { AiOutlineCloseSquare } from 'react-icons/ai';
 
-export const Container = styled.div`
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  z-index: 100;
-  top: 0;
+export const ModalContainer = styled.div`
   left: 0;
-  right: 0;
-  bottom: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
   display: flex;
-  flex-direction: column;
   align-items: center;
-`;
-
-export const Background = styled.div`
+  justify-content: center;
   position: fixed;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(5px);
-  animation: modal-bg-show 1s;
-  @keyframes modal-bg-show {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
 `;
 
-export const ModalBlock = styled.div`
-  position: absolute;
-  top: 6.5rem;
-  border-radius: 10px;
-  padding: 1.5rem;
-  background-color: black;
-  width: 60rem;
-  @media (max-width: 1120px) {
-    width: 50rem;
-  }
-  @media (max-width: 50rem) {
-    width: 80%;
-  }
-  min-height: 35rem;
-  animation: modal-show 1s;
-  @keyframes modal-show {
-    from {
-      opacity: 0;
-      margin-top: -50px;
-    }
-    to {
-      opacity: 1;
-      margin-top: 0;
-    }
-  }
-`;
-
-export const Close = styled.img`
-  background-image: AiOutlineCloseSquare;
-  position: absolute;
-  right: 1.5rem;
-  top: 1.5rem;
-  cursor: pointer;
-`;
-
-export const Contents = styled.div`
+export const DialogBox = styled.div`
+  width: 450px;
+  height: 600px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  border: none;
+  border-radius: 3px;
+  box-shadow: 0 0 30px rgba(30, 30, 30, 0.185);
+  box-sizing: border-box;
+  background-color: white;
+  z-index: 10000;
+`;
+
+export const ContentWrapper = styled.section`
+  margin: 2rem 1rem;
+`;
+
+export const Backdrop = styled.div`
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  z-index: 9999;
+  background-color: rgba(0, 0, 0, 0.2);
 `;

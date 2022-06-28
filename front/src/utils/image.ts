@@ -90,7 +90,7 @@ export const SENTIMENTS: sentimentsType = {
   },
   MIXED: {
     label: 'mixed',
-    url: `${url}/assets/relaxed.png`,
+    url: `${url}/assets/mixed.png`,
     alt: '평온 캐릭터',
     comment: '흠흠흠',
   },

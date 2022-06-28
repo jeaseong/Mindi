@@ -4,12 +4,9 @@ import { signInPost, getCurUser } from 'api/api';
 import { SignInInfo } from 'types/apiType';
 
 export const useCurUser = () => {
-  return useQuery(
+  const { isFetching, isLoading, data, error } = useQuery(
     'userState',
-    async () => {
-      const data = await getCurUser();
-      return { userState: data, isLogin: !!data };
-    },
+    async () => await getCurUser(),
     {
       staleTime: Infinity,
       onError: (error) => {
@@ -17,6 +14,7 @@ export const useCurUser = () => {
       },
     },
   );
+  return { userState: data, isLogin: !!data, isFetching, isLoading, error };
 };
 
 export const useSignInHandler = (

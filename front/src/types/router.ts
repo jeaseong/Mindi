@@ -1,8 +1,10 @@
-export interface PrivateRouteType {
-  user: boolean;
-  component: JSX.Element;
-}
-
 export interface RouterPros {
   isLogin: boolean;
+  isFetching: boolean;
+}
+
+export interface PrivateRouteType {
+  isLogin: boolean;
+  isFetching: boolean;
+  component: JSX.Element;
 }

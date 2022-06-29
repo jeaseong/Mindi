@@ -1,8 +1,15 @@
 import { Inject, Service } from "typedi";
-import { StatusError, setResetPasswordMail } from "../utils";
-import { MongoUserModel } from "../models/user";
+import { ClientSession } from "mongoose";
+import { StatusError, setResetPasswordMail, runTransaction } from "../utils";
+import {
+  MongoUserModel,
+  MongoDiaryModel,
+  MongoStatModel,
+  MongoCommentModel,
+  MongoPostModel,
+} from "../models";
 import winston from "winston";
-import transporter from "../loaders/email";
+import transporter from "../loaders/smtpTransporter";
 import crypto from "crypto";
 import bcrypt from "bcrypt";
 
@@ -10,6 +17,10 @@ import bcrypt from "bcrypt";
 export default class UserService {
   constructor(
     private userModel: MongoUserModel,
+    private statModel: MongoStatModel,
+    private diaryModel: MongoDiaryModel,
+    private commentModel: MongoCommentModel,
+    private postModel: MongoPostModel,
     @Inject("logger") private logger: winston.Logger,
   ) {}
 
@@ -40,7 +51,16 @@ export default class UserService {
       throw new StatusError(400, "사용자가 존재하지 않습니다.");
     }
 
-    return this.userModel.delete(userId);
+    const txnFunc = async (session: ClientSession) => {
+      await this.userModel.delete(userId, session);
+      await this.diaryModel.deleteByUserId(userId, session);
+      await this.statModel.deleteByUserId(userId, session);
+      await this.postModel.deleteByUserId(userId, session);
+      await this.commentModel.deleteByUserId(userId, session);
+    };
+
+    const result = await runTransaction(txnFunc);
+    return result;
   }
 
   public async resetPassword(email: string) {

@@ -1,3 +1,4 @@
+import { ClientSession } from "mongoose";
 import { IDiary } from "./IDiary";
 
 export interface IDiaryModel {
@@ -7,4 +8,5 @@ export interface IDiaryModel {
   findByDate: (userId: string, date: string) => Promise<IDiary[]>;
   exists: (userId: string, filter: Partial<IDiary>) => Promise<Boolean>;
   findEmotionalDiary: (userId: string, emotion: string) => Promise<IDiary[]>;
+  deleteByUserId: (userId: string, session: ClientSession) => Promise<void>;
 }

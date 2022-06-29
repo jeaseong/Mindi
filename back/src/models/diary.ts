@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose";
+import { Schema, model, ClientSession } from "mongoose";
 import { Service } from "typedi";
 import { IDiary, IDiaryModel } from "../interfaces";
 
@@ -73,5 +73,9 @@ export class MongoDiaryModel implements IDiaryModel {
       .sort({ [`sentiment.${emotion}`]: -1 })
       .lean();
     return a;
+  }
+
+  async deleteByUserId(userId: string, session: ClientSession): Promise<void> {
+    await DiaryModel.deleteMany({ userId }).session(session);
   }
 }

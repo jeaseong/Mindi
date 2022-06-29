@@ -6,7 +6,7 @@ import dayjs from "dayjs";
 import config from "../config";
 import { MongoUserModel } from "../models/user";
 import winston from "winston";
-import transporter from "../loaders/email";
+import transporter from "../loaders/smtpTransporter";
 
 @Service()
 export default class AuthService {

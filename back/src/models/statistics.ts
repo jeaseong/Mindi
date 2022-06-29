@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose";
+import { Schema, model, ClientSession } from "mongoose";
 import { Service } from "typedi";
 import { IStat, IStatModel } from "../interfaces";
 
@@ -54,5 +54,9 @@ export class MongoStatModel implements IStatModel {
 
   async exists(userId: string, filter: Partial<IStat>): Promise<Boolean> {
     return StatisticsModel.exists({ $and: [{ userId }, filter] }).lean();
+  }
+
+  async deleteByUserId(userId: string, session: ClientSession): Promise<void> {
+    await StatisticsModel.deleteMany({ userId }).session(session);
   }
 }

@@ -24,6 +24,10 @@ const DiarySchema = new Schema(
       type: Date,
       required: true,
     },
+    videoId: {
+      type: String,
+      required: true,
+    },
     imageFileName: {
       type: String,
       required: false,

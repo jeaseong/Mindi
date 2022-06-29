@@ -14,6 +14,7 @@ export interface IDiary {
   feeling: string;
   sentiment: ISentiment;
   diaryDate: Date;
+  videoId: string;
   imageFileName?: string;
   imageFilePath?: string;
 }

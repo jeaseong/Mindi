@@ -35,7 +35,7 @@ export default (app: Router) => {
 
         const { diary, feeling, diaryDate } = matchedData(req);
 
-        const aiResult = imgInfo
+        const { sentiment_dict, videoId } = imgInfo
           ? await mlService.postSentimentAnalysis(feeling, userId, diaryDate, imgInfo.key)
           : await mlService.postSentimentAnalysis(feeling, userId, diaryDate);
 
@@ -43,7 +43,8 @@ export default (app: Router) => {
           userId,
           diary,
           feeling,
-          sentiment: aiResult,
+          sentiment: sentiment_dict,
+          videoId,
           diaryDate,
         };
 
@@ -88,14 +89,15 @@ export default (app: Router) => {
 
         const { _id, diary, feeling, diaryDate, imageFileName } = req.body;
         const id: string = _id;
-        const aiResult = imgInfo
+        const { sentiment_dict, videoId } = imgInfo
           ? await mlService.postSentimentAnalysis(feeling, imgInfo.key)
           : await mlService.postSentimentAnalysis(feeling);
 
         let toUpdate: Partial<IDiary> = {
           diary,
           feeling,
-          sentiment: aiResult,
+          sentiment: sentiment_dict,
+          videoId,
           imageFileName,
           diaryDate,
         };

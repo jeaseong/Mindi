@@ -13,17 +13,6 @@ app.config['JSON_SORT_KEYS'] = False
 def main():
     return 'Mindi'
 
-@app.route('/diaries/sentiment', methods=['POST'] )
-def sentiment_list():
-    feeling = request.get_json()["feeling"]
-    sentiment_dict = predict_sentiment(feeling)
-    print(sentiment_dict)
-    return_data = {
-        'success': 'true',
-        'result': sentiment_dict
-    }
-    return return_data
-
 @app.route('/diaries/keywords', methods=['POST'] )
 def keyword_list():
     diary = request.get_json()["diary"]
@@ -36,18 +25,25 @@ def keyword_list():
     }
     return return_data
 
-@app.route('/diaries/music', methods=['GET'] )
-def music_youtube():
-    sentiment = request.args["sentiment"]
-    track, artist = recommend_music(sentiment)
-    print("sentiment:", sentiment, "\ntrack:", track, "\nartist:", artist)
+@app.route('/diaries/sentiment', methods=['POST'] )
+def result_page():
+    feeling = request.get_json()["feeling"]
+    sentiment_dict = predict_sentiment(feeling)
+    print(sentiment_dict)
+
+    max_sentiment = max(sentiment_dict,key=sentiment_dict.get)
+    track, artist = recommend_music(max_sentiment)
+    print("sentiment:", max_sentiment, "\ntrack:", track, "\nartist:", artist)
     
     search_response = get_search_response(artist, track)
-    music = get_video_info(search_response)
-    print(music)
+    videoId = get_video_info(search_response)
+    print(videoId)
     return_data = {
         'success': 'true',
-        'result': music
+        'result': {
+            "sentiment_dict": sentiment_dict,
+            "videoId": videoId
+        }
     }
     return return_data
 

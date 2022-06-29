@@ -63,7 +63,7 @@ function Sentiments({ emotion }: EmotionProps) {
               <Image
                 src={SENTIMENTS[upperEmotion].url}
                 alt={SENTIMENTS[upperEmotion].alt}
-                width='70%'
+                width='100%'
               />
               <EmotionCount color={EMOTION[upperEmotion].label.en}>
                 {sentimentValues && sentimentValues[index]}

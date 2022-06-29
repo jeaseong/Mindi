@@ -3,15 +3,13 @@ import styled from 'styled-components';
 export const Container = styled.div`
   width: 100%;
   margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  gap: 40px;
+  margin-bottom: 50px;
 `;
 
 export const ChartSizeBox = styled.div`
   width: 60%;
   margin: 0 auto;
-
+  margin-bottom: 40px;
   ${({ theme }) => theme.media.tablet`
     width: 40%;
   `}
@@ -28,13 +26,16 @@ export const EmotionIcon = styled.div`
   align-items: center;
   gap: 4px;
   position: relative;
+  font-size: 0.9rem;
 `;
 
 export const EmotionCount = styled.span`
   position: absolute;
-  right: 8px;
+  right: 0;
+  top: -10px;
   padding: 2px 6px;
   border-radius: 50%;
+  font-size: 0.9rem;
   background-color: ${(props) => {
     switch (props.color) {
       case 'sadness':
@@ -52,4 +53,7 @@ export const EmotionCount = styled.span`
     }
   }};
   color: ${(props) => props.theme.colors.basicWhite};
+  ${({ theme }) => theme.media.tablet`
+    font-size: 1.1rem;
+  `}
 `;

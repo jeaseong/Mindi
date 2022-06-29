@@ -3,7 +3,10 @@ import styled from 'styled-components';
 export const Container = styled.section`
   display: flex;
   flex-direction: column;
-  gap: 50px;
+  gap: 20px;
+  ${({ theme }) => theme.media.tablet`
+    gap: 50px;
+  `}
 `;
 
 export const Navigation = styled.div`

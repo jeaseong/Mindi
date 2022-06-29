@@ -1,6 +1,5 @@
 import { body, check } from "express-validator";
 import dayjs from "dayjs";
-import "dayjs/locale/ko";
 
 export default {
   dayDiff: [
@@ -9,8 +8,8 @@ export default {
       .notEmpty()
       .custom((value, { req }) => {
         const Q = Object(req.query);
-        const queryDate = dayjs(`${Q.year}-${Q.month}`).locale("ko");
-        const today = dayjs().locale("ko");
+        const queryDate = dayjs(`${Q.year}-${Q.month}`);
+        const today = dayjs();
         const checkDate = today.diff(queryDate, "month");
         return checkDate > 0;
       })

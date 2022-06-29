@@ -2,12 +2,7 @@ import { body } from "express-validator";
 
 export default {
   signUpBody: [
-    body("name")
-      .notEmpty()
-      .withMessage("이름 정보는 필수입니다.")
-      .bail()
-      .isString()
-      .trim(),
+    body("name").notEmpty().withMessage("이름 정보는 필수입니다.").bail().isString().trim(),
     body("email")
       .notEmpty()
       .withMessage("이메일 정보는 필수입니다.")
@@ -15,11 +10,7 @@ export default {
       .isEmail()
       .bail()
       .normalizeEmail(),
-    body("password")
-      .notEmpty()
-      .withMessage("비밀번호는 필수입니다.")
-      .bail()
-      .isString(),
+    body("password").notEmpty().withMessage("비밀번호는 필수입니다.").bail().isString(),
   ],
   signInBody: [
     body("email")
@@ -29,10 +20,16 @@ export default {
       .isEmail()
       .bail()
       .normalizeEmail(),
-    body("password")
+    body("password").notEmpty().withMessage("비밀번호는 필수입니다.").bail().isString(),
+  ],
+  checkEmail: [
+    body("email")
       .notEmpty()
-      .withMessage("비밀번호는 필수입니다.")
+      .withMessage("이메일 정보는 필수입니다.")
       .bail()
-      .isString(),
-  ]
+      .isEmail()
+      .withMessage("이메일 형식이 올바르지 않습니다")
+      .bail()
+      .normalizeEmail(),
+  ],
 };

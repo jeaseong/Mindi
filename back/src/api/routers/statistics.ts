@@ -19,20 +19,19 @@ export default (app: Router) => {
     validationErrorChecker,
     async (req: Request, res: Response, next: NextFunction) => {
       try {
-        const userId = <string>req.user!._id;
+        const userId = req.user!._id;
 
         const { year, month } = req.query;
         const date: string = `${year}-${month}`;
 
-        const { docList, myKeyword } = await mlService.postKeywordAnalysis(userId, date); // 다이어리 모델의 다큐먼트 리스트와 키워드 분석 결과를 반환
+        const { docList, myKeyword } = await mlService.postKeywordAnalysis(userId!, date); // 다이어리 모델의 다큐먼트 리스트와 키워드 분석 결과를 반환
 
         const newStat: Partial<IStat> = {
           userId,
-          monthly: date,
           keywords: myKeyword,
         };
 
-        const createdResult: IStat = await statService.create(newStat, docList);
+        const createdResult: IStat = await statService.create(newStat, date, docList);
 
         const response: IResponse<IStat> = {
           success: true,
@@ -46,9 +45,9 @@ export default (app: Router) => {
     },
   );
 
-  statRouter.delete("/", async (req: Request, res: Response, next: NextFunction) => {
+  statRouter.delete("/:id", async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const id = req.body._id;
+      const { id } = req.params;
       await statService.deleteOne(id);
 
       const response: IResponse<string> = {
@@ -64,11 +63,11 @@ export default (app: Router) => {
 
   statRouter.get("/", checkAuth, async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const userId = <string>req.user!._id;
+      const userId = req.user!._id;
       const { year, month } = req.query;
-      const monthly: string = `${year}-${month}`;
+      const date: string = `${year}-${month}`;
 
-      const result: IStat = await statService.findByDate(userId, monthly);
+      const result: IStat = await statService.findByDate(userId!, date);
 
       const response: IResponse<IStat> = {
         success: true,

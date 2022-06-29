@@ -29,7 +29,7 @@ paths:
       $ref: "./paths/diary.yaml#/Update"
     delete:
       $ref: "./paths/diary.yaml#/Delete"
-  /diaries?year={}&month={}&day={}:
+  /diaries?year={year}&month={month}&day={day}:
     get:
       $ref: "./paths/diary.yaml#/GetAList"
   /users:
@@ -77,12 +77,12 @@ paths:
   /users/comments/{userId}:
     get:
       $ref: "./paths/comment.yaml#/GetUserComments"
-  /statistics?year={}&month={}:
+  /statistics?year={year}&month={month}:
     post:
       $ref: "./paths/statistics.yaml#/Post"
     get:
       $ref: "./paths/statistics.yaml#/Get"
-  /statistics:
+  /statistics/{statId}:
     delete:
       $ref: "./paths/statistics.yaml#/Delete"
 

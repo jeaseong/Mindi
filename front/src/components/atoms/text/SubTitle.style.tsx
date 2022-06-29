@@ -1,8 +1,8 @@
 import styled from 'styled-components';
-
-export const Sub = styled.h3`
-  display: inline-block;
-  font-size: 1rem;
+import { TextProps } from 'types/atoms';
+export const Sub = styled.h3<TextProps>`
+  display: inline;
+  font-size: 1.2rem;
   padding: 4px 6px;
   background-color: ${(props) => props.theme.colors.basicWhite};
   font-weight: normal;

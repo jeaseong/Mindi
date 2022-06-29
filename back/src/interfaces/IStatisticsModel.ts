@@ -1,3 +1,4 @@
+import { ClientSession } from "mongoose";
 import { IStat } from "./IStatistics";
 
 export interface IStatModel {
@@ -5,4 +6,5 @@ export interface IStatModel {
   deleteOne: (id: string) => Promise<void>;
   findByDate: (userId: string, date: Date) => Promise<IStat>;
   exists: (userId: string, filter: Partial<IStat>) => Promise<Boolean>;
+  deleteByUserId: (userId: string, session: ClientSession) => Promise<void>;
 }

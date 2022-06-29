@@ -5,6 +5,7 @@ import { UserService } from "../../services";
 import { Container } from "typedi";
 import { checkAuth } from "../middlewares";
 import { IUser, IResponse } from "../../interfaces";
+import { validationErrorChecker } from "../middlewares";
 
 export default (app: Router) => {
   const userRouter = Router();
@@ -80,4 +81,32 @@ export default (app: Router) => {
       next(error);
     }
   });
+
+  userRouter.post(
+    "/password-reset",
+    userValidator.checkEmail,
+    validationErrorChecker,
+    async (req: Request, res: Response, next: NextFunction) => {
+      try {
+        const { email } = matchedData(req);
+
+        const userService = Container.get(UserService);
+        const { userInfo, tempPassword } = await userService.resetPassword(email);
+        await userService.sendMail(userInfo!.email, userInfo!.name, tempPassword);
+
+        const response: IResponse<IUser> = {
+          success: true,
+          result: {
+            _id: userInfo!._id,
+            email: userInfo!.email,
+            name: userInfo!.name,
+          },
+        };
+
+        res.status(200).send(response);
+      } catch (error) {
+        next(error);
+      }
+    },
+  );
 };

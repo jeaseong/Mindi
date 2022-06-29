@@ -58,7 +58,7 @@ export class MongoDiaryModel implements IDiaryModel {
     return DiaryModel.find({
       $and: [{ userId }, { diaryDate: { $regex: `^${date}` } }],
     })
-      .sort({ createdAt: -1 })
+      .sort({ diaryDate: -1 })
       .lean();
   }
 
@@ -66,7 +66,7 @@ export class MongoDiaryModel implements IDiaryModel {
     return DiaryModel.exists({ $and: [{ userId }, filter] }).lean();
   }
 
-  async findMostEmotionalDiary(userId: string, emotion: string): Promise<IDiary[]> {
+  async findEmotionalDiary(userId: string, emotion: string): Promise<IDiary[]> {
     const a = DiaryModel.find({
       $and: [{ userId }, { [`sentiment.${emotion}`]: { $gt: 0 } }],
     })

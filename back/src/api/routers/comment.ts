@@ -2,7 +2,7 @@ import { Router, Request, Response, NextFunction } from "express";
 import { matchedData } from "express-validator";
 import { Container } from "typedi";
 import { commentValidator } from "../middlewares/express-validator";
-import { loginRequired, validationErrorChecker } from "../middlewares";
+import { checkAuth, validationErrorChecker } from "../middlewares";
 import { PostService, CommentService } from "../../services";
 import { StatusError } from "../../utils";
 import { IComment, IResponse } from "../../interfaces";
@@ -14,14 +14,14 @@ export default (app: Router) => {
 
   commentRouter.post(
     "/comments/:commentId",
-    loginRequired,
+    checkAuth,
     commentValidator.uploadBody,
     validationErrorChecker,
     async (req: Request, res: Response, next: NextFunction) => {
       try {
         const { commentId } = req.params;
         const { content } = matchedData(req);
-        const author = req.user!._id;
+        const author = <string>req.user!._id;
 
         const commentService = Container.get(CommentService);
         const postService = Container.get(PostService);
@@ -59,7 +59,7 @@ export default (app: Router) => {
 
   commentRouter.post(
     "/posts/comments/:postId",
-    loginRequired,
+    checkAuth,
     commentValidator.uploadBody,
     validationErrorChecker,
     async (req: Request, res: Response, next: NextFunction) => {
@@ -98,7 +98,7 @@ export default (app: Router) => {
 
   commentRouter.get(
     "/comments/:commentId",
-    loginRequired,
+    checkAuth,
     async (req: Request, res: Response, next: NextFunction) => {
       try {
         const { commentId } = req.params;
@@ -122,7 +122,7 @@ export default (app: Router) => {
 
   commentRouter.get(
     "/comments/children/:commentId",
-    loginRequired,
+    checkAuth,
     async (req: Request, res: Response, next: NextFunction) => {
       try {
         const { commentId } = req.params;
@@ -155,7 +155,7 @@ export default (app: Router) => {
 
   commentRouter.get(
     "/posts/comments/:postId",
-    loginRequired,
+    checkAuth,
     async (req: Request, res: Response, next: NextFunction) => {
       try {
         const { postId } = req.params;
@@ -188,7 +188,7 @@ export default (app: Router) => {
 
   commentRouter.get(
     "/users/comments/:userId",
-    loginRequired,
+    checkAuth,
     async (req: Request, res: Response, next: NextFunction) => {
       try {
         const { userId } = req.params;
@@ -221,12 +221,12 @@ export default (app: Router) => {
 
   commentRouter.put(
     "/comments/:commentId",
-    loginRequired,
+    checkAuth,
     commentValidator.modifyingBody,
     async (req: Request, res: Response, next: NextFunction) => {
       try {
         const { commentId } = req.params;
-        const userId = req.user!._id;
+        const userId = <string>req.user!._id;
         const fieldToUpdate = matchedData(req);
 
         const commentService = Container.get(CommentService);
@@ -253,11 +253,11 @@ export default (app: Router) => {
 
   commentRouter.delete(
     "/comments/:commentId",
-    loginRequired,
+    checkAuth,
     async (req: Request, res: Response, next: NextFunction) => {
       try {
         const { commentId } = req.params;
-        const userId = req.user!._id;
+        const userId = <string>req.user!._id;
 
         const commentService = Container.get(CommentService);
         const postService = Container.get(PostService);

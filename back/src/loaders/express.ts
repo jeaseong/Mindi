@@ -10,15 +10,18 @@ import path from "path";
 import fs from "fs";
 
 export default ({ app }: { app: express.Application }) => {
-  const swaggerSpec: any = yaml.load(
-    fs.readFileSync(path.join(__dirname, "../../build/openapi.yaml"), "utf8"),
-  );
+  if (config.nodeEnv === "development") {
+    const swaggerSpec: any = yaml.load(
+      fs.readFileSync(path.join(__dirname, "../../build/openapi.yaml"), "utf8"),
+    );
+
+    app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec, { explorer: true }));
+  }
 
   app.use(cors());
   app.use(morgan("tiny"));
   app.use(express.json());
   app.use(express.urlencoded({ extended: false }));
-  app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec, { explorer: true }));
   app.use(config.api.prefix, routers());
 
   app.use(errorHandler);

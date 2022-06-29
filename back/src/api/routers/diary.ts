@@ -23,18 +23,21 @@ export default (app: Router) => {
     async (req: Request, res: Response, next: NextFunction) => {
       try {
         const userId = req.user!._id;
-        const imgInfo = Object(req.file);
+        const imgInfo = <{ key: string; location: string }>(<object>req.file);
 
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-          if (Object.keys(imgInfo).length !== 0) {
+          if (imgInfo) {
             await imageDelete(imgInfo.key);
           }
           throw new StatusError(400, errors.array()[0].msg);
         }
 
         const { diary, feeling, diaryDate } = matchedData(req);
-        const aiResult = await mlService.postSentimentAnalysis(feeling, userId, diaryDate);
+
+        const aiResult = imgInfo
+          ? await mlService.postSentimentAnalysis(feeling, userId, diaryDate, imgInfo.key)
+          : await mlService.postSentimentAnalysis(feeling, userId, diaryDate);
 
         let newDiary: Partial<IDiary> = {
           userId,
@@ -73,11 +76,11 @@ export default (app: Router) => {
     diaryValidator.diaryBody,
     async (req: Request, res: Response, next: NextFunction) => {
       try {
-        const imgInfo = Object(req.file);
+        const imgInfo = <{ key: string; location: string }>(<object>req.file);
 
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-          if (Object.keys(imgInfo).length !== 0) {
+          if (imgInfo) {
             await imageDelete(imgInfo.key);
           }
           throw new StatusError(400, errors.array()[0].msg);
@@ -85,7 +88,9 @@ export default (app: Router) => {
 
         const { _id, diary, feeling, diaryDate, imageFileName } = req.body;
         const id: string = _id;
-        const aiResult = await mlService.postSentimentAnalysis(feeling);
+        const aiResult = imgInfo
+          ? await mlService.postSentimentAnalysis(feeling, imgInfo.key)
+          : await mlService.postSentimentAnalysis(feeling);
 
         let toUpdate: Partial<IDiary> = {
           diary,

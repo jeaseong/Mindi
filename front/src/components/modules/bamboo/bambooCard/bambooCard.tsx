@@ -10,6 +10,7 @@ import { IMAGE } from 'utils/image';
 import { getBambooList } from 'api/api';
 import Modal from '../modal/modal';
 import styled from 'styled-components';
+import BambooView from '../bambooView/bambooView';
 
 function BambooCard() {
   const [isOpenModal, setOpenModal] = useState<boolean>(false);
@@ -21,6 +22,7 @@ function BambooCard() {
   const [bambooList, setBambooList] = useState<any[]>([]);
   const [page, setPage] = useState(1); //현재 페이지
   const [loading, setLoading] = useState(false);
+  const [curItem, setCurItem] = useState<any[]>([]);
 
   const observeRef = useRef(null);
   const preventRef = useRef(true); //옵저버 중복 실행 방지
@@ -51,7 +53,6 @@ function BambooCard() {
       console.log(data);
     }
     setLoading(false);
-    console.log(bambooList);
     // console.log(data);
     // console.log(page);
   }, [page]);
@@ -71,17 +72,24 @@ function BambooCard() {
 
   //modal
 
+  const onView = (id: any) => {
+    setCurItem(bambooList.find((item) => item._id === id));
+  };
+
   return (
     <DiaryPosts>
       {bambooList && (
         <>
           {bambooList.map((item: any, index: any) => (
-            <DiaryPost key={index}>
+            <DiaryPost key={item.date}>
               <Date>{item.createdAt.substr(0, 10)}</Date>
               <Title>{item.title}</Title>
 
               <PreviewPost
-                onClick={onClickToggleModal}
+                onClick={() => {
+                  onClickToggleModal();
+                  onView(item._id);
+                }}
                 bgImg={IMAGE.AUTH_LOGO.url}
               >
                 {item.content}
@@ -94,23 +102,14 @@ function BambooCard() {
       {loading ? <div>로딩 중</div> : <></>}
       <div ref={observeRef} style={{ height: '100px' }}></div>
       {isOpenModal && (
-        <Modal onClickToggleModal={onClickToggleModal}>
-          {bambooList.map((item: any, index: any) => (
-            <>
-              <ModalDate>{item.createdAt.substr(0, 10)}</ModalDate>
-              <ModalText>{item._id}</ModalText>
-            </>
-          ))}
-        </Modal>
+        <>
+          <Modal onClickToggleModal={onClickToggleModal}>
+            <BambooView curItem={curItem} modalClose={onClickToggleModal} />
+          </Modal>
+        </>
       )}
     </DiaryPosts>
   );
 }
 
 export default BambooCard;
-
-const ModalDate = styled.div`
-  margin-right: auto;
-`;
-
-const ModalText = styled.div``;

@@ -57,7 +57,7 @@ function Sentiments({ emotion }: EmotionProps) {
                 alt={SENTIMENTS[upperEmotion].alt}
                 width='70%'
               />
-              <EmotionCount>{sentimentValues[index]}</EmotionCount>
+              <EmotionCount></EmotionCount>
               {EMOTION[upperEmotion].label.ko}
             </EmotionIcon>
           );

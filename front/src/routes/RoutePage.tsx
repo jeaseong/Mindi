@@ -15,7 +15,7 @@ import Main2 from 'components/modules/main/Main2';
 import { AnimatePresence } from 'framer-motion';
 import { RouterPros } from 'types/router';
 
-function RoutePage({ isLogin }: RouterPros) {
+function RoutePage({ isLogin, isFetching }: RouterPros) {
   const location = useLocation();
   return (
     <>
@@ -26,20 +26,42 @@ function RoutePage({ isLogin }: RouterPros) {
           <Route path='/sign-up' element={<SignUp />} />
           <Route
             path='/diary'
-            element={<PrivateRoute user={isLogin} component={<Diary />} />}
+            element={
+              <PrivateRoute
+                isLogin={isLogin}
+                isFetching={isFetching}
+                component={<Diary />}
+              />
+            }
           />
           <Route
             path='/diary-posting/:diaryDate'
-            element={<PrivateRoute user={isLogin} component={<Posting />} />}
+            element={
+              <PrivateRoute
+                isLogin={isLogin}
+                isFetching={isFetching}
+                component={<Posting />}
+              />
+            }
           />
           <Route
             path='/diary-edit/:diaryDate'
-            element={<PrivateRoute user={isLogin} component={<Edit />} />}
+            element={
+              <PrivateRoute
+                isLogin={isLogin}
+                isFetching={isFetching}
+                component={<Edit />}
+              />
+            }
           />
           <Route
             path='/result/:date'
             element={
-              <PrivateRoute user={isLogin} component={<ResultTemplate />} />
+              <PrivateRoute
+                isLogin={isLogin}
+                isFetching={isFetching}
+                component={<ResultTemplate />}
+              />
             }
           />
           <Route path='/ei-test' element={<EITest />} />

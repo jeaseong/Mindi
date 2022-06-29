@@ -94,4 +94,9 @@ export const SENTIMENTS: sentimentsType = {
     alt: '평온 캐릭터',
     comment: '흠흠흠',
   },
+  BLANK: {
+    url: `${url}/assets/blank.png`,
+    alt: '무표정 캐릭터',
+    comment: '무덤덤...',
+  },
 };

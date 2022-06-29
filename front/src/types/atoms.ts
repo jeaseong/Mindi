@@ -142,3 +142,21 @@ export interface CalenderBodyProps {
   totalDate: string[][];
   onSetDay: (d: number) => void;
 }
+
+// statics type
+export type EmotionType = {
+  fear: number;
+  surprised: number;
+  anger: number;
+  sadness: number;
+  happiness: number;
+  aversion: number;
+};
+
+export interface EmotionProps {
+  emotion: EmotionType;
+}
+
+export interface KeywordsProps {
+  keywords: string[];
+}

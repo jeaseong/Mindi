@@ -98,3 +98,56 @@ export const DATE = {
     'Dec',
   ],
 };
+
+type Label = {
+  ko: string;
+  en: string;
+};
+interface EmotionType {
+  [key: string]: { label: Label };
+}
+
+export const EMOTION: EmotionType = {
+  HAPPINESS: {
+    label: {
+      ko: '행복',
+      en: 'happiness',
+    },
+  },
+  ANGER: {
+    label: {
+      ko: '분노',
+      en: 'anger',
+    },
+  },
+  AVERSION: {
+    label: {
+      ko: '혐오',
+      en: 'anersion',
+    },
+  },
+  SADNESS: {
+    label: {
+      ko: '슬픔',
+      en: 'sadness',
+    },
+  },
+  FEAR: {
+    label: {
+      ko: '공포',
+      en: 'fear',
+    },
+  },
+  SURPRISED: {
+    label: {
+      ko: '놀람',
+      en: 'surprised',
+    },
+  },
+  MIXED: {
+    label: {
+      ko: '평온',
+      en: 'mixed',
+    },
+  },
+};

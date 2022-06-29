@@ -7,7 +7,6 @@ export const useGetDiaryList = (date: string) => {
     ['diary', date],
     async () => await getDiaryList(dateSplit[0], dateSplit[1], dateSplit[2]),
     {
-      staleTime: Infinity,
       onError: () => {
         return '데이터가 없다.';
       },

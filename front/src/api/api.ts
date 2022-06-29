@@ -42,3 +42,19 @@ export const getDiaryList = async (
   const { data } = await Axios.get(apiUrl);
   return data.result;
 };
+
+export const postStatics = async (year: string, month: string) => {
+  const apiUrl = `api/statistics?year=${year}&month=${month}`;
+  await Axios.post(apiUrl);
+};
+
+export const getStatics = async (year: string, month: string) => {
+  const apiUrl = `api/statistics?year=${year}&month=${month}`;
+  const { data } = await Axios.get(apiUrl);
+  return data.result;
+};
+
+export const delStatics = async () => {
+  const apiUrl = `api/statistics`;
+  await Axios.delete(apiUrl);
+};

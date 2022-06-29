@@ -1,17 +1,13 @@
 import React from 'react';
 import { useQueryClient } from 'react-query';
 import { CalenderBodyProps } from 'types/atoms';
-import { selectMaxSentiment } from 'utils/utils';
+import { selectMaxSentiment, getDateForString } from 'utils/utils';
 import { Container, Days, Day, Span } from './Body.style';
-
-function Body({ totalDate, year, month, TODAY }: CalenderBodyProps) {
+function Body({ totalDate, year, month, TODAY, onSetDay }: CalenderBodyProps) {
   const queryClient = useQueryClient();
-  // return type을 전부 정의해줘야하는가..
-  const diary: any = queryClient.getQueryData([
-    'diary',
-    `${TODAY.slice(0, 7)}-00`,
-  ]);
-  let count = 0;
+  const date = getDateForString(year, month, 0, 'perMonth');
+  const diary: any = queryClient.getQueryData(['diary', date]);
+  let count = diary?.length - 1;
   return (
     <Container>
       {totalDate?.map((days, index) => {
@@ -20,13 +16,16 @@ function Body({ totalDate, year, month, TODAY }: CalenderBodyProps) {
           <Days key={dataKey}>
             {days?.map((day, i) => {
               const dataKey = `${year}-${month}-${i}`;
-              const curKey = `${year}-${
-                month >= 10 ? month : `0${month}`
-              }-${day}`;
-              const sentiment =
-                diary && curKey === diary[count]?.diaryDate
-                  ? selectMaxSentiment(diary[count++]?.sentiment)
-                  : 'none';
+              const curKey = `${year}-${month >= 10 ? month : `0${month}`}-${
+                +day >= 10 ? day : `0${day}`
+              }`;
+              let sentiment;
+              if (diary && curKey === diary[count]?.diaryDate) {
+                sentiment = selectMaxSentiment(diary[count--]?.sentiment);
+              } else {
+                sentiment = 'none';
+              }
+
               return (
                 <Day
                   isToday={curKey === TODAY ? true : false}
@@ -34,7 +33,7 @@ function Body({ totalDate, year, month, TODAY }: CalenderBodyProps) {
                   sentiment={sentiment}
                   key={dataKey}
                 >
-                  <Span>{day}</Span>
+                  <Span onClick={() => onSetDay(+day)}>{day}</Span>
                 </Day>
               );
             })}

@@ -6,6 +6,7 @@ import SignIn from 'pages/User/SignIn';
 import SignUp from 'pages/User/SignUp';
 import Diary from 'pages/Diary/Diary';
 import Posting from 'pages/Diary/Posting';
+import Edit from 'pages/Diary/Edit';
 import ResultTemplate from 'components/templates/diary/result/ResultTemplate';
 import EITest from 'pages/EITest/EITest';
 import EITestResult from 'components/modules/EITest/EITestResult';
@@ -14,7 +15,7 @@ import Main2 from 'components/modules/main/Main2';
 import { AnimatePresence } from 'framer-motion';
 import { RouterPros } from 'types/router';
 
-function RoutePage({ isLogin }: RouterPros) {
+function RoutePage({ isLogin, isFetching }: RouterPros) {
   const location = useLocation();
   return (
     <>
@@ -25,16 +26,42 @@ function RoutePage({ isLogin }: RouterPros) {
           <Route path='/sign-up' element={<SignUp />} />
           <Route
             path='/diary'
-            element={<PrivateRoute user={isLogin} component={<Diary />} />}
-          />
-          <Route
-            path='/diary-posting'
-            element={<PrivateRoute user={isLogin} component={<Posting />} />}
-          />
-          <Route
-            path='/diary-posting/result'
             element={
-              <PrivateRoute user={isLogin} component={<ResultTemplate />} />
+              <PrivateRoute
+                isLogin={isLogin}
+                isFetching={isFetching}
+                component={<Diary />}
+              />
+            }
+          />
+          <Route
+            path='/diary-posting/:diaryDate'
+            element={
+              <PrivateRoute
+                isLogin={isLogin}
+                isFetching={isFetching}
+                component={<Posting />}
+              />
+            }
+          />
+          <Route
+            path='/diary-edit/:diaryDate'
+            element={
+              <PrivateRoute
+                isLogin={isLogin}
+                isFetching={isFetching}
+                component={<Edit />}
+              />
+            }
+          />
+          <Route
+            path='/result/:date'
+            element={
+              <PrivateRoute
+                isLogin={isLogin}
+                isFetching={isFetching}
+                component={<ResultTemplate />}
+              />
             }
           />
           <Route path='/ei-test' element={<EITest />} />

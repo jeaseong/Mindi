@@ -55,3 +55,24 @@ export const ToEITest = styled(motion.div)`
   align-items: center;
   margin: 0 2em;
 `;
+
+export const ToRegister = styled(motion.div)`
+  bottom: 2em;
+  left: -47em;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 2em;
+`;
+
+export const RegisterButton = styled(motion.button)`
+  position: absolute;
+  top: 4.3em;
+  right: 11em;
+  font-size: 1em;
+  color: black;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+`;

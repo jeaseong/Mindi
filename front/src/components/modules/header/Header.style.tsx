@@ -19,4 +19,10 @@ export const Nav = styled.nav`
   align-items: center;
 `;
 
-export const NavItem = styled.span``;
+export const NavItem = styled.span`
+  font-size: 14px;
+  transition: all 0.2s ease-in-out;
+  &:hover {
+    transform: scale(1.1);
+  }
+`;

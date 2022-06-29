@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { TextProps } from 'types/atoms';
 
-export const Span = styled.p<TextProps>`
+export const Span = styled.span<TextProps>`
   padding: 0;
   margin: 5px 0 0;
   font-size: ${(props) => {

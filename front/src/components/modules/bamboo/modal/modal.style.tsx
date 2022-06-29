@@ -13,21 +13,14 @@ export const ModalContainer = styled.div`
 `;
 
 export const DialogBox = styled.div`
-  width: 450px;
-  height: 600px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  border: none;
-  border-radius: 3px;
+  border: 1px solid black;
+  width: 430px;
+  height: 700px;
+  /* border-radius: 3px; */
   box-shadow: 0 0 30px rgba(30, 30, 30, 0.185);
   box-sizing: border-box;
-  background-color: white;
+  background-color: aliceblue;
   z-index: 10000;
-`;
-
-export const ContentWrapper = styled.section`
-  margin: 2rem 1rem;
 `;
 
 export const Backdrop = styled.div`

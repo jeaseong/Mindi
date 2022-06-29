@@ -14,12 +14,12 @@ export const ModalContainer = styled.div`
 
 export const DialogBox = styled.div`
   border: 1px solid black;
-  width: 430px;
-  height: 700px;
+  width: 500px;
+  height: 830px;
   /* border-radius: 3px; */
   box-shadow: 0 0 30px rgba(30, 30, 30, 0.185);
   box-sizing: border-box;
-  background-color: aliceblue;
+  background-color: #f6e6f5;
   z-index: 10000;
 `;
 

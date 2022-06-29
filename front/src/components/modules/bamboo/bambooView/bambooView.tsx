@@ -1,5 +1,4 @@
-import React, { useState, useCallback } from 'react';
-import Modal from 'components/modules/bamboo/modal/modal';
+import React from 'react';
 import {
   CloseArea,
   ContentWrapper,
@@ -8,15 +7,17 @@ import {
   ViewTitle,
   ViewText,
   TextWrapper,
+  Line,
+  CommentWrapper,
+  CommentTitle,
+  CommentLine,
+  CommentText,
+  CommentInput,
+  CommentButton,
 } from './bambooView.style';
 import { IoMdClose } from 'react-icons/io';
 
 function BambooView({ curItem, modalClose }: any) {
-  console.log('curItem', curItem);
-  console.log(typeof curItem);
-
-  console.log('isArray', Array.isArray(curItem));
-
   return (
     <>
       <CloseArea>
@@ -27,9 +28,18 @@ function BambooView({ curItem, modalClose }: any) {
           <ViewDate>{curItem['createdAt'].substr(0, 10)}</ViewDate>
           <ViewTitle>{curItem['title']}</ViewTitle>
         </DateTitleWrapper>
+        <Line />
         <TextWrapper>
           <ViewText>{curItem['content']}</ViewText>
         </TextWrapper>
+        <CommentWrapper>
+          <CommentTitle>Comments</CommentTitle>
+          <CommentLine />
+          <CommentText></CommentText>
+        </CommentWrapper>
+        <Line />
+        <CommentInput />
+        <CommentButton>댓글 달기</CommentButton>
       </ContentWrapper>
     </>
   );

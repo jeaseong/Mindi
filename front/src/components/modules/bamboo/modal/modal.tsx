@@ -1,10 +1,5 @@
 import React, { PropsWithChildren } from 'react';
-import {
-  ModalContainer,
-  DialogBox,
-  ContentWrapper,
-  Backdrop,
-} from './modal.style';
+import { ModalContainer, DialogBox, Backdrop } from './modal.style';
 
 interface ModalDefaultType {
   onClickToggleModal: () => void;
@@ -15,20 +10,20 @@ function Modal({
   children,
 }: PropsWithChildren<ModalDefaultType>) {
   return (
-    <ModalContainer>
-      <DialogBox>
-        <ContentWrapper>{children}</ContentWrapper>
-      </DialogBox>
-      <Backdrop
-        onClick={(e: React.MouseEvent) => {
-          e.preventDefault();
+    <>
+      <ModalContainer>
+        <DialogBox>{children}</DialogBox>
+        <Backdrop
+          onClick={(e: React.MouseEvent) => {
+            e.preventDefault();
 
-          if (onClickToggleModal) {
-            onClickToggleModal();
-          }
-        }}
-      />
-    </ModalContainer>
+            if (onClickToggleModal) {
+              onClickToggleModal();
+            }
+          }}
+        />
+      </ModalContainer>
+    </>
   );
 }
 

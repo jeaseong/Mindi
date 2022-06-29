@@ -41,7 +41,7 @@ export class MongoStatModel implements IStatModel {
     await StatisticsModel.deleteOne({ _id: id });
   }
 
-  async findByDate(userId: string, monthly: string): Promise<IStat> {
+  async findByDate(userId: string, monthly: Date): Promise<IStat> {
     return StatisticsModel.findOne({
       $and: [{ userId }, { monthly }],
     }).lean();

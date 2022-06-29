@@ -54,7 +54,7 @@ export class MongoDiaryModel implements IDiaryModel {
     await DiaryModel.deleteOne({ _id: id });
   }
 
-  async findByDate(userId: string, from: string, to: string): Promise<IDiary[]> {
+  async findByDate(userId: string, from: Date, to: Date): Promise<IDiary[]> {
     return DiaryModel.find({
       $and: [{ userId }, { diaryDate: { $gte: from, $lte: to } }],
     })

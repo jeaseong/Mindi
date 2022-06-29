@@ -28,11 +28,10 @@ export default (app: Router) => {
 
         const newStat: Partial<IStat> = {
           userId,
-          monthly: date,
           keywords: myKeyword,
         };
 
-        const createdResult: IStat = await statService.create(newStat, docList);
+        const createdResult: IStat = await statService.create(newStat, date, docList);
 
         const response: IResponse<IStat> = {
           success: true,

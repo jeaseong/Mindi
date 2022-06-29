@@ -3,6 +3,7 @@ import { Service, Inject } from "typedi";
 import { MongoDiaryModel, MongoStatModel } from "../models";
 import { IStat, ISentiment, IDiary } from "../interfaces";
 import winston from "winston";
+import dayjs from "dayjs";
 
 @Service()
 export default class StatService {
@@ -12,7 +13,7 @@ export default class StatService {
     @Inject("logger") private logger: winston.Logger,
   ) {}
 
-  public async create(newStat: Partial<IStat>, docList: Array<IDiary>) {
+  public async create(newStat: Partial<IStat>, date: string, docList: Array<IDiary>) {
     try {
       let myEmotion: ISentiment = {
         fear: 0,
@@ -47,6 +48,7 @@ export default class StatService {
 
       const newResult: Partial<IStat> = {
         ...newStat,
+        monthly: dayjs(date).toDate(),
         emotions: myEmotion,
         reminder,
       };
@@ -67,9 +69,8 @@ export default class StatService {
   }
 
   public async findByDate(userId: string, date: string) {
-    const monthly = new Date(date).toISOString();
+    const monthly = dayjs(date).toDate();
     const doc = await this.statModel.findByDate(userId, monthly);
-    // TODO: null로 반환할지 에러를 줄 지 논의 필요
     if (!doc) {
       throw new StatusError(400, "분석 결과가 존재하지 않습니다.");
     }

@@ -1,18 +1,17 @@
 import { body, check } from "express-validator";
 import dayjs from "dayjs";
-import "dayjs/locale/ko";
 
 export default {
   diaryBody: [
     body("diary")
-      .isLength({ min: 3 }) //TODO: 몇 자 이상 작성하라고 하지?
-      .withMessage("오늘의 일기를 작성해주세요.")
+      .isLength({ min: 50 }) //TODO: 몇 자 이상 작성하라고 하지?
+      .withMessage("오늘의 일기를 50자 이상 작성해주세요.")
       .bail()
       .isString()
       .bail(),
     body("feeling")
-      .isLength({ min: 3 })
-      .withMessage("오늘의 감정을 작성해주세요.")
+      .isLength({ min: 50 })
+      .withMessage("오늘의 감정을 50자 이상 작성해주세요.")
       .bail()
       .isString()
       .bail(),
@@ -21,9 +20,8 @@ export default {
       .withMessage("존재하지 않는 날짜입니다.")
       .bail()
       .custom((value) => {
-        // const diaryDate = dayjs(value);
-        const today = dayjs().locale("ko");
-        const checkDate = today.diff(value, "day");
+        const today = dayjs();
+        const checkDate = today.diff(value, "minute");
         return checkDate >= 0;
       })
       .withMessage("오늘 또는 과거 날짜의 일기만 작성할 수 있습니다."),

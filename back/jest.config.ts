@@ -63,7 +63,7 @@ export default {
   // ],
 
   // An array of file extensions your modules use
-  moduleFileExtensions: ['js', 'ts', 'json'],
+  moduleFileExtensions: ["js", "ts", "json"],
 
   // A map from regular expressions to module names that allow to stub out resources with a single module
   // moduleNameMapper: {},
@@ -78,7 +78,7 @@ export default {
   // notifyMode: "always",
 
   // A preset that is used as a base for Jest's configuration
-  preset: 'ts-jest',
+  preset: "ts-jest",
   // preset: '@shelf/jest-mongodb',
 
   // Run tests from one or more projects
@@ -120,7 +120,7 @@ export default {
   // snapshotSerializers: [],
 
   // The test environment that will be used for testing
-  testEnvironment: 'node',
+  testEnvironment: "node",
 
   // Options that will be passed to the testEnvironment
   // testEnvironmentOptions: {},
@@ -132,8 +132,8 @@ export default {
   testMatch: [
     // '**/?(*.)+(spec|test).ts?(x)',
     // '**/unittests/?(*.)+(spec|test).ts?(x)',
-    '**/supertests/?(*.)+(spec|test).ts?(x)',
-    '**/unittests/?(*.)+(spec|test).ts?(x)'
+    "**/api-test/?(*.)+(spec|test).ts?(x)",
+    "**/unit/?(*.)+(spec|test).ts?(x)",
   ],
 
   // An array of regexp pattern strings that are matched against all test paths, matched tests are skipped
@@ -158,7 +158,7 @@ export default {
 
   // A map from regular expressions to paths to transformers
   transform: {
-    '^.+\\.ts?$': 'ts-jest',
+    "^.+\\.ts?$": "ts-jest",
   },
 
   // An array of regexp pattern strings that are matched against all source file paths, matched files will skip transformation

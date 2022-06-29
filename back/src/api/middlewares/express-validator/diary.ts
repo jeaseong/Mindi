@@ -1,4 +1,6 @@
-import { body, check, oneOf, param, query, validationResult } from "express-validator";
+import { body, check } from "express-validator";
+import dayjs from "dayjs";
+import "dayjs/locale/ko";
 
 export default {
   diaryBody: [
@@ -12,18 +14,22 @@ export default {
       .isLength({ min: 3 })
       .withMessage("오늘의 감정을 작성해주세요.")
       .bail()
-      .isString(),
-    body("sentiment").isLength({ min: 3 }).withMessage("감정 분석 결과가 포함되어 있지 않습니다."),
+      .isString()
+      .bail(),
+    check("diaryDate")
+      .isISO8601()
+      .withMessage("존재하지 않는 날짜입니다.")
+      .bail()
+      .matches(/^\d{4}-\d{2}-\d{2}$/)
+      .withMessage("날짜 형식이 올바르지 않습니다.")
+      .bail()
+      .custom((value) => {
+        const diaryDate = dayjs(value).locale("ko");
+        const today = dayjs().locale("ko");
+        const checkDate = today.diff(diaryDate, "day");
+        return checkDate > 0;
+      })
+      .withMessage("과거 날짜의 일기만 작성할 수 있습니다."),
   ],
-  getDate: [
-    query("date").notEmpty().withMessage("날짜 정보가 비어 있습니다.").bail(),
-    oneOf(
-      [
-        query("date").matches(/^\d\d\d\d$/),
-        query("date").matches(/^\d\d\d\d-\d\d$/),
-        query("date").matches(/^\d\d\d\d-\d\d-\d\d$/),
-      ],
-      "날짜 형식이 올바르지 않습니다.",
-    ),
-  ],
+  getYear: [check("year").notEmpty().withMessage("연도 정보는 필수입니다.")],
 };

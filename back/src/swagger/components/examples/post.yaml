@@ -1,0 +1,77 @@
+postRequestBody:
+  value:
+    title: 등록할 글 제목
+    content: 등록할 글 내용
+post:
+  value:
+    success: true
+    result:
+      _id: 62a0c9fe574953ef39d5c9e8
+      title: 게시글 제목
+      content: 게시글 내용
+      author: 62a0c1234jk4953ef39d5c9e9
+      createdAt: 2022-06-27T16:26:08.844Z
+get:
+  value:
+    success: true
+    result:
+      - _id: 62a0c9fe574953ef39d5c9e8
+        title: 게시글 제목1
+        content: 게시글 내용1
+        author: 62a0c1234jk4953ef39d5c9e9
+        createdAt: 2022-06-27T16:26:08.844Z
+      - _id: 62a0c9fe574953ef39d5c9e8
+        title: 게시글 제목2
+        content: 게시글 내용2
+        author: 62a0c1234jk4953ef39d5c9e9
+        createdAt: 2022-06-27T16:26:08.844Z
+getOne:
+  value:
+    success: true
+    result:
+      _id: 62a0c9fe574953ef39d5c9e8
+      title: 게시글 제목
+      content: 게시글 내용
+      author: 62a0c1234jk4953ef39d5c9e9
+      createdAt: 2022-06-27T16:26:08.844Z
+putRequestBody:
+  value:
+    title: 수정할 글 제목
+    content: 수정할 글 내용
+put:
+  value:
+    success: true
+    result:
+      _id: 62a0c9fe574953ef39d5c9e8
+      title: 수정된 게시글 제목
+      content: 수정된 게시글 내용
+      author: 62a0c1234jk4953ef39d5c9e9
+      createdAt: 2022-06-27T16:26:08.844Z
+getUsers:
+  value:
+    success: true
+    result:
+      - _id: 62a0c9fe574953ef39d5c9e8
+        title: 게시글 제목1
+        content: 게시글 내용1
+        author: 62a0c1234jk4953ef39d5c9e9
+        createdAt: 2022-06-27T16:26:08.844Z
+      - _id: 62a0c9fe574953ef39d5c9e8
+        title: 게시글 제목2
+        content: 게시글 내용2
+        author: 62a0c1234jk4953ef39d5c9e9
+        createdAt: 2022-06-27T16:26:08.844Z
+getUsersById:
+  value:
+    success: true
+    result:
+      - _id: 62a0c9fe574953ef39d5c9e8
+        title: 게시글 제목1
+        content: 게시글 내용1
+        author: 62a0c1234jk4953ef39d5c9e9
+        createdAt: 2022-06-27T16:26:08.844Z
+      - _id: 62a0c9fe574953ef39d5c9e8
+        title: 게시글 제목2
+        content: 게시글 내용2
+        author: 62a0c1234jk4953ef39d5c9e9
+        createdAt: 2022-06-27T16:26:08.844Z

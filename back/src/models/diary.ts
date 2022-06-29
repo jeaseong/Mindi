@@ -1,7 +1,6 @@
 import { Schema, model } from "mongoose";
 import { Service } from "typedi";
-import { BaseDiary, IDiary } from "../interfaces/IDiary";
-import { IDiaryModel, deleteResult } from "../interfaces/IDiaryModel";
+import { IDiary, IDiaryModel } from "../interfaces";
 
 const DiarySchema = new Schema(
   {
@@ -21,7 +20,7 @@ const DiarySchema = new Schema(
       type: Object,
       required: true,
     },
-    createdDate: {
+    diaryDate: {
       type: String,
       required: true,
     },
@@ -41,37 +40,38 @@ const DiaryModel = model<IDiary>("Diary", DiarySchema);
 
 @Service()
 export class MongoDiaryModel implements IDiaryModel {
-  async create(newDiary: BaseDiary): Promise<IDiary> {
+  async create(newDiary: Partial<IDiary>): Promise<IDiary> {
     const newDoc = await DiaryModel.create(newDiary);
     return newDoc.toObject();
   }
 
-  async updateOne(filter: object, toUpdate: BaseDiary): Promise<IDiary> {
+  async updateOne(filter: Partial<IDiary>, toUpdate: Partial<IDiary>): Promise<IDiary> {
     const option = { returnOriginal: false };
     return DiaryModel.findOneAndUpdate(filter, toUpdate, option).lean();
   }
 
-  async deleteOne(id: string): Promise<deleteResult> {
-    const result = await DiaryModel.deleteOne({ _id: id });
-    if (result.deletedCount === 1) {
-      return { status: "Succeess" };
-    }
-    return { status: "Fail" };
-  }
-
-  async findById(id: string): Promise<IDiary> {
-    return DiaryModel.findOne({ _id: id }).lean();
+  async deleteOne(id: string): Promise<void> {
+    await DiaryModel.deleteOne({ _id: id });
   }
 
   async findByDate(userId: string, date: string): Promise<IDiary[]> {
     return DiaryModel.find({
-      $and: [{ userId }, { createdDate: { $regex: `^${date}` } }],
+      $and: [{ userId }, { diaryDate: { $regex: `^${date}` } }],
     })
-      .sort({ createdAt: -1 })
+      .sort({ diaryDate: -1 })
       .lean();
   }
 
-  async exists(filter: Object): Promise<Boolean> {
-    return DiaryModel.exists(filter).lean();
+  async exists(userId: string, filter: Partial<IDiary>): Promise<Boolean> {
+    return DiaryModel.exists({ $and: [{ userId }, filter] }).lean();
+  }
+
+  async findEmotionalDiary(userId: string, emotion: string): Promise<IDiary[]> {
+    const a = DiaryModel.find({
+      $and: [{ userId }, { [`sentiment.${emotion}`]: { $gt: 0 } }],
+    })
+      .sort({ [`sentiment.${emotion}`]: -1 })
+      .lean();
+    return a;
   }
 }

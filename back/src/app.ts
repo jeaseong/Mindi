@@ -12,28 +12,47 @@ async function appStart() {
 
   await loader({ expressApp: app });
 
-  console.log("NODE_ENV:", process.env.NODE_ENV);
+  logger.info("NODE_ENV: ", config.nodeEnv);
   const server = app.listen(config.port, () => {
     logger.info(`
             Mindi API Server
             is running on: http://localhost:${config.port}
             `);
+    if (config.nodeEnv === "production") {
+      console.log(`
+            Mindi API Server
+            is running on: http://localhost:${config.port}
+            `);
+    }
   });
 
   app.get("/", (req: Request, res: Response, next: NextFunction) => {
     res.send("Hello, world!");
   });
 
-  async function handle() {
+  async function handler(signal: string) {
+    logger.info(`Received ${signal}`);
+
     await mongoose.connection.close();
-    logger.info("MongoDB: Discnnected");
+    logger.info("MongoDB: Disconnected");
 
     const httpTerminator = createHttpTerminator({ server });
     await httpTerminator.terminate();
-    logger.info("Mindi API Server: Shutdown");
+    logger.info("Application is terminated.");
   }
 
-  process.on("SIGINT", handle);
+  process.on("SIGINT", () => {
+    handler("SIGINT");
+  });
+  process.on("SIGTERM", () => {
+    handler("SIGTERM");
+  });
+
+  process.on("uncaughtException", (error) => {
+    // 무엇을 넣어야 하는 건지요...
+    logger.error(error.message);
+    process.exit(1);
+  });
 }
 
 appStart();

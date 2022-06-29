@@ -1,14 +1,10 @@
-import { BaseDiary, IDiary } from './IDiary';
-
-export interface deleteResult {
-  status: string; // "Succeess" or "Fail"
-}
+import { IDiary } from "./IDiary";
 
 export interface IDiaryModel {
-  create: (newDiary: BaseDiary) => Promise<IDiary>;
-  updateOne: (filter: object, toUpdate: BaseDiary) => Promise<IDiary>;
-  deleteOne: (id: string) => Promise<deleteResult>;
-  findById: (id: string) => Promise<IDiary>;
+  create: (newDiary: Partial<IDiary>) => Promise<IDiary>;
+  updateOne: (filter: Partial<IDiary>, toUpdate: Partial<IDiary>) => Promise<IDiary>;
+  deleteOne: (id: string) => Promise<void>;
   findByDate: (userId: string, date: string) => Promise<IDiary[]>;
-  exists: (filter: Object) => Promise<Boolean>;
+  exists: (userId: string, filter: Partial<IDiary>) => Promise<Boolean>;
+  findEmotionalDiary: (userId: string, emotion: string) => Promise<IDiary[]>;
 }

@@ -1,11 +1,13 @@
-import { Service } from "typedi";
+import {Inject, Service} from "typedi";
 import { StatusError } from "../utils/error";
 import { MongoUserModel } from "../models/user";
+import winston from "winston";
 
 @Service()
 export default class UserService {
   constructor(
-    private userModel: MongoUserModel
+    private userModel: MongoUserModel,
+    @Inject("logger") private logger: winston.Logger
   ) {
   }
 

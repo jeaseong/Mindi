@@ -9,8 +9,12 @@ export const Container = styled.div`
 `;
 
 export const ChartSizeBox = styled.div`
-  width: 40%;
+  width: 60%;
   margin: 0 auto;
+
+  ${({ theme }) => theme.media.tablet`
+    width: 40%;
+  `}
 `;
 
 export const EmotionIcons = styled.div`
@@ -23,6 +27,29 @@ export const EmotionIcon = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 4px;
+  position: relative;
 `;
 
-export const EmotionCount = styled.span``;
+export const EmotionCount = styled.span`
+  position: absolute;
+  right: 8px;
+  padding: 2px 6px;
+  border-radius: 50%;
+  background-color: ${(props) => {
+    switch (props.color) {
+      case 'sadness':
+        return props.theme.colors.sadness;
+      case 'anger':
+        return props.theme.colors.anger;
+      case 'anersion':
+        return props.theme.colors.anersion;
+      case 'fear':
+        return props.theme.colors.fear;
+      case 'surprised':
+        return props.theme.colors.surprised;
+      case 'happiness':
+        return props.theme.colors.happiness;
+    }
+  }};
+  color: ${(props) => props.theme.colors.basicWhite};
+`;

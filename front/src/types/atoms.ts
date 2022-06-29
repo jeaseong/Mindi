@@ -10,6 +10,7 @@ export type TextProps = {
   children: React.ReactNode;
   align?: string;
   size?: string;
+  background?: boolean;
 };
 
 export type TextAreaProps = {

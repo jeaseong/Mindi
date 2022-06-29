@@ -1,5 +1,5 @@
-import { useQuery, useQueryClient } from 'react-query';
-import { postStatics, getStatics, delStatics } from 'api/api';
+import { useQuery } from 'react-query';
+import { postStatics, getStatics } from 'api/api';
 
 export const useGetStatics = (date: string) => {
   const dateSplit = date.split('-');

@@ -25,12 +25,12 @@ function Sentiments({ emotion }: EmotionProps) {
         label: '기분별 횟수',
         data: sentimentValues,
         backgroundColor: [
-          '#ff555e',
           '#ff8650',
+          '#9b6ef3',
+          '#ff555e',
+          '#83b2ff',
           '#ffe981',
           '#8bf18b',
-          '#83b2ff',
-          '#9b6ef3',
         ],
       },
     ],
@@ -39,6 +39,14 @@ function Sentiments({ emotion }: EmotionProps) {
     plugins: {
       legend: {
         display: false,
+      },
+      title: {
+        display: true,
+        text: '기분별 횟수',
+        font: {
+          size: 16,
+        },
+        padding: 14,
       },
     },
   };
@@ -57,7 +65,9 @@ function Sentiments({ emotion }: EmotionProps) {
                 alt={SENTIMENTS[upperEmotion].alt}
                 width='70%'
               />
-              <EmotionCount></EmotionCount>
+              <EmotionCount color={EMOTION[upperEmotion].label.en}>
+                {sentimentValues && sentimentValues[index]}
+              </EmotionCount>
               {EMOTION[upperEmotion].label.ko}
             </EmotionIcon>
           );

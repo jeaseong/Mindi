@@ -34,7 +34,7 @@ export const selectMaxSentiment = (sentiments: SentimentsType) => {
 
 export const selectSentimentValues = (sentimentData: EmotionType) => {
   if (sentimentData) {
-    const sentimentValues: number[] = Object.values(sentimentData);
+    const sentimentValues = Object.values(sentimentData);
 
     return sentimentValues;
   }

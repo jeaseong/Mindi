@@ -67,7 +67,9 @@ function Result() {
       const maxValue = valuesSorted[valuesSorted.length - 1];
 
       const maxValueCount = valuesSorted.filter((e) => maxValue === e).length;
-      if (maxValueCount > 1) {
+      if (maxValue === 0 && maxValueCount === 6) {
+        return 'BLANK';
+      } else if (maxValueCount > 1) {
         return 'MIXED';
       } else {
         const keysSorted = Object.keys(sentimentData).sort(

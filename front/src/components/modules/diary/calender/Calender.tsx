@@ -2,32 +2,18 @@ import React, { useState, useEffect, useMemo } from 'react';
 import Head from './head/Head';
 import Body from './body/Body';
 import { nullCheck, getCurDate } from 'utils/utils';
-import { CalenderBodyProps, CalenderHeadProps } from 'types/atoms';
+import {
+  CalenderProps,
+  CalenderBodyProps,
+  CalenderHeadProps,
+} from 'types/atoms';
 import { Container } from './Calender.style';
 
-function Calender() {
-  const DATE: Date = new Date();
-  const YEAR: number = DATE.getFullYear();
-  const MONTH: number = DATE.getMonth();
-  const TODAY = getCurDate();
-  const [month, setMonth] = useState(MONTH + 1);
-  const [year, setYear] = useState(YEAR);
+function Calender({ onSetDay, onChangeMonth, month, year }: CalenderProps) {
   const [totalDate, setTotalDate] = useState<string[][] | undefined>();
-
-  const onChangeMonth = (m: number) => {
-    if (month === 11 && m > 0) {
-      setMonth(0);
-      setYear((cur) => cur + 1);
-      return;
-    } else if (month === 0 && m < 0) {
-      setMonth(11);
-      setYear((cur) => cur - 1);
-      return;
-    }
-    setMonth((cur) => cur + m);
-  };
-
+  const TODAY = getCurDate();
   useEffect(() => {
+    // makeCalenderDate
     // 이번 달의 1일이 무슨 요일
     const firstDay = new Date(year, month, 1).getDay();
     //이번 달 길이
@@ -59,6 +45,7 @@ function Calender() {
     year,
     month,
     TODAY,
+    onSetDay,
   };
 
   const headProps: CalenderHeadProps = useMemo(

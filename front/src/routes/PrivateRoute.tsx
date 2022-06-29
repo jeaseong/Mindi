@@ -1,8 +1,15 @@
 import React from 'react';
-import SignIn from 'pages/User/SignIn';
+import { useNavigate } from 'react-router-dom';
 import { PrivateRouteType } from 'types/router';
-function PrivateRoute({ user = false, component }: PrivateRouteType) {
-  if (!user) return <SignIn />;
+function PrivateRoute({
+  isLogin = false,
+  isFetching,
+  component,
+}: PrivateRouteType) {
+  const navigate = useNavigate();
+  if (!isFetching && !isLogin) {
+    navigate('/sign-in');
+  }
   return component;
 }
 

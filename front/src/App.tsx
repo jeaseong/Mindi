@@ -2,14 +2,12 @@ import React from 'react';
 import RoutePage from 'routes/RoutePage';
 import SnackbarContainer from 'components/modules/snackbar/SnackbarContainer';
 import { useCurUser } from 'hooks/userQuery';
-import './App.css';
 
 const App: React.FC = () => {
-  const { data } = useCurUser();
-  const isLogin = !!data?.isLogin;
+  const { isLogin, isFetching } = useCurUser();
   return (
     <div className='App'>
-      <RoutePage isLogin={isLogin} />
+      <RoutePage isFetching={isFetching} isLogin={isLogin} />
       <SnackbarContainer />
     </div>
   );

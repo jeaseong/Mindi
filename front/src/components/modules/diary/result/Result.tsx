@@ -30,6 +30,7 @@ function Result() {
   const [sentimentData, setSentimentData] = useState();
   const [diaryData, setDiaryData] = useState();
   const [feelingData, setFeelingData] = useState();
+  const [isDefault, setIsDefault] = useState(true);
 
   const param = useParams();
   const curDate = param.date?.substring(0, 10) as string;
@@ -102,6 +103,14 @@ function Result() {
 
   const sentimentValues = selectSentimentValues(sentimentData);
 
+  const valuesSum = sentimentValues?.reduce(
+    (accumulator, currentNumber) => accumulator + currentNumber,
+  );
+
+  if (valuesSum === 0) {
+    setIsDefault(false);
+  }
+
   const data = {
     datasets: [
       {
@@ -152,7 +161,11 @@ function Result() {
       </DiaryAndFeeling>
       <SubTitle>오늘의 감정 그래프</SubTitle>
       <ChartWrapper>
-        <Doughnut data={data} />
+        {isDefault ? (
+          <Doughnut data={data} />
+        ) : (
+          <FeelingWrapper>모든 감정이 0예요 :/</FeelingWrapper>
+        )}
       </ChartWrapper>
       <SubTitle>오늘의 추천 음악</SubTitle>
       <YouTubeWrapper>

@@ -20,15 +20,6 @@ def get_search_response(artist, title):
     ).execute()
     return search_response
 
-def info_to_dict(videoId, title, description, url):
-    result = {
-        "videoId": videoId,
-        "title": title,
-        "description": description,
-        "url": url
-    }
-    return result
-
 def get_video_info(search_response):
     item = search_response['items'][0]
     if item['id']['kind'] == 'youtube#video':

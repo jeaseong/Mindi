@@ -79,7 +79,6 @@ export default class StatService {
 
   public async findByDate(userId: string, monthly: string) {
     const doc = await this.statModel.findByDate(userId, monthly);
-    // TODO: null로 반환할지 에러를 줄 지 논의 필요
     if (!doc) {
       throw new StatusError(400, "분석 결과가 존재하지 않습니다.");
     }

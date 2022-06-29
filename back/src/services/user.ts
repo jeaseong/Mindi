@@ -59,8 +59,7 @@ export default class UserService {
       await this.commentModel.deleteByUserId(userId, session);
     };
 
-    const result = await runTransaction(txnFunc);
-    return result;
+    return runTransaction(txnFunc);
   }
 
   public async resetPassword(email: string) {

@@ -10,7 +10,7 @@ function Head({ year, month, onChangeMonth }: CalenderHeadProps) {
       <Nav>
         <NavBtn onClick={() => onChangeMonth(-1)}>&lt;</NavBtn>
         <Span>
-          {year}. {DATE.MONTH[month]}
+          {year}. {DATE.MONTH[month - 1]}
         </Span>
         <NavBtn onClick={() => onChangeMonth(1)}>&gt;</NavBtn>
       </Nav>

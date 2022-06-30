@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useCallback } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useSnackbarContext } from 'contexts/SnackbarContext';
 import { usePostDiary } from 'hooks/diaryQuery';
 import FileUpload from 'components/modules/fileUpload/FileUpload';
@@ -9,14 +9,13 @@ import TextArea from 'components/atoms/textArea/TextArea';
 import Button from 'components/atoms/button/Button';
 import SubTitle from 'components/atoms/text/SubTitle';
 import { IMAGE } from 'utils/image';
-import { FileType, DiaryType, CustomizedState } from 'types/atoms';
+import { FileType, DiaryType } from 'types/atoms';
 import { PostingContainer, Area, AlignRight } from './Posting.style';
 
 function Posting() {
-  const location = useLocation();
-  const state = location.state as CustomizedState;
+  const { diaryDate } = useParams<{ diaryDate: string }>();
   const { openSnackBar } = useSnackbarContext();
-  const postDiary = usePostDiary(openSnackBar, state?.date);
+  const postDiary = usePostDiary(openSnackBar, diaryDate as string);
   const [isLoading, setIsLoading] = useState(false);
   const [simpleDiary, setSimpleDiary] = useState('');
   const [mindDiary, setMindDiary] = useState('');
@@ -24,38 +23,36 @@ function Posting() {
     preview: `${IMAGE.IMG_UPLOAD_BASIC.url}`,
     data: undefined,
   });
+
   const formData = useMemo(() => new FormData(), [editImg]);
 
   const onChangeSimple = useCallback(
     (e: React.ChangeEvent<HTMLTextAreaElement>) => {
       setSimpleDiary(e.target.value);
     },
-    [simpleDiary],
+    [],
   );
 
   const onChangeMind = useCallback(
     (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-      setMindDiary((cur) => e.target.value);
+      setMindDiary(e.target.value);
     },
-    [mindDiary],
+    [],
   );
 
-  const onChangeFile = useCallback(
-    (fileData: FileType) => {
-      setEditImg(fileData);
-    },
-    [editImg],
-  );
+  const onChangeFile = useCallback((fileData: FileType) => {
+    setEditImg(fileData);
+  }, []);
 
   const onChangeLoading = useCallback(() => {
     setIsLoading((cur) => !cur);
-  }, [isLoading]);
+  }, []);
 
   const onSubmit = async () => {
     const diaryData: DiaryType = {
       diary: simpleDiary,
       feeling: mindDiary,
-      diaryDate: state?.date,
+      diaryDate: diaryDate as string,
     };
     formData.append('background', editImg.data as File);
     Object.entries(diaryData).forEach((val) => {
@@ -64,7 +61,7 @@ function Posting() {
     try {
       postDiary.mutate(formData);
     } catch (e) {
-      openSnackBar(false, '작성을 안 했어요..!!');
+      openSnackBar(false, `${e}`);
     }
   };
   const fileuploadPros = {

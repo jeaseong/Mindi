@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useGetDiaryList } from 'hooks/diaryQuery';
 import SubTitle from 'components/atoms/text/SubTitle';
 import Text from 'components/atoms/text/Text';
 import Image from 'components/atoms/image/Image';
 import Button from 'components/atoms/button/Button';
-import { getDateForString, selectMaxSentiment } from 'utils/utils';
+import { getDateForString, selectMaxSentiment, getCurDate } from 'utils/utils';
 import { PreviewProps } from 'types/atoms';
 import { SENTIMENTS } from 'utils/image';
 import {
@@ -16,31 +16,37 @@ import {
 } from './Preview.style';
 
 function Preview({ year, month, day }: PreviewProps) {
+  const today = getCurDate();
   const navigate = useNavigate();
-  const date = getDateForString(year, month, day);
-  const { diary, isLoading } = useGetDiaryList(
-    `${year}`,
-    `${date.slice(5, 7)}`,
-    `${date.slice(8, 10)}`,
-  );
+  const date = getDateForString(year, month, day, 'perDay');
+  const { diary, isFetching, isLoading } = useGetDiaryList(date, 'day');
 
-  const onClickToPosting = () => {
-    navigate('/diary-posting', {
-      state: {
-        date,
-      },
-    });
-  };
-  const onClickToResult = () => {
-    navigate(`/result/${date}`, {
-      state: {
-        date,
-      },
-    });
+  const isOverToday = useMemo(() => today < date, [today, date]);
+
+  const onClickTo = (type: string) => {
+    if (type === 'posting') {
+      navigate(`/diary-posting/${date}`, {
+        state: {
+          date,
+        },
+      });
+    } else if (type === 'result') {
+      navigate(`/result/${date}`, {
+        state: {
+          date,
+        },
+      });
+    } else if (type === 'edit') {
+      navigate(`/diary-edit/${date}`, {
+        state: {
+          date,
+        },
+      });
+    }
   };
 
   let sentiment = '';
-  if (!isLoading && diary.length > 0) {
+  if (!isFetching && diary.length > 0) {
     sentiment = selectMaxSentiment(diary[0].sentiment).toUpperCase();
   }
 
@@ -61,18 +67,22 @@ function Preview({ year, month, day }: PreviewProps) {
         </SubTitle>
         <PreviewBox>
           <Text size='sm' align='center'>
-            일기 작성을 안 했어요!
+            {isOverToday
+              ? '일기는 지난 날만 작성이 가능해요!'
+              : '일기 작성을 안 했어요!'}
           </Text>
           <PreviewSentiment>
             <Image
               src={SENTIMENTS.SADNESS.url}
               alt={SENTIMENTS.SADNESS.alt}
-              width='40%'
+              width='30%'
             />
           </PreviewSentiment>
           <NavigateBox>
             <Text size='sm'>일기 써주세요ㅠ</Text>
-            <Button onClick={onClickToPosting}>일기 쓰러가기 &rarr;</Button>
+            <Button disabled={isOverToday} onClick={() => onClickTo('posting')}>
+              일기 쓰러가기 &rarr;
+            </Button>
           </NavigateBox>
         </PreviewBox>
       </Container>
@@ -85,7 +95,7 @@ function Preview({ year, month, day }: PreviewProps) {
       </SubTitle>
       <PreviewBox>
         <Text size='sm' align='center'>
-          기분에 따라 조언 하나씩 줘야함
+          {SENTIMENTS[sentiment].comment}
         </Text>
         <PreviewSentiment>
           <Image
@@ -95,8 +105,12 @@ function Preview({ year, month, day }: PreviewProps) {
           />
         </PreviewSentiment>
         <NavigateBox>
-          <Button onClick={onClickToPosting}>일기 수정하기 &rarr;</Button>
-          <Button onClick={onClickToResult}>일기 결과보기 &rarr;</Button>
+          <Button onClick={() => onClickTo('edit')}>
+            일기 수정하기 &rarr;
+          </Button>
+          <Button onClick={() => onClickTo('result')}>
+            일기 결과보기 &rarr;
+          </Button>
         </NavigateBox>
       </PreviewBox>
     </Container>

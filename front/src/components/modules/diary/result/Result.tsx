@@ -5,8 +5,7 @@ import YouTube from 'react-youtube';
 import Image from 'components/atoms/image/Image';
 import Button from 'components/atoms/button/Button';
 import { SENTIMENTS } from 'utils/image';
-import { getCurDate } from 'utils/utils';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { getDiaryList } from 'api/api';
 import {
   ContentWrapper,
@@ -31,12 +30,14 @@ function Result() {
   const [sentimentData, setSentimentData] = useState();
   const [diaryData, setDiaryData] = useState();
   const [feelingData, setFeelingData] = useState();
+  const [isDefault, setIsDefault] = useState(true);
 
-  const curDate = getCurDate();
+  const param = useParams();
+  const curDate = param.date?.substring(0, 10) as string;
   const strSplit = curDate.split('-');
 
   useEffect(() => {
-    getDiaryList(strSplit[0], strSplit[1], strSplit[2]).then((data) => {
+    getDiaryList(strSplit[0], strSplit[1], strSplit[2], 'day').then((data) => {
       setSentimentData(data[0].sentiment);
       setDiaryData(data[0].diary);
       setFeelingData(data[0].feeling);
@@ -58,11 +59,27 @@ function Result() {
   // 점수가 가장 높은 감정 1개 반환
   const selectMaxSentiment = (sentimentData: any) => {
     if (sentimentData) {
-      const keysSorted = Object.keys(sentimentData).sort(
-        (a, b) => sentimentData[a] - sentimentData[b],
-      );
-      const max = keysSorted.pop()?.toUpperCase();
-      return max;
+      const sentimentValues: Array<number> = Object.values(sentimentData);
+
+      const valuesSorted = sentimentValues.sort(function (a, b) {
+        return a - b;
+      });
+      const maxValue = valuesSorted[valuesSorted.length - 1];
+
+      const maxValueCount = valuesSorted.filter((e) => maxValue === e).length;
+      if (maxValue === 0 && maxValueCount === 6) {
+        return 'BLANK';
+      } else if (maxValueCount > 1) {
+        return 'MIXED';
+      } else {
+        const keysSorted = Object.keys(sentimentData).sort(
+          (a, b) => sentimentData[a] - sentimentData[b],
+        );
+
+        const maxKey = keysSorted.pop()?.toUpperCase();
+
+        return maxKey;
+      }
     }
   };
 
@@ -87,6 +104,14 @@ function Result() {
   const sentimentNames = selectSentimentNames(sentimentData);
 
   const sentimentValues = selectSentimentValues(sentimentData);
+
+  const valuesSum = sentimentValues?.reduce(
+    (accumulator, currentNumber) => accumulator + currentNumber,
+  );
+
+  if (valuesSum === 0) {
+    setIsDefault(false);
+  }
 
   const data = {
     datasets: [
@@ -138,7 +163,11 @@ function Result() {
       </DiaryAndFeeling>
       <SubTitle>오늘의 감정 그래프</SubTitle>
       <ChartWrapper>
-        <Doughnut data={data} />
+        {isDefault ? (
+          <Doughnut data={data} />
+        ) : (
+          <FeelingWrapper>모든 감정이 0예요 :/</FeelingWrapper>
+        )}
       </ChartWrapper>
       <SubTitle>오늘의 추천 음악</SubTitle>
       <YouTubeWrapper>

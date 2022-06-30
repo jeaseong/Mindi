@@ -1,3 +1,7 @@
+export interface HeaderProps {
+  isLogin: boolean;
+}
+
 export interface BtnProps {
   children?: React.ReactNode;
   size?: string;
@@ -10,11 +14,14 @@ export type TextProps = {
   children: React.ReactNode;
   align?: string;
   size?: string;
+  background?: boolean;
+  bold?: boolean;
 };
 
 export type TextAreaProps = {
   bgColor?: 'green' | 'red';
   onChange?: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  value?: string;
 };
 
 export type ImgProps = {
@@ -30,6 +37,8 @@ export type InputProps = {
   placeholder: string;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   required?: boolean;
+  disabled?: boolean;
+  value?: string;
 };
 
 export type SnackbarType = 'sucessAlert' | 'errorAlert';
@@ -83,9 +92,21 @@ export interface CustomizedState {
 }
 
 export interface DiaryType {
+  _id?: string;
   diary: string;
   feeling: string;
   diaryDate: string;
+}
+
+export type DateType = 'perYear' | 'perMonth' | 'perDay';
+
+export interface SentimentsType {
+  fear: string;
+  surprised: string;
+  anger: string;
+  sadness: string;
+  happiness: string;
+  aversion: string;
 }
 
 export interface FileType {
@@ -111,6 +132,11 @@ export interface CalenderHeadProps {
   onChangeMonth: (m: number) => void;
 }
 
+export interface ListProps {
+  year: number;
+  month: number;
+}
+
 export interface PreviewProps {
   year: number;
   month: number;
@@ -124,7 +150,34 @@ export interface CalenderBodyProps {
   totalDate: string[][];
   onSetDay: (d: number) => void;
 }
+// statics type
+export type EmotionType = {
+  fear: number;
+  surprised: number;
+  anger: number;
+  sadness: number;
+  happiness: number;
+  aversion: number;
+};
 
+export interface EmotionProps {
+  emotion: EmotionType;
+}
+
+export interface KeywordsProps {
+  keywords: string[];
+}
+
+export interface UserType {
+  _id: string;
+  email: string;
+  name: string;
+  recentLogin: string;
+}
+
+export interface EditUserProps {
+  onClickEditUser: () => void;
+}
 export interface ModalProps {
   children: any;
   _handleModal: any;

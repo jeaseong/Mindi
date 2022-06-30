@@ -20,3 +20,12 @@ export interface DiaryInfo {
 export interface diary {
   diary: string;
 }
+
+export interface VerifyEmail {
+  email: string;
+}
+
+export interface UserInfo {
+  name: string;
+  password: string;
+}

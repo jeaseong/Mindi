@@ -54,6 +54,12 @@ export const theme: DefaultTheme = {
     errorAlert: '#d94a48',
     postingGreen: '#f1ffde',
     postingRed: '#FFDBDB',
+    happiness: '#ffe981',
+    anger: '#ff555e',
+    anersion: '#8bf18b',
+    sadness: '#83b2ff',
+    fear: '#ff8650',
+    surprised: '#9b6ef3',
   },
 };
 

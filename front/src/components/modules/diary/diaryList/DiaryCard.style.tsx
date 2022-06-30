@@ -21,6 +21,7 @@ export const PreviewPost = styled.div<CardProps>`
   width: 100%;
   height: 144px;
   padding: 10px;
+  margin-top: 10px;
   line-height: 22px;
   background-color: ${(props) => {
     return props.bgImg ? '#fff4cb' : '#fff4cb';

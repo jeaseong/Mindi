@@ -12,33 +12,37 @@ export default (app: Router) => {
 
   app.use("/users", userRouter);
 
-  userRouter.get("/", checkAuth, async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const userId = <string>req.user!._id;
+  userRouter.get(
+    "/",
+    checkAuth,
+    async (req: Request, res: Response, next: NextFunction) => {
+      try {
+        const userId = <string>req.user!._id;
 
-      const userService = Container.get(UserService);
-      const user = await userService.getUserInfo(userId);
+        const userService = Container.get(UserService);
+        const user = await userService.getUserInfo(userId);
 
-      const response: IResponse<IUser> = {
-        success: true,
-        result: {
-          _id: user!._id,
-          email: user!.email,
-          name: user!.name,
-          recentLogin: user!.recentLogin,
-        },
-      };
+        const response: IResponse<IUser> = {
+          success: true,
+          result: {
+            _id: user!._id,
+            email: user!.email,
+            name: user!.name,
+            recentLogin: user!.recentLogin,
+          },
+        };
 
-      res.status(200).json(response);
-    } catch (error) {
-      next(error);
-    }
+        res.status(200).json(response);
+      } catch (error) {
+        next(error);
+      }
   });
 
   userRouter.put(
     "/",
     checkAuth,
     userValidator.userUpdateBody,
+    validationErrorChecker,
     async (req: Request, res: Response, next: NextFunction) => {
       try {
         const userId = <string>req.user!._id;

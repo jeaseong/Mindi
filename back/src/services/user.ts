@@ -44,9 +44,7 @@ export default class UserService {
 
     if (fieldToUpdate.hasOwnProperty("password")) {
       // 비밀번호 해시화
-      console.log(fieldToUpdate.password);
       fieldToUpdate.password = await bcrypt.hash(fieldToUpdate.password!, 10);
-      console.log(fieldToUpdate.password);
     }
 
     return this.userModel.update({ _id: userId }, fieldToUpdate);

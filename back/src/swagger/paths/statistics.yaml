@@ -2,6 +2,8 @@ Post:
   tags:
     - statistics
   summary: 통계 결과를 생성합니다.
+  security:
+    - BearerAuth: []
   parameters:
     - in: query
       name: year
@@ -30,6 +32,8 @@ Delete:
   tags:
     - statistics
   summary: 통계 결과를 삭제합니다.
+  security:
+    - BearerAuth: []
   parameters:
     - in: path
       name: id
@@ -54,6 +58,8 @@ Get:
   tags:
     - statistics
   summary: 통계 결과를 반환합니다.
+  security:
+    - BearerAuth: []
   parameters:
     - in: query
       name: year
@@ -76,4 +82,4 @@ Get:
             $ref: "../components/responses/statistics.yaml#/post"
           examples:
             get:
-              $ref: "../components/examples/statistics.yaml#/get"
+              $ref: "../components/examples/statistics.yaml#/post"

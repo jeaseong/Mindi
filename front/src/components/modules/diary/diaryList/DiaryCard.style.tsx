@@ -1,11 +1,10 @@
-import { NONAME } from 'dns';
 import styled from 'styled-components';
 import { CardProps } from 'types/atoms';
 
 export const DiaryPosts = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 10px;
+  gap: 20px;
   ${({ theme }) => theme.media.tablet`
     grid-template-columns: 1fr 1fr 1fr;
   `}
@@ -15,6 +14,12 @@ export const DiaryPost = styled.article`
   height: 200px;
   padding: 8px;
   border: 1px solid black;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  &:hover {
+    transform: scale(1.1);
+  }
+  background-color: transparent;
 `;
 
 export const PreviewPost = styled.div<CardProps>`
@@ -23,6 +28,8 @@ export const PreviewPost = styled.div<CardProps>`
   padding: 10px;
   margin-top: 10px;
   line-height: 22px;
+  white-space: pre-wrap;
+  word-break: break-all;
   background-color: ${(props) => {
     return props.bgImg ? '#fff4cb' : '#fff4cb';
   }};

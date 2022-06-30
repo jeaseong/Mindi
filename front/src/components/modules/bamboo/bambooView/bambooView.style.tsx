@@ -74,6 +74,8 @@ export const CommentLine = styled.hr`
 export const CommentText = styled.div`
   height: 170px;
   margin-top: 3px;
+  display: block;
+  overflow: auto;
 `;
 
 export const CommentInput = styled.textarea`

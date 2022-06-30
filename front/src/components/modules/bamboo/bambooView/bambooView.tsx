@@ -8,16 +8,13 @@ import {
   ViewText,
   TextWrapper,
   Line,
-  CommentWrapper,
-  CommentTitle,
-  CommentLine,
-  CommentText,
-  CommentInput,
-  CommentButton,
 } from './bambooView.style';
 import { IoMdClose } from 'react-icons/io';
+import Comment from '../comment/commentForm';
 
 function BambooView({ curItem, modalClose }: any) {
+  // console.log(curItem);
+
   return (
     <>
       <CloseArea>
@@ -32,14 +29,7 @@ function BambooView({ curItem, modalClose }: any) {
         <TextWrapper>
           <ViewText>{curItem['content']}</ViewText>
         </TextWrapper>
-        <CommentWrapper>
-          <CommentTitle>Comments</CommentTitle>
-          <CommentLine />
-          <CommentText></CommentText>
-        </CommentWrapper>
-        <Line />
-        <CommentInput />
-        <CommentButton>댓글 달기</CommentButton>
+        <Comment postId={curItem['_id']} />
       </ContentWrapper>
     </>
   );

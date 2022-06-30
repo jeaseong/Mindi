@@ -12,6 +12,7 @@ export const AuthContainer = styled.form`
 export const InputBox = styled.div`
   width: 80%;
   min-height: 55px;
+  position: relative;
 `;
 
 export const NavUser = styled.div`
@@ -28,5 +29,19 @@ export const NavUser = styled.div`
     &:hover {
       color: #000000;
     }
+  }
+`;
+
+export const CheckBtn = styled.button`
+  border: none;
+  cursor: pointer;
+  color: ${(props) => props.theme.colors.basicBlack};
+  background-color: transparent;
+  font-size: 14px;
+  position: absolute;
+  right: 10px;
+  top: 9px;
+  &:disabled {
+    opacity: 0.4;
   }
 `;

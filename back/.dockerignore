@@ -1,0 +1,5 @@
+node_modules
+*.http
+.gitignore
+*.md
+npm-debug.log

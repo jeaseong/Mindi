@@ -79,7 +79,7 @@ export const HEADER_LINK = {
   },
   NOTICE_BOARD: {
     label: '대나무숲',
-    link: '/notice-board',
+    link: 'bamboo-grove',
   },
   INTRODUCTION: {
     label: '서비스 소개',

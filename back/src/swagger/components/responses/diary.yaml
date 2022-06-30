@@ -1,0 +1,91 @@
+post:
+  type: object
+  properties:
+    success:
+      type: boolean
+    result:
+      type: object
+      required:
+        - _id
+        - userId
+        - diary
+        - feeling
+        - sentiment
+        - diaryDate
+      properties:
+        _id:
+          type: string
+        userId:
+          type: string
+        diary:
+          type: string
+        feeling:
+          type: string
+        sentiment:
+          type: object
+          properties:
+            fear:
+              type: integer
+            surprised:
+              type: integer
+            anger:
+              type: integer
+            sadness:
+              type: integer
+            happiness:
+              type: integer
+            aversion:
+              type: integer
+        diaryDate:
+          type: string
+        imageFileName:
+          type: string
+        imageFilePath:
+          type: string
+
+getAList:
+  type: object
+  properties:
+    success:
+      type: boolean
+    result:
+      type: array
+      items:
+        types: object
+        required:
+          - _id
+          - userId
+          - diary
+          - feeling
+          - sentiment
+          - diaryDate
+        properties:
+          _id:
+            type: string
+          userId:
+            type: string
+          diary:
+            type: string
+          feeling:
+            type: string
+          sentiment:
+            type: object
+            properties:
+              fear:
+                type: integer
+              surprised:
+                type: integer
+              anger:
+                type: integer
+              sadness:
+                type: integer
+              happiness:
+                type: integer
+              aversion:
+                type: integer
+          diaryDate:
+            type: string
+          imageFileName:
+            type: string
+          imageFilePath:
+            type: string

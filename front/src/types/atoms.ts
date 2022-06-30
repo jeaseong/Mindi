@@ -150,7 +150,6 @@ export interface CalenderBodyProps {
   totalDate: string[][];
   onSetDay: (d: number) => void;
 }
-
 // statics type
 export type EmotionType = {
   fear: number;
@@ -178,4 +177,9 @@ export interface UserType {
 
 export interface EditUserProps {
   onClickEditUser: () => void;
+}
+export interface ModalProps {
+  children: any;
+  _handleModal: any;
+  onClick?: (e: React.MouseEvent<HTMLSpanElement>) => void;
 }

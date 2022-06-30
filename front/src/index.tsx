@@ -24,19 +24,19 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
 );
 root.render(
-  <React.StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <ThemeProvider theme={theme}>
-        <BrowserRouter>
-          <SnackbarProvider>
-            <GlobalStyles />
-            <App />
-          </SnackbarProvider>
-        </BrowserRouter>
-      </ThemeProvider>
-      <ReactQueryDevtools initialIsOpen={false} />
-    </QueryClientProvider>
-  </React.StrictMode>,
+  // <React.StrictMode>
+  <QueryClientProvider client={queryClient}>
+    <ThemeProvider theme={theme}>
+      <BrowserRouter>
+        <SnackbarProvider>
+          <GlobalStyles />
+          <App />
+        </SnackbarProvider>
+      </BrowserRouter>
+    </ThemeProvider>
+    <ReactQueryDevtools initialIsOpen={false} />
+  </QueryClientProvider>,
+  // </React.StrictMode>,
 );
 
 // If you want to start measuring performance in your app, pass a function

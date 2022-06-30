@@ -46,3 +46,12 @@ export const selectSentimentNames = (sentimentData: EmotionType) => {
     return sentimentNames;
   }
 };
+
+//yyyy.mm.dd.형식으로 바꾸기
+export const getCustomizedDate = (date: any) => {
+  const month = ('0' + (date.getMonth() + 1)).slice(-2);
+  const year = date.getFullYear();
+  const day = ('0' + date.getDate()).slice(-2);
+
+  return year + '. ' + month + '. ' + day + '. ';
+};

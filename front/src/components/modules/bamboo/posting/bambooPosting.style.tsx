@@ -49,6 +49,7 @@ export const TitleInput = styled.input`
 `;
 
 export const TextInput = styled.textarea`
+  resize: none;
   margin-top: 1rem;
   width: auto;
   height: 500px;

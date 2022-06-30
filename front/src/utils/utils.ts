@@ -55,3 +55,20 @@ export const getCustomizedDate = (date: any) => {
 
   return year + '. ' + month + '. ' + day + '. ';
 };
+
+const dateToString = (d: number) => {
+  return d >= 10 ? `${d}` : `0${d}`;
+};
+
+export const convertUtcToKst = (utc: Date) => {
+  const date = new Date(utc);
+  const year = `${date.getFullYear()}`;
+  const month = dateToString(date.getMonth() + 1);
+  const day = dateToString(date.getDate());
+  return [year, month, day].join('-');
+};
+
+export const convertToUtc = (date: string) => {
+  const localDate = new Date(date).toISOString();
+  console.log(localDate);
+};

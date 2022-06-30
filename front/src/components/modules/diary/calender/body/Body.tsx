@@ -1,7 +1,11 @@
 import React from 'react';
 import { useQueryClient } from 'react-query';
 import { CalenderBodyProps } from 'types/atoms';
-import { selectMaxSentiment, getDateForString } from 'utils/utils';
+import {
+  selectMaxSentiment,
+  getDateForString,
+  convertUtcToKst,
+} from 'utils/utils';
 import { Container, Days, Day, Span } from './Body.style';
 function Body({ totalDate, year, month, TODAY, onSetDay }: CalenderBodyProps) {
   const queryClient = useQueryClient();
@@ -19,8 +23,12 @@ function Body({ totalDate, year, month, TODAY, onSetDay }: CalenderBodyProps) {
               const curKey = `${year}-${month >= 10 ? month : `0${month}`}-${
                 +day >= 10 ? day : `0${day}`
               }`;
+
               let sentiment;
-              if (diary && curKey === diary[count]?.diaryDate) {
+              if (
+                diary &&
+                curKey === convertUtcToKst(diary[count]?.diaryDate)
+              ) {
                 sentiment = selectMaxSentiment(diary[count--]?.sentiment);
               } else {
                 sentiment = 'none';

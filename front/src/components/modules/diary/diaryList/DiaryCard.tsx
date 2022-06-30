@@ -1,7 +1,7 @@
 import React from 'react';
 import { useQueryClient } from 'react-query';
 import SubTitle from 'components/atoms/text/SubTitle';
-import { getDateForString } from 'utils/utils';
+import { getDateForString, convertUtcToKst } from 'utils/utils';
 import { ListProps } from 'types/atoms';
 import { DiaryPosts, DiaryPost, PreviewPost } from './DiaryCard.style';
 
@@ -13,7 +13,7 @@ function DiaryCard({ year, month }: ListProps) {
     <DiaryPosts>
       {diaries?.map((d: any, index: number) => (
         <DiaryPost key={d._id}>
-          <SubTitle>{d.diaryDate}</SubTitle>
+          <SubTitle>{convertUtcToKst(d.diaryDate)}</SubTitle>
           <PreviewPost bgImg={d?.imageFilePath}>{d.feeling}</PreviewPost>
         </DiaryPost>
       ))}

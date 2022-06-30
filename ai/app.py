@@ -4,10 +4,16 @@ from predict_sentence import predict_sentiment
 from extract_keyword import textrank_keyword
 from music_recommend import recommend_music, get_search_response, get_video_info
 
-
 app = Flask(__name__)
 CORS(app)
 app.config['JSON_SORT_KEYS'] = False
+
+@app.errorhandler(KeyError)
+def handler_key_error(err):
+    return_data = {
+        'massage': f'KEY_ERROR: {err} 값을 가져오는데 문제가 발생하였습니다.'
+    }
+    return return_data, 400
 
 @app.route('/')
 def main():
@@ -37,7 +43,7 @@ def result_page():
     
     search_response = get_search_response(artist, track)
     videoId = get_video_info(search_response)
-    print(videoId)
+    print("videoId", videoId)
     return_data = {
         'success': 'true',
         'result': {

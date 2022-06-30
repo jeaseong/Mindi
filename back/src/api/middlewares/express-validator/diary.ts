@@ -4,14 +4,14 @@ import dayjs from "dayjs";
 export default {
   diaryBody: [
     body("diary")
-      .isLength({ min: 50 }) //TODO: 몇 자 이상 작성하라고 하지?
-      .withMessage("오늘의 일기를 50자 이상 작성해주세요.")
+      .isLength({ min: 10 }) //TODO: 몇 자 이상 작성하라고 하지?
+      .withMessage("오늘의 일기를 10자 이상 작성해주세요.")
       .bail()
       .isString()
       .bail(),
     body("feeling")
-      .isLength({ min: 50 })
-      .withMessage("오늘의 감정을 50자 이상 작성해주세요.")
+      .isLength({ min: 10 })
+      .withMessage("오늘의 감정을 10자 이상 작성해주세요.")
       .bail()
       .isString()
       .bail(),

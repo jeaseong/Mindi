@@ -76,6 +76,14 @@ export const HEADER_LINK = {
     label: '서비스 소개',
     link: 'introduction',
   },
+  SIGNIN: {
+    label: '로그인',
+    link: 'sign-in',
+  },
+  SIGNUP: {
+    label: '회원가입',
+    link: 'sign-up',
+  },
 };
 
 export const DATE = {

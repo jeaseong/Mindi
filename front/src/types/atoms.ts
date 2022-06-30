@@ -1,3 +1,7 @@
+export interface HeaderProps {
+  isLogin: boolean;
+}
+
 export interface BtnProps {
   children?: React.ReactNode;
   size?: string;

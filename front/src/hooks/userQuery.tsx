@@ -4,17 +4,18 @@ import { signInPost, getCurUser } from 'api/api';
 import { SignInInfo } from 'types/apiType';
 
 export const useCurUser = () => {
-  const { isFetching, isLoading, data, error } = useQuery(
+  const { isFetching, data, error, isLoading } = useQuery(
     'userState',
     async () => await getCurUser(),
     {
       staleTime: Infinity,
+      retry: false,
       onError: (error) => {
         console.log('에러 경우에 따라 다른 스낵바를 보여줘야겠다.', error);
       },
     },
   );
-  return { userState: data, isLogin: !!data, isFetching, isLoading, error };
+  return { userState: data, isLogin: !!data, isFetching, error, isLoading };
 };
 
 export const useSignInHandler = (

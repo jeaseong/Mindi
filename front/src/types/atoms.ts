@@ -143,8 +143,6 @@ export interface CalenderBodyProps {
   totalDate: string[][];
   onSetDay: (d: number) => void;
 }
-
-<<<<<<< HEAD
 // statics type
 export type EmotionType = {
   fear: number;
@@ -161,10 +159,10 @@ export interface EmotionProps {
 
 export interface KeywordsProps {
   keywords: string[];
-=======
+}
+
 export interface ModalProps {
   children: any;
   _handleModal: any;
   onClick?: (e: React.MouseEvent<HTMLSpanElement>) => void;
->>>>>>> bamboo-front
 }

@@ -20,7 +20,7 @@ function EditDiary() {
   const { diaryDate } = useParams<{ diaryDate: string }>();
   const { openSnackBar } = useSnackbarContext();
   const putDiary = useEditDiary(openSnackBar, diaryDate as string);
-  const { diary, isLoading } = useGetDiaryList(diaryDate as string);
+  const { diary, isLoading } = useGetDiaryList(diaryDate as string, 'day');
   const [isLoader, setIsLoader] = useState(false);
   const [simpleDiary, setSimpleDiary] = useState<string>('');
   const [mindDiary, setMindDiary] = useState<string>('');

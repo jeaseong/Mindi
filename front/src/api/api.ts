@@ -65,8 +65,13 @@ export const getDiaryList = async (
   year: string,
   month: string,
   day: string,
+  type: string,
 ) => {
-  const apiUrl = `api/diaries?year=${year}&month=${month}&day=${day}`;
+  let apiUrl;
+  if (type === 'year') apiUrl = `api/diaries?year=${year}`;
+  else if (type === 'month') apiUrl = `api/diaries?year=${year}&month=${month}`;
+  else apiUrl = `api/diaries?year=${year}&month=${month}&day=${day}`;
+
   const { data } = await Axios.get(apiUrl);
   return data.result;
 };

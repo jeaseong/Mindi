@@ -92,7 +92,13 @@ function RoutePage({ isLogin, isFetching }: RouterPros) {
           />
           <Route
             path='/bamboo-grove'
-            element={<PrivateRoute user={isLogin} component={<Bamboo />} />}
+            element={
+              <PrivateRoute
+                isLogin={isLogin}
+                isFetching={isFetching}
+                component={<Bamboo />}
+              />
+            }
           />
           <Route path='/ei-test' element={<EITest />} />
           <Route path='/ei-test/result' element={<EITestResult />} />

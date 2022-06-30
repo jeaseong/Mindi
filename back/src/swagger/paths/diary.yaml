@@ -94,7 +94,7 @@ GetAList:
       name: day
       schema:
         type: string
-        example: "21"
+        example: "16"
       description: (Optional) 일을 나타냅니다. 형식은 "DD"입니다.
   responses:
     "200":

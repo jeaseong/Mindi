@@ -13,13 +13,6 @@ describe("Diary Service Test", () => {
     });
   });
 
-  it("update a diary", async () => {
-    expect(await diaryService.updateOne(mockObjectId, mockDiary)).toEqual({
-      _id: mockObjectId,
-      ...mockDiary,
-    });
-  });
-
   it("delete a diary", async () => {
     expect(await diaryService.deleteOne(mockObjectId)).toEqual(void {});
   });

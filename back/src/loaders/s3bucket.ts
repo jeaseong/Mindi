@@ -1,7 +1,7 @@
 import { S3 } from "@aws-sdk/client-s3";
 import config from "../config";
 
-let s3bucket = new S3({
+export default new S3({
   endpoint: config.s3Endpoint as string,
   region: config.s3region,
   credentials: {
@@ -9,5 +9,3 @@ let s3bucket = new S3({
     secretAccessKey: config.s3SecretKey as string,
   },
 });
-
-export { s3bucket };

@@ -12,7 +12,7 @@ async function appStart() {
 
   await loader({ expressApp: app });
 
-  logger.info("NODE_ENV:", process.env.NODE_ENV);
+  logger.info(`NODE_ENV: ${config.nodeEnv}`);
   const server = app.listen(config.port, () => {
     logger.info(`
             Mindi API Server

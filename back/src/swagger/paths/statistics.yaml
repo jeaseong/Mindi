@@ -30,18 +30,12 @@ Delete:
   tags:
     - statistics
   summary: 통계 결과를 삭제합니다.
-  requestBody:
-    required: true
-    content:
-      application/json:
-        schema:
-          type: object
-          required:
-            - _id
-          properties:
-            _id:
-              type: string
-              description: 통계 결과의 object ID가 들어갑니다. 수정이 불가능한 속성입니다.
+  parameters:
+    - in: path
+      name: id
+      schema:
+        type: string
+      description: 통계 결과의 object ID가 들어갑니다.
   responses:
     "200":
       content:

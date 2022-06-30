@@ -3,12 +3,8 @@ import { StatusError } from "../../utils";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import config from "../../config";
 import logger from "../../loaders/winston";
-// import passport from "../middlewares/passport";
 
 function checkAuth(req: Request, res: Response, next: NextFunction) {
-  // const passportInstance = passport();
-  // return passportInstance.authenticate("jwtStrategy", { session: false })(req, res, next);
-
   const token = req.headers["authorization"]?.split(" ")[1];
 
   if (token === undefined) {

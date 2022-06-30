@@ -9,7 +9,14 @@ import { HeaderContainer, Nav, NavItem } from './Header.style';
 function Header({ isLogin }: HeaderProps) {
   return (
     <HeaderContainer>
-      <Image src={IMAGE.AUTH_LOGO.url} alt={IMAGE.AUTH_LOGO.alt} width='60px' />
+      <Link to={HEADER_LINK.MAIN.link}>
+        <Image
+          src={IMAGE.AUTH_LOGO.url}
+          alt={IMAGE.AUTH_LOGO.alt}
+          width='60px'
+        />
+      </Link>
+
       <Nav>
         <NavItem>
           <Link to={HEADER_LINK.DIARY.link}>{HEADER_LINK.DIARY.label}</Link>

@@ -69,6 +69,10 @@ export const ALERT_MESSAGE = {
 };
 
 export const HEADER_LINK = {
+  MAIN: {
+    label: 'home',
+    link: '/main',
+  },
   DIARY: {
     label: '일기장',
     link: '/diary',

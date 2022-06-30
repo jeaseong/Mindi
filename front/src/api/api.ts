@@ -1,9 +1,21 @@
 import { AxiosFile, Axios } from 'api/costomAxios';
-import { SignUpInfo, SignInInfo, diary } from 'types/apiType';
+import {
+  SignUpInfo,
+  SignInInfo,
+  diary,
+  VerifyEmail,
+  UserInfo,
+} from 'types/apiType';
 
 export const signUpPost = async (userInfo: SignUpInfo) => {
   const apiUrl = `api/auth/local/sign-up`;
   await Axios.post(apiUrl, userInfo);
+};
+
+export const signUpVerify = async (email: VerifyEmail) => {
+  const apiUrl = `api/auth/local/sign-up/mail`;
+  const { data } = await Axios.post(apiUrl, email);
+  return data.result;
 };
 
 export const signInPost = async (userInfo: SignInInfo) => {
@@ -16,6 +28,21 @@ export const getCurUser = async () => {
   const apiUrl = `api/users`;
   const { data } = await Axios.get(apiUrl);
   return data.result;
+};
+
+export const deleteCurUser = async () => {
+  const apiUrl = `api/users`;
+  await Axios.delete(apiUrl);
+};
+
+export const EditCurUser = async (userInfo: UserInfo) => {
+  const apiUrl = `api/users`;
+  await Axios.put(apiUrl, userInfo);
+};
+
+export const resetPassword = async (email: VerifyEmail) => {
+  const apiUrl = `api/users/password-reset`;
+  await Axios.post(apiUrl, email);
 };
 
 export const postDiaryPosting = async (diaryData: any) => {

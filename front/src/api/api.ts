@@ -92,7 +92,7 @@ export const postBambooPosting = async (bambooData: any) => {
   await Axios.post(apiUrl, bambooData);
 };
 
-export const getBambooList = async (pageParam: any) => {
+export const getBambooList = async (pageParam: number) => {
   const apiUrl = `api/posts?page=${pageParam}&limit=6`;
   const { data } = await Axios.get(apiUrl);
   return data.result;
@@ -103,29 +103,29 @@ export const delStatics = async () => {
   await Axios.delete(apiUrl);
 };
 
-export const getBambooDetail = async (postId: any) => {
+export const getBambooDetail = async (postId: string) => {
   const apiUrl = `api/posts?${postId}`;
   const { data } = await Axios.get(apiUrl);
   return data.result;
 };
 
-export const postComment = async (postId: any, content: any) => {
+export const postComment = async (postId: string, content: any) => {
   const apiUrl = `api/posts/comments/${postId}`;
   await Axios.post(apiUrl, content);
 };
 
-export const getCommentList = async (postId: any) => {
+export const getCommentList = async (postId: string) => {
   const apiUrl = `api/posts/comments/${postId}?page=1&limit=10000`;
   const { data } = await Axios.get(apiUrl);
   return data.result;
 };
 
-export const deleteComment = async (commentId: any) => {
+export const deleteComment = async (commentId: string) => {
   const apiUrl = `api/posts/comments/${commentId}`;
   await Axios.delete(apiUrl);
 };
 
-export const putComment = async (commentId: any, content: any) => {
+export const putComment = async (commentId: string, content: any) => {
   const apiUrl = `api/posts/comments/${commentId}`;
   await Axios.put(apiUrl, content);
 };

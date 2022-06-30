@@ -50,7 +50,7 @@ export default class StatService {
         ...newStat,
         monthly: dayjs(date).toDate(),
         emotions: myEmotion,
-        reminder,
+        reminder: reminder.slice(0, 5),
       };
 
       const createdNewDoc = await this.statModel.create(newResult);

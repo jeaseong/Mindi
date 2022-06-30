@@ -45,7 +45,9 @@ function SignIn() {
       />
       <NavUser>
         <Link to={HEADER_LINK.SIGNUP.link}>{LABEL.SIGNUP.comment}</Link>
-        <Link to={HEADER_LINK.SIGNUP.link}>{LABEL.PASSWORD_RESET.label}</Link>
+        <Link to={HEADER_LINK.PASSWORD_RESET.link}>
+          {LABEL.PASSWORD_RESET.label}
+        </Link>
       </NavUser>
       <Button disabled={!isCheck} type='submit'>
         {LABEL.SIGNIN.label}

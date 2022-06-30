@@ -20,7 +20,7 @@ function RoutePage({ isLogin, isFetching }: RouterPros) {
   const location = useLocation();
   return (
     <>
-      <Header />
+      <Header isLogin={isLogin} />
       <AnimatePresence>
         <Routes location={location} key={location.pathname}>
           <Route path='/sign-in' element={<SignIn />} />

@@ -94,13 +94,9 @@ export default (app: Router) => {
         const { userInfo, tempPassword } = await userService.resetPassword(email);
         await userService.sendMail(userInfo!.email, userInfo!.name, tempPassword);
 
-        const response: IResponse<IUser> = {
+        const response: IResponse<string> = {
           success: true,
-          result: {
-            _id: userInfo!._id,
-            email: userInfo!.email,
-            name: userInfo!.name,
-          },
+          result: "임시 비밀번호가 발급되었습니다.",
         };
 
         res.status(200).send(response);

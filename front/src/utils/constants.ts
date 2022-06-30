@@ -20,6 +20,10 @@ export const LABEL = {
     label: 'email',
     value: 'email',
   },
+  VERIFY: {
+    label: 'verify code',
+    value: 'verify code',
+  },
   PASSWORD: {
     label: 'password',
     value: 'password',
@@ -88,6 +92,14 @@ export const HEADER_LINK = {
   SIGNUP: {
     label: '회원가입',
     link: '/sign-up',
+  },
+  USER: {
+    label: '마이페이지',
+    link: '/mypage',
+  },
+  PASSWORD_RESET: {
+    label: '비밀번호 찾기',
+    link: '/password-reset',
   },
 };
 

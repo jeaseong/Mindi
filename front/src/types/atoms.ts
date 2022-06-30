@@ -15,6 +15,7 @@ export type TextProps = {
   align?: string;
   size?: string;
   background?: boolean;
+  bold?: boolean;
 };
 
 export type TextAreaProps = {
@@ -36,6 +37,8 @@ export type InputProps = {
   placeholder: string;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   required?: boolean;
+  disabled?: boolean;
+  value?: string;
 };
 
 export type SnackbarType = 'sucessAlert' | 'errorAlert';
@@ -164,4 +167,15 @@ export interface EmotionProps {
 
 export interface KeywordsProps {
   keywords: string[];
+}
+
+export interface UserType {
+  _id: string;
+  email: string;
+  name: string;
+  recentLogin: string;
+}
+
+export interface EditUserProps {
+  onClickEditUser: () => void;
 }

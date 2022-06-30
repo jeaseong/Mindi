@@ -6,7 +6,7 @@ import { SignUpVType, SignInVType } from 'types/validation';
  * @returns {boolean}을 반환합니다.
  */
 
-const emailValidate = (email: string) => {
+export const emailValidate = (email: string) => {
   const emailRule =
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   return emailRule.test(email);
@@ -18,7 +18,7 @@ const emailValidate = (email: string) => {
  * @returns boolean ;
  * 비밀번호는 문자 + 숫자 + 8자리
  */
-const passwordValidate = (password: string): boolean => {
+export const passwordValidate = (password: string): boolean => {
   const passwordRule = /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,25}$/;
   return passwordRule.test(password);
 };
@@ -30,9 +30,13 @@ const isSamePasswordValidate = (
   return password === passwordConfirm;
 };
 
+export const nameValidate = (name: string) => {
+  return name.length >= 2;
+};
+
 export const signUpValidation = (info: SignUpVType) => {
   const { name, email, password, confirmPassword } = info;
-  const isCheckName = name.length >= 2;
+  const isCheckName = nameValidate(name);
   const isCheckEmail = emailValidate(email);
   const isCheckPassword = passwordValidate(password);
   const isSamePassword = isSamePasswordValidate(password, confirmPassword);

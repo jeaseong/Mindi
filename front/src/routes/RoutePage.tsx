@@ -4,6 +4,8 @@ import PrivateRoute from './PrivateRoute';
 import Header from 'components/modules/header/Header';
 import SignIn from 'pages/User/SignIn';
 import SignUp from 'pages/User/SignUp';
+import Password from 'pages/User/Password';
+import Mypage from 'pages/User/Mypage';
 import Diary from 'pages/Diary/Diary';
 import Posting from 'pages/Diary/Posting';
 import Edit from 'pages/Diary/Edit';
@@ -25,6 +27,17 @@ function RoutePage({ isLogin, isFetching }: RouterPros) {
         <Routes location={location} key={location.pathname}>
           <Route path='/sign-in' element={<SignIn />} />
           <Route path='/sign-up' element={<SignUp />} />
+          <Route path='/password-reset' element={<Password />} />
+          <Route
+            path='/mypage'
+            element={
+              <PrivateRoute
+                isLogin={isLogin}
+                isFetching={isFetching}
+                component={<Mypage />}
+              />
+            }
+          />
           <Route
             path='/diary'
             element={

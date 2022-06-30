@@ -31,13 +31,6 @@ export const NavItem = styled.span`
   `}
 `;
 
-export const UserItem = styled(NavItem)`
-  font-size: 10px;
-  position: absolute;
-  top: 10px;
-  right: 10px;
-`;
-
 export const LogOut = styled.p`
   cursor: pointer;
 `;

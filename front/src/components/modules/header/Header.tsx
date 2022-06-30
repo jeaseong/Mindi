@@ -6,21 +6,15 @@ import { IMAGE } from 'utils/image';
 import { useSnackbarContext } from 'contexts/SnackbarContext';
 import { HEADER_LINK } from 'utils/constants';
 import { HeaderProps } from 'types/atoms';
-import {
-  HeaderContainer,
-  Nav,
-  NavItem,
-  UserItem,
-  LogOut,
-} from './Header.style';
+import { HeaderContainer, Nav, NavItem, LogOut } from './Header.style';
 
 function Header({ isLogin }: HeaderProps) {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { openSnackBar } = useSnackbarContext();
-  const onClickLogOut = () => {
+  const onClickLogOut = async () => {
     sessionStorage.removeItem('userToken');
-    queryClient.invalidateQueries('userState');
+    await queryClient.resetQueries('userState', { exact: true });
     openSnackBar(true, '로그아웃 되었습니다.');
     navigate('/sign-in');
   };
@@ -45,14 +39,14 @@ function Header({ isLogin }: HeaderProps) {
             {HEADER_LINK.INTRODUCTION.label}
           </Link>
         </NavItem>
+        <NavItem>
+          {!isLogin ? (
+            <Link to={HEADER_LINK.SIGNIN.link}>로그인</Link>
+          ) : (
+            <LogOut onClick={onClickLogOut}>로그아웃</LogOut>
+          )}
+        </NavItem>
       </Nav>
-      <UserItem>
-        {!isLogin ? (
-          <Link to={HEADER_LINK.SIGNIN.link}>로그인</Link>
-        ) : (
-          <LogOut onClick={onClickLogOut}>로그아웃</LogOut>
-        )}
-      </UserItem>
     </HeaderContainer>
   );
 }

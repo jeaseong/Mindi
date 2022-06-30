@@ -6,6 +6,11 @@ export const LABEL = {
   SIGNUP: {
     label: '회원가입',
     value: 'signUp',
+    comment: '아직 회원이 아니신가요?',
+  },
+  PASSWORD_RESET: {
+    label: '비밀번호 찾기',
+    value: 'password-reset',
   },
   NAME: {
     label: 'name',
@@ -62,27 +67,27 @@ export const ALERT_MESSAGE = {
 export const HEADER_LINK = {
   DIARY: {
     label: '일기장',
-    link: 'diary',
+    link: '/diary',
   },
   STATIC: {
     label: '감정통계',
-    link: 'static',
+    link: '/static',
   },
   NOTICE_BOARD: {
     label: '대나무숲',
-    link: 'notice-board',
+    link: '/notice-board',
   },
   INTRODUCTION: {
     label: '서비스 소개',
-    link: 'introduction',
+    link: '/introduction',
   },
   SIGNIN: {
     label: '로그인',
-    link: 'sign-in',
+    link: '/sign-in',
   },
   SIGNUP: {
     label: '회원가입',
-    link: 'sign-up',
+    link: '/sign-up',
   },
 };
 

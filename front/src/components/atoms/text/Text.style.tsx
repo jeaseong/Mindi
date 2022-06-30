@@ -3,7 +3,7 @@ import { TextProps } from 'types/atoms';
 
 export const Span = styled.p<TextProps>`
   padding: 0;
-  margin: 5px 0 0;
+  width: 100%;
   font-size: ${(props) => {
     switch (props.size) {
       case 'sm':

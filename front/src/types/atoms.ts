@@ -10,6 +10,7 @@ export type TextProps = {
   children: React.ReactNode;
   align?: string;
   size?: string;
+  background?: boolean;
 };
 
 export type TextAreaProps = {
@@ -141,4 +142,22 @@ export interface CalenderBodyProps {
   TODAY: string;
   totalDate: string[][];
   onSetDay: (d: number) => void;
+}
+
+// statics type
+export type EmotionType = {
+  fear: number;
+  surprised: number;
+  anger: number;
+  sadness: number;
+  happiness: number;
+  aversion: number;
+};
+
+export interface EmotionProps {
+  emotion: EmotionType;
+}
+
+export interface KeywordsProps {
+  keywords: string[];
 }

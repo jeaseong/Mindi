@@ -8,6 +8,7 @@ import Diary from 'pages/Diary/Diary';
 import Posting from 'pages/Diary/Posting';
 import Edit from 'pages/Diary/Edit';
 import ResultTemplate from 'components/templates/diary/result/ResultTemplate';
+import Static from 'pages/Static/Static';
 import EITest from 'pages/EITest/EITest';
 import EITestResult from 'components/modules/EITest/EITestResult';
 import Main1 from 'components/modules/main/Main1';
@@ -61,6 +62,16 @@ function RoutePage({ isLogin, isFetching }: RouterPros) {
                 isLogin={isLogin}
                 isFetching={isFetching}
                 component={<ResultTemplate />}
+              />
+            }
+          />
+          <Route
+            path='/static'
+            element={
+              <PrivateRoute
+                isLogin={isLogin}
+                isFetching={isFetching}
+                component={<Static />}
               />
             }
           />

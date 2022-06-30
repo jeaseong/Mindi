@@ -15,9 +15,9 @@ function Calender({ onSetDay, onChangeMonth, month, year }: CalenderProps) {
   useEffect(() => {
     // makeCalenderDate
     // 이번 달의 1일이 무슨 요일
-    const firstDay = new Date(year, month, 1).getDay();
+    const firstDay = new Date(year, month - 1, 1).getDay();
     //이번 달 길이
-    const nowDayLength = new Date(year, month + 1, 0).getDate();
+    const nowDayLength = new Date(year, month, 0).getDate();
     // 이번 달은 몇 주
     const weekLength = Math.ceil((nowDayLength - (6 - firstDay + 1)) / 7) + 1;
 

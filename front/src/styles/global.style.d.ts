@@ -29,6 +29,12 @@ declare module 'styled-components' {
       errorAlert: string;
       postingGreen: string;
       postingRed: string;
+      happiness: string;
+      anger: string;
+      anersion: string;
+      sadness: string;
+      fear: string;
+      surprised: string;
     };
   }
 }

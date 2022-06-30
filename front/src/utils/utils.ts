@@ -1,4 +1,4 @@
-import { DateType, SentimentsType } from 'types/atoms';
+import { DateType, SentimentsType, EmotionType } from 'types/atoms';
 
 export const getCurDate = () => {
   return new Date(+new Date() + 3240 * 10000).toISOString().split('T')[0];
@@ -30,4 +30,19 @@ export const selectMaxSentiment = (sentiments: SentimentsType) => {
   const sorted = Object.entries(sentiments)?.sort((a, b) => b[1] - a[1]);
   if (sorted[0][1] === 0) return 'mixed';
   return sorted[0][0];
+};
+
+export const selectSentimentValues = (sentimentData: EmotionType) => {
+  if (sentimentData) {
+    const sentimentValues = Object.values(sentimentData);
+
+    return sentimentValues;
+  }
+};
+
+export const selectSentimentNames = (sentimentData: EmotionType) => {
+  if (sentimentData) {
+    const sentimentNames = Object.keys(sentimentData);
+    return sentimentNames;
+  }
 };

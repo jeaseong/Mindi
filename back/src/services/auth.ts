@@ -7,6 +7,7 @@ import config from "../config";
 import { MongoUserModel } from "../models/user";
 import winston from "winston";
 import transporter from "../loaders/smtpTransporter";
+import crypto from "crypto";
 
 @Service()
 export default class AuthService {
@@ -81,11 +82,13 @@ export default class AuthService {
     };
   }
 
-  public async sendMail(email: string, code: string) {
+  public async sendMail(email: string) {
+    const code = crypto.randomBytes(3).toString("hex");
     const mailOptions = await setSignUpMail(email, code);
     try {
       await transporter.sendMail(mailOptions);
       await transporter.close();
+      return code;
     } catch (error) {
       throw new StatusError(400, "이메일 전송에 실패하였습니다.");
     }

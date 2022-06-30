@@ -32,6 +32,7 @@ export const selectMaxSentiment = (sentiments: SentimentsType) => {
   return sorted[0][0];
 };
 
+<<<<<<< HEAD
 export const selectSentimentValues = (sentimentData: EmotionType) => {
   if (sentimentData) {
     const sentimentValues = Object.values(sentimentData);
@@ -45,4 +46,13 @@ export const selectSentimentNames = (sentimentData: EmotionType) => {
     const sentimentNames = Object.keys(sentimentData);
     return sentimentNames;
   }
+=======
+//yyyy.mm.dd.형식으로 바꾸기
+export const getCustomizedDate = (date: any) => {
+  const month = ('0' + (date.getMonth() + 1)).slice(-2);
+  const year = date.getFullYear();
+  const day = ('0' + date.getDate()).slice(-2);
+
+  return year + '. ' + month + '. ' + day + '. ';
+>>>>>>> bamboo-front
 };

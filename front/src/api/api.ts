@@ -1,6 +1,5 @@
 import { AxiosFile, Axios } from 'api/costomAxios';
 import { SignUpInfo, SignInInfo, diary } from 'types/apiType';
-import axios from 'axios';
 
 export const signUpPost = async (userInfo: SignUpInfo) => {
   const apiUrl = `api/auth/local/sign-up`;
@@ -45,7 +44,6 @@ export const getDiaryList = async (
   return data.result;
 };
 
-<<<<<<< HEAD
 export const postStatics = async (year: string, month: string) => {
   const apiUrl = `api/statistics?year=${year}&month=${month}`;
   await Axios.post(apiUrl);
@@ -53,7 +51,10 @@ export const postStatics = async (year: string, month: string) => {
 
 export const getStatics = async (year: string, month: string) => {
   const apiUrl = `api/statistics?year=${year}&month=${month}`;
-=======
+  const { data } = await Axios.get(apiUrl);
+  return data.result;
+};
+
 export const postBambooPosting = async (bambooData: any) => {
   const apiUrl = `api/posts`;
   await Axios.post(apiUrl, bambooData);
@@ -61,17 +62,15 @@ export const postBambooPosting = async (bambooData: any) => {
 
 export const getBambooList = async (pageParam: any) => {
   const apiUrl = `api/posts?page=${pageParam}&limit=6`;
->>>>>>> bamboo-front
   const { data } = await Axios.get(apiUrl);
   return data.result;
 };
 
-<<<<<<< HEAD
 export const delStatics = async () => {
   const apiUrl = `api/statistics`;
   await Axios.delete(apiUrl);
 };
-=======
+
 export const getBambooDetail = async (postId: any) => {
   const apiUrl = `api/posts?${postId}`;
   const { data } = await Axios.get(apiUrl);

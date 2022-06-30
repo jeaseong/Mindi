@@ -1,15 +1,17 @@
 import mongoose from "mongoose";
 import config from "../../src/config";
-// import "reflect-metadata";
+import "reflect-metadata";
 import express from "express";
 import expressLoader from "../../src/loaders/express";
 import dependencyLoader from "../../src/loaders/dependencies";
+import axiosLoader from "../../src/loaders/axios";
 import { MongoMemoryServer } from "mongodb-memory-server";
 
 async function appStart() {
   const app: express.Application = express();
   const mongoServer = await MongoMemoryServer.create();
   await mongoose.connect(mongoServer.getUri());
+  await axiosLoader();
   await dependencyLoader();
   await expressLoader({ app });
   app.listen(config.port, () => {

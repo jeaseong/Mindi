@@ -11,18 +11,11 @@ import {
 import logger from "../../src/loaders/winston";
 
 describe("Statistics Service Test", () => {
-  const monthly = "2022-06";
+  const date = "2022-05";
   const statService = new StatService(testStatisticsModel, testDiaryModel, logger);
 
   it("create new result", async () => {
-    expect(await statService.create(mockStat, mockList)).toEqual({
-      _id: mockObjectId,
-      ...mockResult,
-    });
-  });
-
-  it("update a result", async () => {
-    expect(await statService.updateOne(mockObjectId, mockResult)).toEqual({
+    expect(await statService.create(mockStat, date, mockList)).toEqual({
       _id: mockObjectId,
       ...mockResult,
     });
@@ -33,7 +26,7 @@ describe("Statistics Service Test", () => {
   });
 
   it("find a result", async () => {
-    expect(await statService.findByDate(mockUserId, monthly)).toEqual({
+    expect(await statService.findByDate(mockUserId, date)).toEqual({
       _id: mockObjectId,
       ...mockResult,
     });

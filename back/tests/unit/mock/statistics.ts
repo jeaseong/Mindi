@@ -1,8 +1,10 @@
 import { IStat, ISentiment } from "../../../src/interfaces";
 import { faker } from "@faker-js/faker";
 import { mockDiary } from "./diary";
+import { ClientSession } from "mongoose";
+import dayjs from "dayjs";
 
-const monthly = "2022-06";
+const monthly = dayjs("2022-05").toDate();
 export const mockUserId = faker.database.mongodbObjectId();
 export const mockObjectId = faker.database.mongodbObjectId();
 const mockDiaryObjectId = faker.database.mongodbObjectId();
@@ -44,18 +46,11 @@ export const testStatisticsModel = {
     };
   },
 
-  updateOne: async (filter: Partial<IStat>, toUpdate: Partial<IStat>) => {
-    return {
-      _id: mockObjectId,
-      ...mockResult,
-    };
-  },
-
   deleteOne: async (id: string) => {
     return;
   },
 
-  findByDate: async (userId: string, monthly: string) => {
+  findByDate: async (userId: string, date: Date) => {
     return {
       _id: mockObjectId,
       ...mockResult,
@@ -64,5 +59,9 @@ export const testStatisticsModel = {
 
   exists: async (userId: string, filter: Partial<IStat>) => {
     return false;
+  },
+
+  deleteByUserId: async (userId: string, session: ClientSession) => {
+    return;
   },
 };

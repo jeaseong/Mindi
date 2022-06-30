@@ -6,6 +6,7 @@ export const Container = styled.section`
   background-color: #1e533d;
   padding: 20px;
   position: relative;
+  margin-bottom: 50px;
 `;
 
 export const TextRank = styled.div`

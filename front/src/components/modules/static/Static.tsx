@@ -35,7 +35,7 @@ function Static() {
       <MainTitle size='sm'>Mindi Static</MainTitle>
       <Navigation>
         <NavBtn onClick={() => onChangeMonth(-1)}>&lt;</NavBtn>
-        <Text size='md'>
+        <Text align='center' size='md'>
           {year}. {DATE.MONTH[month - 1]}
         </Text>
         <NavBtn onClick={() => onChangeMonth(1)}>&gt;</NavBtn>

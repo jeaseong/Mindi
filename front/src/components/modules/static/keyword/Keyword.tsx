@@ -16,7 +16,9 @@ function Keyword({ keywords }: KeywordsProps) {
       <TextRank>
         {keywords?.map((word, index) => (
           <WordBoard key={word}>
-            <Text size='sm'>{word}</Text>
+            <Text align='center' size='sm'>
+              {word}
+            </Text>
             <WordCount>{index + 1}</WordCount>
           </WordBoard>
         ))}

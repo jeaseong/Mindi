@@ -57,9 +57,15 @@ export const getBambooDetail = async (postId: any) => {
   return data.result;
 };
 
-export const postComment = async (postId: any, content: string) => {
+export const postComment = async (postId: any, content: any) => {
   const apiUrl = `api/posts/comments/${postId}`;
   await Axios.post(apiUrl, content);
+};
+
+export const getCommentList = async (postId: any) => {
+  const apiUrl = `api/posts/comments/${postId}?page=1&limit=10000`;
+  const { data } = await Axios.get(apiUrl);
+  return data.result;
 };
 
 export const deleteComment = async (commentId: any) => {
@@ -67,7 +73,7 @@ export const deleteComment = async (commentId: any) => {
   await Axios.delete(apiUrl);
 };
 
-export const putComment = async (commentId: any, content: string) => {
+export const putComment = async (commentId: any, content: any) => {
   const apiUrl = `api/posts/comments/${commentId}`;
   await Axios.put(apiUrl, content);
 };

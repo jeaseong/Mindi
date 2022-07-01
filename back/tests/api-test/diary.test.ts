@@ -15,7 +15,7 @@ const regexISO = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}(?:\.\d*)?)((-(
 
 beforeAll(async () => {
   await appStart();
-  const result = await request(server).post("/auth/local/sign-up").send({
+  await request(server).post("/auth/local/sign-up").send({
     email: "test@test.com",
     name: "test",
     password: "test1234",
@@ -33,17 +33,21 @@ describe("Diary with no image", () => {
       .post("/diaries")
       .set("Authorization", `Bearer ${accessToken}`)
       .type("multipart/form-data")
-      .field("diary", faker.lorem.sentences())
-      .field("feeling", faker.lorem.sentences())
+      .field("diary", faker.lorem.paragraph())
+      .field("feeling", faker.lorem.paragraph())
       .field("diaryDate", today);
     expect(response.status).toEqual(201);
-    expect(response.body.result).toHaveProperty("_id", expect.any(String));
-    expect(response.body.result).toHaveProperty("userId", expect.any(String));
-    expect(response.body.result).toHaveProperty("diary", expect.any(String));
-    expect(response.body.result).toHaveProperty("feeling", expect.any(String));
-    expect(response.body.result).toHaveProperty("sentiment", expect.any(Object));
-    expect(response.body.result).toHaveProperty("videoId", expect.any(String));
-    expect(response.body.result).toHaveProperty("diaryDate", expect.stringMatching(regexISO));
+    expect(response.body.result).toMatchObject(
+      expect.objectContaining({
+        _id: expect.any(String),
+        userId: expect.any(String),
+        diary: expect.any(String),
+        feeling: expect.any(String),
+        sentiment: expect.any(Object),
+        videoId: expect.any(String),
+        diaryDate: expect.stringMatching(regexISO),
+      }),
+    );
     mockObjectId = response.body.result._id;
   });
 
@@ -53,17 +57,21 @@ describe("Diary with no image", () => {
       .set("Authorization", `Bearer ${accessToken}`)
       .type("multipart/form-data")
       .field("_id", mockObjectId)
-      .field("diary", faker.lorem.sentences())
-      .field("feeling", faker.lorem.sentences())
+      .field("diary", faker.lorem.paragraph())
+      .field("feeling", faker.lorem.paragraph())
       .field("diaryDate", today);
     expect(response.status).toEqual(200);
-    expect(response.body.result).toHaveProperty("_id", expect.any(String));
-    expect(response.body.result).toHaveProperty("userId", expect.any(String));
-    expect(response.body.result).toHaveProperty("diary", expect.any(String));
-    expect(response.body.result).toHaveProperty("feeling", expect.any(String));
-    expect(response.body.result).toHaveProperty("sentiment", expect.any(Object));
-    expect(response.body.result).toHaveProperty("videoId", expect.any(String));
-    expect(response.body.result).toHaveProperty("diaryDate", expect.stringMatching(regexISO));
+    expect(response.body.result).toMatchObject(
+      expect.objectContaining({
+        _id: expect.any(String),
+        userId: expect.any(String),
+        diary: expect.any(String),
+        feeling: expect.any(String),
+        sentiment: expect.any(Object),
+        videoId: expect.any(String),
+        diaryDate: expect.stringMatching(regexISO),
+      }),
+    );
   });
 
   it("Get a diary list", async () => {
@@ -75,7 +83,7 @@ describe("Diary with no image", () => {
   });
 
   it("Delete a diary with no image", async () => {
-    const response = await request(server).delete("/diaries").send({ _id: mockObjectId });
+    const response = await request(server).delete("/diaries").set("Authorization", `Bearer ${accessToken}`).send({ _id: mockObjectId });
     expect(response.status).toEqual(200);
   });
 });
@@ -86,20 +94,24 @@ describe("Diary with an image", () => {
       .post("/diaries")
       .set("Authorization", `Bearer ${accessToken}`)
       .type("multipart/form-data")
-      .field("diary", faker.lorem.sentences())
-      .field("feeling", faker.lorem.sentences())
+      .field("diary", faker.lorem.paragraph())
+      .field("feeling", faker.lorem.paragraph())
       .field("diaryDate", today)
       .attach("background", "tests/test.jpg");
     expect(response.status).toEqual(201);
-    expect(response.body.result).toHaveProperty("_id", expect.any(String));
-    expect(response.body.result).toHaveProperty("userId", expect.any(String));
-    expect(response.body.result).toHaveProperty("diary", expect.any(String));
-    expect(response.body.result).toHaveProperty("feeling", expect.any(String));
-    expect(response.body.result).toHaveProperty("sentiment", expect.any(Object));
-    expect(response.body.result).toHaveProperty("videoId", expect.any(String));
-    expect(response.body.result).toHaveProperty("diaryDate", expect.stringMatching(regexISO));
-    expect(response.body.result).toHaveProperty("imageFileName", expect.any(String));
-    expect(response.body.result).toHaveProperty("imageFilePath", expect.any(String));
+    expect(response.body.result).toMatchObject(
+      expect.objectContaining({
+        _id: expect.any(String),
+        userId: expect.any(String),
+        diary: expect.any(String),
+        feeling: expect.any(String),
+        sentiment: expect.any(Object),
+        videoId: expect.any(String),
+        diaryDate: expect.stringMatching(regexISO),
+        imageFileName: expect.any(String),
+        imageFilePath: expect.any(String),
+      }),
+    );
     mockObjectId = response.body.result._id;
     imageFileName = response.body.result.imageFileName;
   });
@@ -110,32 +122,38 @@ describe("Diary with an image", () => {
       .set("Authorization", `Bearer ${accessToken}`)
       .type("multipart/form-data")
       .field("_id", mockObjectId)
-      .field("diary", faker.lorem.sentences())
-      .field("feeling", faker.lorem.sentences())
+      .field("diary", faker.lorem.paragraph())
+      .field("feeling", faker.lorem.paragraph())
       .field("imageFileName", imageFileName)
       .field("diaryDate", today)
       .attach("background", "tests/test2.jpg");
     expect(response.status).toEqual(200);
-    expect(response.body.result).toHaveProperty("_id", expect.any(String));
-    expect(response.body.result).toHaveProperty("userId", expect.any(String));
-    expect(response.body.result).toHaveProperty("diary", expect.any(String));
-    expect(response.body.result).toHaveProperty("feeling", expect.any(String));
-    expect(response.body.result).toHaveProperty("sentiment", expect.any(Object));
-    expect(response.body.result).toHaveProperty("videoId", expect.any(String));
-    expect(response.body.result).toHaveProperty("diaryDate", expect.stringMatching(regexISO));
-    expect(response.body.result).toHaveProperty("imageFileName", expect.any(String));
-    expect(response.body.result).toHaveProperty("imageFilePath", expect.any(String));
+    expect(response.body.result).toMatchObject(
+      expect.objectContaining({
+        _id: expect.any(String),
+        userId: expect.any(String),
+        diary: expect.any(String),
+        feeling: expect.any(String),
+        sentiment: expect.any(Object),
+        videoId: expect.any(String),
+        diaryDate: expect.stringMatching(regexISO),
+        imageFileName: expect.any(String),
+        imageFilePath: expect.any(String),
+      }),
+    );
     imageFileName = response.body.result.imageFileName;
   });
 
   it("Delete a diary with an image", async () => {
     const response = await request(server)
       .delete("/diaries")
+      .set("Authorization", `Bearer ${accessToken}`)
       .send({ _id: mockObjectId, imageFileName: imageFileName });
     expect(response.status).toEqual(200);
   });
 });
 
 afterAll(async () => {
+  await request(server).delete("/users").set("Authorization", `Bearer ${accessToken}`);
   await testEnd();
 });

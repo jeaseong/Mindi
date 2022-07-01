@@ -9,7 +9,6 @@ import {
 import { IMAGE } from 'utils/image';
 import { getBambooList } from 'api/api';
 import Modal from '../modal/modal';
-import styled from 'styled-components';
 import BambooView from '../bambooView/bambooView';
 
 function BambooCard() {
@@ -70,7 +69,7 @@ function BambooCard() {
     if (page !== 1) getPost();
   }, [page]);
 
-  //modal
+  console.log(bambooList);
 
   const onView = (id: any) => {
     setCurItem(bambooList.find((item) => item._id === id));

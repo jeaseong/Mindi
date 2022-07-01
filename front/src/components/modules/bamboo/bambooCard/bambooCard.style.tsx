@@ -11,9 +11,11 @@ export const DiaryPosts = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
-  ${({ theme }) => theme.media.tablet`
+  /* ${({ theme }) => theme.media.tablet`
     grid-template-columns: 1fr 1fr 1fr;
-  `}
+    
+  `} */
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
 `;
 
 export const DiaryPost = styled.article`

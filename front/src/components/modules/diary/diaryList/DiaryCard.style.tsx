@@ -3,7 +3,7 @@ import { CardProps } from 'types/atoms';
 
 export const DiaryPosts = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
   gap: 20px;
   ${({ theme }) => theme.media.tablet`
     grid-template-columns: 1fr 1fr 1fr;
@@ -25,11 +25,10 @@ export const DiaryPost = styled.article`
 export const PreviewPost = styled.div<CardProps>`
   width: 100%;
   height: 144px;
+  font-size: 14px;
+  line-height: 1.6;
   padding: 10px;
   margin-top: 10px;
-  line-height: 22px;
-  white-space: pre-wrap;
-  word-break: break-all;
   background-color: ${(props) => {
     return props.bgImg ? '#fff4cb' : '#fff4cb';
   }};
@@ -37,20 +36,9 @@ export const PreviewPost = styled.div<CardProps>`
   text-overflow: ellipsis;
   overflow: hidden;
   word-wrap: break-word;
+  white-space: pre-wrap;
+  word-break: break-all;
   display: -webkit-box;
   -webkit-line-clamp: 6;
   -webkit-box-orient: vertical;
-  &:before {
-    content: '';
-    background-image: url(${(props) => props.bgImg});
-    background-size: 60% 60%;
-    background-repeat: no-repeat;
-    background-position: center;
-    position: absolute;
-    top: 0px;
-    right: 0px;
-    bottom: 0px;
-    left: 0px;
-    opacity: 0.3;
-  }
 `;

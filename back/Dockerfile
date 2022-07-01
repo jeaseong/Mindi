@@ -8,4 +8,5 @@ COPY . .
 EXPOSE 5001
 RUN npm run build
 RUN cp .env_production dist
-CMD ["NODE_ENV=production", "node", "./dist/src/app.js"]
+#RUN export NODE_ENV=production
+CMD ["NODE_ENV=production node", "./dist/src/app.js"]

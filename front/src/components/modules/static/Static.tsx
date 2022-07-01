@@ -1,4 +1,6 @@
 import React, { useState, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useQueryClient } from 'react-query';
 import { useSnackbarContext } from 'contexts/SnackbarContext';
 import MainTitle from 'components/atoms/text/MainTitle';
 import Buttom from 'components/atoms/button/Button';
@@ -14,9 +16,12 @@ import { dateToString } from 'utils/utils';
 import { Container, Navigation, NavBtn } from './Static.style';
 
 function Static() {
+  const queryClient = useQueryClient();
   const { openSnackBar } = useSnackbarContext();
+  const navigate = useNavigate();
   const curDate = new Date();
   const m = curDate.getMonth();
+  const [isLoader, setIsLoader] = useState(false);
   const [year, setYear] = useState(curDate.getFullYear());
   const [month, setMonth] = useState(curDate.getMonth());
   const { statics, isLoading } = useGetStatics(
@@ -30,17 +35,23 @@ function Static() {
   const postAnalysis = async () => {
     try {
       await postStatics(yyyy, mm);
+      await queryClient.invalidateQueries(['statics', `${yyyy}-${mm}`]);
     } catch (e) {
-      openSnackBar(false, '최소한 일기를 10개는 작성해주세요..!');
+      openSnackBar(false, '최소한 일기를 3개는 작성해주세요..!');
+      navigate('/diary');
     }
+    onChangeLoaderState();
   };
 
   const putAnalysis = async () => {
     try {
       await updateStatics(yyyy, mm);
+      await queryClient.invalidateQueries(['statics', `${yyyy}-${mm}`]);
     } catch (e) {
-      openSnackBar(false, '최소한 일기를 10개는 작성해주세요..!');
+      openSnackBar(false, '최소한 일기를 3개는 작성해주세요..!');
+      navigate('/diary');
     }
+    onChangeLoaderState();
   };
   // 월 네비게이션
   const onChangeMonth = useCallback((m: number) => {
@@ -56,12 +67,19 @@ function Static() {
     setMonth((cur) => cur + m);
   }, []);
 
+  const onChangeLoaderState = () => {
+    setIsLoader((cur) => !cur);
+  };
+
   if (isLoading) return <Loader>분석중입니다..!</Loader>;
+  if (isLoader) return <Loader>분석중입니다..!</Loader>;
   return (
     <Container>
       <MainTitle size='sm'>Mindi Static</MainTitle>
       <Buttom
+        size='md'
         onClick={() => {
+          onChangeLoaderState();
           statics ? putAnalysis() : postAnalysis();
         }}
       >

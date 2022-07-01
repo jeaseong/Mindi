@@ -15,4 +15,5 @@ export interface ICommentModel {
   ) => Promise<Array<Partial<IComment>> | null>;
   exists: (filter: Partial<IComment>) => Promise<Boolean>;
   deleteByUserId: (userId: string, session: ClientSession) => Promise<void>;
+  deleteByPostId: (postId: string, session: ClientSession) => Promise<void>;
 }

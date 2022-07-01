@@ -71,6 +71,9 @@ export class MongoCommentModel implements ICommentModel {
     return !!res;
   }
   async deleteByUserId(userId: string, session: ClientSession): Promise<void> {
-    await CommentModel.deleteMany({ userId }).session(session);
+    await CommentModel.deleteMany({ author: userId }).session(session);
+  }
+  async deleteByPostId(postId: string, session: ClientSession): Promise<void> {
+    await CommentModel.deleteMany({ post: postId }).session(session);
   }
 }

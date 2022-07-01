@@ -33,8 +33,8 @@ describe("Diary with no image", () => {
       .post("/diaries")
       .set("Authorization", `Bearer ${accessToken}`)
       .type("multipart/form-data")
-      .field("diary", faker.lorem.paragraph())
-      .field("feeling", faker.lorem.paragraph())
+      .field("diary", faker.lorem.sentences())
+      .field("feeling", faker.lorem.sentences())
       .field("diaryDate", today);
     expect(response.status).toEqual(201);
     expect(response.body.result).toMatchObject(
@@ -57,8 +57,8 @@ describe("Diary with no image", () => {
       .set("Authorization", `Bearer ${accessToken}`)
       .type("multipart/form-data")
       .field("_id", mockObjectId)
-      .field("diary", faker.lorem.paragraph())
-      .field("feeling", faker.lorem.paragraph())
+      .field("diary", faker.lorem.sentences())
+      .field("feeling", faker.lorem.sentences())
       .field("diaryDate", today);
     expect(response.status).toEqual(200);
     expect(response.body.result).toMatchObject(
@@ -94,8 +94,8 @@ describe("Diary with an image", () => {
       .post("/diaries")
       .set("Authorization", `Bearer ${accessToken}`)
       .type("multipart/form-data")
-      .field("diary", faker.lorem.paragraph())
-      .field("feeling", faker.lorem.paragraph())
+      .field("diary", faker.lorem.sentences())
+      .field("feeling", faker.lorem.sentences())
       .field("diaryDate", today)
       .attach("background", "tests/test.jpg");
     expect(response.status).toEqual(201);
@@ -122,8 +122,8 @@ describe("Diary with an image", () => {
       .set("Authorization", `Bearer ${accessToken}`)
       .type("multipart/form-data")
       .field("_id", mockObjectId)
-      .field("diary", faker.lorem.paragraph())
-      .field("feeling", faker.lorem.paragraph())
+      .field("diary", faker.lorem.sentences())
+      .field("feeling", faker.lorem.sentences())
       .field("imageFileName", imageFileName)
       .field("diaryDate", today)
       .attach("background", "tests/test2.jpg");

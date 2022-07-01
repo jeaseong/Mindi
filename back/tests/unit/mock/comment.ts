@@ -61,4 +61,8 @@ export const testCommentModel = {
   deleteByUserId: async (userId: string, session: ClientSession) => {
     return;
   },
+
+  deleteByPostId: async (postId: string, session: ClientSession) => {
+    return;
+  },
 };

@@ -41,8 +41,8 @@ export class MongoPostModel implements IPostModel {
       { returnOriginal: false },
     ).lean();
   }
-  async delete(postId: string) {
-    await PostModel.deleteOne({ _id: postId });
+  async delete(postId: string, session: ClientSession) {
+    await PostModel.deleteOne({ _id: postId }).session(session);
   }
   async findOne(filter: Object) {
     return PostModel.findOne(filter).lean();
@@ -67,6 +67,6 @@ export class MongoPostModel implements IPostModel {
     return !!res;
   }
   async deleteByUserId(userId: string, session: ClientSession): Promise<void> {
-    await PostModel.deleteMany({ userId }).session(session);
+    await PostModel.deleteMany({ author: userId }).session(session);
   }
 }

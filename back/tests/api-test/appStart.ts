@@ -8,6 +8,8 @@ import axiosLoader from "../../src/loaders/axios";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import { createHttpTerminator, HttpTerminator } from "http-terminator";
 
+// ai-server가 켜져 있어야 테스트가 가능합니다
+
 let httpTerminator: HttpTerminator;
 async function appStart() {
   const app: express.Application = express();
@@ -26,9 +28,9 @@ async function appStart() {
 
 async function testEnd() {
   await mongoose.disconnect();
-  console.log(`${mongoose.connection.name} ${mongoose.connection.readyState} => 0: disconnected`);
+  // console.log(`${mongoose.connection.name} ${mongoose.connection.readyState} => 0: disconnected`);
   await httpTerminator.terminate();
-  console.log("Application is terminated.");
+  // console.log("Application is terminated.");
 }
 
 const apiURL = `http://localhost:${config.port}/api`;

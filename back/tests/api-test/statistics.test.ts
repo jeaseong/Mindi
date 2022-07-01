@@ -10,6 +10,7 @@ faker.locale = "ko";
 let accessToken: string;
 let mockObjectId: string;
 const date = dayjs("2022-05-01").toISOString();
+const date2 = dayjs("2022-05-02").toISOString();
 const regexISO = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}(?:\.\d*)?)((-(\d{2}):(\d{2})|Z)?)$/ 
 
 beforeAll(async () => {
@@ -25,13 +26,20 @@ beforeAll(async () => {
   });
   accessToken = mockUserInfo.body.result.token;
 
-  const response = await request(apiURL)
+  await request(apiURL)
     .post("/diaries")
     .set("Authorization", `Bearer ${accessToken}`)
     .type("multipart/form-data")
-    .field("diary", faker.lorem.paragraph())
-    .field("feeling", faker.lorem.paragraph())
+    .field("diary", faker.lorem.sentences())
+    .field("feeling", faker.lorem.sentences())
     .field("diaryDate", date);
+  await request(apiURL)
+    .post("/diaries")
+    .set("Authorization", `Bearer ${accessToken}`)
+    .type("multipart/form-data")
+    .field("diary", faker.lorem.sentences())
+    .field("feeling", faker.lorem.sentences())
+    .field("diaryDate", date2);
 });
 
 describe("Statistics Router Test", () => {
@@ -53,11 +61,11 @@ describe("Statistics Router Test", () => {
     mockObjectId = response.body.result._id;
   });
 
-  it.skip("Update a result", async () => {
+  it("Update a result", async () => {
     const response = await request(apiURL)
-      .post("/statistics?year=2022&month=05")
+      .put("/statistics?year=2022&month=05")
       .set("Authorization", `Bearer ${accessToken}`);
-    expect(response.status).toEqual(201);
+    expect(response.status).toEqual(200);
     expect(response.body.result).toMatchObject(
       expect.objectContaining({
         _id: expect.any(String),

@@ -49,13 +49,6 @@ describe("User Router Test", () => {
       }),
     );
   });
-
-  it.skip("Withdrawal test", async () => {
-    const response = await request(apiURL)
-      .delete("/users")
-      .set("Authorization", `Bearer ${accessToken}`);
-    expect(response.status).toEqual(200);
-  });
 });
 
 afterAll(async () => {

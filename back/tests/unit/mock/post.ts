@@ -39,7 +39,7 @@ export const testPostModel = {
     return mockPost;
   },
 
-  delete: async (postId: string) => {
+  delete: async (postId: string, session: ClientSession) => {
     return;
   },
 

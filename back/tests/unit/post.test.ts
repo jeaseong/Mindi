@@ -8,9 +8,10 @@ import {
   mockUserObjectId,
   fieldToUpdate,
 } from "./mock/post";
+import { testCommentModel } from "./mock/comment";
 
 describe("Post Service Test", () => {
-  const postService = new PostService(testPostModel, logger);
+  const postService = new PostService(testPostModel, testCommentModel, logger);
   test("should return new post.", async () => {
     expect(await postService.makeNewPost(mockReqBody)).toEqual(mockPost);
   });
@@ -28,8 +29,5 @@ describe("Post Service Test", () => {
   });
   test("should return updated post.", async () => {
     expect(await postService.updatePostInfo(mockObjectId, fieldToUpdate)).toEqual(mockPost);
-  });
-  test("should return undefined.", async () => {
-    expect(await postService.deletePost(mockObjectId)).toBe(undefined);
   });
 });

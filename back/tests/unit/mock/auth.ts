@@ -1,13 +1,13 @@
 import { faker } from "@faker-js/faker";
 import dayjs from "dayjs";
 
-export const mockObjectId = faker.database.mongodbObjectId();
-export const dayString = dayjs().toISOString();
+const mockObjectId = faker.database.mongodbObjectId();
+const dayString = dayjs().toISOString();
 export const mockEmail = faker.internet.email();
 export const mockName = faker.name.findName();
-export const role = "user";
+const role = "user";
 export const mockPassword = faker.internet.password();
-export const colorScheme: Object = {
+const colorScheme: Object = {
   fear: "#d9c7c7",
   surprised: "#b00067",
   anger: "#cef550",
@@ -28,17 +28,40 @@ export const userObject = {
   updatedAt: dayString,
 };
 
-export const fieldToUpdateUser = {
-  name: mockName,
-  password: mockPassword,
-};
-
-export const TestUserModel = {
+export const SignUpTestModel = {
   create: async (email: string, name: string, password: string) => {
+    userObject.password = password;
     return userObject;
   },
 
-  update: async (filter: Object, fieldToUpdateUser: Object) => {
+  update: async (filter: Object, fieldToUpdate: Object) => {
+    return userObject;
+  },
+
+  delete: async (userId: string) => {
+    return;
+  },
+
+  findOne: async (filter: Object) => {
+    return userObject;
+  },
+
+  findMany: async (filter: Object) => {
+    return [userObject, userObject];
+  },
+
+  exists: async (filter: Object) => {
+    return false;
+  },
+};
+
+export const SignInTestModel = {
+  create: async (email: string, name: string, password: string) => {
+    userObject.password = password;
+    return userObject;
+  },
+
+  update: async (filter: Object, fieldToUpdate: Object) => {
     return userObject;
   },
 

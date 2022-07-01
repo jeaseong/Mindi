@@ -20,7 +20,7 @@ describe("Statistics Service Test", () => {
       ...mockResult,
     });
   });
-  // newResult: Partial<IStat>, date: string, docList: Array<IDiary>
+
   it("Update a result", async () => {
     expect(await statService.updateOne(mockStat, date, mockList)).toEqual({
       _id: mockObjectId,

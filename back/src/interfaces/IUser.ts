@@ -4,7 +4,7 @@ export interface IUser {
   email: string;
   password: string;
   role: string;
-  colorScheme: Array<string>;
+  colorScheme: Object;
   recentLogin: string;
   createdAt: string;
   updatedAt: string;

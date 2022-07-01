@@ -84,7 +84,7 @@ function Sentiments({ emotion }: EmotionProps) {
     return (
       <BlurBox>
         <Text>
-          <BlurText>일기를 작성하면 확인할 수 있어요!</BlurText>
+          <BlurText>일기를 3개 이상 작성하면 확인할 수 있어요! </BlurText>
           <Link to='/diary'>일기 쓰러가기</Link>
         </Text>
         <ContainerMock>

@@ -11,9 +11,10 @@ app.config['JSON_SORT_KEYS'] = False
 @app.errorhandler(KeyError)
 def handler_key_error(err):
     return_data = {
-        'massage': f'KEY_ERROR: {err} 값을 가져오는데 문제가 발생하였습니다.'
+        'success': 'false',
+        'message': f'KEY_ERROR: {err} 값을 가져오는데 문제가 발생하였습니다.',
     }
-    return return_data, 400
+    return return_data, 500
 
 @app.route('/')
 def main():
@@ -25,6 +26,7 @@ def keyword_list():
     keywords = textrank_keyword(diary)
     keyword_list = [i for i, _ in keywords]
     print(keyword_list)
+    
     return_data = {
         'success': 'true',
         'result': keyword_list
@@ -36,14 +38,19 @@ def result_page():
     feeling = request.get_json()["feeling"]
     sentiment_dict = predict_sentiment(feeling)
     print(sentiment_dict)
-
-    max_sentiment = max(sentiment_dict,key=sentiment_dict.get)
+    
+    if max(sentiment_dict.values()) == 0:
+        max_sentiment = "happiness"
+    else:
+        max_sentiment = max(sentiment_dict, key=sentiment_dict.get)
+    
     track, artist = recommend_music(max_sentiment)
     print("sentiment:", max_sentiment, "\ntrack:", track, "\nartist:", artist)
     
     search_response = get_search_response(artist, track)
     videoId = get_video_info(search_response)
     print("videoId", videoId)
+    
     return_data = {
         'success': 'true',
         'result': {

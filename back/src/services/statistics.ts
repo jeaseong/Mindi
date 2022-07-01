@@ -55,7 +55,7 @@ export default class StatService {
         ...newStat,
         monthly: dayjs(date).toDate(),
         emotions: myEmotion,
-        reminder: reminder.slice(0, 5),
+        reminder: reminder,
       };
 
       const createdNewDoc = await this.statModel.create(newResult);
@@ -74,7 +74,7 @@ export default class StatService {
       const toUpdate: Partial<IStat> = {
         ...newResult,
         emotions: myEmotion,
-        reminder: reminder.slice(0, 5),
+        reminder: reminder,
       };
 
       const createdNewDoc = await this.statModel.updateOne(filter, toUpdate);

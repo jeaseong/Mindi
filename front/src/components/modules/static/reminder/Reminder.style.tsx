@@ -6,6 +6,10 @@ export const Container = styled.section`
   margin-bottom: 50px;
 `;
 
+export const MockContainer = styled(Container)`
+  filter: blur(4px);
+`;
+
 export const ReminderDiaries = styled.div`
   width: 100%;
   display: grid;
@@ -44,7 +48,7 @@ export const ImgContainer = styled.div`
 export const DiaryPreview = styled.div`
   border: 1px solid black;
   padding: 4px;
-  line-height: 22px;
+  line-height: 1.4;
   width: 100%;
   height: 144px;
   white-space: pre-wrap;

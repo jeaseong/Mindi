@@ -21,9 +21,15 @@ export const CommentText = styled.div`
   margin-top: 3px;
   display: block;
   overflow: auto;
+
+  @media screen and (max-width: 480px) {
+    height: 70px;
+    margin-bottom: 150px;
+  }
 `;
 
 export const CommentInput = styled.textarea`
+  resize: none;
   width: 435px;
   height: 155px;
   border: 2px solid transparent;
@@ -44,6 +50,14 @@ export const CommentInput = styled.textarea`
     background-color: white;
     border-color: #333333;
   }
+
+  @media screen and (max-width: 480px) {
+    position: absolute;
+    width: 370px;
+    height: 100px;
+    bottom: 130px;
+    right: 55px;
+  }
 `;
 
 export const CommentButton = styled.button`
@@ -55,4 +69,9 @@ export const CommentButton = styled.button`
   border: 1px solid black;
   display: inline;
   float: right;
+`;
+
+export const CommentList = styled.li`
+  list-style: none;
+  margin-bottom: 10px;
 `;

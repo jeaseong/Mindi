@@ -5,7 +5,7 @@ export const TextEdit = styled.textarea<TextAreaProps>`
   min-height: 300px;
   overflow: visible;
   resize: none;
-  white-space: pre;
+  white-space: pre-wrap;
   background-color: ${(props) => {
     return props.bgColor === 'green'
       ? `${props.theme.colors.postingGreen}`

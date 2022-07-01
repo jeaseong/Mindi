@@ -1,5 +1,10 @@
-import { getCommentList, postComment } from 'api/api';
 import React, { useState, useRef, useCallback, useEffect } from 'react';
+import {
+  getCommentList,
+  postComment,
+  deleteComment,
+  putComment,
+} from '../../../../api/api';
 import {
   CommentWrapper,
   CommentTitle,
@@ -9,55 +14,76 @@ import {
   CommentButton,
 } from './commentForm.style';
 import { Line } from '../bambooView/bambooView.style';
+import SingleComment from './singleComment';
 
 const CommentForm = ({ postId }: any) => {
   const commentContentsRef = useRef<HTMLTextAreaElement>(null);
-  const [commentList, setCommentList] = useState<unknown[]>([]);
+  const [commentList, setCommentList] = useState<any[]>([]);
   const [activeComment, setActiveComment] = useState(null);
-  const rootComments = commentList.filter(
-    (comment: any) => comment._id === null,
-  );
+
+  const getReplies = (commentId: any) =>
+    commentList.filter((Comment) => Comment._id === commentId);
+
+  const addComment = (postId: any, content: any) => {
+    postComment(postId, content).then((comment) => {
+      setCommentList([comment, ...commentList]);
+      setActiveComment(null);
+    });
+  };
+
+  const updateComment = (commentId: any, comment: any) => {
+    putComment(commentId, comment).then(() => {
+      const updatedComments = commentList.map((Comment) => {
+        if (Comment._id === commentId) {
+          return { ...Comment, body: comment };
+        }
+        return Comment;
+      });
+      setCommentList(updatedComments);
+      setActiveComment(null);
+    });
+  };
+
+  const delComment = (commentId: any) => {
+    if (window.confirm('댓글을 삭제하시겠습니까?')) {
+      deleteComment(commentId).then(() => {
+        const updatedComments = commentList.filter(
+          (Comment) => Comment._id !== commentId,
+        );
+        setCommentList(updatedComments);
+      });
+    }
+  };
 
   const onSubmit = (e: any) => {
     e.preventDefault();
 
     if (commentContentsRef.current !== null) {
-      console.log(commentContentsRef.current.value);
-
       postComment(postId, { content: commentContentsRef.current.value })
         .then(() => {
-          console.log('등록 완료!');
           setActiveComment(null);
+          getPost();
+          console.log('등록 완료!');
         })
         .catch((err) => {
           console.log('등록에 실패했습니다!', err);
         });
+      commentContentsRef.current.value = '';
     }
   };
 
   const getPost = async () => {
     const data = await getCommentList(postId);
-    if (data) {
-      setCommentList((prev) => [...prev, ...data]);
-    } else {
+    try {
+      setCommentList(data);
+    } catch {
       console.log(data);
     }
-
-    // console.log(data);
-    // console.log(page);
   };
-
-  const getReplies = (commentId: any) =>
-    commentList
-      .filter((Comment: any) => Comment._Id === commentId)
-      .sort(
-        (a: any, b: any) =>
-          new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime(),
-      );
 
   useEffect(() => {
     getPost();
-  }, [postId]);
+  }, []);
 
   console.log('commentList', commentList);
 
@@ -66,13 +92,11 @@ const CommentForm = ({ postId }: any) => {
       <CommentTitle>Comments</CommentTitle>
       <CommentLine />
       <CommentText>
-        {commentList.map((value: any) => (
-          <li key={value.something}>{value.content}</li>
-        ))}
+        <SingleComment commentList={commentList} />
       </CommentText>
-      <Line />
+
       <CommentInput ref={commentContentsRef} placeholder='댓글 작성하기' />
-      <CommentButton>댓글 달기</CommentButton>
+      <CommentButton onClick={onSubmit}>댓글 달기</CommentButton>
     </CommentWrapper>
   );
 };

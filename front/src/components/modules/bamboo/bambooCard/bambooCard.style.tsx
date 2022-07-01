@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { CardProps } from 'types/atoms';
 
 export const CardWrap = styled.section`
-  max-width: 60%;
   width: 100%;
   margin: 0 auto;
 `;
@@ -12,9 +11,11 @@ export const DiaryPosts = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
-  ${({ theme }) => theme.media.tablet`
+  /* ${({ theme }) => theme.media.tablet`
     grid-template-columns: 1fr 1fr 1fr;
-  `}
+    
+  `} */
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
 `;
 
 export const DiaryPost = styled.article`
@@ -53,8 +54,7 @@ export const PreviewPost = styled.div<CardProps>`
   position: relative;
   text-overflow: ellipsis;
   overflow: hidden;
-  text-overflow: ellipsis;
-  word-wrap: break-word;
+  word-break: break-word;
   display: -webkit-box;
   -webkit-line-clamp: 6;
   -webkit-box-orient: vertical;

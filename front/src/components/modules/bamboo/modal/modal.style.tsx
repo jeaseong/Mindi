@@ -21,6 +21,10 @@ export const DialogBox = styled.div`
   box-sizing: border-box;
   background-color: #f6e6f5;
   z-index: 10000;
+  @media screen and (max-width: 480px) {
+    width: 400px;
+    height: 700px;
+  }
 `;
 
 export const Backdrop = styled.div`

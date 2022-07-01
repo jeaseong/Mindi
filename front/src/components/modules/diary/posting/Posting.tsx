@@ -85,6 +85,7 @@ function Posting() {
       </Area>
       <AlignRight>
         <Button
+          size='lg'
           onClick={() => {
             onChangeLoading();
             onSubmit();

@@ -1,6 +1,6 @@
 import React from 'react';
 import { CalenderHeadProps } from 'types/atoms';
-import Span from 'components/atoms/span/Span';
+import Text from 'components/atoms/text/Text';
 import { CalenderHeader, Nav, NavBtn, Days, Day } from './Head.style';
 import { DATE } from 'utils/constants';
 
@@ -9,9 +9,9 @@ function Head({ year, month, onChangeMonth }: CalenderHeadProps) {
     <CalenderHeader>
       <Nav>
         <NavBtn onClick={() => onChangeMonth(-1)}>&lt;</NavBtn>
-        <Span>
+        <Text size='md'>
           {year}. {DATE.MONTH[month - 1]}
-        </Span>
+        </Text>
         <NavBtn onClick={() => onChangeMonth(1)}>&gt;</NavBtn>
       </Nav>
       <Days>

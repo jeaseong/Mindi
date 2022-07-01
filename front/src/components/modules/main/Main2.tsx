@@ -5,9 +5,11 @@ import {
   MainTemplate,
   ImageWrapper,
   EITestButton,
+  Buttons,
   ToEITest,
   ToRegister,
-  BGImg,
+  MainImg,
+  BottomImg,
   LogoText,
   RegisterButton,
 } from './Main.style';
@@ -73,7 +75,7 @@ function Main2() {
         animate='animate'
         exit='exit'
       >
-        <BGImg
+        <MainImg
           width='30%'
           src={IMAGE.LOGO_EFFECT_LINE.url}
           alt={IMAGE.LOGO_EFFECT_LINE.alt}
@@ -98,10 +100,10 @@ function Main2() {
           LOGIN!
         </MainButton>
       </MainTemplate>
-      <ToRegister>
-        <ImageWrapper>
-          <BGImg
-            width='27%'
+      <Buttons>
+        <ToRegister>
+          <BottomImg
+            width='30%'
             src={IMAGE.MAIN_DOODLE_FLIP.url}
             alt={IMAGE.MAIN_DOODLE_FLIP.alt}
             variants={EITestImgVariants}
@@ -117,12 +119,10 @@ function Main2() {
           >
             가입하기
           </RegisterButton>
-        </ImageWrapper>
-      </ToRegister>
-      <ToEITest>
-        <ImageWrapper>
-          <BGImg
-            width='27%'
+        </ToRegister>
+        <ToEITest>
+          <BottomImg
+            width='30%'
             src={IMAGE.MAIN_DOODLE.url}
             alt={IMAGE.MAIN_DOODLE.alt}
             variants={EITestImgVariants}
@@ -138,8 +138,8 @@ function Main2() {
           >
             감성 지수 테스트
           </EITestButton>
-        </ImageWrapper>
-      </ToEITest>
+        </ToEITest>
+      </Buttons>
     </>
   );
 }

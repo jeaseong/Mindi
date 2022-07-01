@@ -11,8 +11,9 @@ export const CalenderHeader = styled.div`
 
 export const Nav = styled.div`
   width: 50%;
-  margin: 0 auto;
+  margin: 20px auto;
   display: flex;
+  align-items: center;
   justify-content: space-between;
   ${({ theme }) => theme.media.tablet`
     width: 70%;

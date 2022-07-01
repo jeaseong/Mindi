@@ -84,7 +84,7 @@ export interface RadioProps {
 }
 
 export interface CardProps {
-  bgImg: string;
+  bgImg?: string;
 }
 
 export interface CustomizedState {

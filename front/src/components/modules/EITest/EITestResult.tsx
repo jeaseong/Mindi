@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'components/atoms/image/Image';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { IMAGE } from 'utils/image';
@@ -13,31 +13,33 @@ import {
   Description,
 } from './EITestResult.style';
 import { StyledButtonDiv } from './EITest.style';
+interface CustomizedState {
+  [key: string]: number;
+}
 
 function EITestResult() {
-  //useLocation state 타입 설정
-  interface CustomizedState {
-    [key: string]: number;
-  }
-
   const navigate = useNavigate();
   const location = useLocation();
+  const [score, setScore] = useState(0);
   const state = location.state as CustomizedState;
+  //점수 더하기
 
-  React.useEffect(() => {
-    // 마운트 될 때 location 정보 출력
-    console.log(state.selections);
+  const sumStateValue = () => {
+    if (state !== null) {
+      let sum = 0;
+      const stateArray = Object.values(state?.selections);
+      for (const o in stateArray) {
+        sum += stateArray[o];
+      }
+      setScore(sum);
+    }
+  };
+
+  useEffect(() => {
+    sumStateValue();
   }, []);
 
-  //점수 더하기
-  let score = 0;
-
-  const stateArray = Object.values(state.selections);
-
-  for (const o in stateArray) {
-    score += stateArray[o];
-  }
-
+  if (state === null) return <></>;
   return (
     <EIResultTemplate>
       <ImageWrapper>

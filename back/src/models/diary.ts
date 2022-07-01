@@ -75,11 +75,16 @@ export class MongoDiaryModel implements IDiaryModel {
       $and: [{ userId }, { [`sentiment.${emotion}`]: { $gt: 0 } }],
     })
       .sort({ [`sentiment.${emotion}`]: -1 })
+      .limit(5)
       .lean();
     return a;
   }
 
   async deleteByUserId(userId: string, session: ClientSession): Promise<void> {
     await DiaryModel.deleteMany({ userId }).session(session);
+  }
+
+  async findByUserId(userId: string): Promise<IDiary[]> {
+    return DiaryModel.find({ userId }).lean();
   }
 }

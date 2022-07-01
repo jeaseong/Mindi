@@ -6,7 +6,9 @@ import expressLoader from "../../src/loaders/express";
 import dependencyLoader from "../../src/loaders/dependencies";
 import axiosLoader from "../../src/loaders/axios";
 import { MongoMemoryServer } from "mongodb-memory-server";
+import { createHttpTerminator, HttpTerminator } from "http-terminator";
 
+let httpTerminator: HttpTerminator;
 async function appStart() {
   const app: express.Application = express();
   const mongoServer = await MongoMemoryServer.create();
@@ -14,18 +16,21 @@ async function appStart() {
   await axiosLoader();
   await dependencyLoader();
   await expressLoader({ app });
-  app.listen(config.port, () => {
+  const server = app.listen(config.port, () => {
     console.log(`
-    Mindi API Server
-    is running on: http://localhost:${config.port}`);
+        Mindi API Server
+        is running on: http://localhost:${config.port}`);
   });
+  httpTerminator = createHttpTerminator({ server });
 }
 
 async function testEnd() {
   await mongoose.disconnect();
   console.log(`${mongoose.connection.name} ${mongoose.connection.readyState} => 0: disconnected`);
+  await httpTerminator.terminate();
+  console.log("Application is terminated.");
 }
 
-const server = `http://localhost:${config.port}/api`;
+const apiURL = `http://localhost:${config.port}/api`;
 
-export { appStart, testEnd, server };
+export { appStart, testEnd, apiURL };

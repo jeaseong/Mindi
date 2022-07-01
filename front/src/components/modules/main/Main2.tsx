@@ -77,7 +77,7 @@ function Main2() {
         exit='exit'
       >
         <MainImg
-          width='30%'
+          width='50%'
           src={IMAGE.LOGO_EFFECT_LINE.url}
           alt={IMAGE.LOGO_EFFECT_LINE.alt}
           variants={LogoEffectVariants}

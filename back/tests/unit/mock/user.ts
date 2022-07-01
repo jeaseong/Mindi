@@ -2,12 +2,12 @@ import { faker } from "@faker-js/faker";
 import dayjs from "dayjs";
 
 export const mockObjectId = faker.database.mongodbObjectId();
-const dayString = dayjs().toISOString();
+export const dayString = dayjs().toISOString();
 export const mockEmail = faker.internet.email();
-const mockName = faker.name.findName();
-const role = "user";
-const mockPassword = faker.internet.password();
-const colorScheme: Object = {
+export const mockName = faker.name.findName();
+export const role = "user";
+export const mockPassword = faker.internet.password();
+export const colorScheme: Object = {
   fear: "#d9c7c7",
   surprised: "#b00067",
   anger: "#cef550",

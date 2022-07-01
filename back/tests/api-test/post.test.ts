@@ -1,29 +1,32 @@
-import { appStart, testEnd, server } from "./appStart";
+import { appStart, testEnd, apiURL } from "./appStart";
 import request from "supertest";
 
 //jest.setTimeout(10000);
 
 let accessToken: string;
 let userId: string;
+let postId: string;
+const regexISO = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}(?:\.\d*)?)((-(\d{2}):(\d{2})|Z)?)$/;
 
 beforeAll(async () => {
   await appStart();
-  await request(server).post("/auth/local/sign-up").send({
+  await request(apiURL).post("/auth/local/sign-up").send({
     email: "test@test.com",
     name: "test",
     password: "test1234",
   });
-  const mockUserInfo = await request(server).post("/auth/local/sign-in").send({
+  const mockUserInfo = await request(apiURL).post("/auth/local/sign-in").send({
     email: "test@test.com",
     password: "test1234",
   });
   accessToken = mockUserInfo.body.result.token;
   userId = mockUserInfo.body.result._id;
+  postId = "1234161234231";
 });
 
 describe("Post Router Test", () => {
   it("should create the new post", async () => {
-    const response = await request(server)
+    const response = await request(apiURL)
       .post("/posts")
       .set("Authorization", `Bearer ${accessToken}`)
       .send({
@@ -32,42 +35,73 @@ describe("Post Router Test", () => {
       });
 
     expect(response.status).toEqual(200);
-    expect(response.body.result).toHaveProperty("_id", expect.any(String));
-    expect(response.body.result).toHaveProperty("title", "test title");
-    expect(response.body.result).toHaveProperty("content", "test content");
-    expect(response.body.result).toHaveProperty("author", userId);
-    expect(response.body.result).toHaveProperty("comments", 0);
-    expect(response.body.result).toHaveProperty("createdAt", expect.any(String));
+    expect(response.body.result).toMatchObject(expect.objectContaining({
+      _id: expect.any(String),
+      title: "test title",
+      content: "test content",
+      author: userId,
+      comments: 0,
+      createdAt: expect.stringMatching(regexISO)
+    }));
   });
-  //
-  // it("Update test", async () => {
-  //   const response = await request(server)
-  //     .put("/users")
-  //     .set("Authorization", `Bearer ${accessToken}`)
-  //     .send({
-  //       name: "update test",
-  //     });
-  //   expect(response.status).toEqual(200);
-  //   expect(response.body.result).toHaveProperty("_id", expect.any(String));
-  //   expect(response.body.result).toHaveProperty("email", "test@test.com");
-  //   expect(response.body.result).toHaveProperty("name", "update test");
-  //   expect(response.body.result).toHaveProperty("recentLogin", expect.any(String));
-  // });
-  //
-  // it("Withdrawal test", async () => {
-  //   const response = await request(server)
-  //     .delete("/users")
+
+  it("should return a list of posts", async () => {
+    const response = await request(apiURL)
+      .get("/posts")
+      .set("Authorization", `Bearer ${accessToken}`)
+      .query({
+        page: 1,
+        limit: 5
+      });
+    expect(response.status).toEqual(200);
+    expect(response.body.result).toBeInstanceOf(Array<object>);
+  });
+
+  // it("should return a single post matched with postId", async () => {
+  //   const response = await request(apiURL)
+  //     .get("/posts/" + postId)
   //     .set("Authorization", `Bearer ${accessToken}`);
+  //
   //   expect(response.status).toEqual(200);
+  //   expect(response.body.result).toMatchObject(expect.objectContaining({
+  //     _id: expect.any(String),
+  //     title: "test title",
+  //     content: "test content",
+  //     author: userId,
+  //     comments: expect.any(Number),
+  //     createdAt: expect.stringMatching(regexISO)
+  //   }));
   // });
   //
-  // it("Password-reset test", async () => {
-  //   const response = await request(server)
-  //     .delete("/users/password-reset")
-  //     .set("Authorization", `Bearer ${accessToken}`);
-  //   expect(response.status).toEqual(200);
-  // });
+
+  it("should return a list of posts of a user", async () => {
+    const response = await request(apiURL)
+      .get("/users/posts")
+      .set("Authorization", `Bearer ${accessToken}`)
+      .query({
+        page: 1,
+        limit: 5
+      });
+    expect(response.status).toEqual(200);
+    expect(response.body.result).toBeInstanceOf(Array<object>);
+  });
 });
+
+// it("should update a post", async () => {
+//   const response = await request(apiURL)
+//     .put("/posts/" + postId)
+//     .set("Authorization", `Bearer ${accessToken}`)
+//
+//   expect(response.status).toEqual(200);
+//   expect(response.body.result).toMatchObject(expect.objectContaining({
+//     _id: expect.any(String),
+//     title: "test title",
+//     content: "test content",
+//     author: userId,
+//     comments: 0,
+//     createdAt: expect.stringMatching(regexISO)
+//   }));
+// });
 
 afterAll(async () => {
   await testEnd();

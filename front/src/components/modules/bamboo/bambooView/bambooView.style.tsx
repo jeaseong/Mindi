@@ -99,6 +99,10 @@ export const CommentInput = styled.textarea`
     background-color: white;
     border-color: #333333;
   }
+
+  ${({ theme }) => theme.media.mobile`
+     margin-bottom: 80px;
+  `}
 `;
 
 export const CommentButton = styled.button`

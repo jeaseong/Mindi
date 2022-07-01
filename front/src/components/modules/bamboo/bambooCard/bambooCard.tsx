@@ -10,6 +10,7 @@ import { IMAGE } from 'utils/image';
 import { getBambooList } from 'api/api';
 import Modal from '../modal/modal';
 import BambooView from '../bambooView/bambooView';
+import Loader from 'components/modules/loader/Loader';
 
 function BambooCard() {
   const [isOpenModal, setOpenModal] = useState<boolean>(false);
@@ -98,7 +99,7 @@ function BambooCard() {
         </>
       )}
 
-      {loading ? <div>로딩 중</div> : <></>}
+      {loading ? <Loader>로딩 중</Loader> : <></>}
       <div ref={observeRef} style={{ height: '100px' }}></div>
       {isOpenModal && (
         <>

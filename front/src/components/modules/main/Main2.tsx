@@ -1,5 +1,6 @@
 import React from 'react';
-import { IMAGE } from '../../../utils/image';
+import { useNavigate } from 'react-router-dom';
+import { IMAGE } from 'utils/image';
 import {
   MainTemplate,
   ImageWrapper,
@@ -11,7 +12,6 @@ import {
   RegisterButton,
 } from './Main.style';
 import { MainButton } from './Main.style';
-import { useNavigate } from 'react-router-dom';
 
 function Main2() {
   const navigate = useNavigate();

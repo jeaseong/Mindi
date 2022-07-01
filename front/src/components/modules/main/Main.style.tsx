@@ -2,8 +2,8 @@ import styled from 'styled-components';
 import { motion } from 'framer-motion';
 
 export const MainTemplate = styled(motion.div)`
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 70%;
   display: flex;
   justify-content: center;
   align-items: center;

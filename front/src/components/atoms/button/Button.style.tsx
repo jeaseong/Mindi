@@ -26,4 +26,8 @@ export const Btn = styled.button<BtnProps>`
   &:hover {
     background-color: ${(props) => props.theme.colors.btnColorHover};
   }
+  &:disabled {
+    color: #4c4c4c;
+    cursor: not-allowed;
+  }
 `;

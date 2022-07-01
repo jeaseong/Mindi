@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import Image from 'components/atoms/image/Image';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useQueryClient } from 'react-query';
+import Image from 'components/atoms/image/Image';
 import { IMAGE } from 'utils/image';
 import Button from 'components/atoms/button/Button';
 import {
@@ -19,6 +20,8 @@ interface CustomizedState {
 
 function EITestResult() {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  const userState = queryClient.getQueryData('userState');
   const location = useLocation();
   const [score, setScore] = useState(0);
   const state = location.state as CustomizedState;
@@ -71,7 +74,11 @@ function EITestResult() {
         </Description>
       </DescriptionWrapper>
       <StyledButtonDiv>
-        <Button onClick={() => navigate('/sign-in')}>가입하기</Button>
+        {userState ? (
+          <Button onClick={() => navigate('/diary')}>일기 쓰러가기</Button>
+        ) : (
+          <Button onClick={() => navigate('/sign-in')}>가입하기</Button>
+        )}
       </StyledButtonDiv>
     </EIResultTemplate>
   );

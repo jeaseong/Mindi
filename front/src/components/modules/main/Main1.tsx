@@ -4,47 +4,10 @@ import { IMAGE } from '../../../utils/image';
 import { MainTemplate } from './Main.style';
 import { MainButton } from './Main.style';
 import { useNavigate } from 'react-router-dom';
+import { templateVariants, childVariants } from './framer';
 
 function Main1() {
   const navigate = useNavigate();
-
-  const templateVariants = {
-    hidden: {
-      y: 50,
-      rotateZ: 180,
-      opacity: 0.5,
-      scale: 0.2,
-    },
-    visible: {
-      y: 0,
-      rotateZ: 0,
-      opacity: 1,
-      scale: 1,
-      transition: {
-        duration: 0.6,
-        type: 'spring',
-        when: 'beforeChildren',
-      },
-    },
-    exit: {
-      scale: 0,
-      opacity: 0,
-    },
-  };
-
-  const childVariants = {
-    normal: { scale: 0.9 },
-    point: {
-      scale: 1.1,
-      transition: {
-        duration: 0.5,
-        delay: 0.4,
-        stiffness: 700,
-        yoyo: Infinity,
-      },
-    },
-    hover: { scale: 1.2, color: 'red' },
-  };
 
   return (
     <MainTemplate

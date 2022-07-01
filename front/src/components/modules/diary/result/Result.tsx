@@ -31,6 +31,7 @@ function Result() {
   const [diaryData, setDiaryData] = useState();
   const [feelingData, setFeelingData] = useState();
   const [isDefault, setIsDefault] = useState(true);
+  const [videoId, setVideoId] = useState();
 
   const param = useParams();
   const curDate = param.date?.substring(0, 10) as string;
@@ -41,6 +42,7 @@ function Result() {
       setSentimentData(data[0].sentiment);
       setDiaryData(data[0].diary);
       setFeelingData(data[0].feeling);
+      setVideoId(data[0].videoId);
     });
   }, []);
 
@@ -171,7 +173,7 @@ function Result() {
       </ChartWrapper>
       <SubTitle>오늘의 추천 음악</SubTitle>
       <YouTubeWrapper>
-        <YouTube videoId='E0COLl4M1i4' opts={videoOptions} />
+        <YouTube videoId={videoId} opts={videoOptions} />
       </YouTubeWrapper>
       <ButtonWrapper>
         <ButtonLine />

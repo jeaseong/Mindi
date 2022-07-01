@@ -10,14 +10,14 @@ import {
 function ResultTemplate() {
   return (
     <StyledTemplate>
-      <PageTitle>
+      {/* <PageTitle>
         Today&apos;s <br />
         Emotion
       </PageTitle>
       <Lines>
         <LineTop />
         <LineBottom />
-      </Lines>
+      </Lines> */}
       <Result />
     </StyledTemplate>
   );

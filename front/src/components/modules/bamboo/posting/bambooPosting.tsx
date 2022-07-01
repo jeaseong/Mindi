@@ -12,11 +12,13 @@ import {
 import Button from 'components/atoms/button/Button';
 import { postBambooPosting } from 'api/api';
 import { getCustomizedDate } from 'utils/utils';
+import { useSnackbarContext } from 'contexts/SnackbarContext';
 
 function BambooPosting() {
   const navigate = useNavigate();
   const bambooTitleRef = useRef<HTMLInputElement>(null);
   const bambooTextRef = useRef<HTMLTextAreaElement>(null);
+  const { openSnackBar } = useSnackbarContext();
 
   const onSubmit = (e: any) => {
     e.preventDefault();
@@ -29,10 +31,10 @@ function BambooPosting() {
         content: bambooTextRef.current.value,
       })
         .then(() => {
-          alert('등록 완료!'), navigate('/bamboo-grove');
+          openSnackBar(true, '등록 완료!'), navigate('/bamboo-grove');
         })
         .catch((err) => {
-          alert('등록에 실패했습니다!'), console.log(err);
+          openSnackBar(false, '등록에 실패했습니다!'), console.log(err);
         });
     }
   };

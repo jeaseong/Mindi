@@ -81,10 +81,20 @@ export const postStatics = async (year: string, month: string) => {
   await Axios.post(apiUrl);
 };
 
+export const updateStatics = async (year: string, month: string) => {
+  const apiUrl = `api/statistics?year=${year}&month=${month}`;
+  await Axios.put(apiUrl);
+};
+
 export const getStatics = async (year: string, month: string) => {
   const apiUrl = `api/statistics?year=${year}&month=${month}`;
   const { data } = await Axios.get(apiUrl);
   return data.result;
+};
+
+export const delStatics = async () => {
+  const apiUrl = `api/statistics`;
+  await Axios.delete(apiUrl);
 };
 
 export const postBambooPosting = async (bambooData: any) => {
@@ -96,11 +106,6 @@ export const getBambooList = async (pageParam: number) => {
   const apiUrl = `api/posts?page=${pageParam}&limit=6`;
   const { data } = await Axios.get(apiUrl);
   return data.result;
-};
-
-export const delStatics = async () => {
-  const apiUrl = `api/statistics`;
-  await Axios.delete(apiUrl);
 };
 
 export const getBambooDetail = async (postId: string) => {

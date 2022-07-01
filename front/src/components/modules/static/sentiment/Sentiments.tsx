@@ -21,7 +21,7 @@ import {
 } from './Sentiments.style';
 
 function Sentiments({ emotion }: EmotionProps) {
-  const sentimentNames = useMemo(() => selectSentimentNames(emotion), []);
+  const sentimentNames = selectSentimentNames(emotion);
   const sentimentValues = selectSentimentValues(emotion);
   const mockSentimentNames = useMemo(
     () => selectSentimentNames(defaultValue.result.emotions),

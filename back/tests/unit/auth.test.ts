@@ -1,57 +1,9 @@
-import { IUserModel } from '../../src/interfaces/IUserModel';
-import { faker } from "@faker-js/faker";
-import dayjs from "dayjs";
 import AuthService from "../../src/services/auth";
-
-const mockObjectId = faker.database.mongodbObjectId();
-const dayString = dayjs().toISOString();
-const mockEmail = faker.internet.email();
-const mockName = faker.name.findName();
-const role = "user";
-const mockPassword = faker.internet.password();
-
-const userObject = {
-  _id: mockObjectId,
-  name: mockName,
-  email: mockEmail,
-  password: mockPassword,
-  role: role,
-  recentLogin: dayString,
-  createdAt: dayString,
-  updatedAt: dayString
-};
-
-export class TestUserModel implements IUserModel {
-  async create(email: string, name: string, password: string) {
-    return userObject;
-  }
-
-  async update(filter: Object, fieldToUpdate: Object) {
-    return userObject;
-  }
-
-  async delete(userId: string) {
-    return;
-  }
-
-  async findOne(filter: Object) {
-    return userObject;
-  }
-
-  async findMany(filter: Object) {
-    return [
-      userObject,
-      userObject,
-    ];
-  }
-
-  async exists(filter: Object) {
-    return true;
-  }
-}
+import logger from "../../src/loaders/winston";
+import { TestUserModel, mockEmail, mockName, mockPassword, userObject } from "./mock/user";
 
 describe("Auth Service Test", () => {
-  const authService = new AuthService(new TestUserModel);
+  const authService = new AuthService(TestUserModel, logger);
 
   test("should return UserInfo.", async () => {
     expect(await authService.localSignUp(mockEmail, mockName, mockPassword)).toEqual(userObject);

@@ -12,6 +12,7 @@ import winston from "winston";
 import transporter from "../loaders/smtpTransporter";
 import crypto from "crypto";
 import bcrypt from "bcrypt";
+import { IUser } from "../interfaces";
 
 @Service()
 export default class UserService {
@@ -34,11 +35,16 @@ export default class UserService {
     return this.userModel.findOne({ _id: userId });
   }
 
-  public async updateUserInfo(userId: string, fieldToUpdate: Object) {
+  public async updateUserInfo(userId: string, fieldToUpdate: Partial<IUser>) {
     const userExists = await this.userModel.exists({ _id: userId });
 
     if (!userExists) {
       throw new StatusError(400, "사용자가 존재하지 않습니다.");
+    }
+
+    if (fieldToUpdate.hasOwnProperty("password")) {
+      // 비밀번호 해시화
+      fieldToUpdate.password = await bcrypt.hash(fieldToUpdate.password!, 10);
     }
 
     return this.userModel.update({ _id: userId }, fieldToUpdate);

@@ -1,10 +1,37 @@
-import { body } from "express-validator";
+import {body, oneOf} from "express-validator";
 
 export default {
-  userUpdateBody: [
-    body("name").exists({ checkNull: true }).isString().trim(),
-    body("password").exists({ checkNull: true }).isString(),
-    body("description").exists({ checkNull: true }).isString(),
+  userUpdateBody: oneOf([
+    body("name")
+      .exists({ checkNull: true })
+      .isString()
+      .trim(),
+    body("password")
+      .exists({ checkNull: true })
+      .isString()
+      .isStrongPassword({
+        minLength: 8,
+        minNumbers: 1,
+        minLowercase: 1,
+        minUppercase: 0,
+        minSymbols: 0
+      })
+      .withMessage("비밀번호를 확인해주세요.")
+      .bail(),
+  ]),
+  checkPassword: [
+    body("password")
+      .exists({ checkNull: true })
+      .withMessage("pass")
+      .isStrongPassword({
+        minLength: 8,
+        minNumbers: 1,
+        minLowercase: 1,
+        minUppercase: 0,
+        minSymbols: 0
+      })
+      .withMessage("비밀번호를 확인해주세요.")
+      .bail(),
   ],
   checkEmail: [
     body("email")

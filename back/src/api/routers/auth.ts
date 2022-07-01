@@ -5,7 +5,6 @@ import { Container } from "typedi";
 import { validationErrorChecker } from "../middlewares";
 import { authValidator } from "../middlewares/express-validator";
 import { IUser, IResponse } from "../../interfaces";
-import crypto from "crypto";
 
 export default (app: Router) => {
   const authRouter = Router();
@@ -75,10 +74,9 @@ export default (app: Router) => {
     async (req: Request, res: Response, next: NextFunction) => {
       try {
         const { email } = matchedData(req);
-        const code = crypto.randomBytes(3).toString("hex");
 
         const authService = Container.get(AuthService);
-        await authService.sendMail(email, code);
+        const code = await authService.sendMail(email);
 
         const response: IResponse<string> = {
           success: true,

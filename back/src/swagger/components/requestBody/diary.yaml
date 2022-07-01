@@ -29,6 +29,7 @@ update:
   properties:
     _id:
       type: string
+      readOnly: true
       description: 다이어리의 object ID가 들어갑니다. 수정이 불가능한 속성입니다.
     diary:
       type: string
@@ -54,6 +55,7 @@ delete:
   properties:
     _id:
       type: string
+      readOnly: true
       description: 다이어리의 object ID가 들어갑니다. 수정이 불가능한 속성입니다.
     imageFileName:
       type: string

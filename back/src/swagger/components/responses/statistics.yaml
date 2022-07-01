@@ -15,8 +15,10 @@ post:
       properties:
         _id:
           type: string
+          readOnly: true
         userId:
           type: string
+          readOnly: true
         monthly:
           type: string
         keywords:
@@ -42,3 +44,33 @@ post:
           type: array
           items:
             type: object
+            properties:
+              _id:
+                type: string
+              userId:
+                type: string
+              diary:
+                type: string
+              feeling:
+                type: string
+              sentiment:
+                type: object
+                properties:
+                  fear:
+                    type: integer
+                  surprised:
+                    type: integer
+                  anger:
+                    type: integer
+                  sadness:
+                    type: integer
+                  happiness:
+                    type: integer
+                  aversion:
+                    type: integer
+              diaryDate:
+                type: string
+              imageFileName:
+                type: string
+              imageFilePath:
+                type: string

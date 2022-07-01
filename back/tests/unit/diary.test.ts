@@ -3,7 +3,6 @@ import { mockUserId, mockObjectId, mockDiary, testDiaryModel } from "./mock/diar
 import logger from "../../src/loaders/winston";
 
 describe("Diary Service Test", () => {
-  const date = "2022-06-25";
   const diaryService = new DiaryService(testDiaryModel, logger);
 
   it("create new diary", async () => {
@@ -18,7 +17,7 @@ describe("Diary Service Test", () => {
   });
 
   it("find a diary list", async () => {
-    expect(await diaryService.findByDate(mockUserId, date)).toEqual([
+    expect(await diaryService.findByDate(mockUserId, "2022-06", "M")).toEqual([
       {
         _id: mockObjectId,
         ...mockDiary,

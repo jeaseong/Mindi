@@ -39,6 +39,9 @@ paths:
       $ref: "./paths/user.yaml#/Put"
     delete:
       $ref: "./paths/user.yaml#/Delete"
+  /users/password-reset:
+    post:
+      $ref: "./paths/user.yaml#/Password-reset"
   /posts:
     post:
       $ref: "./paths/post.yaml#/Post"
@@ -85,6 +88,9 @@ paths:
   /statistics/{statId}:
     delete:
       $ref: "./paths/statistics.yaml#/Delete"
+  /auth/local/sign-up/mail:
+    post:
+      $ref: "./paths/auth.yaml#/SendMail"
 
 components:
   securitySchemes:

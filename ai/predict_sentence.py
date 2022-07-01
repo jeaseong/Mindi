@@ -1,11 +1,11 @@
 import re
 import torch
 from torch.utils.data import DataLoader, Dataset
-from transformers import ElectraTokenizer, ElectraForSequenceClassification
+from transformers import AutoTokenizer, ElectraForSequenceClassification
 
 device = torch.device('cpu')
 model = ElectraForSequenceClassification.from_pretrained('./model/model_final.pt').to(device)
-tokenizer = ElectraTokenizer.from_pretrained('monologg/koelectra-base-v3-discriminator')
+tokenizer = AutoTokenizer.from_pretrained('beomi/KcELECTRA-base')
 model.eval()
 
 class LoadDataset(Dataset):

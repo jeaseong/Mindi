@@ -58,11 +58,6 @@ export default class AuthService {
     };
   }
 
-  public async googleSignIn() {
-    // TODO
-    // 구글 로그인
-  }
-
   public issueJWT(user: any) {
     const _id = user._id;
     const expiresIn: string = config.jwtExpirationDate;

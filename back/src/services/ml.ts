@@ -38,10 +38,12 @@ export default class MLService {
     }
   }
 
-  public async postKeywordAnalysis(userId: string, date: string) {
-    const doc = await this.statModel.exists(userId, { monthly: dayjs(date).toDate() });
-    if (doc) {
-      throw new StatusError(400, "분석 결과가 이미 존재합니다.");
+  public async postKeywordAnalysis(userId: string, date: string, checkExist: boolean) {
+    if (checkExist) {
+      const doc = await this.statModel.exists(userId, { monthly: dayjs(date).toDate() });
+      if (doc) {
+        throw new StatusError(400, "분석 결과가 이미 존재합니다.");
+      }
     }
 
     const from = dayjs(date).startOf("month").toDate();

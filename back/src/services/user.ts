@@ -1,6 +1,6 @@
 import { Inject, Service } from "typedi";
 import { ClientSession } from "mongoose";
-import { StatusError, setResetPasswordMail, runTransaction } from "../utils";
+import { StatusError, setResetPasswordMail, runTransaction, imageDelete } from "../utils";
 import {
   MongoUserModel,
   MongoDiaryModel,
@@ -65,7 +65,16 @@ export default class UserService {
       await this.commentModel.deleteByUserId(userId, session);
     };
 
-    return runTransaction(txnFunc);
+    const diaries = await this.diaryModel.findByUserId(userId);
+    await runTransaction(txnFunc);
+
+    for (const diary of diaries) {
+      if (diary.imageFileName) {
+        await imageDelete(diary.imageFileName);
+      }
+    }
+
+    return;
   }
 
   public async resetPassword(email: string) {

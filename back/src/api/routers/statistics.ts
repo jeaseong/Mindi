@@ -24,7 +24,8 @@ export default (app: Router) => {
         const { year, month } = req.query;
         const date: string = `${year}-${month}`;
 
-        const { docList, myKeyword } = await mlService.postKeywordAnalysis(userId!, date); // 다이어리 모델의 다큐먼트 리스트와 키워드 분석 결과를 반환
+        // 다이어리 모델의 다큐먼트 리스트와 키워드 분석 결과 반환
+        const { docList, myKeyword } = await mlService.postKeywordAnalysis(userId!, date, true); // boolean: 분석 결과 존재 여부 확인
 
         const newStat: Partial<IStat> = {
           userId,
@@ -45,7 +46,40 @@ export default (app: Router) => {
     },
   );
 
-  statRouter.delete("/:id", async (req: Request, res: Response, next: NextFunction) => {
+  statRouter.put(
+    "/",
+    checkAuth,
+    statValidator.dayDiff, // 요청이 오늘 날짜를 기준으로 지난 달인지 검사
+    validationErrorChecker,
+    async (req: Request, res: Response, next: NextFunction) => {
+      try {
+        const userId = req.user!._id;
+
+        const { year, month } = req.query;
+        const date: string = `${year}-${month}`;
+
+        const { docList, myKeyword } = await mlService.postKeywordAnalysis(userId!, date, false); // boolean: 분석 결과 존재 여부 확인
+
+        const newResult: Partial<IStat> = {
+          userId,
+          keywords: myKeyword,
+        };
+
+        const createdResult: IStat = await statService.updateOne(newResult, date, docList);
+
+        const response: IResponse<IStat> = {
+          success: true,
+          result: createdResult,
+        };
+
+        res.status(200).json(response);
+      } catch (error) {
+        next(error);
+      }
+    },
+  );
+
+  statRouter.delete("/:id", checkAuth, async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { id } = req.params;
       await statService.deleteOne(id);

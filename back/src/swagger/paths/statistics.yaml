@@ -28,6 +28,36 @@ Post:
             post:
               $ref: "../components/examples/statistics.yaml#/post"
 
+Put:
+  tags:
+    - statistics
+  summary: 통계 결과를 생성합니다.
+  security:
+    - BearerAuth: []
+  parameters:
+    - in: query
+      name: year
+      schema:
+        type: string
+        example: "2022"
+      description: 연도를 나타냅니다. 형식은 "YYYY"입니다.
+    - in: query
+      name: month
+      schema:
+        type: string
+        example: "06"
+      description: 월을 나타냅니다. 형식은 "MM"입니다.
+  responses:
+    "200":
+      description: emotions는 한 달동안 얼마나 그 감정이 자주 관찰되었는지를 나타냅니다. reminder는 그 감정이 강하게 나타난 일기부터 나열하여 반환합니다.
+      content:
+        application/json:
+          schema:
+            $ref: "../components/responses/statistics.yaml#/post"
+          examples:
+            post:
+              $ref: "../components/examples/statistics.yaml#/post"
+
 Delete:
   tags:
     - statistics

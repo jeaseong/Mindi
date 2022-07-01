@@ -1493,14 +1493,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/paths/~1statistics%3Fyear%3D%7Byear%7D%26month%3D%7Bmonth%7D/get/responses/200/content/application~1json/schema'
+                $ref: '#/paths/~1statistics%3Fyear%3D%7Byear%7D%26month%3D%7Bmonth%7D/put/responses/200/content/application~1json/schema'
               examples:
                 post:
                   $ref: '#/paths/~1statistics%3Fyear%3D%7Byear%7D%26month%3D%7Bmonth%7D/get/responses/200/content/application~1json/examples/get'
-    get:
+    put:
       tags:
         - statistics
-      summary: 통계 결과를 반환합니다.
+      summary: 통계 결과를 생성합니다.
       security:
         - BearerAuth: []
       parameters:
@@ -1518,7 +1518,7 @@ paths:
           description: 월을 나타냅니다. 형식은 "MM"입니다.
       responses:
         '200':
-          description: 해당 월의 통계 결과를 반환합니다.
+          description: emotions는 한 달동안 얼마나 그 감정이 자주 관찰되었는지를 나타냅니다. reminder는 그 감정이 강하게 나타난 일기부터 나열하여 반환합니다.
           content:
             application/json:
               schema:
@@ -1597,6 +1597,35 @@ paths:
                               type: string
                             imageFilePath:
                               type: string
+              examples:
+                post:
+                  $ref: '#/paths/~1statistics%3Fyear%3D%7Byear%7D%26month%3D%7Bmonth%7D/get/responses/200/content/application~1json/examples/get'
+    get:
+      tags:
+        - statistics
+      summary: 통계 결과를 반환합니다.
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: query
+          name: year
+          schema:
+            type: string
+            example: '2022'
+          description: 연도를 나타냅니다. 형식은 "YYYY"입니다.
+        - in: query
+          name: month
+          schema:
+            type: string
+            example: '06'
+          description: 월을 나타냅니다. 형식은 "MM"입니다.
+      responses:
+        '200':
+          description: 해당 월의 통계 결과를 반환합니다.
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1statistics%3Fyear%3D%7Byear%7D%26month%3D%7Bmonth%7D/put/responses/200/content/application~1json/schema'
               examples:
                 get:
                   value:

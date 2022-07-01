@@ -23,7 +23,7 @@ Post:
             newDiaryWithoutImage:
               $ref: "../components/examples/diary.yaml#/createWithoutImage"
 
-Update:
+Put:
   tags:
     - diaries
   summary: 다이어리를 업데이트 합니다.
@@ -34,7 +34,7 @@ Update:
     content:
       multipart/form-data:
         schema:
-          $ref: "../components/requestBody/diary.yaml#/update"
+          $ref: "../components/requestBody/diary.yaml#/put"
   responses:
     "200":
       description: OK

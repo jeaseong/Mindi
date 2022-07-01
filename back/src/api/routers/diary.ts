@@ -124,7 +124,7 @@ export default (app: Router) => {
     },
   );
 
-  diaryRouter.delete("/", async (req: Request, res: Response, next: NextFunction) => {
+  diaryRouter.delete("/", checkAuth, async (req: Request, res: Response, next: NextFunction) => {
     try {
       const id = req.body._id;
       const imageFileName = req.body.imageFileName;

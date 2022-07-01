@@ -24,6 +24,7 @@ export const CommentText = styled.div`
 `;
 
 export const CommentInput = styled.textarea`
+  resize: none;
   width: 435px;
   height: 155px;
   border: 2px solid transparent;
@@ -55,4 +56,9 @@ export const CommentButton = styled.button`
   border: 1px solid black;
   display: inline;
   float: right;
+`;
+
+export const CommentList = styled.li`
+  list-style: none;
+  margin-bottom: 10px;
 `;

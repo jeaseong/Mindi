@@ -16,7 +16,7 @@ function Main1() {
       animate='visible'
       exit='exit'
     >
-      <Image width='30%' src={IMAGE.NEW_LOGO.url} alt={IMAGE.NEW_LOGO.alt} />
+      <Image width='35%' src={IMAGE.NEW_LOGO.url} alt={IMAGE.NEW_LOGO.alt} />
       <MainButton
         onClick={() => {
           navigate('/main');

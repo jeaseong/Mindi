@@ -8,7 +8,7 @@ export const Container = styled.div`
 
 export const MainTemplate = styled(motion.div)`
   width: 100%;
-  min-height: 300px;
+  max-height: 400px;
   height: 100%;
   display: flex;
   justify-content: center;

@@ -70,4 +70,13 @@ export const testDiaryModel = {
   deleteByUserId: async (userId: string, session: ClientSession) => {
     return;
   },
+
+  findByUserId: async (userId: string) => {
+    return [
+      {
+        _id: mockObjectId,
+        ...mockDiary,
+      },
+    ];
+  },
 };

@@ -64,4 +64,11 @@ export const testStatisticsModel = {
   deleteByUserId: async (userId: string, session: ClientSession) => {
     return;
   },
+
+  updateOne: async (filter: Partial<IStat>, toUpdate: Partial<IStat>) => {
+    return {
+      _id: mockObjectId,
+      ...mockResult,
+    };
+  },
 };

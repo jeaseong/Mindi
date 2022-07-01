@@ -154,6 +154,5 @@ describe("Diary with an image", () => {
 });
 
 afterAll(async () => {
-  // await request(apiURL).delete("/users").set("Authorization", `Bearer ${accessToken}`);
   await testEnd();
 });

@@ -88,12 +88,11 @@ describe("Statistics Router Test", () => {
   });
 
   it("Delete a result", async () => {
-    const response = await request(apiURL).delete(`/statistics/${mockObjectId}`);
+    const response = await request(apiURL).delete(`/statistics/${mockObjectId}`).set("Authorization", `Bearer ${accessToken}`);;
     expect(response.status).toEqual(200);
   });
 });
 
 afterAll(async () => {
-  // await request(apiURL).delete("/users").set("Authorization", `Bearer ${accessToken}`);
   await testEnd();
 });

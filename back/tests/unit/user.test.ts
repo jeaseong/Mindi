@@ -1,62 +1,20 @@
-import { IUserModel } from '../../src/interfaces/IUserModel';
-import { faker } from "@faker-js/faker";
-import dayjs from "dayjs";
+import logger from "../../src/loaders/winston";
 import UserService from "../../src/services/user";
-
-const mockObjectId = faker.database.mongodbObjectId();
-const dayString = dayjs().toISOString();
-const mockEmail = faker.internet.email();
-const mockName = faker.name.findName();
-const role = "user";
-const mockPassword = faker.internet.password();
-
-const userObject = {
-  _id: mockObjectId,
-  name: mockName,
-  email: mockEmail,
-  password: mockPassword,
-  role: role,
-  recentLogin: dayString,
-  createdAt: dayString,
-  updatedAt: dayString
-};
-
-const fieldToUpdateUser = {
-  name: mockName,
-  password: mockPassword,
-};
-
-export class TestUserModel implements IUserModel {
-  async create(email: string, name: string, password: string) {
-    return userObject;
-  }
-
-  async update(filter: Object, fieldToUpdateUser: Object) {
-    return userObject;
-  }
-
-  async delete(userId: string) {
-    return;
-  }
-
-  async findOne(filter: Object) {
-    return userObject;
-  }
-
-  async findMany(filter: Object) {
-    return [
-      userObject,
-      userObject,
-    ];
-  }
-
-  async exists(filter: Object) {
-    return true;
-  }
-}
+import { TestUserModel, mockObjectId, userObject, fieldToUpdateUser, mockEmail } from "./mock/user";
+import { testDiaryModel } from "./mock/diary";
+import { testStatisticsModel } from "./mock/statistics";
+import { testCommentModel } from "./mock/comment";
+import { testPostModel } from "./mock/post";
 
 describe("User Service Test", () => {
-  const userService = new UserService(new TestUserModel);
+  const userService = new UserService(
+    TestUserModel,
+    testStatisticsModel,
+    testDiaryModel,
+    testCommentModel,
+    testPostModel,
+    logger,
+  );
 
   test("should return UserInfo.", async () => {
     expect(await userService.getUserInfo(mockObjectId)).toEqual(userObject);
@@ -64,7 +22,11 @@ describe("User Service Test", () => {
   test("should update UserInfo", async () => {
     expect(await userService.updateUserInfo(mockObjectId, fieldToUpdateUser)).toEqual(userObject);
   });
-  test("should delete User", async () => {
-    expect(await userService.deleteUser(mockObjectId)).toBe(undefined);
+  test("should update UserInfo", async () => {
+    expect(await userService.resetPassword(mockEmail)).toHaveProperty("userInfo", userObject);
+    expect(await userService.resetPassword(mockEmail)).toHaveProperty(
+      "tempPassword",
+      expect.any(String),
+    );
   });
 });

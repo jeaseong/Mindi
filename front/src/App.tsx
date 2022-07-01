@@ -8,7 +8,7 @@ const App: React.FC = () => {
   return (
     <div className='App'>
       <RoutePage isFetching={isLoading} isLogin={isLogin} />
-      <SnackbarContainer />
+      <SnackbarContainer position='center' />
     </div>
   );
 };

@@ -79,7 +79,7 @@ export default (app: Router) => {
     },
   );
 
-  statRouter.delete("/:id", async (req: Request, res: Response, next: NextFunction) => {
+  statRouter.delete("/:id", checkAuth, async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { id } = req.params;
       await statService.deleteOne(id);

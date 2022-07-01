@@ -1,13 +1,14 @@
 import React, { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
+
 import Input from 'components/atoms/input/Input';
 import Button from 'components/atoms/button/Button';
 import Text from 'components/atoms/text/Text';
 import { useSnackbarContext } from 'contexts/SnackbarContext';
-import { signUpPost } from 'api/api';
+import { signUpPost, signUpVerify } from 'api/api';
 import { signUpValidation } from 'utils/validation';
 import { LABEL, SIGNIN_GUIDE, ALERT_MESSAGE } from 'utils/constants';
-import { AuthContainer, InputBox } from './Auth.style';
+import { AuthContainer, InputBox, CheckBtn } from './Auth.style';
 
 function SignUp() {
   const navigate = useNavigate();
@@ -18,6 +19,10 @@ function SignUp() {
     password: '',
     confirmPassword: '',
   });
+  const [inputVerifyCode, setInputVerifyCode] = useState('');
+  const [isVerifyMail, SetIsVerifyMail] = useState(false);
+  const [isCheckVerify, setIsCheckVerify] = useState(false);
+  const [verifyCode, setVerifyCode] = useState('');
   const { name, email, password, confirmPassword } = inputData;
   const { isCheckName, isCheckEmail, isCheckPassword, isSamePassword } =
     signUpValidation(inputData);
@@ -31,6 +36,33 @@ function SignUp() {
     password: !isCheckPassword && password.length > 0,
     confirmPassword: !isSamePassword && confirmPassword.length > 0,
   };
+
+  const checkVerifyCode = () => {
+    if (inputVerifyCode === verifyCode) {
+      openSnackBar(true, '메일 인증이 완료되었습니다.');
+      setIsCheckVerify(true);
+    } else {
+      openSnackBar(false, '인증번호를 확인해주세요.');
+    }
+  };
+
+  const onPostVerfyCode = async () => {
+    try {
+      const code = await signUpVerify({ email: email });
+      openSnackBar(false, '인증번호를 발송했습니다.');
+      setVerifyCode(code);
+      SetIsVerifyMail(true);
+    } catch (e) {
+      openSnackBar(false, '메일 주소를 확인해주세요');
+    }
+  };
+
+  const onChangeVerifyCode = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setInputVerifyCode(e.target.value);
+    },
+    [],
+  );
 
   const onChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -67,12 +99,28 @@ function SignUp() {
       </InputBox>
       <InputBox>
         <Input
+          disabled={isVerifyMail}
           onChange={onChange}
           name={`${LABEL.EMAIL.label}`}
           type='text'
           placeholder='email'
         />
+        <CheckBtn onClick={onPostVerfyCode} disabled={!isCheckEmail}>
+          인증
+        </CheckBtn>
         {checkInfo.email && <Text>{SIGNIN_GUIDE.EMAIL.label}</Text>}
+      </InputBox>
+      <InputBox>
+        <Input
+          disabled={isCheckVerify}
+          onChange={onChangeVerifyCode}
+          name={`${LABEL.VERIFY.label}`}
+          type='text'
+          placeholder='인증번호'
+        />
+        <CheckBtn onClick={checkVerifyCode} disabled={isCheckVerify}>
+          확인
+        </CheckBtn>
       </InputBox>
       <InputBox>
         <Input

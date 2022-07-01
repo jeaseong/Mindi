@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 
 export const Template = styled.section`
-  width: 100%;
-  max-width: 500px;
+  width: 80%;
+  max-width: 1024px;
+  height: auto;
   margin: 0 auto;
-  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;

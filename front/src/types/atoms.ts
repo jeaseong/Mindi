@@ -1,3 +1,7 @@
+export interface HeaderProps {
+  isLogin: boolean;
+}
+
 export interface BtnProps {
   children?: React.ReactNode;
   size?: string;
@@ -11,6 +15,7 @@ export type TextProps = {
   align?: string;
   size?: string;
   background?: boolean;
+  bold?: boolean;
 };
 
 export type TextAreaProps = {
@@ -32,6 +37,8 @@ export type InputProps = {
   placeholder: string;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   required?: boolean;
+  disabled?: boolean;
+  value?: string;
 };
 
 export type SnackbarType = 'sucessAlert' | 'errorAlert';
@@ -143,7 +150,6 @@ export interface CalenderBodyProps {
   totalDate: string[][];
   onSetDay: (d: number) => void;
 }
-
 // statics type
 export type EmotionType = {
   fear: number;
@@ -160,4 +166,20 @@ export interface EmotionProps {
 
 export interface KeywordsProps {
   keywords: string[];
+}
+
+export interface UserType {
+  _id: string;
+  email: string;
+  name: string;
+  recentLogin: string;
+}
+
+export interface EditUserProps {
+  onClickEditUser: () => void;
+}
+export interface ModalProps {
+  children: any;
+  _handleModal: any;
+  onClick?: (e: React.MouseEvent<HTMLSpanElement>) => void;
 }

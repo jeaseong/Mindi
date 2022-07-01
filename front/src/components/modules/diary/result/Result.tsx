@@ -37,7 +37,7 @@ function Result() {
   const strSplit = curDate.split('-');
 
   useEffect(() => {
-    getDiaryList(strSplit[0], strSplit[1], strSplit[2]).then((data) => {
+    getDiaryList(strSplit[0], strSplit[1], strSplit[2], 'day').then((data) => {
       setSentimentData(data[0].sentiment);
       setDiaryData(data[0].diary);
       setFeelingData(data[0].feeling);

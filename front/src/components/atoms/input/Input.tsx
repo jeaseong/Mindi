@@ -8,14 +8,18 @@ function Input({
   type,
   onChange,
   required = true,
+  disabled = false,
+  value,
 }: InputProps) {
   return (
     <InputBox
+      value={value}
       name={name}
       type={type}
       placeholder={placeholder.toUpperCase()}
       onChange={onChange}
       required={required}
+      disabled={disabled}
     />
   );
 }

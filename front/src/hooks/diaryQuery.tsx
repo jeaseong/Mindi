@@ -1,11 +1,12 @@
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import { getDiaryList, postDiaryPosting, putDiaryPosting } from 'api/api';
-export const useGetDiaryList = (date: string) => {
+export const useGetDiaryList = (date: string, type: string) => {
   const dateSplit = date.split('-');
   const { isFetching, isLoading, error, data } = useQuery(
     ['diary', date],
-    async () => await getDiaryList(dateSplit[0], dateSplit[1], dateSplit[2]),
+    async () =>
+      await getDiaryList(dateSplit[0], dateSplit[1], dateSplit[2], type),
     {
       onError: () => {
         return '데이터가 없다.';

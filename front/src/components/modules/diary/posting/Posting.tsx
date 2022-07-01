@@ -9,7 +9,7 @@ import TextArea from 'components/atoms/textArea/TextArea';
 import Button from 'components/atoms/button/Button';
 import SubTitle from 'components/atoms/text/SubTitle';
 import { IMAGE } from 'utils/image';
-import { FileType, DiaryType, CustomizedState } from 'types/atoms';
+import { FileType, DiaryType } from 'types/atoms';
 import { PostingContainer, Area, AlignRight } from './Posting.style';
 
 function Posting() {
@@ -23,6 +23,7 @@ function Posting() {
     preview: `${IMAGE.IMG_UPLOAD_BASIC.url}`,
     data: undefined,
   });
+
   const formData = useMemo(() => new FormData(), [editImg]);
 
   const onChangeSimple = useCallback(

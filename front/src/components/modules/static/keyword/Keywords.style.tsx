@@ -9,6 +9,10 @@ export const Container = styled.section`
   margin-bottom: 50px;
 `;
 
+export const MockContainer = styled(Container)`
+  filter: blur(4px);
+`;
+
 export const TextRank = styled.div`
   width: 100%;
   height: 100%;

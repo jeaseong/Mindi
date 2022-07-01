@@ -28,7 +28,7 @@ export const selectMaxSentiment = (sentiments: SentimentsType) => {
     throw new Error('sentiments이 없습니다.');
   }
   const sorted = Object.entries(sentiments)?.sort((a, b) => b[1] - a[1]);
-  if (sorted[0][1] === 0) return 'mixed';
+  if (sorted[0][1] === 0) return 'BLANK';
   return sorted[0][0];
 };
 
@@ -45,4 +45,30 @@ export const selectSentimentNames = (sentimentData: EmotionType) => {
     const sentimentNames = Object.keys(sentimentData);
     return sentimentNames;
   }
+};
+
+//yyyy.mm.dd.형식으로 바꾸기
+export const getCustomizedDate = (date: any) => {
+  const month = ('0' + (date.getMonth() + 1)).slice(-2);
+  const year = date.getFullYear();
+  const day = ('0' + date.getDate()).slice(-2);
+
+  return year + '. ' + month + '. ' + day + '. ';
+};
+
+const dateToString = (d: number) => {
+  return d >= 10 ? `${d}` : `0${d}`;
+};
+
+export const convertUtcToKst = (utc: Date) => {
+  const date = new Date(utc);
+  const year = `${date.getFullYear()}`;
+  const month = dateToString(date.getMonth() + 1);
+  const day = dateToString(date.getDate());
+  return [year, month, day].join('-');
+};
+
+export const convertToUtc = (date: string) => {
+  const localDate = new Date(date).toISOString();
+  console.log(localDate);
 };

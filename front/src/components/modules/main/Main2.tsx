@@ -1,6 +1,7 @@
 import React from 'react';
-import { IMAGE } from '../../../utils/image';
+import { IMAGE } from 'utils/image';
 import {
+  Container,
   MainTemplate,
   ImageWrapper,
   EITestButton,
@@ -68,7 +69,7 @@ function Main2() {
   };
 
   return (
-    <>
+    <Container>
       <MainTemplate
         variants={commonVariants}
         initial='initial'
@@ -103,7 +104,7 @@ function Main2() {
       <Buttons>
         <ToRegister>
           <BottomImg
-            width='30%'
+            width='170px'
             src={IMAGE.MAIN_DOODLE_FLIP.url}
             alt={IMAGE.MAIN_DOODLE_FLIP.alt}
             variants={EITestImgVariants}
@@ -122,7 +123,7 @@ function Main2() {
         </ToRegister>
         <ToEITest>
           <BottomImg
-            width='30%'
+            width='220px'
             src={IMAGE.MAIN_DOODLE.url}
             alt={IMAGE.MAIN_DOODLE.alt}
             variants={EITestImgVariants}
@@ -140,7 +141,7 @@ function Main2() {
           </EITestButton>
         </ToEITest>
       </Buttons>
-    </>
+    </Container>
   );
 }
 

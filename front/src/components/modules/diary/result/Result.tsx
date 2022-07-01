@@ -30,7 +30,7 @@ function Result() {
   const [sentimentData, setSentimentData] = useState();
   const [diaryData, setDiaryData] = useState();
   const [feelingData, setFeelingData] = useState();
-  const [isDefault, setIsDefault] = useState(true);
+  const [isDefault, setIsDefault] = useState(false);
   const [videoId, setVideoId] = useState();
 
   const param = useParams();
@@ -112,7 +112,7 @@ function Result() {
   );
 
   if (valuesSum === 0) {
-    setIsDefault(false);
+    setIsDefault(!isDefault);
   }
 
   const data = {
@@ -166,9 +166,9 @@ function Result() {
       <SubTitle>오늘의 감정 그래프</SubTitle>
       <ChartWrapper>
         {isDefault ? (
-          <Doughnut data={data} />
-        ) : (
           <FeelingWrapper>모든 감정이 0예요 :/</FeelingWrapper>
+        ) : (
+          <Doughnut data={data} />
         )}
       </ChartWrapper>
       <SubTitle>오늘의 추천 음악</SubTitle>

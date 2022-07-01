@@ -28,9 +28,7 @@ async function appStart() {
 
 async function testEnd() {
   await mongoose.disconnect();
-  // console.log(`${mongoose.connection.name} ${mongoose.connection.readyState} => 0: disconnected`);
   await httpTerminator.terminate();
-  // console.log("Application is terminated.");
 }
 
 const apiURL = `http://localhost:${config.port}/api`;

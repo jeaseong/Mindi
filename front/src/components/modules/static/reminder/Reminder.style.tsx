@@ -6,6 +6,10 @@ export const Container = styled.section`
   margin-bottom: 50px;
 `;
 
+export const MockContainer = styled(Container)`
+  filter: blur(4px);
+`;
+
 export const ReminderDiaries = styled.div`
   width: 100%;
   display: grid;

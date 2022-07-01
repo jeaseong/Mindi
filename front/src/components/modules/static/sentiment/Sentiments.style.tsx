@@ -6,6 +6,33 @@ export const Container = styled.div`
   margin-bottom: 50px;
 `;
 
+export const Text = styled.div`
+  width: 100%;
+  height: transparent;
+  position: absolute;
+  text-align: center;
+  top: 30%;
+  z-index: 10;
+  padding: 10px;
+  font-weight: bold;
+  font-size: 1.2rem;
+  a {
+    color: ${(props) => props.theme.colors.fear};
+  }
+`;
+
+export const BlurBox = styled.div`
+  position: relative;
+`;
+
+export const ContainerMock = styled(Container)`
+  filter: blur(4px);
+`;
+
+export const BlurText = styled.div`
+  margin-bottom: 5px;
+`;
+
 export const ChartSizeBox = styled.div`
   width: 60%;
   margin: 0 auto;

@@ -9,4 +9,4 @@ function Text({ children, align, size, bold = false }: TextProps) {
   );
 }
 
-export default Text;
+export default React.memo(Text);

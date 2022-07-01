@@ -9,12 +9,6 @@
   box-sizing: border-box;
   font-family: 'TmoneyRoundWindRegular';
 }
-html,
-body,
-#root,
-.App {
-  height: 100%;
-}
 body {
   margin: 0;
   height: 100%;

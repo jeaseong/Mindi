@@ -1,6 +1,7 @@
 import React from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import PrivateRoute from './PrivateRoute';
+import BlockSignRoute from './BlockSignRoute';
 import Header from 'components/modules/header/Header';
 import SignIn from 'pages/User/SignIn';
 import SignUp from 'pages/User/SignUp';
@@ -27,7 +28,16 @@ function RoutePage({ isLogin, isFetching }: RouterPros) {
       <Header isLogin={isLogin} />
       <AnimatePresence>
         <Routes location={location} key={location.pathname}>
-          <Route path='/sign-in' element={<SignIn />} />
+          <Route
+            path='/sign-in'
+            element={
+              <BlockSignRoute
+                isLogin={isLogin}
+                isFetching={isFetching}
+                component={<SignIn />}
+              />
+            }
+          />
           <Route path='/sign-up' element={<SignUp />} />
           <Route path='/password-reset' element={<Password />} />
           <Route

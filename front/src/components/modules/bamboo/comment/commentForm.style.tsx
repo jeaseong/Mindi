@@ -21,6 +21,11 @@ export const CommentText = styled.div`
   margin-top: 3px;
   display: block;
   overflow: auto;
+
+  @media screen and (max-width: 480px) {
+    height: 70px;
+    margin-bottom: 150px;
+  }
 `;
 
 export const CommentInput = styled.textarea`
@@ -44,6 +49,14 @@ export const CommentInput = styled.textarea`
     color: #333333;
     background-color: white;
     border-color: #333333;
+  }
+
+  @media screen and (max-width: 480px) {
+    position: absolute;
+    width: 370px;
+    height: 100px;
+    bottom: 130px;
+    right: 55px;
   }
 `;
 

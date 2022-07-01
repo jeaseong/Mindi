@@ -2,7 +2,7 @@ import request from "supertest";
 import { faker } from "@faker-js/faker";
 import dayjs from "dayjs";
 import "reflect-metadata";
-import { appStart, server, testEnd } from "./appStart";
+import { appStart, apiURL, testEnd } from "./appStart";
 
 jest.setTimeout(10000);
 
@@ -15,12 +15,12 @@ const regexISO = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}(?:\.\d*)?)((-(
 
 beforeAll(async () => {
   await appStart();
-  await request(server).post("/auth/local/sign-up").send({
+  await request(apiURL).post("/auth/local/sign-up").send({
     email: "test@test.com",
     name: "test",
     password: "test1234",
   });
-  const mockUserInfo = await request(server).post("/auth/local/sign-in").send({
+  const mockUserInfo = await request(apiURL).post("/auth/local/sign-in").send({
     email: "test@test.com",
     password: "test1234",
   });
@@ -29,7 +29,7 @@ beforeAll(async () => {
 
 describe("Diary with no image", () => {
   it("Create a new diary without image", async () => {
-    const response = await request(server)
+    const response = await request(apiURL)
       .post("/diaries")
       .set("Authorization", `Bearer ${accessToken}`)
       .type("multipart/form-data")
@@ -52,7 +52,7 @@ describe("Diary with no image", () => {
   });
 
   it("Update a diary without image", async () => {
-    const response = await request(server)
+    const response = await request(apiURL)
       .put("/diaries")
       .set("Authorization", `Bearer ${accessToken}`)
       .type("multipart/form-data")
@@ -75,7 +75,7 @@ describe("Diary with no image", () => {
   });
 
   it("Get a diary list", async () => {
-    const response = await request(server)
+    const response = await request(apiURL)
       .get(`/diaries?year=2022&month=06&day=00`)
       .set("Authorization", `Bearer ${accessToken}`);
     expect(response.status).toEqual(200);
@@ -83,14 +83,14 @@ describe("Diary with no image", () => {
   });
 
   it("Delete a diary with no image", async () => {
-    const response = await request(server).delete("/diaries").set("Authorization", `Bearer ${accessToken}`).send({ _id: mockObjectId });
+    const response = await request(apiURL).delete("/diaries").set("Authorization", `Bearer ${accessToken}`).send({ _id: mockObjectId });
     expect(response.status).toEqual(200);
   });
 });
 
 describe("Diary with an image", () => {
   it("Create a new diary with an image", async () => {
-    const response = await request(server)
+    const response = await request(apiURL)
       .post("/diaries")
       .set("Authorization", `Bearer ${accessToken}`)
       .type("multipart/form-data")
@@ -117,7 +117,7 @@ describe("Diary with an image", () => {
   });
 
   it("Update a diary with an image", async () => {
-    const response = await request(server)
+    const response = await request(apiURL)
       .put("/diaries")
       .set("Authorization", `Bearer ${accessToken}`)
       .type("multipart/form-data")
@@ -145,7 +145,7 @@ describe("Diary with an image", () => {
   });
 
   it("Delete a diary with an image", async () => {
-    const response = await request(server)
+    const response = await request(apiURL)
       .delete("/diaries")
       .set("Authorization", `Bearer ${accessToken}`)
       .send({ _id: mockObjectId, imageFileName: imageFileName });
@@ -154,6 +154,6 @@ describe("Diary with an image", () => {
 });
 
 afterAll(async () => {
-  await request(server).delete("/users").set("Authorization", `Bearer ${accessToken}`);
+  // await request(apiURL).delete("/users").set("Authorization", `Bearer ${accessToken}`);
   await testEnd();
 });

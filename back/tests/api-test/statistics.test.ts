@@ -1,7 +1,7 @@
 import request from "supertest";
 import { faker } from "@faker-js/faker";
 import "reflect-metadata";
-import { appStart, server, testEnd } from "./appStart";
+import { appStart, testEnd, apiURL } from "./appStart";
 import dayjs from "dayjs";
 
 jest.setTimeout(10000);
@@ -14,18 +14,18 @@ const regexISO = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}(?:\.\d*)?)((-(
 
 beforeAll(async () => {
   await appStart();
-  await request(server).post("/auth/local/sign-up").send({
+  await request(apiURL).post("/auth/local/sign-up").send({
     email: "test@test.com",
     name: "test",
     password: "test1234",
   });
-  const mockUserInfo = await request(server).post("/auth/local/sign-in").send({
+  const mockUserInfo = await request(apiURL).post("/auth/local/sign-in").send({
     email: "test@test.com",
     password: "test1234",
   });
   accessToken = mockUserInfo.body.result.token;
 
-  const response = await request(server)
+  const response = await request(apiURL)
     .post("/diaries")
     .set("Authorization", `Bearer ${accessToken}`)
     .type("multipart/form-data")
@@ -36,7 +36,7 @@ beforeAll(async () => {
 
 describe("Statistics Router Test", () => {
   it("Create a new result", async () => {
-    const response = await request(server)
+    const response = await request(apiURL)
       .post("/statistics?year=2022&month=05")
       .set("Authorization", `Bearer ${accessToken}`);
     expect(response.status).toEqual(201);
@@ -54,7 +54,7 @@ describe("Statistics Router Test", () => {
   });
 
   it.skip("Update a result", async () => {
-    const response = await request(server)
+    const response = await request(apiURL)
       .post("/statistics?year=2022&month=05")
       .set("Authorization", `Bearer ${accessToken}`);
     expect(response.status).toEqual(201);
@@ -71,7 +71,7 @@ describe("Statistics Router Test", () => {
   });
 
   it("Get a result", async () => {
-    const response = await request(server)
+    const response = await request(apiURL)
       .get(`/statistics?year=2022&month=05`)
       .set("Authorization", `Bearer ${accessToken}`);
     expect(response.status).toEqual(200);
@@ -88,12 +88,12 @@ describe("Statistics Router Test", () => {
   });
 
   it("Delete a result", async () => {
-    const response = await request(server).delete(`/statistics/${mockObjectId}`);
+    const response = await request(apiURL).delete(`/statistics/${mockObjectId}`);
     expect(response.status).toEqual(200);
   });
 });
 
 afterAll(async () => {
-  await request(server).delete("/users").set("Authorization", `Bearer ${accessToken}`);
+  // await request(apiURL).delete("/users").set("Authorization", `Bearer ${accessToken}`);
   await testEnd();
 });

@@ -56,7 +56,7 @@ export const getCustomizedDate = (date: any) => {
   return year + '. ' + month + '. ' + day + '. ';
 };
 
-const dateToString = (d: number) => {
+export const dateToString = (d: number) => {
   return d >= 10 ? `${d}` : `0${d}`;
 };
 

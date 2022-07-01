@@ -14,7 +14,7 @@ import {
   DiaryPreview,
   MockContainer,
 } from './Reminder.style';
-const ORDER = ['첫 번째', '두 번째', '세 번째'];
+const ORDER = ['첫 번째', '두 번째', '세 번째', '네 번째', '다섯 번째'];
 function Reminder({ reminder }: any) {
   const navigate = useNavigate();
 

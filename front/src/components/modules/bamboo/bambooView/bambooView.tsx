@@ -10,7 +10,7 @@ import {
   Line,
 } from './bambooView.style';
 import { IoMdClose } from 'react-icons/io';
-import Comment from '../comment/commentForm';
+import CommentForm from '../comment/commentForm';
 
 function BambooView({ curItem, modalClose }: any) {
   // console.log(curItem);
@@ -29,7 +29,7 @@ function BambooView({ curItem, modalClose }: any) {
         <TextWrapper>
           <ViewText>{curItem['content']}</ViewText>
         </TextWrapper>
-        <Comment postId={curItem['_id']} />
+        <CommentForm postId={curItem['_id']} />
       </ContentWrapper>
     </>
   );

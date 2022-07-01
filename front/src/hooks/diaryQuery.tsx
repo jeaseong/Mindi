@@ -8,6 +8,7 @@ export const useGetDiaryList = (date: string, type: string) => {
     async () =>
       await getDiaryList(dateSplit[0], dateSplit[1], dateSplit[2], type),
     {
+      staleTime: Infinity,
       onError: () => {
         return '데이터가 없다.';
       },
@@ -40,10 +41,7 @@ export const usePostDiary = (
         });
       },
       onError: (e) => {
-        openSnackBar(false, '일기 날짜와 내용을 확인해주세요.');
-        setTimeout(() => {
-          navigate('/diary');
-        }, 2500);
+        openSnackBar(false, '일기를 50자 이상 작성해 주세요.');
       },
     },
   );

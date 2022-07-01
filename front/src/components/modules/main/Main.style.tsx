@@ -1,9 +1,15 @@
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 
+export const Container = styled.div`
+  width: 80%;
+  margin: 0 auto;
+`;
+
 export const MainTemplate = styled(motion.div)`
-  width: 100vw;
-  height: 65vh;
+  width: 100%;
+  min-height: 300px;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -34,25 +40,8 @@ export const ImageWrapper = styled(motion.div)`
 
 export const MainImg = styled(motion.img)``;
 
-export const BottomImg = styled(motion.img)`
-  @media screen and (max-width: 1023px) {
-    display: none;
-  }
-`;
-
 export const LogoText = styled(motion.img)`
   position: absolute;
-`;
-
-export const EITestButton = styled(motion.button)`
-  margin-right: 35px;
-  margin-top: 60px;
-  position: absolute;
-  font-size: 1rem;
-  color: black;
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
 `;
 
 export const Buttons = styled.div`
@@ -60,25 +49,51 @@ export const Buttons = styled.div`
   justify-content: space-between;
 `;
 
+export const BottomImg = styled(motion.img)`
+  @media screen and (max-width: 500px) {
+    display: none;
+  }
+`;
+
 export const ToEITest = styled(motion.div)`
   display: flex;
-  width: max-content;
+  align-items: center;
   justify-content: end;
-`;
-
-export const ToRegister = styled(motion.div)`
-  display: flex;
   width: max-content;
-  justify-content: start;
 `;
 
-export const RegisterButton = styled(motion.button)`
-  margin-left: 55px;
-  margin-top: 60px;
+export const EITestButton = styled(motion.button)`
   position: absolute;
   font-size: 1rem;
   color: black;
   background-color: transparent;
   border: none;
   cursor: pointer;
+  margin-right: 30px;
+  margin-top: 10px;
+  @media screen and (max-width: 500px) {
+    border: 1px solid black;
+    padding: 10px;
+  }
+`;
+
+export const ToRegister = styled(motion.div)`
+  display: flex;
+  align-items: center;
+  width: max-content;
+`;
+
+export const RegisterButton = styled(motion.button)`
+  position: absolute;
+  font-size: 1rem;
+  color: black;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  margin-left: 34px;
+  margin-top: 10px;
+  @media screen and (max-width: 500px) {
+    border: 1px solid black;
+    padding: 10px;
+  }
 `;

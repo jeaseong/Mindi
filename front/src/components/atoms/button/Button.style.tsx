@@ -11,10 +11,19 @@ export const Btn = styled.button<BtnProps>`
   border: none;
   cursor: pointer;
   transition: all 0.1s ease-in-out;
+  width: ${(props) => {
+    switch (props.size) {
+      case 'sm':
+        return '150px';
+      case 'md':
+        return '180px';
+      case 'lg':
+        return '200px';
+      default:
+        return '130px';
+    }
+  }};
   &:hover {
     background-color: ${(props) => props.theme.colors.btnColorHover};
   }
-  ${({ theme }) => theme.media.tablet`
-    width: 150px;
-  `}
 `;

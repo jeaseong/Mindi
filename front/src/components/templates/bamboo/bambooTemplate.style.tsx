@@ -11,7 +11,7 @@ export const CardWrap = styled.section`
 `;
 
 export const ButtonWrap = styled.div`
-  max-width: 80%;
+  margin-right: 20px;
   text-align: right;
 `;
 

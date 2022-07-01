@@ -30,7 +30,8 @@ function Result() {
   const [sentimentData, setSentimentData] = useState();
   const [diaryData, setDiaryData] = useState();
   const [feelingData, setFeelingData] = useState();
-  const [isDefault, setIsDefault] = useState(true);
+  const [isDefault, setIsDefault] = useState(false);
+  const [videoId, setVideoId] = useState();
 
   const param = useParams();
   const curDate = param.date?.substring(0, 10) as string;
@@ -41,6 +42,7 @@ function Result() {
       setSentimentData(data[0].sentiment);
       setDiaryData(data[0].diary);
       setFeelingData(data[0].feeling);
+      setVideoId(data[0].videoId);
     });
   }, []);
 
@@ -110,7 +112,7 @@ function Result() {
   );
 
   if (valuesSum === 0) {
-    setIsDefault(false);
+    setIsDefault(!isDefault);
   }
 
   const data = {
@@ -164,14 +166,14 @@ function Result() {
       <SubTitle>오늘의 감정 그래프</SubTitle>
       <ChartWrapper>
         {isDefault ? (
-          <Doughnut data={data} />
-        ) : (
           <FeelingWrapper>모든 감정이 0예요 :/</FeelingWrapper>
+        ) : (
+          <Doughnut data={data} />
         )}
       </ChartWrapper>
       <SubTitle>오늘의 추천 음악</SubTitle>
       <YouTubeWrapper>
-        <YouTube videoId='E0COLl4M1i4' opts={videoOptions} />
+        <YouTube videoId={videoId} opts={videoOptions} />
       </YouTubeWrapper>
       <ButtonWrapper>
         <ButtonLine />

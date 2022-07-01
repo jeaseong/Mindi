@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { CardProps } from 'types/atoms';
 
 export const CardWrap = styled.section`
-  max-width: 60%;
   width: 100%;
   margin: 0 auto;
 `;

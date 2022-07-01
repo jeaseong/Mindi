@@ -51,7 +51,7 @@ export default (app: Router) => {
 
         const posts = await postService.getPostsWithFilter(null, page, limit);
         const reducedPosts = posts.map((post) => {
-          const { updatedAt, ...rest } = post;
+          const { updatedAt, author, ...rest } = post;
           return rest;
         });
 
@@ -77,7 +77,7 @@ export default (app: Router) => {
         const postService = Container.get(PostService);
 
         const post = await postService.getOnePostByPostId(postId);
-        const { updatedAt, ...rest } = post!;
+        const { updatedAt, author, ...rest } = post!;
 
         const response: IResponse<Partial<IPost>> = {
           success: true,
@@ -134,7 +134,7 @@ export default (app: Router) => {
 
         const posts = await postService.getPostsWithFilter({ author: userId }, page, limit);
         const reducedPosts = posts.map((post) => {
-          const { updatedAt, ...rest } = post;
+          const { updatedAt, author, ...rest } = post;
           return rest;
         });
 

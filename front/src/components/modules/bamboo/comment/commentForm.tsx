@@ -12,8 +12,8 @@ import {
   CommentText,
   CommentInput,
   CommentButton,
+  CommentContainer,
 } from './commentForm.style';
-import { Line } from '../bambooView/bambooView.style';
 import SingleComment from './singleComment';
 
 const CommentForm = ({ postId }: any) => {
@@ -85,18 +85,17 @@ const CommentForm = ({ postId }: any) => {
     getPost();
   }, []);
 
-  console.log('commentList', commentList);
-
   return (
-    <CommentWrapper onSubmit={onSubmit}>
+    <CommentWrapper>
       <CommentTitle>Comments</CommentTitle>
       <CommentLine />
       <CommentText>
         <SingleComment commentList={commentList} />
       </CommentText>
-
-      <CommentInput ref={commentContentsRef} placeholder='댓글 작성하기' />
-      <CommentButton onClick={onSubmit}>댓글 달기</CommentButton>
+      <CommentContainer onSubmit={onSubmit}>
+        <CommentInput ref={commentContentsRef} placeholder='댓글 작성하기' />
+        <CommentButton onClick={onSubmit}>댓글 달기</CommentButton>
+      </CommentContainer>
     </CommentWrapper>
   );
 };

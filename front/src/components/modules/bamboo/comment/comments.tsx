@@ -6,7 +6,7 @@ import {
   postComment,
   deleteComment,
   putComment,
-} from '../../../../api/api';
+} from 'api/api';
 
 const Comments = () => {
   return <></>;

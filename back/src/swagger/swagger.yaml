@@ -26,7 +26,7 @@ paths:
     post:
       $ref: "./paths/diary.yaml#/Post"
     put:
-      $ref: "./paths/diary.yaml#/Update"
+      $ref: "./paths/diary.yaml#/Put"
     delete:
       $ref: "./paths/diary.yaml#/Delete"
   /diaries?year={year}&month={month}&day={day}:
@@ -83,6 +83,8 @@ paths:
   /statistics?year={year}&month={month}:
     post:
       $ref: "./paths/statistics.yaml#/Post"
+    put:
+      $ref: "./paths/statistics.yaml#/Put"
     get:
       $ref: "./paths/statistics.yaml#/Get"
   /statistics/{statId}:

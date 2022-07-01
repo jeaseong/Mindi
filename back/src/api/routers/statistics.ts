@@ -72,7 +72,7 @@ export default (app: Router) => {
           result: createdResult,
         };
 
-        res.status(201).json(response);
+        res.status(200).json(response);
       } catch (error) {
         next(error);
       }

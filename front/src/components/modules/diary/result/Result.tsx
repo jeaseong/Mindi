@@ -15,6 +15,7 @@ import {
   SubTitle,
   ChartWrapper,
   CharacterWrapper,
+  ImgWrapper,
   YouTubeWrapper,
   ButtonWrapper,
   ResultButton,
@@ -33,7 +34,7 @@ function Result() {
   const [sentimentData, setSentimentData] = useState();
   const [diaryData, setDiaryData] = useState();
   const [feelingData, setFeelingData] = useState();
-  const [isDefault, setIsDefault] = useState(false);
+  const [diaryImg, setDiaryImg] = useState('');
   const [videoId, setVideoId] = useState();
 
   const param = useParams();
@@ -54,6 +55,7 @@ function Result() {
         setDiaryData(data[0].diary);
         setFeelingData(data[0].feeling);
         setVideoId(data[0].videoId);
+        setDiaryImg(data[0].imageFilePath);
       } catch (e) {
         console.log(e);
       }
@@ -163,6 +165,12 @@ function Result() {
           alt={SENTIMENTS[diaryDataMax as string].alt}
         />
       </CharacterWrapper>
+
+      <ImgWrapper>
+        {diaryImg && (
+          <Image src={diaryImg} alt='일기 썸네일' width='100%' height='200px' />
+        )}
+      </ImgWrapper>
       <DiaryAndFeeling>
         <SubTitle>오늘 한 일</SubTitle>
         <DiaryWrapper>{diaryData}</DiaryWrapper>

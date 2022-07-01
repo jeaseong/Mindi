@@ -11,7 +11,7 @@ export const ContentWrapper = styled.div`
 `;
 
 export const CharacterWrapper = styled.div`
-  margin-top: 2em;
+  margin: 50px 0;
   display: flex;
   justify-content: center;
 `;
@@ -89,6 +89,11 @@ export const DiaryAndFeeling = styled.section`
 
 export const DiaryWrapper = styled.div`
   margin-top: 20px;
+  margin-bottom: 50px;
+`;
+
+export const ImgWrapper = styled.div`
+  width: 100%;
   margin-bottom: 50px;
 `;
 

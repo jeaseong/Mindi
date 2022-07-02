@@ -12,12 +12,18 @@ async function appStart() {
 
   await loader({ expressApp: app });
 
-  logger.info("NODE_ENV:", process.env.NODE_ENV);
+  logger.info("NODE_ENV: ", config.nodeEnv);
   const server = app.listen(config.port, () => {
     logger.info(`
             Mindi API Server
             is running on: http://localhost:${config.port}
             `);
+    if (config.nodeEnv === "production") {
+      console.log(`
+            Mindi API Server
+            is running on: http://localhost:${config.port}
+            `);
+    }
   });
 
   app.get("/", (req: Request, res: Response, next: NextFunction) => {
@@ -42,8 +48,9 @@ async function appStart() {
     handler("SIGTERM");
   });
 
-  process.on("uncaughtException", () => {
+  process.on("uncaughtException", (error) => {
     // 무엇을 넣어야 하는 건지요...
+    logger.error(error.message);
     process.exit(1);
   });
 }

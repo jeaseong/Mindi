@@ -4,18 +4,18 @@ createWithImage:
       "success": true,
       "result":
         {
-          "userId": "3e37d05b9fc9d01c9cdf5ac3",
-          "diary": '"example"',
-          "feeling": '"example"',
-          "sentiment":
+          userId: "3e37d05b9fc9d01c9cdf5ac3",
+          diary": "example",
+          feeling": "example",
+          sentiment":
             { "fear": 2, "surprised": 0, "anger": 0, "sadness": 0, "happiness": 1, "aversion": 0 },
-          "diaryDate": "2022-6-14",
-          "imageFileName": "background_1655172367029_test.jpg",
-          "imageFilePath": "https://mindi-bucket.kr.object.ncloudstorage.com/background_1655815723162_test2.jpg",
-          "_id": "62a7ed0f291754e07d151aac",
-          "createdAt": "2022-06-14T02:06:07.080Z",
-          "updatedAt": "2022-06-14T02:06:07.080Z",
-          "__v": 0,
+          diaryDate": "2022-6-14",
+          imageFileName": "background_1655172367029_test.jpg",
+          imageFilePath": "https://mindi-bucket.kr.object.ncloudstorage.com/background_1655815723162_test2.jpg",
+          _id": "62a7ed0f291754e07d151aac",
+          createdAt": "2022-06-14T02:06:07.080Z",
+          updatedAt": "2022-06-14T02:06:07.080Z",
+          __v": 0,
         },
     }
 createWithoutImage:
@@ -24,16 +24,16 @@ createWithoutImage:
       "success": true,
       "result":
         {
-          "userId": "3e37d05b9fc9d01c9cdf5ac3",
-          "diary": '"example"',
-          "feeling": '"example"',
-          "sentiment":
+          userId: "3e37d05b9fc9d01c9cdf5ac3",
+          diary: "example",
+          feeling: "example",
+          sentiment:
             { "fear": 2, "surprised": 0, "anger": 0, "sadness": 0, "happiness": 1, "aversion": 0 },
-          "diaryDate": "2022-6-14",
-          "_id": "62a7ed0f291754e07d151aac",
-          "createdAt": "2022-06-14T02:06:07.080Z",
-          "updatedAt": "2022-06-14T02:06:07.080Z",
-          "__v": 0,
+          diaryDate: "2022-6-14",
+          _id: "62a7ed0f291754e07d151aac",
+          createdAt: "2022-06-14T02:06:07.080Z",
+          updatedAt: "2022-06-14T02:06:07.080Z",
+          __v: 0,
         },
     }
 diaryToRemove:
@@ -61,6 +61,8 @@ diaryList:
                 "aversion": 0,
               },
             diaryDate: "2022-06-16",
+            imageFileName: "background_1655172367029_test.jpg",
+            imageFilePath: "https://mindi-bucket.kr.object.ncloudstorage.com/background_1655815723162_test2.jpg",
             createdAt: "2022-06-16T09:10:27.553Z",
             updatedAt: "2022-06-16T09:10:27.706Z",
             __v: 0,

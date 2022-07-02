@@ -8,6 +8,7 @@ Post:
     # 게시글 업로드 API
     새로운 게시글을 등록합니다.
   requestBody:
+    required: true
     content:
       application/json:
         schema:

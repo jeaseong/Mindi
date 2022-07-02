@@ -1,7 +1,7 @@
 import { Service, Inject } from "typedi";
-import { StatusError } from "../utils/error";
-import { MongoCommentModel } from "../models/comment";
-import { IComment } from "../interfaces/IComment";
+import { StatusError } from "../utils";
+import { MongoCommentModel } from "../models";
+import { IComment } from "../interfaces";
 import winston from "winston";
 
 @Service()
@@ -56,5 +56,9 @@ export default class CommentService {
     }
 
     await this.commentModel.delete(commentId);
+  }
+
+  public async getTotalDataCount(filter: Object) {
+    return this.commentModel.count(filter);
   }
 }

@@ -1,6 +1,5 @@
 import mongoose, { ClientSession } from "mongoose";
-import { IComment } from "../interfaces/IComment";
-import { ICommentModel } from "../interfaces/ICommentModel";
+import { IComment, ICommentModel } from "../interfaces";
 import { Service } from "typedi";
 
 export const Comment = new mongoose.Schema(
@@ -75,5 +74,8 @@ export class MongoCommentModel implements ICommentModel {
   }
   async deleteByPostId(postId: string, session: ClientSession): Promise<void> {
     await CommentModel.deleteMany({ post: postId }).session(session);
+  }
+  async count(filter: Object) {
+    return CommentModel.countDocuments(filter);
   }
 }

@@ -52,19 +52,15 @@ export default (app: Router) => {
         return rest;
       });
 
-      const response: IPaginatedResponse<IPost[]> = {
-        success: true,
-        result: {
-          ...reducedPosts,
-          cursor: "asdf",
-          totalNumber: 3
-        },
-      };
+      const cursor = reducedPosts[reducedPosts.length - 1]._id;
+      const totalNumber = await postService.getTotalDataCount({});
 
-      // const response: IResponse<Partial<IPost>[]> = {
-      //   success: true,
-      //   result: reducedPosts,
-      // };
+      const response: IPaginatedResponse<Partial<IPost>[]> = {
+        success: true,
+        result: reducedPosts,
+        cursor,
+        totalNumber
+      };
 
       res.status(200).json(response);
     } catch (error) {
@@ -113,9 +109,14 @@ export default (app: Router) => {
           return rest;
         });
 
-        const response: IResponse<Partial<IPost>[]> = {
+        const cursor = reducedPosts[reducedPosts.length - 1]._id;
+        const totalNumber = await postService.getTotalDataCount({ author: userId });
+
+        const response: IPaginatedResponse<Partial<IPost>[]> = {
           success: true,
           result: reducedPosts,
+          cursor,
+          totalNumber
         };
 
         res.status(200).json(response);
@@ -143,9 +144,14 @@ export default (app: Router) => {
           return rest;
         });
 
-        const response: IResponse<Partial<IPost>[]> = {
+        const cursor = reducedPosts[reducedPosts.length - 1]._id;
+        const totalNumber = await postService.getTotalDataCount({ author: userId });
+
+        const response: IPaginatedResponse<Partial<IPost>[]> = {
           success: true,
           result: reducedPosts,
+          cursor,
+          totalNumber
         };
 
         res.status(200).json(response);

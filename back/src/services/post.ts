@@ -1,6 +1,6 @@
 import { Service, Inject } from "typedi";
-import { StatusError } from "../utils/error";
-import { IPost } from "../interfaces/IPost";
+import { StatusError } from "../utils";
+import { IPost } from "../interfaces";
 import winston from "winston";
 import { runTransaction } from "../utils";
 import { ClientSession } from "mongoose";
@@ -54,5 +54,9 @@ export default class PostService {
     };
 
     await runTransaction(txnFunc);
+  }
+
+  public async getTotalDataCount(filter: Object) {
+    return this.postModel.count(filter);
   }
 }

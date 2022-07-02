@@ -1,6 +1,5 @@
 import mongoose, { ClientSession } from "mongoose";
-import { IPost } from "../interfaces/IPost";
-import { IPostModel } from "../interfaces/IPostModel";
+import { IPost, IPostModel } from "../interfaces";
 import { Service } from "typedi";
 
 export const Post = new mongoose.Schema(
@@ -68,5 +67,8 @@ export class MongoPostModel implements IPostModel {
   }
   async deleteByUserId(userId: string, session: ClientSession): Promise<void> {
     await PostModel.deleteMany({ author: userId }).session(session);
+  }
+  async count(filter: Object) {
+    return PostModel.countDocuments(filter);
   }
 }

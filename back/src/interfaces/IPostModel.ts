@@ -12,4 +12,5 @@ export interface IPostModel {
   ) => Promise<Array<Partial<IPost>> | null>;
   exists: (filter: Partial<IPost>) => Promise<Boolean>;
   deleteByUserId: (userId: string, session: ClientSession) => Promise<void>;
+  count: (filter: Partial<IPost>) => Promise<Number>;
 }

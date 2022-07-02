@@ -5,7 +5,7 @@ import { commentValidator } from "../middlewares/express-validator";
 import { checkAuth, validationErrorChecker } from "../middlewares";
 import { PostService, CommentService } from "../../services";
 import { StatusError } from "../../utils";
-import { IComment, IResponse } from "../../interfaces";
+import {IComment, IPaginatedResponse, IResponse} from "../../interfaces";
 
 export default (app: Router) => {
   const commentRouter = Router();
@@ -141,9 +141,14 @@ export default (app: Router) => {
           return rest;
         });
 
-        const response: IResponse<Partial<IComment>[]> = {
+        const cursor = reducedComments[reducedComments.length - 1]._id;
+        const totalNumber = await commentService.getTotalDataCount({ parent: commentId });
+
+        const response: IPaginatedResponse<Partial<IComment>[]> = {
           success: true,
           result: reducedComments,
+          cursor,
+          totalNumber
         };
 
         res.status(200).json(response);
@@ -174,9 +179,14 @@ export default (app: Router) => {
           return rest;
         });
 
-        const response: IResponse<Partial<IComment>[]> = {
+        const cursor = reducedComments[reducedComments.length - 1]._id;
+        const totalNumber = await commentService.getTotalDataCount({ post: postId, depth: 0 });
+
+        const response: IPaginatedResponse<Partial<IComment>[]> = {
           success: true,
           result: reducedComments,
+          cursor,
+          totalNumber
         };
 
         res.status(200).json(response);
@@ -207,9 +217,14 @@ export default (app: Router) => {
           return rest;
         });
 
-        const response: IResponse<Partial<IComment>[]> = {
+        const cursor = reducedComments[reducedComments.length - 1]._id;
+        const totalNumber = await commentService.getTotalDataCount({ author: userId });
+
+        const response: IPaginatedResponse<Partial<IComment>[]> = {
           success: true,
           result: reducedComments,
+          cursor,
+          totalNumber
         };
 
         res.status(200).json(response);

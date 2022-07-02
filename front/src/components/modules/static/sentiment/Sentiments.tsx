@@ -67,9 +67,14 @@ function Sentiments({ emotion }: EmotionProps) {
   };
   const options = {
     plugins: {
-      legend: {
-        display: false,
+      interaction: {
+        mode: 'point',
       },
+      tooltip: {},
+      hover: {
+        animationDuration: 0,
+      },
+      legend: {},
       title: {
         display: true,
         text: '기분별 횟수',

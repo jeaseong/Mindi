@@ -20,3 +20,5 @@ npm run start:prod
 ```
 
 # 서비스 구조
+
+![server_architecture](/uploads/1411e1b3c44a825f093f512b802e5989/server_architecture.png)

@@ -1,9 +1,13 @@
+@font-face {
+  font-family: 'TmoneyRoundWindRegular';
+  src: url('./styles/font/TmoneyRoundWindRegular.otf') format('woff2'),
+    url('./styles/font/TmoneyRoundWindRegular.otf') format('woff'),
+    url('./styles/font/TmoneyRoundWindRegular.otf') format('truetype');
+}
 
 * {
   box-sizing: border-box;
-}
-html, body, #root, .App {
-  height: 100%
+  font-family: 'TmoneyRoundWindRegular';
 }
 body {
   margin: 0;
@@ -13,7 +17,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-image: url("../public/assets/background_size.png");
+  background-image: url('../public/assets/background_size.png');
   background-position: center;
 }
 
@@ -21,4 +25,3 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-

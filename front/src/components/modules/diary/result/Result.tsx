@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import 'chart.js/auto';
 import { Doughnut } from 'react-chartjs-2';
 import YouTube from 'react-youtube';
 import Image from 'components/atoms/image/Image';
 import Button from 'components/atoms/button/Button';
+import { mockData } from './mock';
 import { SENTIMENTS } from 'utils/image';
-import { useNavigate, useParams } from 'react-router-dom';
 import { getDiaryList } from 'api/api';
 import {
   ContentWrapper,
@@ -14,6 +15,7 @@ import {
   SubTitle,
   ChartWrapper,
   CharacterWrapper,
+  ImgWrapper,
   YouTubeWrapper,
   ButtonWrapper,
   ResultButton,
@@ -22,6 +24,8 @@ import {
   DiaryWrapper,
   FeelingWrapper,
   DiaryAndFeeling,
+  BlurBox,
+  BlurText,
 } from './Result.style';
 import { IMAGE } from 'utils/image';
 
@@ -30,22 +34,38 @@ function Result() {
   const [sentimentData, setSentimentData] = useState();
   const [diaryData, setDiaryData] = useState();
   const [feelingData, setFeelingData] = useState();
-  const [isDefault, setIsDefault] = useState(true);
+  const [diaryImg, setDiaryImg] = useState('');
+  const [videoId, setVideoId] = useState();
 
   const param = useParams();
   const curDate = param.date?.substring(0, 10) as string;
   const strSplit = curDate.split('-');
+  console.log(strSplit);
 
   useEffect(() => {
-    getDiaryList(strSplit[0], strSplit[1], strSplit[2]).then((data) => {
-      setSentimentData(data[0].sentiment);
-      setDiaryData(data[0].diary);
-      setFeelingData(data[0].feeling);
-    });
+    const fetchApi = async () => {
+      try {
+        const data = await getDiaryList(
+          strSplit[0],
+          strSplit[1],
+          strSplit[2],
+          'day',
+        );
+        setSentimentData(data[0].sentiment);
+        setDiaryData(data[0].diary);
+        setFeelingData(data[0].feeling);
+        setVideoId(data[0].videoId);
+        setDiaryImg(data[0].imageFilePath);
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    fetchApi();
   }, []);
 
   // 유튜브 비디오 옵션
   const videoOptions = {
+    width: '100%',
     playerVars: {
       autoplay: 0,
       controls: 0,
@@ -83,8 +103,6 @@ function Result() {
     }
   };
 
-  const diaryDataMax = selectMaxSentiment(sentimentData);
-
   // 차트 감정 이름, 감정 값 구하기
 
   const selectSentimentNames = (sentimentData: any) => {
@@ -101,17 +119,9 @@ function Result() {
     }
   };
 
+  const diaryDataMax = selectMaxSentiment(sentimentData);
   const sentimentNames = selectSentimentNames(sentimentData);
-
   const sentimentValues = selectSentimentValues(sentimentData);
-
-  const valuesSum = sentimentValues?.reduce(
-    (accumulator, currentNumber) => accumulator + currentNumber,
-  );
-
-  if (valuesSum === 0) {
-    setIsDefault(false);
-  }
 
   const data = {
     datasets: [
@@ -155,6 +165,12 @@ function Result() {
           alt={SENTIMENTS[diaryDataMax as string].alt}
         />
       </CharacterWrapper>
+
+      <ImgWrapper>
+        {diaryImg && (
+          <Image src={diaryImg} alt='일기 썸네일' width='100%' height='200px' />
+        )}
+      </ImgWrapper>
       <DiaryAndFeeling>
         <SubTitle>오늘 한 일</SubTitle>
         <DiaryWrapper>{diaryData}</DiaryWrapper>
@@ -163,15 +179,20 @@ function Result() {
       </DiaryAndFeeling>
       <SubTitle>오늘의 감정 그래프</SubTitle>
       <ChartWrapper>
-        {isDefault ? (
-          <Doughnut data={data} />
+        {diaryDataMax === 'BLANK' ? (
+          <>
+            <BlurText>감정이 나타나지 않았어요..!</BlurText>
+            <BlurBox>
+              <Doughnut data={mockData} />
+            </BlurBox>
+          </>
         ) : (
-          <FeelingWrapper>모든 감정이 0예요 :/</FeelingWrapper>
+          <Doughnut data={data} />
         )}
       </ChartWrapper>
       <SubTitle>오늘의 추천 음악</SubTitle>
       <YouTubeWrapper>
-        <YouTube videoId='E0COLl4M1i4' opts={videoOptions} />
+        <YouTube videoId={videoId} opts={videoOptions} />
       </YouTubeWrapper>
       <ButtonWrapper>
         <ButtonLine />

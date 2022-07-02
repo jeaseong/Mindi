@@ -1,11 +1,12 @@
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import { getDiaryList, postDiaryPosting, putDiaryPosting } from 'api/api';
-export const useGetDiaryList = (date: string) => {
+export const useGetDiaryList = (date: string, type: string) => {
   const dateSplit = date.split('-');
   const { isFetching, isLoading, error, data } = useQuery(
     ['diary', date],
-    async () => await getDiaryList(dateSplit[0], dateSplit[1], dateSplit[2]),
+    async () =>
+      await getDiaryList(dateSplit[0], dateSplit[1], dateSplit[2], type),
     {
       staleTime: Infinity,
       onError: () => {
@@ -40,10 +41,7 @@ export const usePostDiary = (
         });
       },
       onError: (e) => {
-        openSnackBar(false, '일기 날짜와 내용을 확인해주세요.');
-        setTimeout(() => {
-          navigate('/diary');
-        }, 2500);
+        openSnackBar(false, '일기를 50자 이상 작성해 주세요.');
       },
     },
   );

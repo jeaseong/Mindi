@@ -5,5 +5,6 @@ export const StyledTemplate = styled.div`
   flex-direction: column;
   align-content: center;
   max-width: 1024px;
+  width: 80%;
   margin: 0 auto;
 `;

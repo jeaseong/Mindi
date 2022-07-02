@@ -3,7 +3,7 @@ import { useSnackbarContext } from 'contexts/SnackbarContext';
 import SnackBar from 'components/atoms/snackBar/SnackBar';
 
 interface PositionType {
-  position?: 'topRight' | 'bottomRight';
+  position?: 'topRight' | 'bottomRight' | 'center';
 }
 function SnackbarContainer({ position }: PositionType) {
   const { message, isShowing, type } = useSnackbarContext();

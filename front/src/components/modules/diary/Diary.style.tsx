@@ -5,7 +5,7 @@ export const DiaryCalendar = styled.section`
   height: 100%;
   margin-bottom: 50px;
   display: grid;
-  grid-template-rows: 1fr 1fr;
+  grid-template-rows: 1fr 300px;
   gap: 20px;
 
   ${({ theme }) => theme.media.tablet`
@@ -14,4 +14,6 @@ export const DiaryCalendar = styled.section`
   `}
 `;
 
-export const DiaryList = styled.section``;
+export const DiaryList = styled.section`
+  padding-bottom: 50px;
+`;

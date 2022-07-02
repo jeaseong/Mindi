@@ -4,6 +4,7 @@ import { useEditDiary, useGetDiaryList } from 'hooks/diaryQuery';
 import { useSnackbarContext } from 'contexts/SnackbarContext';
 import FileUpload from 'components/modules/fileUpload/FileUpload';
 import Loader from 'components/modules/loader/Loader';
+import Text from 'components/atoms/text/Text';
 import MainTitle from 'components/atoms/text/MainTitle';
 import TextArea from 'components/atoms/textArea/TextArea';
 import Button from 'components/atoms/button/Button';
@@ -14,13 +15,14 @@ import {
   PostingContainer,
   Area,
   AlignRight,
+  Hilight,
 } from 'components/modules/diary/posting/Posting.style';
 
 function EditDiary() {
   const { diaryDate } = useParams<{ diaryDate: string }>();
   const { openSnackBar } = useSnackbarContext();
   const putDiary = useEditDiary(openSnackBar, diaryDate as string);
-  const { diary, isLoading } = useGetDiaryList(diaryDate as string);
+  const { diary, isLoading } = useGetDiaryList(diaryDate as string, 'day');
   const [isLoader, setIsLoader] = useState(false);
   const [simpleDiary, setSimpleDiary] = useState<string>('');
   const [mindDiary, setMindDiary] = useState<string>('');
@@ -106,13 +108,21 @@ function EditDiary() {
     <PostingContainer>
       <MainTitle>Daily Log Edit</MainTitle>
       <FileUpload {...fileuploadPros} />
+      <Text size='sm'>
+        필수: <Hilight>50자 이상</Hilight> 작성해 주세요!
+      </Text>
       <Area>
         <SubTitle>오늘 한 일</SubTitle>
         <TextArea value={simpleDiary} onChange={onChangeSimple} />
+        <Text align='right'>글자수: {simpleDiary.length}</Text>
       </Area>
+      <Text size='sm'>
+        필수: <Hilight>50자 이상</Hilight> 작성해 주세요!
+      </Text>
       <Area>
         <SubTitle>오늘 느낀 감정</SubTitle>
         <TextArea value={mindDiary} onChange={onChangeMind} bgColor='red' />
+        <Text align='right'>글자수: {mindDiary.length}</Text>
       </Area>
       <AlignRight>
         <Button

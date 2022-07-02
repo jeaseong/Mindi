@@ -1,9 +1,15 @@
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 
+export const Container = styled.div`
+  width: 80%;
+  margin: 0 auto;
+`;
+
 export const MainTemplate = styled(motion.div)`
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  max-height: 400px;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -13,11 +19,15 @@ export const MainButton = styled(motion.button)`
   position: absolute;
   margin-top: 3.5em;
   font-family: 'Courier New', Courier, monospace;
-  font-size: 2em;
+  font-size: 2rem;
   color: black;
   background-color: transparent;
   border: none;
   cursor: pointer;
+
+  @media screen and (max-width: 768px) {
+    font-size: 1rem;
+  }
 `;
 
 export const ImageWrapper = styled(motion.div)`
@@ -25,54 +35,67 @@ export const ImageWrapper = styled(motion.div)`
   justify-content: right;
   width: fit-content;
   height: fit-content;
-
   margin: 0 2em;
 `;
 
-export const BGImg = styled(motion.img)``;
+export const MainImg = styled(motion.img)``;
 
 export const LogoText = styled(motion.img)`
   position: absolute;
 `;
 
+export const Buttons = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+export const BottomImg = styled(motion.img)`
+  @media screen and (max-width: 500px) {
+    display: none;
+  }
+`;
+
+export const ToEITest = styled(motion.div)`
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  width: max-content;
+`;
+
 export const EITestButton = styled(motion.button)`
   position: absolute;
-  top: 4.3em;
-  right: 4.5em;
-  font-size: 1em;
+  font-size: 1rem;
   color: black;
   background-color: transparent;
   border: none;
   cursor: pointer;
-`;
-
-export const ToEITest = styled(motion.div)`
-  bottom: 2em;
-  right: -2em;
-  position: absolute;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0 2em;
+  margin-right: 30px;
+  margin-top: 10px;
+  @media screen and (max-width: 500px) {
+    border: 1px solid black;
+    padding: 10px;
+    margin: 0;
+  }
 `;
 
 export const ToRegister = styled(motion.div)`
-  bottom: 2em;
-  left: -47em;
-  position: absolute;
   display: flex;
-  justify-content: center;
   align-items: center;
-  margin: 0 2em;
+  width: max-content;
 `;
 
 export const RegisterButton = styled(motion.button)`
   position: absolute;
-  top: 4.3em;
-  right: 11em;
-  font-size: 1em;
+  font-size: 1rem;
   color: black;
   background-color: transparent;
   border: none;
   cursor: pointer;
+  margin-left: 34px;
+  margin-top: 10px;
+  @media screen and (max-width: 500px) {
+    border: 1px solid black;
+    padding: 10px;
+    margin: 0;
+  }
 `;

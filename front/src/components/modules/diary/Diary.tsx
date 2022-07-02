@@ -20,7 +20,7 @@ function Diary() {
     () => getDateForString(year, month, day, 'perMonth'),
     [year, month, day],
   );
-  const { isLoading } = useGetDiaryList(curDate);
+  const { isLoading } = useGetDiaryList(curDate, 'month');
 
   const onSetDay = (d: number) => {
     setDay(d);

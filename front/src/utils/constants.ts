@@ -6,6 +6,11 @@ export const LABEL = {
   SIGNUP: {
     label: '회원가입',
     value: 'signUp',
+    comment: '아직 회원이 아니신가요?',
+  },
+  PASSWORD_RESET: {
+    label: '비밀번호 찾기',
+    value: 'password-reset',
   },
   NAME: {
     label: 'name',
@@ -14,6 +19,10 @@ export const LABEL = {
   EMAIL: {
     label: 'email',
     value: 'email',
+  },
+  VERIFY: {
+    label: 'verify code',
+    value: 'verify code',
   },
   PASSWORD: {
     label: 'password',
@@ -60,21 +69,41 @@ export const ALERT_MESSAGE = {
 };
 
 export const HEADER_LINK = {
+  MAIN: {
+    label: 'home',
+    link: '/main',
+  },
   DIARY: {
     label: '일기장',
-    link: 'diary',
+    link: '/diary',
   },
   STATIC: {
     label: '감정통계',
-    link: 'static',
+    link: '/static',
   },
   NOTICE_BOARD: {
     label: '대나무숲',
-    link: 'notice-board',
+    link: 'bamboo-grove',
   },
   INTRODUCTION: {
     label: '서비스 소개',
-    link: 'introduction',
+    link: '/introduction',
+  },
+  SIGNIN: {
+    label: '로그인',
+    link: '/sign-in',
+  },
+  SIGNUP: {
+    label: '회원가입',
+    link: '/sign-up',
+  },
+  USER: {
+    label: '마이페이지',
+    link: '/mypage',
+  },
+  PASSWORD_RESET: {
+    label: '비밀번호 찾기',
+    link: '/password-reset',
   },
 };
 
@@ -97,4 +126,64 @@ export const DATE = {
     'Nov',
     'Dec',
   ],
+};
+
+type Label = {
+  ko: string;
+  en: string;
+};
+interface EmotionType {
+  [key: string]: { label: Label; color: string };
+}
+
+export const EMOTION: EmotionType = {
+  HAPPINESS: {
+    label: {
+      ko: '행복',
+      en: 'happiness',
+    },
+    color: '#ffe981',
+  },
+  ANGER: {
+    label: {
+      ko: '분노',
+      en: 'anger',
+    },
+    color: '#ffe981',
+  },
+  AVERSION: {
+    label: {
+      ko: '혐오',
+      en: 'anersion',
+    },
+    color: '#ffe981',
+  },
+  SADNESS: {
+    label: {
+      ko: '슬픔',
+      en: 'sadness',
+    },
+    color: '#ffe981',
+  },
+  FEAR: {
+    label: {
+      ko: '공포',
+      en: 'fear',
+    },
+    color: '#ff8650',
+  },
+  SURPRISED: {
+    label: {
+      ko: '놀람',
+      en: 'surprised',
+    },
+    color: '#9b6ef3',
+  },
+  MIXED: {
+    label: {
+      ko: '평온',
+      en: 'mixed',
+    },
+    color: '#ffe981',
+  },
 };

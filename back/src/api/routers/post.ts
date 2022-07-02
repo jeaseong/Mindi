@@ -39,33 +39,29 @@ export default (app: Router) => {
     },
   );
 
-  postRouter.get(
-    "/posts",
-    checkAuth,
-    async (req: Request, res: Response, next: NextFunction) => {
-      try {
-        const page = (req.query.page as unknown as number) || 1;
-        const limit = (req.query.limit as unknown as number) || 5;
+  postRouter.get("/posts", checkAuth, async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const page = (req.query.page as unknown as number) || 1;
+      const limit = (req.query.limit as unknown as number) || 5;
 
-        const postService = Container.get(PostService);
+      const postService = Container.get(PostService);
 
-        const posts = await postService.getPostsWithFilter(null, page, limit);
-        const reducedPosts = posts.map((post) => {
-          const { updatedAt, author, ...rest } = post;
-          return rest;
-        });
+      const posts = await postService.getPostsWithFilter(null, page, limit);
+      const reducedPosts = posts.map((post) => {
+        const { updatedAt, author, ...rest } = post;
+        return rest;
+      });
 
-        const response: IResponse<Partial<IPost>[]> = {
-          success: true,
-          result: reducedPosts,
-        };
+      const response: IResponse<Partial<IPost>[]> = {
+        success: true,
+        result: reducedPosts,
+      };
 
-        res.status(200).json(response);
-      } catch (error) {
-        next(error);
-      }
-    },
-  );
+      res.status(200).json(response);
+    } catch (error) {
+      next(error);
+    }
+  });
 
   postRouter.get(
     "/posts/:postId",

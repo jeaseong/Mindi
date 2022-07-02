@@ -3,7 +3,6 @@ import { TextProps } from 'types/atoms';
 
 export const Span = styled.p<TextProps>`
   padding: 0;
-  margin: 5px 0 0;
   font-size: ${(props) => {
     switch (props.size) {
       case 'sm':
@@ -17,6 +16,9 @@ export const Span = styled.p<TextProps>`
     }
   }};
   text-align: ${(props) => props.align};
+  font-weight: ${(props) => {
+    return props.bold ? 'bold' : 'normal';
+  }};
 `;
 
 export const HeadOne = styled.h1``;

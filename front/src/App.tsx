@@ -4,11 +4,11 @@ import SnackbarContainer from 'components/modules/snackbar/SnackbarContainer';
 import { useCurUser } from 'hooks/userQuery';
 
 const App: React.FC = () => {
-  const { isLogin, isFetching } = useCurUser();
+  const { isLogin, isLoading } = useCurUser();
   return (
     <div className='App'>
-      <RoutePage isFetching={isFetching} isLogin={isLogin} />
-      <SnackbarContainer />
+      <RoutePage isFetching={isLoading} isLogin={isLogin} />
+      <SnackbarContainer position='center' />
     </div>
   );
 };

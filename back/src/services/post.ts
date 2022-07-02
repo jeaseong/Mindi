@@ -1,16 +1,18 @@
 import { Service, Inject } from "typedi";
 import { StatusError } from "../utils/error";
-import { MongoPostModel } from "../models/post";
 import { IPost } from "../interfaces/IPost";
 import winston from "winston";
+import { runTransaction } from "../utils";
+import { ClientSession } from "mongoose";
+import { MongoPostModel, MongoCommentModel } from "../models";
 
 @Service()
 export default class PostService {
   constructor(
     private postModel: MongoPostModel,
-    @Inject("logger") private logger: winston.Logger
-  ) {
-  }
+    private commentModel: MongoCommentModel,
+    @Inject("logger") private logger: winston.Logger,
+  ) {}
   public async makeNewPost(body: Partial<IPost>) {
     return this.postModel.create(body);
   }
@@ -23,10 +25,7 @@ export default class PostService {
     const postExists = await this.postModel.exists({ _id: postId });
 
     if (!postExists) {
-      throw new StatusError(
-        400,
-        "게시글이 존재하지 않습니다."
-      );
+      throw new StatusError(400, "게시글이 존재하지 않습니다.");
     }
 
     return this.postModel.findOne({ _id: postId });
@@ -36,10 +35,7 @@ export default class PostService {
     const postExists = await this.postModel.exists({ _id: postId });
 
     if (!postExists) {
-      throw new StatusError(
-        400,
-        "게시글이 존재하지 않습니다."
-      );
+      throw new StatusError(400, "게시글이 존재하지 않습니다.");
     }
 
     return this.postModel.update({ _id: postId }, fieldToUpdate);
@@ -49,12 +45,14 @@ export default class PostService {
     const postExists = await this.postModel.exists({ _id: postId });
 
     if (!postExists) {
-      throw new StatusError(
-        400,
-        "게시글이 존재하지 않습니다."
-      );
+      throw new StatusError(400, "게시글이 존재하지 않습니다.");
     }
 
-    await this.postModel.delete(postId);
+    const txnFunc = async (session: ClientSession) => {
+      await this.postModel.delete(postId, session);
+      await this.commentModel.deleteByPostId(postId, session);
+    };
+
+    await runTransaction(txnFunc);
   }
 }

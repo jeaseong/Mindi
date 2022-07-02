@@ -5,3 +5,11 @@ put:
       type: string
     password:
       type: string
+
+password-reset:
+  type: object
+  required:
+    - email
+  properties:
+    email:
+      type: string

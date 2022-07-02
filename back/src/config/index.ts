@@ -37,4 +37,7 @@ export default {
   s3Endpoint: process.env.NCLOUD_ENDPOINT,
   s3region: process.env.NCLOUD_REGION,
   bucketName: process.env.NCLOUD_BUCKET_NAME,
+
+  nodemailerID: process.env.NODEMAILERL_ID,
+  nodemailerPW: process.env.NODEMAILER_PASSWORD,
 };

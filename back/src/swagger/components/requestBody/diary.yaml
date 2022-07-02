@@ -13,13 +13,13 @@ post:
       description: 감정 내용이 들어갑니다.
     diaryDate:
       type: string
-      description: 일기 날짜가 들어갑니다. "YYYY-MM-DD" 형식에 맞춰주세요.
+      description: 일기 날짜가 들어갑니다.
     background:
       type: file
       format: binary
       description: (Optinal)사진을 첨부할 수 있습니다. 5MB 이하의 파일만 업로드 가능합니다.
 
-update:
+put:
   type: object
   required:
     - _id
@@ -29,6 +29,7 @@ update:
   properties:
     _id:
       type: string
+      readOnly: true
       description: 다이어리의 object ID가 들어갑니다. 수정이 불가능한 속성입니다.
     diary:
       type: string
@@ -38,7 +39,7 @@ update:
       description: 감정 내용이 들어갑니다.
     diaryDate:
       type: string
-      description: 일기 날짜가 들어갑니다. "YYYY-MM-DD" 형식에 맞춰주세요.
+      description: 일기 날짜가 들어갑니다.
     imageFileName:
       type: string
       description: (Optional)사진이 있는 일기라면 사진 정보도 필요합니다.
@@ -54,6 +55,7 @@ delete:
   properties:
     _id:
       type: string
+      readOnly: true
       description: 다이어리의 object ID가 들어갑니다. 수정이 불가능한 속성입니다.
     imageFileName:
       type: string

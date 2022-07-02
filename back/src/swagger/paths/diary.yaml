@@ -2,6 +2,8 @@ Post:
   tags:
     - diaries
   summary: 다이어리를 생성합니다.
+  security:
+    - BearerAuth: []
   requestBody:
     required: true
     content:
@@ -21,16 +23,18 @@ Post:
             newDiaryWithoutImage:
               $ref: "../components/examples/diary.yaml#/createWithoutImage"
 
-Update:
+Put:
   tags:
     - diaries
   summary: 다이어리를 업데이트 합니다.
+  security:
+    - BearerAuth: []
   requestBody:
     required: true
     content:
       multipart/form-data:
         schema:
-          $ref: "../components/requestBody/diary.yaml#/update"
+          $ref: "../components/requestBody/diary.yaml#/put"
   responses:
     "200":
       description: OK
@@ -48,6 +52,8 @@ Delete:
   tags:
     - diaries
   summary: 다이어리를 삭제합니다.
+  security:
+    - BearerAuth: []
   requestBody:
     required: true
     content:
@@ -77,6 +83,8 @@ GetAList:
   tags:
     - diaries
   summary: 특정 날짜의 다이어리 리스트를 반환합니다.
+  security:
+    - BearerAuth: []
   parameters:
     - in: query
       name: year
@@ -94,7 +102,7 @@ GetAList:
       name: day
       schema:
         type: string
-        example: "21"
+        example: "16"
       description: (Optional) 일을 나타냅니다. 형식은 "DD"입니다.
   responses:
     "200":

@@ -1,85 +1,106 @@
 import request from "supertest";
 import { faker } from "@faker-js/faker";
-import mongoose from "mongoose";
-import config from "../../src/config";
 import "reflect-metadata";
-import express from "express";
-import logger from "../../src/loaders/winston";
-import expressLoader from "../../src/loaders/express";
-import dependencyLoader from "../../src/loaders/dependencies";
-import { MongoMemoryServer } from "mongodb-memory-server";
+import { appStart, testEnd, apiURL } from "./appStart";
+import dayjs from "dayjs";
 
-jest.setTimeout(7000);
+jest.setTimeout(10000);
 
 faker.locale = "ko";
 let accessToken: string;
 let mockObjectId: string;
-let mockDiaryObjectId: string;
-const date = "2022-05-25";
-const server = `http://localhost:${config.port}`;
-
-async function appStart() {
-  const app: express.Application = express();
-  const mongoServer = await MongoMemoryServer.create();
-  await mongoose.connect(mongoServer.getUri());
-  await dependencyLoader();
-  await expressLoader({ app });
-  app.listen(config.port, () => {
-    logger.info(`
-            Mindi API Server
-            is running on: http://localhost:${config.port}
-            `);
-  });
-}
+const date = dayjs("2022-05-01").toISOString();
+const date2 = dayjs("2022-05-02").toISOString();
+const regexISO = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}(?:\.\d*)?)((-(\d{2}):(\d{2})|Z)?)$/ 
 
 beforeAll(async () => {
   await appStart();
-  await request(server).post("/api/auth/local/sign-up").send({
+  await request(apiURL).post("/auth/local/sign-up").send({
     email: "test@test.com",
     name: "test",
-    password: "1234",
+    password: "test1234",
   });
-  const mockUserInfo = await request(server).post("/api/auth/local/sign-in").send({
+  const mockUserInfo = await request(apiURL).post("/auth/local/sign-in").send({
     email: "test@test.com",
-    password: "1234",
+    password: "test1234",
   });
   accessToken = mockUserInfo.body.result.token;
 
-  const response = await request(server)
-    .post("/api/diaries")
+  await request(apiURL)
+    .post("/diaries")
     .set("Authorization", `Bearer ${accessToken}`)
     .type("multipart/form-data")
-    .field("diary", faker.lorem.paragraph())
-    .field("feeling", faker.lorem.paragraph())
+    .field("diary", faker.lorem.sentences())
+    .field("feeling", faker.lorem.sentences())
     .field("diaryDate", date);
-  mockDiaryObjectId = response.body.result._id;
+  await request(apiURL)
+    .post("/diaries")
+    .set("Authorization", `Bearer ${accessToken}`)
+    .type("multipart/form-data")
+    .field("diary", faker.lorem.sentences())
+    .field("feeling", faker.lorem.sentences())
+    .field("diaryDate", date2);
 });
 
 describe("Statistics Router Test", () => {
   it("Create a new result", async () => {
-    const response = await request(server)
-      .post("/api/statistics?year=2022&month=05")
+    const response = await request(apiURL)
+      .post("/statistics?year=2022&month=05")
       .set("Authorization", `Bearer ${accessToken}`);
     expect(response.status).toEqual(201);
+    expect(response.body.result).toMatchObject(
+      expect.objectContaining({
+        _id: expect.any(String),
+        userId: expect.any(String),
+        monthly: expect.stringMatching(regexISO),
+        keywords: expect.any(Array<string>),
+        emotions: expect.any(Object),
+        reminder: expect.any(Array<object>),
+      }),
+    );
     mockObjectId = response.body.result._id;
   });
 
-  it("Get a result", async () => {
-    const response = await request(server)
-      .get(`/api/statistics?year=2022&month=05`)
+  it("Update a result", async () => {
+    const response = await request(apiURL)
+      .put("/statistics?year=2022&month=05")
       .set("Authorization", `Bearer ${accessToken}`);
     expect(response.status).toEqual(200);
+    expect(response.body.result).toMatchObject(
+      expect.objectContaining({
+        _id: expect.any(String),
+        userId: expect.any(String),
+        monthly: expect.stringMatching(regexISO),
+        keywords: expect.any(Array<string>),
+        emotions: expect.any(Object),
+        reminder: expect.any(Array<object>),
+      }),
+    );
+  });
+
+  it("Get a result", async () => {
+    const response = await request(apiURL)
+      .get(`/statistics?year=2022&month=05`)
+      .set("Authorization", `Bearer ${accessToken}`);
+    expect(response.status).toEqual(200);
+    expect(response.body.result).toMatchObject(
+      expect.objectContaining({
+        _id: expect.any(String),
+        userId: expect.any(String),
+        monthly: expect.stringMatching(regexISO),
+        keywords: expect.any(Array<string>),
+        emotions: expect.any(Object),
+        reminder: expect.any(Array<object>),
+      }),
+    );
   });
 
   it("Delete a result", async () => {
-    const response = await request(server).delete("/api/statistics").send({ _id: mockObjectId });
+    const response = await request(apiURL).delete(`/statistics/${mockObjectId}`).set("Authorization", `Bearer ${accessToken}`);;
     expect(response.status).toEqual(200);
   });
 });
 
 afterAll(async () => {
-  await request(server).delete("/api/diaries").send({ _id: mockDiaryObjectId });
-
-  await mongoose.disconnect();
-  logger.info(`${mongoose.connection.name} ${mongoose.connection.readyState} => 0: disconnected`);
+  await testEnd();
 });

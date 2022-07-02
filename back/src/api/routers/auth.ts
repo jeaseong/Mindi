@@ -66,4 +66,27 @@ export default (app: Router) => {
       }
     },
   );
+
+  authRouter.post(
+    "/local/sign-up/mail",
+    authValidator.checkEmail,
+    validationErrorChecker,
+    async (req: Request, res: Response, next: NextFunction) => {
+      try {
+        const { email } = matchedData(req);
+
+        const authService = Container.get(AuthService);
+        const code = await authService.sendMail(email);
+
+        const response: IResponse<string> = {
+          success: true,
+          result: code,
+        };
+
+        res.status(200).send(response);
+      } catch (error) {
+        next(error);
+      }
+    },
+  );
 };

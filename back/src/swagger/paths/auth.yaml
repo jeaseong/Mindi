@@ -1,0 +1,23 @@
+SendMail:
+  tags:
+    - "auth"
+  summary: 회원가입 인증코드를 메일로 보냅니다.
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: "../components/requestBody/auth.yaml#/sendMail"
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+                example: true
+              result:
+                type: string
+                example: "74b34f"

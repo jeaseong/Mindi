@@ -15,8 +15,10 @@ post:
       properties:
         _id:
           type: string
+          readOnly: true
         userId:
           type: string
+          readOnly: true
         diary:
           type: string
         feeling:
@@ -58,12 +60,15 @@ getAList:
           - diary
           - feeling
           - sentiment
+          - videoId
           - diaryDate
         properties:
           _id:
             type: string
+            readOnly: true
           userId:
             type: string
+            readOnly: true
           diary:
             type: string
           feeling:
@@ -83,6 +88,8 @@ getAList:
                 type: integer
               aversion:
                 type: integer
+          videoId:
+            type: string
           diaryDate:
             type: string
           imageFileName:

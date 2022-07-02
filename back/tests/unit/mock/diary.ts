@@ -1,7 +1,9 @@
 import { IDiary, ISentiment } from "../../../src/interfaces";
 import { faker } from "@faker-js/faker";
+import { ClientSession } from "mongoose";
+import dayjs, { UnitType } from "dayjs";
 
-const date = "2022-06-25";
+const date = dayjs("2022-06-25").toDate();
 export const mockUserId = faker.database.mongodbObjectId();
 export const mockObjectId = faker.database.mongodbObjectId();
 
@@ -19,6 +21,7 @@ export const mockDiary = {
   diary: faker.lorem.paragraph(),
   feeling: faker.lorem.sentence(),
   sentiment: sentiment,
+  videoId: "4yNzWULyPDQ",
   diaryDate: date,
 };
 
@@ -41,7 +44,7 @@ export const testDiaryModel = {
     return;
   },
 
-  findByDate: async (userId: string, date: string) => {
+  findByDate: async (userId: string, from: Date, to: Date) => {
     return [
       {
         _id: mockObjectId,
@@ -56,6 +59,19 @@ export const testDiaryModel = {
   },
 
   findEmotionalDiary: async (userId: string, emotion: string) => {
+    return [
+      {
+        _id: mockObjectId,
+        ...mockDiary,
+      },
+    ];
+  },
+
+  deleteByUserId: async (userId: string, session: ClientSession) => {
+    return;
+  },
+
+  findByUserId: async (userId: string) => {
     return [
       {
         _id: mockObjectId,

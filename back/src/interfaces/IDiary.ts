@@ -13,7 +13,8 @@ export interface IDiary {
   diary: string;
   feeling: string;
   sentiment: ISentiment;
-  diaryDate: string; // "2022-6-10"
+  diaryDate: Date;
+  videoId: string;
   imageFileName?: string;
   imageFilePath?: string;
 }

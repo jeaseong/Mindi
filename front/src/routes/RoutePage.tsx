@@ -3,6 +3,7 @@ import { Routes, Route, useLocation } from 'react-router-dom';
 import PrivateRoute from './PrivateRoute';
 import BlockSignRoute from './BlockSignRoute';
 import Header from 'components/modules/header/Header';
+import Intro from 'pages/Intro/Intro';
 import SignIn from 'pages/User/SignIn';
 import SignUp from 'pages/User/SignUp';
 import Password from 'pages/User/Password';
@@ -28,6 +29,7 @@ function RoutePage({ isLogin, isFetching }: RouterPros) {
       <Header isLogin={isLogin} />
       <AnimatePresence>
         <Routes location={location} key={location.pathname}>
+          <Route path='/introduction' element={<Intro />} />
           <Route
             path='/sign-in'
             element={

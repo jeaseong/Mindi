@@ -8,7 +8,7 @@ export const Container = styled.div`
 
 export const MainTemplate = styled(motion.div)`
   width: 100%;
-  min-height: 300px;
+  max-height: 400px;
   height: 100%;
   display: flex;
   justify-content: center;
@@ -74,6 +74,7 @@ export const EITestButton = styled(motion.button)`
   @media screen and (max-width: 500px) {
     border: 1px solid black;
     padding: 10px;
+    margin: 0;
   }
 `;
 
@@ -95,5 +96,6 @@ export const RegisterButton = styled(motion.button)`
   @media screen and (max-width: 500px) {
     border: 1px solid black;
     padding: 10px;
+    margin: 0;
   }
 `;

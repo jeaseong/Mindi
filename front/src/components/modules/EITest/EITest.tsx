@@ -9,16 +9,11 @@ import RadioButton from '../../atoms/radioButton/RadioButton';
 import Button from 'components/atoms/button/Button';
 
 function EITest() {
-  const [loading, setLoading] = useState(false);
   const [selections, setSelections] = useState<any>([
     Object.keys(TestList).map((x) => []),
   ]);
 
   const navigate = useNavigate();
-
-  const submitHandler = () => {
-    console.log(selections);
-  };
 
   const handleChange = (selection: number, index: number) => {
     const tempState = { ...selections };
@@ -88,14 +83,7 @@ function EITest() {
         );
       })}
       <StyledButtonDiv>
-        <Button
-          type='submit'
-          onClick={() => {
-            submitHandler();
-            goConclusionPage();
-          }}
-          // disabled={!isSelectionValid}
-        >
+        <Button type='submit' onClick={goConclusionPage}>
           제출
         </Button>
       </StyledButtonDiv>

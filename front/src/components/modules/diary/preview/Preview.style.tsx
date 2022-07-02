@@ -33,5 +33,6 @@ export const PreviewSentiment = styled.div`
 
 export const NavigateBox = styled.div`
   display: flex;
+  align-items: center;
   justify-content: space-evenly;
 `;

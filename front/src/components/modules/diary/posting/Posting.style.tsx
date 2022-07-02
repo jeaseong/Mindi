@@ -19,3 +19,7 @@ export const SubTitle = styled.h3`
 export const AlignRight = styled.div`
   text-align: right;
 `;
+
+export const Hilight = styled.span`
+  color: ${(props) => props.theme.colors.anger};
+`;

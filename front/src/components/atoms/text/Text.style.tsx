@@ -1,9 +1,8 @@
 import styled from 'styled-components';
 import { TextProps } from 'types/atoms';
 
-export const Span = styled.span<TextProps>`
+export const Span = styled.p<TextProps>`
   padding: 0;
-
   font-size: ${(props) => {
     switch (props.size) {
       case 'sm':

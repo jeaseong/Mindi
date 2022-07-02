@@ -7,13 +7,14 @@ export const SnackBarContainer = styled.div<SnackBarProps>`
   gap: 7px;
   color: ${(props) => props.theme.colors.basicWhite};
   min-width: 200px;
-  height: 40px;
-  padding: 0 7px;
-  font-size: 0.7rem;
+  height: 50px;
+  padding: 0 9px;
+  font-size: 0.9rem;
   text-align: center;
   position: fixed;
   z-index: 9999;
   right: 0;
+  max-width: 400px;
   top: ${(props) => {
     if (props.position === 'topRight') return '20px';
     else return null;
@@ -27,6 +28,16 @@ export const SnackBarContainer = styled.div<SnackBarProps>`
       ? `${props.theme.colors.sucessAlert}`
       : `${props.theme.colors.errorAlert}`;
   }};
+  ${(props) => {
+    if (props.position === 'center') {
+      return `
+        left: 0;
+        top: 15%;
+        margin: 0 auto;
+        width: 50%;
+      `;
+    }
+  }}
   ${(props) => {
     if (props.isActive) {
       return `

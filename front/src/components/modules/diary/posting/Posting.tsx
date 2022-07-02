@@ -11,7 +11,7 @@ import Button from 'components/atoms/button/Button';
 import SubTitle from 'components/atoms/text/SubTitle';
 import { IMAGE } from 'utils/image';
 import { FileType, DiaryType } from 'types/atoms';
-import { PostingContainer, Area, AlignRight } from './Posting.style';
+import { PostingContainer, Area, AlignRight, Hilight } from './Posting.style';
 
 function Posting() {
   const { diaryDate } = useParams<{ diaryDate: string }>();
@@ -74,14 +74,21 @@ function Posting() {
     <PostingContainer>
       <MainTitle>Daily Log</MainTitle>
       <FileUpload {...fileuploadPros} />
-      <Text size='sm'>50자 이상 작성해 주세요.</Text>
+      <Text size='sm'>
+        필수: <Hilight>50자 이상</Hilight> 작성해 주세요!
+      </Text>
       <Area>
         <SubTitle>오늘 한 일</SubTitle>
         <TextArea onChange={onChangeSimple} />
+        <Text align='right'>글자수: {simpleDiary.length}</Text>
       </Area>
+      <Text size='sm'>
+        필수: <Hilight>50자 이상</Hilight> 작성해 주세요!
+      </Text>
       <Area>
         <SubTitle>오늘 느낀 감정</SubTitle>
         <TextArea onChange={onChangeMind} bgColor='red' />
+        <Text align='right'>글자수: {mindDiary.length}</Text>
       </Area>
       <AlignRight>
         <Button

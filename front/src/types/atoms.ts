@@ -44,7 +44,7 @@ export type InputProps = {
 export type SnackbarType = 'sucessAlert' | 'errorAlert';
 
 export interface SnackBarProps {
-  position?: 'topRight' | 'bottomRight';
+  position?: 'topRight' | 'bottomRight' | 'center';
   type: SnackbarType;
   isActive: boolean;
   message?: string;

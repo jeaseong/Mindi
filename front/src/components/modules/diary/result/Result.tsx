@@ -40,7 +40,6 @@ function Result() {
   const param = useParams();
   const curDate = param.date?.substring(0, 10) as string;
   const strSplit = curDate.split('-');
-  console.log(strSplit);
 
   useEffect(() => {
     const fetchApi = async () => {

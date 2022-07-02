@@ -23,20 +23,18 @@ function Modal({
   }, []);
 
   return (
-    <>
-      <ModalContainer>
-        <DialogBox>{children}</DialogBox>
-        <Backdrop
-          onClick={(e: React.MouseEvent) => {
-            e.preventDefault();
+    <ModalContainer>
+      <DialogBox>{children}</DialogBox>
+      <Backdrop
+        onClick={(e: React.MouseEvent) => {
+          e.preventDefault();
 
-            if (onClickToggleModal) {
-              onClickToggleModal();
-            }
-          }}
-        />
-      </ModalContainer>
-    </>
+          if (onClickToggleModal) {
+            onClickToggleModal();
+          }
+        }}
+      />
+    </ModalContainer>
   );
 }
 

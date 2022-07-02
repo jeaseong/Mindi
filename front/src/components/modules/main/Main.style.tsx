@@ -3,12 +3,12 @@ import { motion } from 'framer-motion';
 
 export const Container = styled.div`
   width: 80%;
+  max-width: 1024px;
   margin: 0 auto;
 `;
 
 export const MainTemplate = styled(motion.div)`
   width: 100%;
-  max-height: 400px;
   height: 100%;
   display: flex;
   justify-content: center;

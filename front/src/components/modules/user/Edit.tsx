@@ -16,7 +16,6 @@ function Edit({ onClickEditUser }: EditUserProps) {
     name: userState.name,
     password: '',
   });
-  console.log(inputData);
 
   const onSubmitEditUser = async () => {
     await EditCurUser(inputData);

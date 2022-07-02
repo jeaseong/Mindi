@@ -63,7 +63,6 @@ const CommentForm = ({ postId }: any) => {
         .then(() => {
           setActiveComment(null);
           getPost();
-          console.log('등록 완료!');
         })
         .catch((err) => {
           console.log('등록에 실패했습니다!', err);
@@ -85,12 +84,9 @@ const CommentForm = ({ postId }: any) => {
     getPost();
   }, []);
 
-  console.log('commentList', commentList);
-
   return (
     <CommentWrapper>
       <CommentTitle>Comments</CommentTitle>
-      <CommentLine />
       <CommentText>
         <SingleComment commentList={commentList} />
       </CommentText>

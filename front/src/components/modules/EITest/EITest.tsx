@@ -17,7 +17,6 @@ function EITest() {
 
   const handleChange = (selection: number, index: number) => {
     const tempState = { ...selections };
-    console.log(tempState);
     tempState[index] = selection;
     setSelections(tempState);
   };

@@ -70,5 +70,4 @@ export const convertUtcToKst = (utc: Date) => {
 
 export const convertToUtc = (date: string) => {
   const localDate = new Date(date).toISOString();
-  console.log(localDate);
 };

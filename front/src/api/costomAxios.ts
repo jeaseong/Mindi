@@ -25,7 +25,6 @@ Axios.interceptors.response.use(
     return response;
   },
   function (error) {
-    console.log('에러 발생!', error);
     return Promise.reject(error.response.data);
   },
 );
@@ -52,7 +51,6 @@ AxiosFile.interceptors.response.use(
     return response;
   },
   function (error) {
-    console.log('에러 발생!', error);
     return Promise.reject(error.response.data);
   },
 );

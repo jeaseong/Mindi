@@ -31,7 +31,6 @@ function BambooCard() {
     const target = entries[0];
     if (target.isIntersecting && preventRef.current) {
       preventRef.current = false; //옵저버 중복 실행 방지
-      console.log('is InterSecting');
       setPage((prev) => prev + 1); //페이지 값 증가
     }
   }, []);
@@ -43,18 +42,13 @@ function BambooCard() {
   };
 
   const getPost = useCallback(async () => {
-    console.log('포스트 불러오기');
     setLoading(true);
     const data = await getBambooList(page);
     if (data) {
       setBambooList((prev) => [...prev, ...data]);
       preventRef.current = true;
-    } else {
-      console.log(data);
     }
     setLoading(false);
-    // console.log(data);
-    // console.log(page);
   }, [page]);
 
   useEffect(() => {
@@ -69,8 +63,6 @@ function BambooCard() {
   useEffect(() => {
     if (page !== 1) getPost();
   }, [page]);
-
-  console.log(bambooList);
 
   const onView = (id: any) => {
     setCurItem(bambooList.find((item) => item._id === id));

@@ -1,5 +1,10 @@
 import styled from 'styled-components';
 
+export const Bamboo = styled.section`
+  height: 100%;
+  padding: 20px;
+`;
+
 export const CloseArea = styled.div`
   display: inline;
   float: right;
@@ -10,7 +15,7 @@ export const CloseArea = styled.div`
 `;
 
 export const ContentWrapper = styled.section`
-  margin: 30px 32px 0px 32px;
+  height: 100%;
 `;
 
 export const DateTitleWrapper = styled.section`

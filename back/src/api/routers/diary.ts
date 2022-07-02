@@ -56,7 +56,7 @@ export default (app: Router) => {
             }
           : newDiary;
 
-        const createdDiary: IDiary = await diaryService.create(userId, newDiary);
+        const createdDiary: IDiary = await diaryService.create(newDiary);
 
         const response: IResponse<IDiary> = {
           success: true,

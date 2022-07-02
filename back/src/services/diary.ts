@@ -42,9 +42,6 @@ export default class DiaryService {
 
   public async deleteOne(id: string, imageFileName?: string) {
     try {
-      if (imageFileName) {
-        await imageDelete(imageFileName);
-      }
       await this.diaryModel.deleteOne(id);
       if (imageFileName) {
         await imageDelete(imageFileName);

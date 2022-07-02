@@ -26,10 +26,10 @@ paths:
     post:
       $ref: "./paths/diary.yaml#/Post"
     put:
-      $ref: "./paths/diary.yaml#/Update"
+      $ref: "./paths/diary.yaml#/Put"
     delete:
       $ref: "./paths/diary.yaml#/Delete"
-  /diaries?year={}&month={}&day={}:
+  /diaries?year={year}&month={month}&day={day}:
     get:
       $ref: "./paths/diary.yaml#/GetAList"
   /users:
@@ -39,6 +39,9 @@ paths:
       $ref: "./paths/user.yaml#/Put"
     delete:
       $ref: "./paths/user.yaml#/Delete"
+  /users/password-reset:
+    post:
+      $ref: "./paths/user.yaml#/Password-reset"
   /posts:
     post:
       $ref: "./paths/post.yaml#/Post"
@@ -77,14 +80,19 @@ paths:
   /users/comments/{userId}:
     get:
       $ref: "./paths/comment.yaml#/GetUserComments"
-  /statistics?year={}&month={}:
+  /statistics?year={year}&month={month}:
     post:
       $ref: "./paths/statistics.yaml#/Post"
+    put:
+      $ref: "./paths/statistics.yaml#/Put"
     get:
       $ref: "./paths/statistics.yaml#/Get"
-  /statistics:
+  /statistics/{statId}:
     delete:
       $ref: "./paths/statistics.yaml#/Delete"
+  /auth/local/sign-up/mail:
+    post:
+      $ref: "./paths/auth.yaml#/SendMail"
 
 components:
   securitySchemes:

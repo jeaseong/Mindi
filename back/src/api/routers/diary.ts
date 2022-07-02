@@ -1,42 +1,50 @@
 import { Router, Request, Response, NextFunction } from "express";
 import { IDiary, IResponse } from "../../interfaces";
 import { diaryValidator } from "../middlewares/express-validator";
-import { validationErrorChecker, imageUpload, loginRequired } from "../middlewares";
+import { validationErrorChecker, imageUpload, checkAuth } from "../middlewares";
 import { matchedData, validationResult } from "express-validator";
-import { StatusError, postSentimentAnalysis, imageDelete } from "../../utils";
+import { StatusError, imageDelete } from "../../utils";
 import { Container } from "typedi";
-import { DiaryService } from "../../services";
+import { DiaryService, MLService } from "../../services";
+import { UnitType } from "dayjs";
 
 export default (app: Router) => {
   const diaryRouter = Router();
   const diaryService = Container.get(DiaryService);
+  const mlService = Container.get(MLService);
 
   app.use("/diaries", diaryRouter);
 
   diaryRouter.post(
     "/",
-    loginRequired,
+    checkAuth,
     imageUpload.single("background"),
     diaryValidator.diaryBody,
     async (req: Request, res: Response, next: NextFunction) => {
       try {
         const userId = req.user!._id;
-        const imgInfo = Object(req.file);
+        const imgInfo = <{ key: string; location: string }>(<object>req.file);
 
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-          await imageDelete(imgInfo.key);
+          if (imgInfo) {
+            await imageDelete(imgInfo.key);
+          }
           throw new StatusError(400, errors.array()[0].msg);
         }
 
         const { diary, feeling, diaryDate } = matchedData(req);
-        const aiResult = await postSentimentAnalysis({ feeling });
+
+        const { sentiment_dict, videoId } = imgInfo
+          ? await mlService.postSentimentAnalysis(feeling, userId, diaryDate, imgInfo.key)
+          : await mlService.postSentimentAnalysis(feeling, userId, diaryDate);
 
         let newDiary: Partial<IDiary> = {
           userId,
           diary,
           feeling,
-          sentiment: aiResult,
+          sentiment: sentiment_dict,
+          videoId,
           diaryDate,
         };
 
@@ -64,26 +72,32 @@ export default (app: Router) => {
 
   diaryRouter.put(
     "/",
-    loginRequired,
+    checkAuth,
     imageUpload.single("background"),
     diaryValidator.diaryBody,
     async (req: Request, res: Response, next: NextFunction) => {
       try {
-        const imgInfo = Object(req.file);
+        const imgInfo = <{ key: string; location: string }>(<object>req.file);
 
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-          await imageDelete(imgInfo.key);
+          if (imgInfo) {
+            await imageDelete(imgInfo.key);
+          }
           throw new StatusError(400, errors.array()[0].msg);
         }
 
         const { _id, diary, feeling, diaryDate, imageFileName } = req.body;
         const id: string = _id;
-        const aiResult = await postSentimentAnalysis({ diary });
+        const { sentiment_dict, videoId } = imgInfo
+          ? await mlService.postSentimentAnalysis(feeling, imgInfo.key)
+          : await mlService.postSentimentAnalysis(feeling);
+
         let toUpdate: Partial<IDiary> = {
           diary,
           feeling,
-          sentiment: aiResult,
+          sentiment: sentiment_dict,
+          videoId,
           imageFileName,
           diaryDate,
         };
@@ -110,7 +124,7 @@ export default (app: Router) => {
     },
   );
 
-  diaryRouter.delete("/", async (req: Request, res: Response, next: NextFunction) => {
+  diaryRouter.delete("/", checkAuth, async (req: Request, res: Response, next: NextFunction) => {
     try {
       const id = req.body._id;
       const imageFileName = req.body.imageFileName;
@@ -129,7 +143,7 @@ export default (app: Router) => {
 
   diaryRouter.get(
     "/",
-    loginRequired,
+    checkAuth,
     diaryValidator.getYear,
     validationErrorChecker,
     async (req: Request, res: Response, next: NextFunction) => {
@@ -138,15 +152,21 @@ export default (app: Router) => {
         const { year, month, day } = req.query;
 
         let date: string;
-        if (day == "00" && month == "00") {
+        let set: UnitType;
+        if (!day && !month) {
           date = `${year}`;
-        } else if (day == "00") {
+          set = "year";
+        } else if (!month) {
+          throw new StatusError(400, "올바르지 않은 요청입니다.");
+        } else if (!day) {
           date = `${year}-${month}`;
+          set = "month";
         } else {
           date = `${year}-${month}-${day}`;
+          set = "day";
         }
 
-        const diaries: IDiary[] = await diaryService.findByDate(userId, date);
+        const diaries: IDiary[] = await diaryService.findByDate(userId!, date, set);
 
         const response: IResponse<IDiary[]> = {
           success: true,

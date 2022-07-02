@@ -1,12 +1,11 @@
-import sys
+import re
 import torch
 from torch.utils.data import DataLoader, Dataset
-from transformers import ElectraTokenizer, ElectraForSequenceClassification
+from transformers import AutoTokenizer, ElectraForSequenceClassification
 
-# device = torch.device('cuda')
 device = torch.device('cpu')
 model = ElectraForSequenceClassification.from_pretrained('./model/model_final.pt').to(device)
-tokenizer = ElectraTokenizer.from_pretrained('monologg/koelectra-base-v3-discriminator')
+tokenizer = AutoTokenizer.from_pretrained('beomi/KcELECTRA-base')
 model.eval()
 
 class LoadDataset(Dataset):
@@ -34,15 +33,18 @@ class LoadDataset(Dataset):
 
     return input_ids, attention_mask
 
-def split_diary(diary):
-    diary.replace('\n', '')
-    sent_list = [sent.strip() for sent in diary.split('.') if sent]
+def split_feeling(feeling):
+    feeling = re.sub(r'\n', ' ', feeling)
+    feeling = re.sub('[a-zA-z]','', feeling)
+    sent_list = [sent.strip() for sent in feeling.split('.') if sent]
     return sent_list
 
-def predict_sentiment(diary):
+def predict_sentiment(feeling):
     # label_dict = {0: 'fear', 1: 'surprised', 2: 'anger', 3: 'sadness', 4: 'neutrality', 5: 'happiness', 6: 'aversion'}
 
-    sent_list = split_diary(diary)
+    sent_list = split_feeling(feeling)
+    if len(sent_list) == 0:
+        return {'fear': 0, 'surprised': 0, 'anger': 0, 'sadness': 0, 'happiness': 0, 'aversion': 0}
     dataset = LoadDataset(sent_list)
     data_loader = DataLoader(dataset, batch_size = len(dataset))    
     

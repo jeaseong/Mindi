@@ -3,18 +3,18 @@ import { matchedData } from "express-validator";
 import { userValidator } from "../middlewares/express-validator";
 import { UserService } from "../../services";
 import { Container } from "typedi";
-import { loginRequired } from "../middlewares/loginRequired";
-import { IResponse } from "../../interfaces/IResponse";
-import { IUser } from "../../interfaces/IUser";
+import { checkAuth } from "../middlewares";
+import { IUser, IResponse } from "../../interfaces";
+import { validationErrorChecker } from "../middlewares";
 
 export default (app: Router) => {
   const userRouter = Router();
 
   app.use("/users", userRouter);
 
-  userRouter.get("/", loginRequired, async (req: Request, res: Response, next: NextFunction) => {
+  userRouter.get("/", checkAuth, async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const userId = req.user!._id;
+      const userId = <string>req.user!._id;
 
       const userService = Container.get(UserService);
       const user = await userService.getUserInfo(userId);
@@ -37,11 +37,12 @@ export default (app: Router) => {
 
   userRouter.put(
     "/",
-    loginRequired,
+    checkAuth,
     userValidator.userUpdateBody,
+    validationErrorChecker,
     async (req: Request, res: Response, next: NextFunction) => {
       try {
-        const userId = req.user!._id;
+        const userId = <string>req.user!._id;
         const fieldToUpdate = matchedData(req);
 
         const userService = Container.get(UserService);
@@ -64,9 +65,9 @@ export default (app: Router) => {
     },
   );
 
-  userRouter.delete("/", loginRequired, async (req: Request, res: Response, next: NextFunction) => {
+  userRouter.delete("/", checkAuth, async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const userId = req.user!._id;
+      const userId = <string>req.user!._id;
 
       const userService = Container.get(UserService);
       await userService.deleteUser(userId);
@@ -81,4 +82,28 @@ export default (app: Router) => {
       next(error);
     }
   });
+
+  userRouter.post(
+    "/password-reset",
+    userValidator.checkEmail,
+    validationErrorChecker,
+    async (req: Request, res: Response, next: NextFunction) => {
+      try {
+        const { email } = matchedData(req);
+
+        const userService = Container.get(UserService);
+        const { userInfo, tempPassword } = await userService.resetPassword(email);
+        await userService.sendMail(userInfo!.email, userInfo!.name, tempPassword);
+
+        const response: IResponse<string> = {
+          success: true,
+          result: "임시 비밀번호가 발급되었습니다.",
+        };
+
+        res.status(200).send(response);
+      } catch (error) {
+        next(error);
+      }
+    },
+  );
 };

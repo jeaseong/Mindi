@@ -1,5 +1,6 @@
 import { StatusError } from "./error";
 import { imageDelete } from "./imageDelete";
-import { postSentimentAnalysis, postKeywordAnalysis } from "./postAnalysis";
+import { runTransaction } from "./runTransaction";
+import { setResetPasswordMail, setSignUpMail } from "./setMailOptions";
 
-export { StatusError, imageDelete, postSentimentAnalysis, postKeywordAnalysis };
+export { StatusError, imageDelete, setSignUpMail, setResetPasswordMail, runTransaction };

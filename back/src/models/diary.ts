@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose";
+import { Schema, model, ClientSession } from "mongoose";
 import { Service } from "typedi";
 import { IDiary, IDiaryModel } from "../interfaces";
 
@@ -21,6 +21,10 @@ const DiarySchema = new Schema(
       required: true,
     },
     diaryDate: {
+      type: Date,
+      required: true,
+    },
+    videoId: {
       type: String,
       required: true,
     },
@@ -54,9 +58,9 @@ export class MongoDiaryModel implements IDiaryModel {
     await DiaryModel.deleteOne({ _id: id });
   }
 
-  async findByDate(userId: string, date: string): Promise<IDiary[]> {
+  async findByDate(userId: string, from: Date, to: Date): Promise<IDiary[]> {
     return DiaryModel.find({
-      $and: [{ userId }, { diaryDate: { $regex: `^${date}` } }],
+      $and: [{ userId }, { diaryDate: { $gte: from, $lte: to } }],
     })
       .sort({ diaryDate: -1 })
       .lean();
@@ -66,12 +70,21 @@ export class MongoDiaryModel implements IDiaryModel {
     return DiaryModel.exists({ $and: [{ userId }, filter] }).lean();
   }
 
-  async findMostEmotionalDiary(userId: string, emotion: string): Promise<IDiary[]> {
+  async findEmotionalDiary(userId: string, emotion: string): Promise<IDiary[]> {
     const a = DiaryModel.find({
       $and: [{ userId }, { [`sentiment.${emotion}`]: { $gt: 0 } }],
     })
       .sort({ [`sentiment.${emotion}`]: -1 })
+      .limit(5)
       .lean();
     return a;
+  }
+
+  async deleteByUserId(userId: string, session: ClientSession): Promise<void> {
+    await DiaryModel.deleteMany({ userId }).session(session);
+  }
+
+  async findByUserId(userId: string): Promise<IDiary[]> {
+    return DiaryModel.find({ userId }).lean();
   }
 }

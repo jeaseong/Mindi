@@ -2,7 +2,7 @@ import { Router, Request, Response, NextFunction } from "express";
 import { matchedData } from "express-validator";
 import { PostService } from "../../services";
 import { Container } from "typedi";
-import { loginRequired, validationErrorChecker } from "../middlewares";
+import { checkAuth, validationErrorChecker } from "../middlewares";
 import { postValidator } from "../middlewares/express-validator";
 import { StatusError } from "../../utils";
 import { IPost, IResponse } from "../../interfaces";
@@ -14,7 +14,7 @@ export default (app: Router) => {
 
   postRouter.post(
     "/posts",
-    loginRequired,
+    checkAuth,
     postValidator.uploadBody,
     validationErrorChecker,
     async (req: Request, res: Response, next: NextFunction) => {
@@ -39,37 +39,33 @@ export default (app: Router) => {
     },
   );
 
-  postRouter.get(
-    "/posts",
-    loginRequired,
-    async (req: Request, res: Response, next: NextFunction) => {
-      try {
-        const page = (req.query.page as unknown as number) || 1;
-        const limit = (req.query.limit as unknown as number) || 5;
+  postRouter.get("/posts", checkAuth, async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const page = (req.query.page as unknown as number) || 1;
+      const limit = (req.query.limit as unknown as number) || 5;
 
-        const postService = Container.get(PostService);
+      const postService = Container.get(PostService);
 
-        const posts = await postService.getPostsWithFilter(null, page, limit);
-        const reducedPosts = posts.map((post) => {
-          const { updatedAt, ...rest } = post;
-          return rest;
-        });
+      const posts = await postService.getPostsWithFilter(null, page, limit);
+      const reducedPosts = posts.map((post) => {
+        const { updatedAt, author, ...rest } = post;
+        return rest;
+      });
 
-        const response: IResponse<Partial<IPost>[]> = {
-          success: true,
-          result: reducedPosts,
-        };
+      const response: IResponse<Partial<IPost>[]> = {
+        success: true,
+        result: reducedPosts,
+      };
 
-        res.status(200).json(response);
-      } catch (error) {
-        next(error);
-      }
-    },
-  );
+      res.status(200).json(response);
+    } catch (error) {
+      next(error);
+    }
+  });
 
   postRouter.get(
     "/posts/:postId",
-    loginRequired,
+    checkAuth,
     async (req: Request, res: Response, next: NextFunction) => {
       try {
         const { postId } = req.params;
@@ -77,7 +73,7 @@ export default (app: Router) => {
         const postService = Container.get(PostService);
 
         const post = await postService.getOnePostByPostId(postId);
-        const { updatedAt, ...rest } = post!;
+        const { updatedAt, author, ...rest } = post!;
 
         const response: IResponse<Partial<IPost>> = {
           success: true,
@@ -93,7 +89,7 @@ export default (app: Router) => {
 
   postRouter.get(
     "/users/posts",
-    loginRequired,
+    checkAuth,
     async (req: Request, res: Response, next: NextFunction) => {
       try {
         const page = (req.query.page as unknown as number) || 1;
@@ -122,7 +118,7 @@ export default (app: Router) => {
 
   postRouter.get(
     "/users/posts/:userId",
-    loginRequired,
+    checkAuth,
     async (req: Request, res: Response, next: NextFunction) => {
       try {
         const { userId } = req.params;
@@ -134,7 +130,7 @@ export default (app: Router) => {
 
         const posts = await postService.getPostsWithFilter({ author: userId }, page, limit);
         const reducedPosts = posts.map((post) => {
-          const { updatedAt, ...rest } = post;
+          const { updatedAt, author, ...rest } = post;
           return rest;
         });
 
@@ -152,12 +148,12 @@ export default (app: Router) => {
 
   postRouter.put(
     "/posts/:postId",
-    loginRequired,
+    checkAuth,
     postValidator.modifyingBody,
     async (req: Request, res: Response, next: NextFunction) => {
       try {
         const { postId } = req.params;
-        const userId = req.user!._id;
+        const userId = <string>req.user!._id;
         const fieldToUpdate = matchedData(req);
 
         const postService = Container.get(PostService);
@@ -184,11 +180,11 @@ export default (app: Router) => {
 
   postRouter.delete(
     "/posts/:postId",
-    loginRequired,
+    checkAuth,
     async (req: Request, res: Response, next: NextFunction) => {
       try {
         const { postId } = req.params;
-        const userId = req.user!._id;
+        const userId = <string>req.user!._id;
 
         const postService = Container.get(PostService);
 

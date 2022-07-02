@@ -2,6 +2,7 @@ import { IDiary } from "../interfaces";
 import { StatusError, imageDelete } from "../utils";
 import { Service, Inject } from "typedi";
 import { MongoDiaryModel } from "../models";
+import dayjs, { UnitType } from "dayjs";
 import winston from "winston";
 
 @Service()
@@ -11,12 +12,7 @@ export default class DiaryService {
     @Inject("logger") private logger: winston.Logger,
   ) {}
 
-  public async create(userId: string, newDiary: Partial<IDiary>) {
-    const doc = await this.diaryModel.exists(userId, { diaryDate: newDiary.diaryDate });
-    if (doc) {
-      throw new StatusError(400, "해당 날짜의 일기가 이미 존재합니다.");
-    }
-
+  public async create(newDiary: Partial<IDiary>) {
     try {
       const createdNewDoc = await this.diaryModel.create(newDiary);
       return createdNewDoc;
@@ -50,13 +46,18 @@ export default class DiaryService {
         await imageDelete(imageFileName);
       }
       await this.diaryModel.deleteOne(id);
+      if (imageFileName) {
+        await imageDelete(imageFileName);
+      }
     } catch (error) {
       throw new StatusError(400, "삭제에 실패했습니다.");
     }
   }
 
-  public async findByDate(userId: string, date: string) {
-    const docList = await this.diaryModel.findByDate(userId, date);
+  public async findByDate(userId: string, date: string, set: UnitType) {
+    const from = dayjs(date).startOf(set).toDate();
+    const to = dayjs(date).endOf(set).toDate();
+    const docList = await this.diaryModel.findByDate(userId, from, to);
     return docList;
   }
 }

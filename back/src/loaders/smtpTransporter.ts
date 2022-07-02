@@ -7,4 +7,5 @@ export default nodemailer.createTransport({
     user: config.nodemailerID,
     pass: config.nodemailerPW,
   },
+  from: config.nodemailerID,
 });

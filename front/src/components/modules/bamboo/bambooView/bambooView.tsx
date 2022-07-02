@@ -8,15 +8,14 @@ import {
   ViewText,
   TextWrapper,
   Line,
+  Bamboo,
 } from './bambooView.style';
 import { IoMdClose } from 'react-icons/io';
 import CommentForm from '../comment/commentForm';
 
 function BambooView({ curItem, modalClose }: any) {
-  // console.log(curItem);
-
   return (
-    <>
+    <Bamboo>
       <CloseArea>
         <IoMdClose size={30} onClick={modalClose} />
       </CloseArea>
@@ -31,7 +30,7 @@ function BambooView({ curItem, modalClose }: any) {
         </TextWrapper>
         <CommentForm postId={curItem['_id']} />
       </ContentWrapper>
-    </>
+    </Bamboo>
   );
 }
 

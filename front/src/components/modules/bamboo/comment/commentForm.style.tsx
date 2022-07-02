@@ -7,6 +7,7 @@ export const CommentWrapper = styled.div`
 
 export const CommentTitle = styled.h3`
   font-weight: 400;
+  margin-bottom: 20px;
 `;
 
 export const CommentLine = styled.hr`
@@ -14,28 +15,33 @@ export const CommentLine = styled.hr`
   height: 0.5px;
   background-color: black;
   border: none;
-  margin-bottom: 5px;
+  margin-bottom: px;
 `;
 
 export const CommentText = styled.div`
-  height: 170px;
+  height: 130px;
   margin-top: 3px;
+  padding: 4px;
   display: block;
   overflow: auto;
-
-  ${({ theme }) => theme.media.mobile`
-      height: 150px;
-  `}
+  font-size: 14px;
+  @media screen and (min-width: 376px) and (max-width: 767px) {
+    height: 210px;
+  }
+  @media screen and (min-width: 768px) {
+    height: 200px;
+  }
 `;
 
 export const CommentContainer = styled.form`
   display: flex;
   align-items: center;
   gap: 2px;
+  padding: 6px 0 4px;
 `;
 
 export const CommentInput = styled.textarea`
-  flex: 8;
+  flex: 6;
   resize: none;
   width: 100%;
   height: 40px;
@@ -43,7 +49,7 @@ export const CommentInput = styled.textarea`
   padding: 2px;
   background-color: rgba(255, 255, 255, 0.6);
   outline: none;
-  font-size: 16px;
+  font-size: 14px;
   line-height: 1.4;
   transition: all 0.2s ease-in-out;
   border-radius: 2px;
@@ -59,10 +65,6 @@ export const CommentInput = styled.textarea`
     background-color: white;
     border-color: #333333;
   }
-
-  ${({ theme }) => theme.media.mobile`
-      margin-top: 10px;
-  `}
 `;
 
 export const CommentButton = styled.button`

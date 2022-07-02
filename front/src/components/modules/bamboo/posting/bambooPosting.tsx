@@ -24,8 +24,6 @@ function BambooPosting() {
     e.preventDefault();
 
     if (bambooTextRef.current !== null && bambooTitleRef.current !== null) {
-      console.log(bambooTitleRef.current.value, bambooTextRef.current.value);
-
       postBambooPosting({
         title: bambooTitleRef.current.value,
         content: bambooTextRef.current.value,
@@ -33,8 +31,8 @@ function BambooPosting() {
         .then(() => {
           openSnackBar(true, '등록 완료!'), navigate('/bamboo-grove');
         })
-        .catch((err) => {
-          openSnackBar(false, '등록에 실패했습니다!'), console.log(err);
+        .catch(() => {
+          openSnackBar(false, '등록에 실패했습니다!');
         });
     }
   };

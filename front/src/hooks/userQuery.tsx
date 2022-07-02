@@ -11,7 +11,7 @@ export const useCurUser = () => {
       staleTime: Infinity,
       retry: false,
       onError: (error) => {
-        console.log('에러 경우에 따라 다른 스낵바를 보여줘야겠다.', error);
+        console.log('유저 정보가 없습니다.', error);
       },
     },
   );

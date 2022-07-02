@@ -1,11 +1,10 @@
-import React from 'react';
 import styled from 'styled-components';
 
 export const ModalContainer = styled.div`
   left: 0;
   top: 0;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -16,19 +15,13 @@ export const DialogBox = styled.div`
   border: 1px solid black;
   width: 500px;
   height: 800px;
-  /* border-radius: 3px; */
   box-shadow: 0 0 30px rgba(30, 30, 30, 0.185);
   box-sizing: border-box;
   background-color: #f6e6f5;
   z-index: 10000;
-
-  @media screen and (min-width: 1024px) {
-    width: 500px;
+  @media screen and (min-width: 768px) {
+    width: 70%;
     height: 700px;
-  }
-  @media screen and (min-width: 768px) and (max-width: 1023px) {
-    width: 50%;
-    height: 800px;
   }
   @media screen and (min-width: 376px) and (max-width: 767px) {
     width: 90%;
@@ -41,8 +34,8 @@ export const DialogBox = styled.div`
 `;
 
 export const Backdrop = styled.div`
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   position: fixed;
   top: 0;
   z-index: 9999;

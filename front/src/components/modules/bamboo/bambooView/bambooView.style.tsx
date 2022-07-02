@@ -40,7 +40,7 @@ export const ViewTitle = styled.div`
 export const TextWrapper = styled.section`
   border-radius: 3px;
   padding: 10px 7px 3px 7px;
-  height: 300px;
+  height: 200px;
   display: flex;
   justify-content: start;
   background-color: white;

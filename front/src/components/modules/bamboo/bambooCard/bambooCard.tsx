@@ -69,10 +69,10 @@ function BambooCard() {
   };
 
   return (
-    <DiaryPosts>
-      {bambooList && (
-        <>
-          {bambooList.map((item: any, index: any) => (
+    <>
+      <DiaryPosts>
+        {bambooList &&
+          bambooList.map((item: any, index: any) => (
             <DiaryPost key={item.date}>
               <Date>{item.createdAt.substr(0, 10)}</Date>
               <Title>{item.title}</Title>
@@ -88,19 +88,15 @@ function BambooCard() {
               </PreviewPost>
             </DiaryPost>
           ))}
-        </>
-      )}
 
-      {loading ? <Loader>로딩 중</Loader> : <></>}
-      <div ref={observeRef} style={{ height: '100px' }}></div>
-      {isOpenModal && (
-        <>
+        {isOpenModal && (
           <Modal onClickToggleModal={onClickToggleModal}>
             <BambooView curItem={curItem} modalClose={onClickToggleModal} />
           </Modal>
-        </>
-      )}
-    </DiaryPosts>
+        )}
+      </DiaryPosts>
+      {loading ? <Loader>로딩 중</Loader> : <div ref={observeRef}></div>}
+    </>
   );
 }
 

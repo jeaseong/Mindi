@@ -9,13 +9,8 @@ export const CardWrap = styled.section`
 
 export const DiaryPosts = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  /* ${({ theme }) => theme.media.tablet`
-    grid-template-columns: 1fr 1fr 1fr;
-    
-  `} */
-  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
 `;
 
 export const DiaryPost = styled.article`
@@ -25,6 +20,11 @@ export const DiaryPost = styled.article`
   flex-direction: column;
   gap: 10px;
   border: 1px solid black;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  &:hover {
+    transform: scale(1.05);
+  }
 `;
 
 export const Date = styled.h4`

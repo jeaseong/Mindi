@@ -9,6 +9,7 @@ import { IComment } from "./IComment";
 import { ICommentModel } from "./ICommentModel";
 import { IStat } from "./IStatistics";
 import { IStatModel } from "./IStatisticsModel";
+import { IPaginatedResponse } from "./IPaginatedResponse";
 
 export {
   IResponse,
@@ -23,4 +24,5 @@ export {
   ICommentModel,
   IStat,
   IStatModel,
+  IPaginatedResponse
 };

@@ -5,7 +5,7 @@ import { Container } from "typedi";
 import { checkAuth, validationErrorChecker } from "../middlewares";
 import { postValidator } from "../middlewares/express-validator";
 import { StatusError } from "../../utils";
-import { IPost, IResponse } from "../../interfaces";
+import { IPost, IResponse, IPaginatedResponse } from "../../interfaces";
 
 export default (app: Router) => {
   const postRouter = Router();
@@ -52,10 +52,19 @@ export default (app: Router) => {
         return rest;
       });
 
-      const response: IResponse<Partial<IPost>[]> = {
+      const response: IPaginatedResponse<IPost[]> = {
         success: true,
-        result: reducedPosts,
+        result: {
+          ...reducedPosts,
+          cursor: "asdf",
+          totalNumber: 3
+        },
       };
+
+      // const response: IResponse<Partial<IPost>[]> = {
+      //   success: true,
+      //   result: reducedPosts,
+      // };
 
       res.status(200).json(response);
     } catch (error) {

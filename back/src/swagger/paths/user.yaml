@@ -1,0 +1,86 @@
+Get:
+  tags:
+    - "users"
+  summary: 로그인한 유저 정보를 반환합니다.
+  security:
+    - BearerAuth: []
+  description: |
+    # 로그인 유저 정보 API
+    현재 로그인한 유저의 정보를 반환합니다.
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: "../components/responses/user.yaml#/get"
+          examples:
+            $ref: "../components/examples/user.yaml#/getResponse"
+Put:
+  tags:
+    - "users"
+  summary: 입력받은 값으로 유저 정보를 업데이트합니다.
+  security:
+    - BearerAuth: []
+  description: |
+    # 유저 정보 수정 API
+    입력받은 값들로 유저 정보를 업데이트합니다.
+    사용할 수 있는 정보는 유저 이름, 비밀번호, 상태 메시지입니다.
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: "../components/requestBody/user.yaml#/put"
+        example:
+          $ref: "../components/examples/user.yaml#/putRequest"
+  responses:
+    "200":
+      description: 정상적으로 수정되었습니다.
+      content:
+        application/json:
+          schema:
+            $ref: "../components/responses/user.yaml#/put"
+          example:
+            $ref: "../components/examples/user.yaml#/putResponse"
+Delete:
+  tags:
+    - "users"
+  summary: 현재 로그인한 유저 계정을 삭제합니다.
+  security:
+    - BearerAuth: []
+  description: |
+    # 회원탈퇴 API
+    현재 로그인한 유저의 계정 정보를 삭제합니다.
+  responses:
+    "200":
+      description: 정상적으로 삭제되었습니다.
+      content:
+        application/json:
+          schema:
+            $ref: "../components/responses/user.yaml#/delete"
+          example:
+            $ref: "../components/examples/user.yaml#/delete"
+
+Password-reset:
+  tags:
+    - "users"
+  summary: 임시 비밀번호를 발급해주는 메일을 보냅니다.
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: "../components/requestBody/user.yaml#/password-reset"
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+                example: true
+              result:
+                type: string
+                example: "임시 비밀번호가 발급되었습니다."

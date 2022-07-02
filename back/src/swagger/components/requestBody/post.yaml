@@ -1,0 +1,20 @@
+post:
+  type: object
+  required:
+    - title
+    - content
+  properties:
+    title:
+      type: string
+    content:
+      type: string
+put:
+  type: object
+  required:
+    - title
+    - content
+  properties:
+    title:
+      type: string
+    content:
+      type: string

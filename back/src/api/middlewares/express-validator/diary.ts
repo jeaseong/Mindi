@@ -20,8 +20,9 @@ export default {
       .withMessage("존재하지 않는 날짜입니다.")
       .bail()
       .custom((value) => {
-        const today = dayjs();
-        const checkDate = today.diff(value, "minute");
+        const inputDate = dayjs(value).get("date");
+        const todayDate = dayjs().get("date");
+        const checkDate = todayDate - inputDate;
         return checkDate >= 0;
       })
       .withMessage("오늘 또는 과거 날짜의 일기만 작성할 수 있습니다."),

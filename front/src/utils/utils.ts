@@ -29,6 +29,7 @@ export const selectMaxSentiment = (sentiments: SentimentsType) => {
   }
   const sorted = Object.entries(sentiments)?.sort((a, b) => b[1] - a[1]);
   if (sorted[0][1] === 0) return 'BLANK';
+  if (sorted[0][1] === sorted[1][1]) return 'MIXED';
   return sorted[0][0];
 };
 

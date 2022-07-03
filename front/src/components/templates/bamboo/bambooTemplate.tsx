@@ -15,27 +15,25 @@ function BambooTemplate() {
   const navigate = useNavigate();
 
   return (
-    <>
-      <Wrap>
-        <TitleWrap>
-          <PageTitle>
-            Bamboo
-            <br />
-            Grove
-          </PageTitle>
-        </TitleWrap>
-        <ButtonWrap>
-          <WriteButton onClick={() => navigate('posting')}>글쓰기</WriteButton>
-        </ButtonWrap>
-        <Lines>
-          <LineTop />
-          <LineBottom />
-        </Lines>
-        <CardWrap>
-          <BambooCard />
-        </CardWrap>
-      </Wrap>
-    </>
+    <Wrap>
+      <TitleWrap>
+        <PageTitle>
+          Bamboo
+          <br />
+          Grove
+        </PageTitle>
+      </TitleWrap>
+      <ButtonWrap>
+        <WriteButton onClick={() => navigate('posting')}>글쓰기</WriteButton>
+      </ButtonWrap>
+      <Lines>
+        <LineTop />
+        <LineBottom />
+      </Lines>
+      <CardWrap>
+        <BambooCard />
+      </CardWrap>
+    </Wrap>
   );
 }
 

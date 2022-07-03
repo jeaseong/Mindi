@@ -2,12 +2,13 @@ import styled from 'styled-components';
 
 export const CommentWrapper = styled.div`
   margin-top: 15px;
-  height: 100%;
+  display: flex;
+  flex-direction: column;
 `;
 
 export const CommentTitle = styled.h3`
   font-weight: 400;
-  margin-bottom: 20px;
+  margin-bottom: 14px;
 `;
 
 export const CommentLine = styled.hr`
@@ -15,22 +16,14 @@ export const CommentLine = styled.hr`
   height: 0.5px;
   background-color: black;
   border: none;
-  margin-bottom: px;
 `;
 
 export const CommentText = styled.div`
-  height: 130px;
+  height: 200px;
   margin-top: 3px;
   padding: 4px;
-  display: block;
   overflow: auto;
   font-size: 14px;
-  @media screen and (min-width: 376px) and (max-width: 767px) {
-    height: 210px;
-  }
-  @media screen and (min-width: 768px) {
-    height: 200px;
-  }
 `;
 
 export const CommentContainer = styled.form`
@@ -38,6 +31,7 @@ export const CommentContainer = styled.form`
   align-items: center;
   gap: 2px;
   padding: 6px 0 4px;
+  margin-bottom: 10px;
 `;
 
 export const CommentInput = styled.textarea`

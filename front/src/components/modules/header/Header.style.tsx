@@ -27,7 +27,7 @@ export const NavItem = styled.span`
     transform: scale(1.2);
   }
   ${({ theme }) => theme.media.tablet`
- font-size: 14px;
+ font-size: 16px;
   `}
 `;
 

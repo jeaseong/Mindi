@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose, { ClientSession } from "mongoose";
 import { IUser } from "../interfaces/IUser";
 import { Service } from "typedi";
 import { IUserModel } from "../interfaces/IUserModel";
@@ -10,7 +10,7 @@ export const User = new mongoose.Schema(
       lowercase: true,
       unique: true,
       index: true,
-      required: true
+      required: true,
     },
     name: {
       type: String,
@@ -19,11 +19,38 @@ export const User = new mongoose.Schema(
     },
     password: {
       type: String,
-      required: false
+      required: false,
     },
     role: {
       type: String,
       default: "user",
+    },
+    colorScheme: {
+      fear: {
+        type: String,
+        default: "#d9c7c7",
+      },
+      surprised: {
+        type: String,
+        default: "#b00067",
+      },
+      anger: {
+        type: String,
+        default: "#cef550",
+      },
+      sadness: {
+        type: String,
+        default: "#f65469",
+      },
+      happiness: {
+        type: String,
+        default: "#b7c6c9",
+      },
+      aversion: {
+        type: String,
+        default: "#3399ff",
+      },
+      required: false,
     },
     recentLogin: {
       type: Date,
@@ -33,21 +60,23 @@ export const User = new mongoose.Schema(
   { timestamps: true },
 );
 
+export const UserModel = mongoose.model<IUser>("User", User);
+
 @Service()
 export class MongoUserModel implements IUserModel {
   async create(email: string, name: string, password: string) {
-    const user = await UserModel.create({email, name, password});
+    const user = await UserModel.create({ email, name, password });
     return user.toObject();
-  };
+  }
   async update(filter: Object, fieldToUpdate: Object) {
     return UserModel.findOneAndUpdate(
       filter,
       { $set: fieldToUpdate },
-      { returnOriginal: false, timestamps: false }
+      { returnOriginal: false, timestamps: false },
     ).lean();
-  };
-  async delete(userId: string) {
-    await UserModel.deleteOne({ _id: userId });
+  }
+  async delete(userId: string, session: ClientSession) {
+    await UserModel.deleteOne({ _id: userId }).session(session);
   }
   async findOne(filter: Object) {
     return UserModel.findOne(filter).lean();
@@ -58,7 +87,5 @@ export class MongoUserModel implements IUserModel {
   async exists(filter: Object) {
     const res = await UserModel.exists(filter);
     return !!res;
-  };
+  }
 }
-
-export const UserModel = mongoose.model<IUser>("User", User);

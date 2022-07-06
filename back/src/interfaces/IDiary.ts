@@ -1,24 +1,20 @@
-export interface BaseDiary {
+export interface ISentiment {
+  fear: number;
+  surprised: number;
+  anger: number;
+  sadness: number;
+  happiness: number;
+  aversion: number;
+}
+
+export interface IDiary {
+  readonly _id: string;
   readonly userId: string;
   diary: string;
   feeling: string;
+  sentiment: ISentiment;
+  diaryDate: Date;
+  videoId: string;
   imageFileName?: string;
   imageFilePath?: string;
-  readonly createdDate: string; // "2022-6-10"
-}
-
-export interface IDiary extends BaseDiary {
-  _id: string;
-}
-
-export interface deleteResult {
-  status: string; // "Succeess" or "Fail"
-}
-
-export interface IDiaryModel {
-  create: (newDiary: BaseDiary) => Promise<IDiary>;
-  updateOne: (filter: object, toUpdate: BaseDiary) => Promise<IDiary>;
-  deleteOne: (id: string) => Promise<deleteResult>;
-  findById: (id: string) => Promise<IDiary>;
-  findByDate: (date: string) => Promise<IDiary[]>;
 }

@@ -13,7 +13,7 @@ import { useGetStatics } from 'hooks/staticsQuery';
 import { postStatics, updateStatics } from 'api/api';
 import { DATE } from 'utils/constants';
 import { dateToString } from 'utils/utils';
-import { Container, Navigation, NavBtn } from './Static.style';
+import { Container, Navigation, NavBtn, Hilight } from './Static.style';
 
 function Static() {
   const queryClient = useQueryClient();
@@ -85,6 +85,9 @@ function Static() {
       >
         {statics ? '분석을 다시 받고 싶어요!' : '분석을 받고 싶어요!'}
       </Buttom>
+      <Text size='sm' align='left'>
+        <Hilight>Notice: 월 분석은 전월까지 가능합니다!</Hilight>
+      </Text>
       <Navigation>
         <NavBtn onClick={() => onChangeMonth(-1)}>&lt;</NavBtn>
         <Text align='center' size='md'>

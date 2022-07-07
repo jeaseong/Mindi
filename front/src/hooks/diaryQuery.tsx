@@ -59,6 +59,9 @@ export const useEditDiary = (
         queryClient.invalidateQueries(['diary', `${date.slice(0, 7)}-00`], {
           refetchInactive: true,
         });
+        queryClient.invalidateQueries(['diary', date], {
+          refetchInactive: true,
+        });
         openSnackBar(true, '일기를 수정했습니다. 새로 일기를 분석했습니다.');
         navigate(`/result/${date}`, {
           state: {

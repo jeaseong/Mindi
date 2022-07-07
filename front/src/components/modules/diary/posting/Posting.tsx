@@ -24,11 +24,8 @@ function Posting() {
     preview: `${IMAGE.IMG_UPLOAD_BASIC.url}`,
     data: undefined,
   });
-
   const isCheck = simpleDiary.length >= 50 && mindDiary.length >= 50;
-
   const formData = useMemo(() => new FormData(), [editImg]);
-
   const onChangeSimple = useCallback(
     (e: React.ChangeEvent<HTMLTextAreaElement>) => {
       setSimpleDiary(e.target.value);
@@ -79,7 +76,7 @@ function Posting() {
       </Text>
       <Area>
         <SubTitle>오늘 있었던 일을 적어주세요.</SubTitle>
-        <TextArea onChange={onChangeSimple} />
+        <TextArea value={simpleDiary} onChange={onChangeSimple} />
         <Text align='right'>글자수: {simpleDiary.length}</Text>
       </Area>
       <Text size='sm'>
@@ -94,16 +91,17 @@ function Posting() {
           <Hilight>ex&#41;</Hilight> 길을 걷다 떨어지는 단풍을 보며 행복한
           기분을 느꼈다. 그 때의 기억이 떠올랐다. - O
         </Text>
-        <TextArea onChange={onChangeMind} bgColor='red' />
+        <TextArea value={mindDiary} onChange={onChangeMind} bgColor='red' />
         <Text align='right'>글자수: {mindDiary.length}</Text>
       </Area>
       <AlignRight>
         <Button
           disabled={!isCheck}
           size='lg'
-          onClick={() => {
+          onClick={async () => {
             onChangeLoading();
-            onSubmit();
+            await onSubmit();
+            onChangeLoading();
           }}
         >
           Save & Analysis

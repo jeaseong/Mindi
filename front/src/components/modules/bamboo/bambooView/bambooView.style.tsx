@@ -47,6 +47,7 @@ export const TextWrapper = styled.section`
 `;
 
 export const ViewText = styled.div`
+  width: 100%;
   display: block;
   overflow: auto;
   word-break: break-all;

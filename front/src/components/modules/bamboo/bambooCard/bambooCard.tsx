@@ -1,4 +1,10 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
+import { useInView } from 'react-intersection-observer';
+import { getBambooList } from 'api/api';
+import BambooView from '../bambooView/bambooView';
+import Modal from '../modal/modal';
+import { IMAGE } from 'utils/image';
+import Loader from 'components/modules/loader/Loader';
 import {
   DiaryPosts,
   DiaryPost,
@@ -6,13 +12,9 @@ import {
   Title,
   PreviewPost,
 } from './bambooCard.style';
-import { IMAGE } from 'utils/image';
-import { getBambooList } from 'api/api';
-import Modal from '../modal/modal';
-import BambooView from '../bambooView/bambooView';
-import Loader from 'components/modules/loader/Loader';
 
 function BambooCard() {
+  const { ref, inView } = useInView();
   const [isOpenModal, setOpenModal] = useState<boolean>(false);
 
   const onClickToggleModal = useCallback(() => {
@@ -21,47 +23,30 @@ function BambooCard() {
 
   const [bambooList, setBambooList] = useState<any[]>([]);
   const [page, setPage] = useState(1); //현재 페이지
+  const [isLast, setIsLast] = useState(false);
   const [loading, setLoading] = useState(false);
   const [curItem, setCurItem] = useState<any[]>([]);
 
-  const observeRef = useRef(null);
-  const preventRef = useRef(true); //옵저버 중복 실행 방지
-
-  const handleObserver = useCallback(async (entries: any) => {
-    const target = entries[0];
-    if (target.isIntersecting && preventRef.current) {
-      preventRef.current = false; //옵저버 중복 실행 방지
-      setPage((prev) => prev + 1); //페이지 값 증가
-    }
-  }, []);
-
-  const options = {
-    root: null, //기본 null, 관찰대상의 부모요소를 지정
-    rootMargin: '20px', // 관찰하는 뷰포트의 마진 지정
-    threshold: 1.0, // 관찰요소와 얼만큼 겹쳤을 때 콜백을 수행하도록 지정하는 요소
-  };
+  useEffect(() => {
+    if (inView) getPost();
+  }, [inView]);
 
   const getPost = useCallback(async () => {
     setLoading(true);
     const data = await getBambooList(page);
-    if (data) {
-      setBambooList((prev) => [...prev, ...data]);
-      preventRef.current = true;
+    try {
+      if (data.length > 0) {
+        setPage((cur) => cur + 1);
+        setBambooList((prev) => [...prev, ...data]);
+        setLoading(false);
+        setIsLast(false);
+      } else {
+        setIsLast(true);
+        setLoading(false);
+      }
+    } catch (e) {
+      console.log(e);
     }
-    setLoading(false);
-  }, [page]);
-
-  useEffect(() => {
-    getPost();
-    const observer = new IntersectionObserver(handleObserver, options);
-    if (observeRef.current) observer.observe(observeRef.current);
-    return () => {
-      observer.disconnect();
-    };
-  }, []);
-
-  useEffect(() => {
-    if (page !== 1) getPost();
   }, [page]);
 
   const onView = (id: any) => {
@@ -72,7 +57,7 @@ function BambooCard() {
     <>
       <DiaryPosts>
         {bambooList &&
-          bambooList.map((item: any, index: any) => (
+          bambooList.map((item: any) => (
             <DiaryPost key={item.date}>
               <Date>{item.createdAt.substr(0, 10)}</Date>
               <Title>{item.title}</Title>
@@ -88,14 +73,14 @@ function BambooCard() {
               </PreviewPost>
             </DiaryPost>
           ))}
-
-        {isOpenModal && (
-          <Modal onClickToggleModal={onClickToggleModal}>
-            <BambooView curItem={curItem} modalClose={onClickToggleModal} />
-          </Modal>
-        )}
       </DiaryPosts>
-      {loading ? <Loader>로딩 중</Loader> : <div ref={observeRef}></div>}
+      {loading && <Loader>로딩 중</Loader>}
+      {!isLast && <div ref={ref}></div>}
+      {isOpenModal && (
+        <Modal onClickToggleModal={onClickToggleModal}>
+          <BambooView curItem={curItem} modalClose={onClickToggleModal} />
+        </Modal>
+      )}
     </>
   );
 }

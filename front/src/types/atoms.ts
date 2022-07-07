@@ -16,6 +16,7 @@ export type TextProps = {
   size?: string;
   background?: boolean;
   bold?: boolean;
+  mb?: string;
 };
 
 export type TextAreaProps = {

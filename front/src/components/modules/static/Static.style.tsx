@@ -22,3 +22,7 @@ export const NavBtn = styled.button`
   cursor: pointer;
   font-size: 1.2rem;
 `;
+
+export const Hilight = styled.span`
+  color: ${(props) => props.theme.colors.anger};
+`;

@@ -5,6 +5,7 @@ import Input from 'components/atoms/input/Input';
 import Button from 'components/atoms/button/Button';
 import { EditCurUser } from 'api/api';
 import { LABEL } from 'utils/constants';
+import { passwordValidate, nameValidate } from 'utils/validation';
 import { EditUserProps } from 'types/atoms';
 import { EditContainer, BtnBox } from './User.style';
 
@@ -16,6 +17,10 @@ function Edit({ onClickEditUser }: EditUserProps) {
     name: userState.name,
     password: '',
   });
+
+  const isCheckPassword = passwordValidate(inputData.password);
+  const isCheckName = nameValidate(inputData.name);
+  const isCheck = isCheckPassword && isCheckName;
 
   const onSubmitEditUser = async () => {
     await EditCurUser(inputData);
@@ -36,6 +41,7 @@ function Edit({ onClickEditUser }: EditUserProps) {
   return (
     <EditContainer>
       <Input
+        required
         onChange={onChange}
         name={LABEL.NAME.label}
         type='text'
@@ -43,6 +49,7 @@ function Edit({ onClickEditUser }: EditUserProps) {
         value={inputData.name}
       />
       <Input
+        required
         onChange={onChange}
         name={LABEL.PASSWORD.label}
         type='password'
@@ -50,7 +57,9 @@ function Edit({ onClickEditUser }: EditUserProps) {
         value={inputData.password}
       />
       <BtnBox>
-        <Button onClick={onSubmitEditUser}>확인</Button>
+        <Button disabled={!isCheck} onClick={onSubmitEditUser}>
+          확인
+        </Button>
         <Button onClick={onClickEditUser}>취소</Button>
       </BtnBox>
     </EditContainer>

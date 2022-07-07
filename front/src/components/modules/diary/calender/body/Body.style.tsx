@@ -47,6 +47,10 @@ export const Day = styled.div<DayProps>`
         return '#83C3FF';
       case 'happiness':
         return '#FFEA7F';
+      case 'blank':
+        return '#b0a390';
+      case 'mixed':
+        return '#87a890';
       default:
         return null;
     }

@@ -112,7 +112,7 @@ function EditDiary() {
         필수: <Hilight>50자 이상</Hilight> 작성해 주세요!
       </Text>
       <Area>
-        <SubTitle>오늘 한 일</SubTitle>
+        <SubTitle>오늘 있었던 일을 적어주세요.</SubTitle>
         <TextArea value={simpleDiary} onChange={onChangeSimple} />
         <Text align='right'>글자수: {simpleDiary.length}</Text>
       </Area>
@@ -120,7 +120,14 @@ function EditDiary() {
         필수: <Hilight>50자 이상</Hilight> 작성해 주세요!
       </Text>
       <Area>
-        <SubTitle>오늘 느낀 감정</SubTitle>
+        <SubTitle mb='lg'>오늘 느낀을 적어주세요.</SubTitle>
+        <Text size='sm'>
+          <Hilight>ex&#41;</Hilight> 행복, 슬픔, 우울 - X
+        </Text>
+        <Text size='sm'>
+          <Hilight>ex&#41;</Hilight> 길을 걷다 떨어지는 단풍을 보며 행복한
+          기분을 느꼈다. 그 때의 기억이 떠올랐다. - O
+        </Text>
         <TextArea value={mindDiary} onChange={onChangeMind} bgColor='red' />
         <Text align='right'>글자수: {mindDiary.length}</Text>
       </Area>

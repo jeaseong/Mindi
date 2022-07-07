@@ -47,8 +47,3 @@ export const signUpValidation = (info: SignUpVType) => {
     isSamePassword,
   };
 };
-
-export const signInValidation = (info: SignInVType) => {
-  const { email, password } = info;
-  return emailValidate(email) && passwordValidate(password);
-};

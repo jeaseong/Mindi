@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { TextProps } from 'types/atoms';
 export const Sub = styled.h3<TextProps>`
-  display: inline;
+  display: inline-block;
   font-size: 1.2rem;
   padding: 4px 6px;
   background-color: ${(props) => props.theme.colors.basicWhite};
@@ -17,6 +17,18 @@ export const Sub = styled.h3<TextProps>`
         return '2rem';
       default:
         return '1.2rem';
+    }
+  }};
+  margin-bottom: ${(props) => {
+    switch (props.mb) {
+      case 'sm':
+        return '8px';
+      case 'md':
+        return '10px';
+      case 'lg':
+        return '20px';
+      default:
+        return '8px';
     }
   }};
 `;

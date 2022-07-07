@@ -55,6 +55,7 @@ export const PreviewPost = styled.div<CardProps>`
   text-overflow: ellipsis;
   overflow: hidden;
   word-break: break-word;
+  white-space: pre-wrap;
   display: -webkit-box;
   -webkit-line-clamp: 6;
   -webkit-box-orient: vertical;

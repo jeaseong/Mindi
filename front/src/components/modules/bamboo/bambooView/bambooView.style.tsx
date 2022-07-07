@@ -50,6 +50,7 @@ export const ViewText = styled.div`
   display: block;
   overflow: auto;
   word-break: break-all;
+  white-space: pre-wrap;
   line-height: 25px;
 `;
 

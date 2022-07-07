@@ -15,6 +15,18 @@ export const Span = styled.p<TextProps>`
         return '0.9rem';
     }
   }};
+  margin-bottom: ${(props) => {
+    switch (props.mb) {
+      case 'sm':
+        return '4px';
+      case 'md':
+        return '10px';
+      case 'lg':
+        return '20px';
+      default:
+        return '4px';
+    }
+  }};
   text-align: ${(props) => props.align};
   font-weight: ${(props) => {
     return props.bold ? 'bold' : 'normal';

@@ -1,10 +1,9 @@
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import Input from 'components/atoms/input/Input';
 import Button from 'components/atoms/button/Button';
 import { useSnackbarContext } from 'contexts/SnackbarContext';
 import { useSignInHandler } from 'hooks/userQuery';
-import { signInValidation } from 'utils/validation';
 import { LABEL, HEADER_LINK } from 'utils/constants';
 import { AuthContainer, NavUser } from './Auth.style';
 
@@ -15,7 +14,6 @@ function SignIn() {
   });
   const { openSnackBar } = useSnackbarContext();
   const logInMutation = useSignInHandler(openSnackBar);
-  const isCheck = useMemo(() => signInValidation(inputData), [inputData]);
   const onChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setInputData((cur) => {
@@ -32,12 +30,14 @@ function SignIn() {
   return (
     <AuthContainer onSubmit={onSubmit}>
       <Input
+        required
         onChange={onChange}
         name={`${LABEL.EMAIL.label}`}
         type='text'
         placeholder='email'
       />
       <Input
+        required
         onChange={onChange}
         name={`${LABEL.PASSWORD.label}`}
         type='password'
@@ -49,9 +49,7 @@ function SignIn() {
           {LABEL.PASSWORD_RESET.label}
         </Link>
       </NavUser>
-      <Button disabled={!isCheck} type='submit'>
-        {LABEL.SIGNIN.label}
-      </Button>
+      <Button type='submit'>{LABEL.SIGNIN.label}</Button>
     </AuthContainer>
   );
 }

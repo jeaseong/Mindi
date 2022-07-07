@@ -88,8 +88,11 @@ export const DiaryAndFeeling = styled.section`
 `;
 
 export const DiaryWrapper = styled.div`
+  width: 100%;
   margin-top: 20px;
   margin-bottom: 50px;
+  white-space: pre-wrap;
+  word-break: break-word;
 `;
 
 export const ImgWrapper = styled.div`
@@ -99,6 +102,8 @@ export const ImgWrapper = styled.div`
 
 export const FeelingWrapper = styled.div`
   margin-top: 20px;
+  white-space: pre-wrap;
+  word-break: break-word;
 `;
 
 export const Diarytitle = styled.h4``;

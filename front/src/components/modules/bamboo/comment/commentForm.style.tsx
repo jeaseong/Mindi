@@ -19,7 +19,7 @@ export const CommentLine = styled.hr`
 `;
 
 export const CommentText = styled.div`
-  height: 200px;
+  height: 180px;
   margin-top: 3px;
   padding: 4px;
   overflow: auto;

@@ -9,6 +9,7 @@ import {
   TextWrapper,
   Line,
   Bamboo,
+  CommentWrap,
 } from './bambooView.style';
 import { IoMdClose } from 'react-icons/io';
 import CommentForm from '../comment/commentForm';
@@ -28,7 +29,9 @@ function BambooView({ curItem, modalClose }: any) {
         <TextWrapper>
           <ViewText>{curItem['content']}</ViewText>
         </TextWrapper>
-        <CommentForm postId={curItem['_id']} />
+        <CommentWrap>
+          <CommentForm postId={curItem['_id']} />
+        </CommentWrap>
       </ContentWrapper>
     </Bamboo>
   );

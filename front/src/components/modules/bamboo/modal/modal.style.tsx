@@ -15,14 +15,13 @@ export const DialogBox = styled.div`
   border: 1px solid black;
   width: 100%;
   max-width: 768px;
-  height: 80%;
+  height: 600px;
   box-shadow: 0 0 30px rgba(30, 30, 30, 0.185);
   box-sizing: border-box;
   background-color: #f6e6f5;
   z-index: 10000;
   @media screen and (min-width: 500px) {
     width: 80%;
-    height: 80%;
   }
 `;
 

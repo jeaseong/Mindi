@@ -93,6 +93,7 @@ function Main2() {
               }}
             >
               대나무숲
+              <br /> &rarr;
             </RegisterButton>
           ) : (
             <RegisterButton
@@ -122,7 +123,7 @@ function Main2() {
               navigate('/EI-test');
             }}
           >
-            감성 지수 테스트
+            감성 지수 테스트 <br /> &rarr;
           </EITestButton>
         </ToEITest>
       </Buttons>

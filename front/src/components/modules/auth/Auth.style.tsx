@@ -10,7 +10,7 @@ export const AuthContainer = styled.form`
 `;
 
 export const InputBox = styled.div`
-  width: 80%;
+  width: 100%;
   min-height: 55px;
   position: relative;
 `;

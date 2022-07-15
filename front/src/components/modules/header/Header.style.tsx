@@ -25,6 +25,9 @@ export const NavBtn = styled.button`
   &:active {
     outline: none;
   }
+  &:focus {
+    outline: none;
+  }
   &:hover {
     transform: scale(1.2);
   }

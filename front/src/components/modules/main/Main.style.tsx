@@ -11,6 +11,7 @@ export const MainTemplate = styled(motion.div)`
   width: 100%;
   height: 100%;
   display: flex;
+  margin-bottom: 20px;
   justify-content: center;
   align-items: center;
 `;
@@ -70,9 +71,8 @@ export const EITestButton = styled(motion.button)`
   border: none;
   cursor: pointer;
   margin-right: 30px;
-  margin-top: 10px;
+  margin-top: 24px;
   @media screen and (max-width: 500px) {
-    border: 1px solid black;
     padding: 10px;
     margin: 0;
   }
@@ -94,7 +94,6 @@ export const RegisterButton = styled(motion.button)`
   margin-left: 34px;
   margin-top: 10px;
   @media screen and (max-width: 500px) {
-    border: 1px solid black;
     padding: 10px;
     margin: 0;
   }

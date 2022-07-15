@@ -26,6 +26,8 @@ export const Lines = styled.div`
 
 export const PageTitle = styled.h1`
   margin: 0;
-  font-size: 70px;
-  /* font-family: 'Courier New', Courier, monospace; */
+  font-size: 32px;
+  ${({ theme }) => theme.media.tablet`
+      font-size: 42px;
+  `}
 `;

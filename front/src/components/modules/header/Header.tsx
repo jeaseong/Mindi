@@ -1,14 +1,27 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import Dropdown from './Dropdown';
 import Image from 'components/atoms/image/Image';
+import useDetectClose from 'hooks/useDetectClose';
 import { IMAGE } from 'utils/image';
 import { HEADER_LINK } from 'utils/constants';
 import { HeaderProps } from 'types/atoms';
-import { HeaderContainer, Nav, NavItem } from './Header.style';
+import { MdSegment } from 'react-icons/md';
+import {
+  HeaderContainer,
+  Nav,
+  NavItem,
+  NavBtn,
+  DropdownNav,
+  DropdownNavItem,
+} from './Header.style';
 
 function Header({ isLogin }: HeaderProps) {
+  const dropDownRef = useRef(null);
+  const [isOpen, onClick] = useDetectClose(dropDownRef, false);
+
   return (
-    <HeaderContainer>
+    <HeaderContainer ref={dropDownRef}>
       <Link to={HEADER_LINK.MAIN.link}>
         <Image
           src={IMAGE.AUTH_LOGO.url}
@@ -16,7 +29,6 @@ function Header({ isLogin }: HeaderProps) {
           width='60px'
         />
       </Link>
-
       <Nav>
         <NavItem>
           <Link to={HEADER_LINK.DIARY.link}>{HEADER_LINK.DIARY.label}</Link>
@@ -42,6 +54,38 @@ function Header({ isLogin }: HeaderProps) {
           )}
         </NavItem>
       </Nav>
+      <NavBtn onClick={onClick as any}>
+        <MdSegment size='28' />
+      </NavBtn>
+      <Dropdown onClick={onClick as any} visible={isOpen as boolean}>
+        <DropdownNav>
+          <DropdownNavItem>
+            <Link to={HEADER_LINK.DIARY.link}>{HEADER_LINK.DIARY.label}</Link>
+          </DropdownNavItem>
+          <DropdownNavItem>
+            <Link to={HEADER_LINK.STATIC.link}>{HEADER_LINK.STATIC.label}</Link>
+          </DropdownNavItem>
+          <DropdownNavItem>
+            <Link to={HEADER_LINK.NOTICE_BOARD.link}>
+              {HEADER_LINK.NOTICE_BOARD.label}
+            </Link>
+          </DropdownNavItem>
+          <DropdownNavItem>
+            <Link to={HEADER_LINK.INTRODUCTION.link}>
+              {HEADER_LINK.INTRODUCTION.label}
+            </Link>
+          </DropdownNavItem>
+          <DropdownNavItem>
+            {!isLogin ? (
+              <Link to={HEADER_LINK.SIGNIN.link}>
+                {HEADER_LINK.SIGNIN.label}
+              </Link>
+            ) : (
+              <Link to={HEADER_LINK.USER.link}>{HEADER_LINK.USER.label}</Link>
+            )}
+          </DropdownNavItem>
+        </DropdownNav>
+      </Dropdown>
     </HeaderContainer>
   );
 }

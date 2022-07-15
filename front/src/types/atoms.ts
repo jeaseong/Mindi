@@ -2,6 +2,13 @@ export interface HeaderProps {
   isLogin: boolean;
 }
 
+export interface DropdownProps {
+  children: React.ReactNode;
+  visible: boolean;
+  onClick?: () => void;
+  visibilityAnimation?: boolean;
+}
+
 export interface BtnProps {
   children?: React.ReactNode;
   size?: string;

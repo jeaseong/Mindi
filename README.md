@@ -106,8 +106,8 @@
     +  <img src="https://img.shields.io/badge/Jest-C21325?style=flat&logo=Jest&logoColor=black"/> 
 - AI
     + <img src="https://img.shields.io/badge/Flask-FDA061?style=flat&logo=Flask&logoColor=black"/> 
-
-
+    + <img src="https://img.shields.io/badge/%F0%9F%A4%97-Huggingface-yellow"/> <img src="https://img.shields.io/badge/Pytorch-EE4C2C?style=flat&logo=Pytorch&logoColor=black"/>
+    + <img src="https://img.shields.io/badge/-TextRank-green">
 <br>
 
 # 기능
@@ -132,7 +132,9 @@
 
 # 데이터셋
 
-- 사용된 데이터셋: [한국어 감정 정보가 포함된 단발성 대화 데이터셋](https://aihub.or.kr/opendata/keti-data/recognition-laguage/KETI-02-009)(출처: KETI R&D데이터)
+- 사용된 데이터셋: 
+    + [한국어 감정 정보가 포함된 단발성 대화 데이터셋](https://aihub.or.kr/aihubdata/data/view.do?currMenu=120&topMenu=100&aihubDataSe=extrldata&dataSetSn=270)(출처: KETI R&D데이터)
+    + [한국어 감정 정보가 포함된 연속적 대화 데이터셋](https://aihub.or.kr/aihubdata/data/view.do?currMenu=120&topMenu=100&aihubDataSe=extrldata&dataSetSn=271)(출처: KETI R&D데이터)
 - 기술스택: 감정분석 > KoElectra, 키워드추출> TextRank
 - 이 프로젝트의 맥락과 배경이 유사한 인공지능 기반 서비스: [trost](https://trosteap.co.kr/blog/?q=YToxOntzOjEyOiJrZXl3b3JkX3R5cGUiO3M6MzoiYWxsIjt9&bmode=view&idx=7644293&t=board)
 - 참고한 논문: [ELECTRA: Pre-training Text Encoders as Discriminators Rather Than Generators](https://arxiv.org/abs/2003.10555)

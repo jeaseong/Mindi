@@ -49,7 +49,7 @@ function SignUp() {
   const onPostVerfyCode = async () => {
     try {
       const code = await signUpVerify({ email: email });
-      openSnackBar(false, '인증번호를 발송했습니다.');
+      openSnackBar(true, '인증번호를 발송했습니다.');
       setVerifyCode(code);
       SetIsVerifyMail(true);
     } catch (e) {

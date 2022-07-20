@@ -17,7 +17,7 @@ function DiaryCard({ year, month }: ListProps) {
   };
   return (
     <DiaryPosts>
-      {diaries?.map((d: any, index: number) => (
+      {diaries?.map((d: any) => (
         <DiaryPost onClick={() => onClickDiary(d.diaryDate)} key={d._id}>
           <SubTitle>{convertUtcToKst(d.diaryDate)}</SubTitle>
           <PreviewPost>{d.feeling}</PreviewPost>

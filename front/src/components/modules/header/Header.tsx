@@ -29,6 +29,7 @@ function Header({ isLogin }: HeaderProps) {
           width='60px'
         />
       </Link>
+      {/* 패드 이상 nav */}
       <Nav>
         <NavItem>
           <Link to={HEADER_LINK.DIARY.link}>{HEADER_LINK.DIARY.label}</Link>
@@ -54,9 +55,11 @@ function Header({ isLogin }: HeaderProps) {
           )}
         </NavItem>
       </Nav>
+      {/* 햄버거 바 */}
       <NavBtn onClick={onClick as any}>
         <MdSegment size='28' />
       </NavBtn>
+      {/* 모바일 nav */}
       <Dropdown onClick={onClick as any} visible={isOpen as boolean}>
         <DropdownNav>
           <DropdownNavItem>

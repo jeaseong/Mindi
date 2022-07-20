@@ -1,8 +1,14 @@
 import { DateType, SentimentsType, EmotionType } from 'types/atoms';
 
+// yyyy-mm-dd
 export const getCurDate = () => {
   return new Date(+new Date() + 3240 * 10000).toISOString().split('T')[0];
 };
+/**
+ * yyyy-mm-dd
+ * yyyy-mm-00
+ * yyyy-00-00
+ */
 export const getDateForString = (
   year: number,
   month: number,
